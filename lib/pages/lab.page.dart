@@ -4,7 +4,14 @@ import 'package:flutter_chess_board/flutter_chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 
-class LabPage extends StatelessWidget {
+class LabPage extends StatefulWidget {
+  @override
+  LabPageState createState() {
+    return new LabPageState();
+  }
+}
+
+class LabPageState extends State<LabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
