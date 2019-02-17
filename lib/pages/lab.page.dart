@@ -12,6 +12,14 @@ class LabPage extends StatefulWidget {
 }
 
 class LabPageState extends State<LabPage> {
+  ChessBoardController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ChessBoardController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +40,7 @@ class LabPageState extends State<LabPage> {
               onDraw: () {},
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
+              chessBoardController: controller,
             )
           ],
         ),
@@ -61,7 +70,7 @@ class LabPageState extends State<LabPage> {
             child: Icon(Icons.shuffle),
           ),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: _resetGame,
             tooltip: 'Reset',
             child: Icon(Icons.repeat),
           ),
@@ -69,5 +78,11 @@ class LabPageState extends State<LabPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  } // Build
+
+  void _resetGame() {
+    controller.resetBoard();
+    // gameMoves.clear();
+    setState(() {});
   }
 }
