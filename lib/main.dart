@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // pages
 import './pages/lab.page.dart';
+// import './pages/play_game_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,10 +15,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: MyHomePage(title: 'Flutter Demo Home Page'),
         routes: {
-          '/': (BuildContext context) => LabPage(),
-          '/lab': (BuildContext context) => LabPage(),
+          '/': (context) => LabPage(),
+          '/lab': (context) => LabPage(),
         });
   }
 }
