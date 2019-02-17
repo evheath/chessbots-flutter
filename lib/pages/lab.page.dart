@@ -81,12 +81,7 @@ class LabPageState extends State<LabPage> {
     print('_buildChessBoard() called');
     return Container(
       child: ChessBoard(
-        onMove: (move) {
-          print(move);
-          controller.refreshBoard();
-          // setState(() {
-          // });
-        },
+        onMove: (move) {},
         onCheckMate: (color) {
           print('checkmate son');
           print(color);
@@ -113,7 +108,7 @@ class LabPageState extends State<LabPage> {
 
   void _flipBoard() {
     whiteOnBottom = !whiteOnBottom;
-    controller.refreshBoard();
+    // controller.refreshBoard();
     // setState(() {
     //   whiteOnBottom = !whiteOnBottom;
     //   controller = controller;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
+
 import './board_model.dart';
 import './board_rank.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'chess_board_controller.dart';
+import './chess_board_controller.dart';
 
 var whiteSquareList = [
   [
