@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../shared/left.drawer.dart';
+import '../shared/custom.icons.dart';
 
 class LabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LAB"),
+        title: Row(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(MyCustomIcons.beaker),
+            SizedBox(width: 10.0),
+            Text("LAB"),
+          ],
+        ),
       ),
       drawer: LeftDrawer(),
       floatingActionButton: Row(
