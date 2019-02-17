@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
+import '../shared/custom.icons.dart';
 
 class LeftDrawer extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class LeftDrawer extends StatelessWidget {
           ),
           ListTile(
             // leading: Icon(Icons.album),
-            leading: Icon(CupertinoIcons.flag),
+            leading: Icon(MyCustomIcons.beaker),
             title: Text('Lab'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/lab');
