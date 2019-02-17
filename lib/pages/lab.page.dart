@@ -11,7 +11,7 @@ class LabPage extends StatelessWidget {
       ),
       drawer: LeftDrawer(),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {},
