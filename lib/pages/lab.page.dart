@@ -12,12 +12,14 @@ class LabPage extends StatefulWidget {
 }
 
 class LabPageState extends State<LabPage> {
+  bool whiteOnBottom;
   ChessBoardController controller;
 
   @override
   void initState() {
     super.initState();
     controller = ChessBoardController();
+    whiteOnBottom = true;
   }
 
   @override
@@ -29,19 +31,7 @@ class LabPageState extends State<LabPage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ChessBoard(
-              onMove: (move) {
-                print(move);
-              },
-              onCheckMate: (color) {
-                print('checkmate son');
-                print(color);
-              },
-              onDraw: () {},
-              size: MediaQuery.of(context).size.width - 20,
-              enableUserMoves: true,
-              chessBoardController: controller,
-            )
+            _buildChessBoard(),
           ],
         ),
       ),
@@ -65,7 +55,7 @@ class LabPageState extends State<LabPage> {
             child: Icon(Icons.play_arrow),
           ),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: _flipBoard,
             tooltip: 'Swap',
             child: Icon(Icons.shuffle),
           ),
@@ -80,8 +70,32 @@ class LabPageState extends State<LabPage> {
     );
   } // Build
 
+  Widget _buildChessBoard() {
+    return ChessBoard(
+      onMove: (move) {
+        print(move);
+      },
+      onCheckMate: (color) {
+        print('checkmate son');
+        print(color);
+      },
+      onDraw: () {},
+      size: MediaQuery.of(context).size.width - 20,
+      enableUserMoves: true,
+      chessBoardController: controller,
+      whiteSideTowardsUser: whiteOnBottom,
+    );
+  }
+
   void _resetGame() {
     controller.resetBoard();
+    // gameMoves.clear();
+    setState(() {});
+  }
+
+  void _flipBoard() {
+    // controller.resetBoard();
+    whiteOnBottom = !whiteOnBottom;
     // gameMoves.clear();
     setState(() {});
   }
