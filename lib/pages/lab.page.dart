@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../bloc/base.bloc.dart';
+import '../bloc/lab.bloc.dart';
+
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
