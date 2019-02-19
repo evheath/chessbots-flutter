@@ -28,7 +28,8 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build() called');
+    final LabBloc bloc = BlocProvider.of<LabBloc>(context);
+    // final LabBloc bloc = LabBloc();
     return Scaffold(
       // body: Text('Hello world'),
       body: Container(
@@ -36,7 +37,26 @@ class LabPageState extends State<LabPage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildChessBoard(),
+            Container(
+              child: StreamBuilder<bool>(
+                stream: bloc.whiteOnBottom,
+                initialData: true,
+                builder: (context, snapshot) {
+                  print('stream builder ran');
+                  return ChessBoard(
+                    onMove: (move) {},
+                    onCheckMate: (color) {
+                      print(color);
+                    },
+                    onDraw: () {},
+                    size: MediaQuery.of(context).size.width - 20,
+                    enableUserMoves: true,
+                    chessBoardController: controller,
+                    whiteSideTowardsUser: snapshot.data,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -51,52 +71,29 @@ class LabPageState extends State<LabPage> {
         ),
       ),
       drawer: LeftDrawer(),
-      floatingActionButton: _buildFABs(),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: _logShit,
+            tooltip: 'Test gambits',
+            child: Icon(Icons.play_arrow),
+          ),
+          FloatingActionButton(
+            onPressed: () => bloc.flipBoard.add(null),
+            tooltip: 'Swap',
+            child: Icon(Icons.shuffle),
+          ),
+          FloatingActionButton(
+            onPressed: _resetGame,
+            tooltip: 'Reset',
+            child: Icon(Icons.repeat),
+          ),
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   } // Build
-
-  Widget _buildFABs() {
-    print('_buildFABs() called');
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        FloatingActionButton(
-          onPressed: _logShit,
-          tooltip: 'Test gambits',
-          child: Icon(Icons.play_arrow),
-        ),
-        FloatingActionButton(
-          onPressed: _flipBoard,
-          tooltip: 'Swap',
-          child: Icon(Icons.shuffle),
-        ),
-        FloatingActionButton(
-          onPressed: _resetGame,
-          tooltip: 'Reset',
-          child: Icon(Icons.repeat),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildChessBoard() {
-    print('_buildChessBoard() called');
-    return Container(
-      child: ChessBoard(
-        onMove: (move) {},
-        onCheckMate: (color) {
-          print('checkmate son');
-          print(color);
-        },
-        onDraw: () {},
-        size: MediaQuery.of(context).size.width - 20,
-        enableUserMoves: true,
-        chessBoardController: controller,
-        whiteSideTowardsUser: whiteOnBottom,
-      ),
-    );
-  }
 
   void _logShit() {
     print(controller.game.ascii);
@@ -106,15 +103,6 @@ class LabPageState extends State<LabPage> {
   void _resetGame() {
     controller.resetBoard();
     // gameMoves.clear();
-    setState(() {});
-  }
-
-  void _flipBoard() {
-    whiteOnBottom = !whiteOnBottom;
-    // controller.refreshBoard();
-    // setState(() {
-    //   whiteOnBottom = !whiteOnBottom;
-    //   controller = controller;
-    // });
+    // setState(() {});
   }
 }
