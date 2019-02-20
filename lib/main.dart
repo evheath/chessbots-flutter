@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/assemble.page.dart';
 
-// import './bloc/base.bloc.dart';
-// import './bloc/lab.bloc.dart';
+import './bloc/base.bloc.dart';
+import './bloc/gambits.bloc.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(BlocProvider<GambitsBloc>(
+      bloc: GambitsBloc(),
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   @override

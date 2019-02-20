@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 
+import '../bloc/base.bloc.dart';
+import '../bloc/gambits.bloc.dart';
+
 class AssemblePage extends StatefulWidget {
   @override
   AssemblePageState createState() {
@@ -13,7 +16,7 @@ class AssemblePage extends StatefulWidget {
 }
 
 class AssemblePageState extends State<AssemblePage> {
-  List<String> _gambits = ['derp', 'merp', 'herp'];
+  // List<String> _gambits = ['derp', 'merp', 'herp'];
   @override
   void initState() {
     super.initState();
@@ -21,46 +24,32 @@ class AssemblePageState extends State<AssemblePage> {
 
   @override
   Widget build(BuildContext context) {
+    final GambitsBloc gambitsBloc = BlocProvider.of<GambitsBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: ReorderableListView(
-            scrollDirection: Axis.vertical,
-            onReorder: (oldIndex, newIndex) {
-              if (oldIndex < newIndex) {
-                // removing the item at oldIndex will shorten the list by 1.
-                newIndex -= 1;
-              }
-              final String element = _gambits.removeAt(oldIndex);
-              _gambits.insert(newIndex, element);
-              setState(() {});
-            },
-            header: Text('I am the header'),
-            children: List.generate(_gambits.length, (index) {
-              return ListTile(
-                key: Key(_gambits[index]),
-                leading: Text('$index'),
-                title: Text(_gambits[index]),
-                trailing: Icon(Icons.close),
-              );
-            })
-            // [
-            // Card(child: Text('I am a gambit')),
-            // Card(child: Text('Me too')),
-            // ListTile(
-            //   key: Key('inital first'),
-            //   leading: Text('1'),
-            //   title: Text('Am I the best?'),
-            //   trailing: Icon(Icons.close),
-            // ),
-            // ListTile(
-            //   key: Key('inital second'),
-            //   leading: Text('2'),
-            //   title: Text('It is me'),
-            //   trailing: Icon(Icons.play_arrow),
-            // ),
-            // ],
-            ),
+        child: StreamBuilder(
+          initialData: [Gambit(title: 'assemble1'), Gambit(title: 'assemble2')],
+          stream: gambitsBloc.gambits,
+          builder: (context, snapshot) {
+            List<Gambit> _gambits = snapshot.data;
+            return ReorderableListView(
+              scrollDirection: Axis.vertical,
+              onReorder: (oldIndex, newIndex) {
+                gambitsBloc.reorder.add(ReorderEvent(oldIndex, newIndex));
+              },
+              header: Text('I am the header'),
+              children: List.generate(_gambits.length, (index) {
+                return ListTile(
+                  key: Key(_gambits[index].title),
+                  leading: Text('$index'),
+                  title: Text(_gambits[index].title),
+                  trailing: Icon(_gambits[index].icon),
+                );
+              }),
+            );
+          },
+        ),
       ),
       appBar: AppBar(
         title: Row(
