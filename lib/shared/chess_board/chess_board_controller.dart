@@ -16,9 +16,8 @@ class ChessBoardController {
   Function refreshBoard;
 
   /// Makes move on the board
-  void makeMove(String from, String to) {
-    // game.get(square)
-    game?.move({"from": from, "to": to});
+  void makeMove(String move) {
+    game?.move(move);
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
   }
 
