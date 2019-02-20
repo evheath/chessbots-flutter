@@ -29,14 +29,15 @@ class AssemblePageState extends State<AssemblePage> {
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: StreamBuilder(
-          initialData: [Gambit(title: 'assemble1'), Gambit(title: 'assemble2')],
+          //TODO figure out how to prevent errors when getting the first stream of gambits
+          initialData: [Gambit()], // need for error prevention
           stream: gambitsBloc.gambits,
           builder: (context, snapshot) {
             List<Gambit> _gambits = snapshot.data;
             return ReorderableListView(
               scrollDirection: Axis.vertical,
               onReorder: (oldIndex, newIndex) {
-                gambitsBloc.reorder.add(ReorderEvent(oldIndex, newIndex));
+                gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
               header: Text('I am the header'),
               children: List.generate(_gambits.length, (index) {

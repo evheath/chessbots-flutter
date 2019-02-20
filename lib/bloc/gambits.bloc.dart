@@ -33,27 +33,31 @@ class ReorderEvent extends GambitEvent {
 
 class GambitsBloc implements BlocBase {
   // state
-  List<Gambit> _gambits = [];
+  List<Gambit> _gambits = [
+    Gambit(title: 'fuu da bloc'),
+    Gambit(title: 'herp bloc'),
+    Gambit(title: 'merp bloc')
+  ];
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
       BehaviorSubject<List<Gambit>>();
   StreamController<GambitEvent> _eventController = StreamController();
 
-  // external in
-  StreamSink<GambitEvent> get reorder => _eventController.sink;
+  // external-in
+  StreamSink<GambitEvent> get event => _eventController.sink;
 
-  // internal out
   GambitsBloc() {
     //TODO implement how gambits get intially set
-    _gambits = [
-      Gambit(title: 'derp bloc'),
-      Gambit(title: 'herp bloc'),
-      Gambit(title: 'merp bloc')
-    ];
+
+    // pushing the initial gambits out of the bloc
+    _internalIn.add(_gambits);
+
+    // connect external-in to internal-out
     _eventController.stream.listen(_handleEvent);
   }
-  void _handleEvent(GambitEvent event) {
+  // internal-out
+  void _handleEvent(event) {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
@@ -64,13 +68,14 @@ class GambitsBloc implements BlocBase {
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
     }
+    // connect internal-out to internal-in
     _internalIn.add(_gambits);
   }
 
-  // internal in
+  // internal-in
   StreamSink<List<Gambit>> get _internalIn => _gambitsController.sink;
 
-  // external out
+  // external-out (inherently connected to internal-in via controller)
   Stream<List<Gambit>> get gambits => _gambitsController.stream;
 
   // tear down
