@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         //   child: LabPage(),
         // ),
         routes: {
-          '/': (context) => LabPage(),
+          '/': (context) => AssemblePage(),
           '/lab': (context) => LabPage(),
           '/assemble': (context) => AssemblePage(),
         });
