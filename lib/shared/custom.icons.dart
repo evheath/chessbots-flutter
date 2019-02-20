@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyCustomIcons.ttf
 ///
-/// 
+///
 /// * Font Awesome, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
@@ -24,5 +24,6 @@ class MyCustomIcons {
 
   static const _kFontFam = 'MyCustomIcons';
 
+  static const IconData cog_alt = const IconData(0xe800, fontFamily: _kFontFam);
   static const IconData beaker = const IconData(0xf0c3, fontFamily: _kFontFam);
 }

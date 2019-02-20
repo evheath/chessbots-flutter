@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 // pages
-import './lab/lab.page.dart';
+import './pages/lab.page.dart';
+import './pages/assemble.page.dart';
 
 // import './bloc/base.bloc.dart';
 // import './bloc/lab.bloc.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => LabPage(),
           '/lab': (context) => LabPage(),
+          '/assemble': (context) => AssemblePage(),
         });
   }
 }

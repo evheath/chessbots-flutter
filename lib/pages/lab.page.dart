@@ -34,6 +34,7 @@ class LabPageState extends State<LabPage> {
               chessBoardController: _labController,
               whiteSideTowardsUser: _whiteSideTowardsUser,
             ),
+            //TODO display gambit used
           ],
         ),
       ),
