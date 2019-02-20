@@ -28,15 +28,7 @@ class LabPageState extends State<LabPage> {
         child: Column(
           children: <Widget>[
             ChessBoard(
-              onMove: (move) {
-                print(move);
-              },
-              onCheckMate: (color) {
-                print(color);
-              },
-              onDraw: () {
-                print('draw game');
-              },
+              //TODO moveAnyPiece: true,
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
               chessBoardController: _labController,
@@ -60,8 +52,12 @@ class LabPageState extends State<LabPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
-              //TODO
+              //TODO implement gambits
               print('Making a totes random move');
+              List<dynamic> moves = _labController.game.moves();
+              moves.shuffle();
+              var move = moves[0];
+              _labController.makeMove(move);
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
