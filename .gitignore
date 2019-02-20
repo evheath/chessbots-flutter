@@ -1,3 +1,5 @@
+connect.sh
+
 # Miscellaneous
 *.class
 *.lock
