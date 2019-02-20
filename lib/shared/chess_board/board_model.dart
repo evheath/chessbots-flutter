@@ -1,7 +1,7 @@
 import 'dart:ui';
 import './chess_board_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:chess/chess.dart' as chess;
+// import 'package:chess/chess.dart' as chess;
 
 typedef Null MoveCallback(String moveNotation);
 typedef Null CheckMateCallback(String winColor);
@@ -29,7 +29,7 @@ class BoardModel extends Model {
   bool enableUserMoves;
 
   /// Creates a logical game
-  chess.Chess game = chess.Chess();
+  // chess.Chess game = chess.Chess();
 
   /// Refreshes board
   void refreshBoard() {
@@ -44,7 +44,7 @@ class BoardModel extends Model {
       this.whiteSideTowardsUser,
       this.chessBoardController,
       this.enableUserMoves) {
-    chessBoardController?.game = game;
+    // chessBoardController?.game = game;
     chessBoardController?.refreshBoard = refreshBoard;
   }
 }

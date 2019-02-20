@@ -10,13 +10,14 @@ enum PieceColor {
 /// Controller for programmatically controlling the board
 class ChessBoardController {
   /// The game attached to the controller
-  chess.Chess game;
+  chess.Chess game = chess.Chess();
 
   /// Function from the ScopedModel to refresh board
   Function refreshBoard;
 
   /// Makes move on the board
   void makeMove(String from, String to) {
+    // game.get(square)
     game?.move({"from": from, "to": to});
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
   }
