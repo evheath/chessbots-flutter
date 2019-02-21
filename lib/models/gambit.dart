@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/vector_image.dart';
 
 /// this class is used to create a pseudofunction
 ///
@@ -19,6 +21,7 @@ abstract class Gambit {
   Color color;
   String title;
   String description;
+  VectorBase vector;
 
   /// Function that, given a chess object, can find a move
   FindMove findMove;
@@ -29,6 +32,7 @@ abstract class Gambit {
     @required this.title,
     @required this.description,
     @required this.findMove,
+    @required this.vector,
   });
 
   /// returns a square when given a legal move

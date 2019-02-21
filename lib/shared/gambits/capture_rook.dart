@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class CaptureRook extends Gambit {
   // singleton logic so that CaptureRook is only created once
@@ -9,6 +10,7 @@ class CaptureRook extends Gambit {
 
   CaptureRook._internal()
       : super(
+            vector: WhiteRook(),
             title: "Capture rook",
             color: Colors.red,
             description: "Take one of opponent's rooks.",

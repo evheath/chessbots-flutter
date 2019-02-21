@@ -11,6 +11,8 @@ import '../bloc/gambits.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
 
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
+
 class AssemblePage extends StatefulWidget {
   @override
   AssemblePageState createState() {
@@ -49,9 +51,11 @@ class AssemblePageState extends State<AssemblePage> {
               children: List.generate(_gambits.length, (index) {
                 return ListTile(
                   key: Key(_gambits[index].title),
-                  leading: Text('$index'),
                   title: Text(_gambits[index].title),
-                  trailing: Icon(_gambits[index].icon),
+                  trailing: CircleAvatar(
+                    child: _gambits[index].vector ?? WhiteBishop(),
+                    backgroundColor: _gambits[index].color,
+                  ),
                 );
               }),
               //TODO figure out how to get a trailing ListTile for MakeRandomMove

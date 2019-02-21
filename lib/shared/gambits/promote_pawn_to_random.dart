@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class PromotePawnToRandom extends Gambit {
   // singleton logic so that PromotePawnToRandom is only created once
@@ -9,6 +10,7 @@ class PromotePawnToRandom extends Gambit {
 
   PromotePawnToRandom._internal()
       : super(
+            vector: BlackKing(), // TODO questionmark vector
             title: "Promote a pawn to a random piece",
             color: Colors.yellow,
             description:

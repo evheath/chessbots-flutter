@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class PromotePawnToRook extends Gambit {
   // singleton logic so that PromotePawnToRook is only created once
@@ -9,6 +10,7 @@ class PromotePawnToRook extends Gambit {
 
   PromotePawnToRook._internal()
       : super(
+            vector: WhiteRook(),
             title: "Promote a pawn to a rook",
             color: Colors.yellow,
             description:

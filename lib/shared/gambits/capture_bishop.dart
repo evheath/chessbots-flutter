@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class CaptureBishop extends Gambit {
   // singleton logic so that CaptureBishop is only created once
@@ -9,6 +10,7 @@ class CaptureBishop extends Gambit {
 
   CaptureBishop._internal()
       : super(
+            vector: WhiteBishop(),
             title: "Capture bishop",
             color: Colors.red,
             description: "Take one of opponent's bishops.",

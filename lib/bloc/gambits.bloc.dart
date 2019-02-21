@@ -26,20 +26,20 @@ class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
     CapturePawn(),
-    // CaptureKnight(),
-    // CaptureBishop(),
-    // CaptureRook(),
-    // CaptureQueen(),
-    // PromotePawnToKnight(),
-    // PromotePawnToBishop(),
-    // PromotePawnToRook(),
-    // PromotePawnToQueen(),
-    // PromotePawnToRandom(),
-    // MoveRandomPawn(),
-    // CheckOpponent(),
-    // CastleQueenSide(),
-    // CaptureRandomPiece(),
-    // CastleKingSide(),
+    CaptureKnight(),
+    CaptureBishop(),
+    CaptureRook(),
+    CaptureQueen(),
+    PromotePawnToKnight(),
+    PromotePawnToBishop(),
+    PromotePawnToRook(),
+    PromotePawnToQueen(),
+    PromotePawnToRandom(),
+    MoveRandomPawn(),
+    CheckOpponent(),
+    CastleQueenSide(),
+    CaptureRandomPiece(),
+    CastleKingSide(),
     // MakeRandomMove(),
   ];
 
@@ -53,7 +53,7 @@ class GambitsBloc implements BlocBase {
 
   GambitsBloc() {
     //TODO implement how gambits get intially set
-
+    _gambits.shuffle();
     // pushing the initial gambits out of the stream
     _internalIn.add(_gambits);
 

@@ -2,6 +2,8 @@ import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
+
 class CaptureRandomPiece extends Gambit {
   // singleton logic so that CaptureRandomPiece is only created once
   static final CaptureRandomPiece _singleton = CaptureRandomPiece._internal();
@@ -9,6 +11,7 @@ class CaptureRandomPiece extends Gambit {
 
   CaptureRandomPiece._internal()
       : super(
+            vector: BlackKing(), // TODO find a question mark vector
             title: "Capture a random piece",
             color: Colors.red,
             description: "Captures a piece at random.",

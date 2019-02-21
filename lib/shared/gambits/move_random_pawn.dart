@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class MoveRandomPawn extends Gambit {
   // singleton logic so that MoveRandomPawn is only created once
@@ -9,6 +10,7 @@ class MoveRandomPawn extends Gambit {
 
   MoveRandomPawn._internal()
       : super(
+            vector: WhitePawn(),
             title: "Move a random pawn",
             color: Colors.grey,
             description: "Make a random pawn move, includes captures!",
