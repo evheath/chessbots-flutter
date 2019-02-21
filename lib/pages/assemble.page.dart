@@ -32,12 +32,7 @@ class AssemblePageState extends State<AssemblePage> {
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: StreamBuilder(
-          //TODO figure out how to prevent errors when getting the first stream of gambits
-          initialData: [
-            MakeRandomMove(),
-            // Gambit()
-          ], // need for error prevention
-          // initialData: [Gambit()], // needed for error prevention
+          initialData: [MakeRandomMove()], // need for error prevention
           stream: gambitsBloc.gambits,
           builder: (context, snapshot) {
             List<Gambit> _gambits = snapshot.data;
@@ -46,7 +41,11 @@ class AssemblePageState extends State<AssemblePage> {
               onReorder: (oldIndex, newIndex) {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
-              header: Text('I am the header'),
+              header: ListTile(
+                title: Text('Checkmate Opponent!'),
+                //TODO find trophy icon
+                trailing: Icon(Icons.book),
+              ),
               children: List.generate(_gambits.length, (index) {
                 return ListTile(
                   key: Key(_gambits[index].title),
@@ -55,6 +54,7 @@ class AssemblePageState extends State<AssemblePage> {
                   trailing: Icon(_gambits[index].icon),
                 );
               }),
+              //TODO figure out how to get a trailing ListTile for MakeRandomMove
             );
           },
         ),
