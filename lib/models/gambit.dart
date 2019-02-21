@@ -19,6 +19,8 @@ abstract class Gambit {
   Color color;
   String title;
   String description;
+
+  /// Function that, given a chess object, can find a move
   FindMove findMove;
 
   Gambit({

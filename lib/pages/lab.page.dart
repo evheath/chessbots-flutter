@@ -59,10 +59,13 @@ class LabPageState extends State<LabPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
-              //TODO implement gambits
+              //TODO waterfall all gambits
               // String move = MakeRandomMove().findMove(_labBoardController.game);
-              // print('The move will be $move');
-              // _labBoardController.makeMove(move);
+              String move =
+                  CaptureRandomPiece().findMove(_labBoardController.game);
+              // String move = _gambits
+              print('The move will be $move');
+              _labBoardController.makeMove(move);
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
