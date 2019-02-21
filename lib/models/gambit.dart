@@ -30,4 +30,15 @@ abstract class Gambit {
     @required this.description,
     @required this.findMove,
   });
+
+  /// returns a square when given a legal move
+  ///
+  /// e.g. exf4 -> f4 or Bxf5=Q+ -> f5
+  static String squareOf(dynamic move) {
+    return move
+        .toString()
+        .replaceAll(RegExp(r"(.*)x"), '') // remove everything before an x
+        .replaceAll(RegExp(r"[NBRQKx=+]"),
+            ''); // remove unnecessary remaining characters
+  }
 }
