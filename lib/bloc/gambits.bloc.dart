@@ -25,6 +25,7 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
+    // CheckmateOpponent(),
     CaptureRandomPiece(),
     CastleKingSide(),
     MakeRandomMove(),
@@ -79,13 +80,15 @@ class GambitsBloc implements BlocBase {
   /// find a move by going through all gambits, in order
   String waterfallGambits(chess.Chess game) {
     // find the first gambit that returns a move, then get and return that move
-    // if no gambit can find a move, just return a random/legal move
-    String move = _gambits
-        .firstWhere(
-          (gambit) => gambit.findMove(game) != null,
-          orElse: () => MakeRandomMove(),
-        )
-        .findMove(game);
+    // first we look to see if we can simply checkmate the opponent this turn,
+    // if eventually no gambit can find a move, we just return a random/legal move
+    String move = CheckmateOpponent().findMove(game) ??
+        _gambits
+            .firstWhere(
+              (gambit) => gambit.findMove(game) != null,
+              orElse: () => MakeRandomMove(),
+            )
+            .findMove(game);
     return move;
   }
 }
