@@ -8,6 +8,9 @@ import '../shared/custom.icons.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
 
+import '../models/gambit.dart';
+import '../shared/gambits.dart';
+
 class AssemblePage extends StatefulWidget {
   @override
   AssemblePageState createState() {
@@ -30,7 +33,11 @@ class AssemblePageState extends State<AssemblePage> {
         padding: EdgeInsets.all(10.0),
         child: StreamBuilder(
           //TODO figure out how to prevent errors when getting the first stream of gambits
-          initialData: [Gambit()], // need for error prevention
+          initialData: [
+            MakeRandomMove(),
+            // Gambit()
+          ], // need for error prevention
+          // initialData: [Gambit()], // needed for error prevention
           stream: gambitsBloc.gambits,
           builder: (context, snapshot) {
             List<Gambit> _gambits = snapshot.data;

@@ -1,23 +1,12 @@
 import 'dart:async';
 import 'package:rxdart/subjects.dart';
 
-import 'package:flutter/material.dart';
-
 import './base.bloc.dart';
 
-class Gambit {
-  IconData icon;
-  Color color;
-  String title;
-  String description;
+import '../models/gambit.dart';
 
-  Gambit({
-    this.icon = Icons.pregnant_woman,
-    this.color = Colors.black,
-    this.title = "I was uninitalized",
-    this.description = "Someone created me incorrectly :O",
-  });
-}
+//TODO remove this import, this is just used for testing purpose
+import '../shared/gambits.dart';
 
 class GambitEvent {}
 
@@ -34,9 +23,10 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    Gambit(title: 'fuu da bloc'),
-    Gambit(title: 'herp bloc'),
-    Gambit(title: 'merp bloc')
+    MakeRandomMove()
+    // Gambit(title: 'fuu da bloc'),
+    // Gambit(title: 'herp bloc'),
+    // Gambit(title: 'merp bloc')
   ];
 
   // controllers
