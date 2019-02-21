@@ -32,7 +32,7 @@ class AssemblePageState extends State<AssemblePage> {
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: StreamBuilder(
-          initialData: [MakeRandomMove()], // need for error prevention
+          initialData: [MoveRandomPiece()], // need for error prevention
           stream: gambitsBloc.gambits,
           builder: (context, snapshot) {
             List<Gambit> _gambits = snapshot.data;

@@ -25,11 +25,12 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
+    MoveRandomPawn(),
     CheckOpponent(),
     CastleQueenSide(),
     CaptureRandomPiece(),
     CastleKingSide(),
-    MakeRandomMove(),
+    // MakeRandomMove(),
   ];
 
   // controllers
@@ -87,7 +88,7 @@ class GambitsBloc implements BlocBase {
         _gambits
             .firstWhere(
               (gambit) => gambit.findMove(game) != null,
-              orElse: () => MakeRandomMove(),
+              orElse: () => MoveRandomPiece(),
             )
             .findMove(game);
     return move;

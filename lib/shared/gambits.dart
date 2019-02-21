@@ -6,3 +6,4 @@ export './gambits/castle_king_side.dart';
 export './gambits/checkmate_opponent.dart';
 export './gambits/castle_queen_side.dart';
 export './gambits/check_opponent.dart';
+export './gambits/move_random_pawn.dart';

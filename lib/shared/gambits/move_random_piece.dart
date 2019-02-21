@@ -2,12 +2,12 @@ import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class MakeRandomMove extends Gambit {
+class MoveRandomPiece extends Gambit {
   // singleton logic so that MakeRandomMove is only created once
-  static final MakeRandomMove _singleton = MakeRandomMove._internal();
-  factory MakeRandomMove() => _singleton;
+  static final MoveRandomPiece _singleton = MoveRandomPiece._internal();
+  factory MoveRandomPiece() => _singleton;
 
-  MakeRandomMove._internal()
+  MoveRandomPiece._internal()
       : super(
             title: "Move a random piece",
             color: Colors.grey,
@@ -17,7 +17,7 @@ class MakeRandomMove extends Gambit {
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
-              var move = moves[0];
-              return move.toString();
+              String move = moves[0];
+              return move;
             }));
 }

@@ -62,6 +62,7 @@ class LabPageState extends State<LabPage> {
             onPressed: () {
               //TODO waterfall all gambits
               // String move = MakeRandomMove().findMove(_labBoardController.game);
+              print('legal moves are ${_labBoardController.game.moves()}');
               String move =
                   _gambitsBloc.waterfallGambits(_labBoardController.game);
               // CaptureRandomPiece().findMove(_labBoardController.game);
