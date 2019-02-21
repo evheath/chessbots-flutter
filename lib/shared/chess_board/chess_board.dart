@@ -102,6 +102,8 @@ class ChessBoard extends StatefulWidget {
   final double size;
 
   /// Callback for when move is made
+  ///
+  /// Required as not providing one will cause null errors
   final MoveCallback onMove;
 
   /// Callback for when a player is checkmated
