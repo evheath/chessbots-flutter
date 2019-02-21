@@ -2,18 +2,19 @@ import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureKnight extends Gambit {
-  // singleton logic so that CaptureKnight is only created once
-  static final CaptureKnight _singleton = CaptureKnight._internal();
-  factory CaptureKnight() => _singleton;
+class CapturePawn extends Gambit {
+  // singleton logic so that CapturePawn is only created once
+  static final CapturePawn _singleton = CapturePawn._internal();
+  factory CapturePawn() => _singleton;
 
-  CaptureKnight._internal()
+  CapturePawn._internal()
       : super(
-            title: "Capture knight",
+            title: "Capture pawn",
             color: Colors.red,
-            description: "Take one of opponent's knights. Heyo!",
+            description:
+                "Take one of opponent's pawns. Small victories add up quickly.",
             //TODO find appropriate icon
-            icon: Icons.sentiment_very_satisfied,
+            icon: Icons.settings_brightness,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
@@ -24,7 +25,7 @@ class CaptureKnight extends Gambit {
                   String landingSquare = Gambit.squareOf(capture);
                   chess.PieceType pieceBeingCaptured =
                       game.get(landingSquare).type;
-                  return pieceBeingCaptured == chess.PieceType.KNIGHT;
+                  return pieceBeingCaptured == chess.PieceType.PAWN;
                 },
                 orElse: () => null,
               );

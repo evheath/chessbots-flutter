@@ -19,7 +19,6 @@ class CaptureBishop extends Gambit {
                   .moves()
                   .where((move) => move.toString().contains('x'))
                   .toList();
-              print("available captures are $captures");
               String move = captures.firstWhere(
                 (capture) {
                   String landingSquare = Gambit.squareOf(capture);
