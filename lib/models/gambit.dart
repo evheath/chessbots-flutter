@@ -30,11 +30,4 @@ abstract class Gambit {
     @required this.description,
     @required this.findMove,
   });
-
-  /// findMove must always be overwritten
-  ///
-  /// accepts a chess game and returns a move to be made
-  // String findMove(chess.Chess game) {
-  //   throw Exception("findMove was not overwritten");
-  // }
 }
