@@ -1,16 +1,13 @@
 /// Page for reordering gambits, similar to right-hand pane in web-app
 
 import 'package:flutter/material.dart';
-
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
-
 import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
-
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
-
+import '../shared/gambit_list_tile.dart';
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class AssemblePage extends StatefulWidget {
@@ -21,12 +18,6 @@ class AssemblePage extends StatefulWidget {
 }
 
 class AssemblePageState extends State<AssemblePage> {
-  // List<String> _gambits = ['derp', 'merp', 'herp'];
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final GambitsBloc gambitsBloc = BlocProvider.of<GambitsBloc>(context);
@@ -43,20 +34,9 @@ class AssemblePageState extends State<AssemblePage> {
               onReorder: (oldIndex, newIndex) {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
-              header: ListTile(
-                title: Text('Checkmate Opponent!'),
-                //TODO find trophy icon
-                trailing: Icon(Icons.book),
-              ),
+              header: GambitListTile(CheckmateOpponent()),
               children: List.generate(_gambits.length, (index) {
-                return ListTile(
-                  key: Key(_gambits[index].title),
-                  title: Text(_gambits[index].title),
-                  trailing: CircleAvatar(
-                    child: _gambits[index].vector ?? WhiteBishop(),
-                    backgroundColor: _gambits[index].color,
-                  ),
-                );
+                return GambitListTile(_gambits[index]);
               }),
               //TODO figure out how to get a trailing ListTile for MakeRandomMove
             );
