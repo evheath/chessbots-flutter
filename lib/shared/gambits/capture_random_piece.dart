@@ -17,7 +17,7 @@ class CaptureRandomPiece extends Gambit {
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
-              String move = moves.singleWhere(
+              String move = moves.firstWhere(
                 (move) => move.toString().contains('x'),
                 orElse: () => null,
               );
