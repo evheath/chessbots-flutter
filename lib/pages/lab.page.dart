@@ -36,6 +36,9 @@ class LabPageState extends State<LabPage> {
               enableUserMoves: true,
               chessBoardController: _labBoardController,
               whiteSideTowardsUser: _whiteSideTowardsUser,
+              onMove: (move) {},
+              onCheckMate: (derp) {},
+              onDraw: () {},
             ),
             //TODO display gambit used
           ],
@@ -57,9 +60,9 @@ class LabPageState extends State<LabPage> {
           FloatingActionButton(
             onPressed: () {
               //TODO implement gambits
-              String move = MakeRandomMove().findMove(_labBoardController.game);
-              print('The move will be $move');
-              _labBoardController.makeMove(move);
+              // String move = MakeRandomMove().findMove(_labBoardController.game);
+              // print('The move will be $move');
+              // _labBoardController.makeMove(move);
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
