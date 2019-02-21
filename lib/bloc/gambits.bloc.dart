@@ -25,7 +25,8 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    CaptureQueen(),
+    CaptureRook(),
+    // CaptureQueen(),
     // PromotePawnToKnight(),
     // PromotePawnToBishop(),
     // PromotePawnToRook(),
