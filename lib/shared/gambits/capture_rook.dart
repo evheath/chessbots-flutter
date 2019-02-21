@@ -23,7 +23,7 @@ class CaptureRook extends Gambit {
                 (capture) {
                   String landingSquare = Gambit.squareOf(capture);
                   chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare).type;
+                      game.get(landingSquare)?.type;
                   return pieceBeingCaptured == chess.PieceType.ROOK;
                 },
                 orElse: () => null,
