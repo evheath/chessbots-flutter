@@ -26,6 +26,7 @@ class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
     CaptureRandomPiece(),
+    CastleKingSide(),
     MakeRandomMove(),
   ];
 
