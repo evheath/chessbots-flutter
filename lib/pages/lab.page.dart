@@ -4,8 +4,8 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 
-//TODO remove after gambit testing
-import '../shared/gambits.dart';
+import '../bloc/base.bloc.dart';
+import '../bloc/gambits.bloc.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -25,6 +25,7 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
+    final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -62,7 +63,9 @@ class LabPageState extends State<LabPage> {
               //TODO waterfall all gambits
               // String move = MakeRandomMove().findMove(_labBoardController.game);
               String move =
-                  CaptureRandomPiece().findMove(_labBoardController.game);
+                  _gambitsBloc.waterfallGambits(_labBoardController.game);
+              // CaptureRandomPiece().findMove(_labBoardController.game);
+
               // String move = _gambits
               print('The move will be $move');
               _labBoardController.makeMove(move);

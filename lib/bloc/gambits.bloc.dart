@@ -5,6 +5,8 @@ import './base.bloc.dart';
 
 import '../models/gambit.dart';
 
+import 'package:chess/chess.dart' as chess;
+
 //TODO remove this import, this is just used for testing purpose
 import '../shared/gambits.dart';
 
@@ -23,10 +25,8 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    MakeRandomMove()
-    // Gambit(title: 'fuu da bloc'),
-    // Gambit(title: 'herp bloc'),
-    // Gambit(title: 'merp bloc')
+    CaptureRandomPiece(),
+    MakeRandomMove(),
   ];
 
   // controllers
@@ -40,7 +40,7 @@ class GambitsBloc implements BlocBase {
   GambitsBloc() {
     //TODO implement how gambits get intially set
 
-    // pushing the initial gambits out of the bloc
+    // pushing the initial gambits out of the stream
     _internalIn.add(_gambits);
 
     // connect external-in to internal-out
@@ -72,5 +72,19 @@ class GambitsBloc implements BlocBase {
   void dispose() {
     _eventController.close();
     _gambitsController.close();
+  }
+
+  // external methods
+  /// find a move by going through all gambits, in order
+  String waterfallGambits(chess.Chess game) {
+    // find the first gambit that returns a move, then get and return that move
+    // if no gambit can find a move, just return a random/legal move
+    String move = _gambits
+        .firstWhere(
+          (gambit) => gambit.findMove(game) != null,
+          orElse: () => MakeRandomMove(),
+        )
+        .findMove(game);
+    return move;
   }
 }
