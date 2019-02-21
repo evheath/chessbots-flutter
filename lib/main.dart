@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 // pages
-import './lab/lab.page.dart';
+import './pages/lab.page.dart';
+import './pages/assemble.page.dart';
 
-// import './bloc/base.bloc.dart';
-// import './bloc/lab.bloc.dart';
+import './bloc/base.bloc.dart';
+import './bloc/gambits.bloc.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(BlocProvider<GambitsBloc>(
+      bloc: GambitsBloc(),
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,8 +25,10 @@ class MyApp extends StatelessWidget {
         //   child: LabPage(),
         // ),
         routes: {
-          '/': (context) => LabPage(),
+          // '/': (context) => LabPage(),
+          '/': (context) => AssemblePage(),
           '/lab': (context) => LabPage(),
+          '/assemble': (context) => AssemblePage(),
         });
   }
 }

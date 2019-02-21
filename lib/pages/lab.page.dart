@@ -4,6 +4,9 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 
+import '../bloc/base.bloc.dart';
+import '../bloc/gambits.bloc.dart';
+
 class LabPage extends StatefulWidget {
   @override
   LabPageState createState() {
@@ -13,7 +16,7 @@ class LabPage extends StatefulWidget {
 
 class LabPageState extends State<LabPage> {
   bool _whiteSideTowardsUser = true;
-  ChessBoardController _labController = ChessBoardController();
+  ChessBoardController _labBoardController = ChessBoardController();
 
   @override
   void initState() {
@@ -22,6 +25,7 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
+    final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -31,9 +35,13 @@ class LabPageState extends State<LabPage> {
               //TODO moveAnyPiece: true,
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
-              chessBoardController: _labController,
+              chessBoardController: _labBoardController,
               whiteSideTowardsUser: _whiteSideTowardsUser,
+              onMove: (move) {},
+              onCheckMate: (derp) {},
+              onDraw: () {},
             ),
+            //TODO display gambit used
           ],
         ),
       ),
@@ -52,12 +60,16 @@ class LabPageState extends State<LabPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
-              //TODO implement gambits
-              print('Making a totes random move');
-              List<dynamic> moves = _labController.game.moves();
-              moves.shuffle();
-              var move = moves[0];
-              _labController.makeMove(move);
+              //TODO waterfall all gambits
+              // String move = MakeRandomMove().findMove(_labBoardController.game);
+              print('legal moves are ${_labBoardController.game.moves()}');
+              String move =
+                  _gambitsBloc.waterfallGambits(_labBoardController.game);
+              // CaptureRandomPiece().findMove(_labBoardController.game);
+
+              // String move = _gambits
+              print('The move will be $move');
+              _labBoardController.makeMove(move);
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
@@ -73,7 +85,7 @@ class LabPageState extends State<LabPage> {
           ),
           FloatingActionButton(
             onPressed: () {
-              _labController.resetBoard();
+              _labBoardController.resetBoard();
             },
             tooltip: 'Reset',
             child: Icon(Icons.repeat),

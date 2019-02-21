@@ -102,6 +102,8 @@ class ChessBoard extends StatefulWidget {
   final double size;
 
   /// Callback for when move is made
+  ///
+  /// Required as not providing one will cause null errors
   final MoveCallback onMove;
 
   /// Callback for when a player is checkmated
@@ -125,12 +127,9 @@ class ChessBoard extends StatefulWidget {
   ChessBoard({
     this.size = 200.0,
     this.whiteSideTowardsUser = true,
-    this.onMove,
-    this.onCheckMate,
-    this.onDraw,
-    // @required this.onMove,
-    // @required this.onCheckMate,
-    // @required this.onDraw,
+    @required this.onMove,
+    @required this.onCheckMate,
+    @required this.onDraw,
     this.chessBoardController,
     this.enableUserMoves = true,
     this.boardType = BoardType.brown,

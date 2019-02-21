@@ -13,11 +13,17 @@ class LeftDrawer extends StatelessWidget {
             // title: Text('Choose'),
           ),
           ListTile(
-            // leading: Icon(Icons.album),
             leading: Icon(MyCustomIcons.beaker),
             title: Text('Lab'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/lab');
+            },
+          ),
+          ListTile(
+            leading: Icon(MyCustomIcons.cog_alt),
+            title: Text('Assemble gambits'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/assemble');
             },
           )
         ],
