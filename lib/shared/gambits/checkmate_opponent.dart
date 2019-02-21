@@ -10,7 +10,7 @@ class CheckmateOpponent extends Gambit {
   CheckmateOpponent._internal()
       : super(
             title: "Checkmate Opponent",
-            color: Colors.blue,
+            color: Colors.yellow,
             description:
                 "Win the game by ensuring the capture of the opponent's King",
             //TODO find appropriate icon

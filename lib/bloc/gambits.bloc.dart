@@ -25,7 +25,7 @@ class ReorderEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    // CheckmateOpponent(),
+    CastleQueenSide(),
     CaptureRandomPiece(),
     CastleKingSide(),
     MakeRandomMove(),
