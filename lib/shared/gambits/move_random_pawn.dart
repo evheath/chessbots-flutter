@@ -11,7 +11,7 @@ class MoveRandomPawn extends Gambit {
       : super(
             title: "Move a random pawn",
             color: Colors.grey,
-            description: "Moves a pawn a random.",
+            description: "Make a random pawn move, includes captures!",
             //TODO find appropriate icon
             icon: Icons.repeat,
             findMove: FindMove((chess.Chess game) {
