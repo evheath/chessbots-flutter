@@ -10,10 +10,13 @@ class CaptureBishop extends Gambit {
 
   CaptureBishop._internal()
       : super(
+            demoFEN:
+                'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
             vector: WhiteBishop(),
             title: "Capture bishop",
             color: Colors.red,
             description: "Take one of opponent's bishops.",
+            altText: "Now we're talking.",
             //TODO find appropriate icon
             icon: Icons.sentiment_very_satisfied,
             findMove: FindMove((chess.Chess game) {

@@ -14,7 +14,8 @@ class PromotePawnToQueen extends Gambit {
             title: "Promote to queen",
             color: Colors.yellow,
             description:
-                "If a pawn can reach the back rank, it will promote to a queen--the most valuable piece!",
+                "If a pawn can reach the back rank, it will promote to a queen",
+            altText: "They are finished now!",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

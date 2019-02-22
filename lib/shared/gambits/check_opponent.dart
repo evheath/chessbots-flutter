@@ -14,6 +14,7 @@ class CheckOpponent extends Gambit {
             title: "Check Opponent",
             color: Colors.red,
             description: "Attack your opponent's king!",
+            altText: "Where do you think you're going?",
             //TODO find appropriate icon
             icon: Icons.remove_circle_outline,
             findMove: FindMove((chess.Chess game) {

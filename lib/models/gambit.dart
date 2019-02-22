@@ -21,6 +21,9 @@ abstract class Gambit {
   Color color;
   String title;
   String description;
+
+  /// catch phrase for a gambit
+  String altText;
   VectorBase vector;
   String demoFEN;
 
@@ -35,6 +38,7 @@ abstract class Gambit {
     @required this.findMove,
     @required this.vector,
     this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+    @required this.altText,
   });
 
   /// returns a square when given a legal move

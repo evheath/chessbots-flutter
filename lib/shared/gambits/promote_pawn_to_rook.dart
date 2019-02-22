@@ -14,7 +14,8 @@ class PromotePawnToRook extends Gambit {
             title: "Promote to rook",
             color: Colors.yellow,
             description:
-                "If a pawn can reach the back rank, it will promote to a rook--very nice!",
+                "If a pawn can reach the back rank, it will promote to a rook",
+            altText: "Could make the difference",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

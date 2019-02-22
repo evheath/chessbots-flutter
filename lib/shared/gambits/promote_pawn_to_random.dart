@@ -15,6 +15,7 @@ class PromotePawnToRandom extends Gambit {
             color: Colors.yellow,
             description:
                 "If a pawn reaches the back rank, it will promote to a knight, bishop, rook or queen!",
+            altText: "Feeling lucky?",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

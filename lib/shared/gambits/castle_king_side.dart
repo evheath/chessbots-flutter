@@ -13,7 +13,8 @@ class CastleKingSide extends Gambit {
             vector: WhiteRook(),
             title: "Castle King Side",
             color: Colors.blue,
-            description: "Moves your king to safety and activates a rook!",
+            description: "Moves your king to safety while activating a rook!",
+            altText: "Get me outta here!",
             //TODO find appropriate icon
             icon: Icons.blur_circular,
             findMove: FindMove((chess.Chess game) {

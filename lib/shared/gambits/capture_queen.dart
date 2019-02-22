@@ -14,6 +14,7 @@ class CaptureQueen extends Gambit {
             title: "Capture queen",
             color: Colors.red,
             description: "Take your opponent's most valuable piece!",
+            altText: "gg ez",
             //TODO find appropriate icon
             icon: Icons.save,
             findMove: FindMove((chess.Chess game) {

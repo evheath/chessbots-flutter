@@ -11,11 +11,13 @@ class CapturePawn extends Gambit {
 
   CapturePawn._internal()
       : super(
+            demoFEN:
+                "rnbqkb1r/ppp1pppp/5n2/8/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhitePawn(),
             title: "Capture pawn",
             color: Colors.red,
-            description:
-                "Take one of opponent's pawns. Small victories add up quickly.",
+            description: "Take one of your opponent's pawns.",
+            altText: "Small victories add up quickly.",
             //TODO find appropriate icon
             icon: Icons.settings_brightness,
             findMove: FindMove((chess.Chess game) {

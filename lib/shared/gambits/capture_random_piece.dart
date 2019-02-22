@@ -15,6 +15,7 @@ class CaptureRandomPiece extends Gambit {
             title: "Capture a random piece",
             color: Colors.red,
             description: "Captures a piece at random.",
+            altText: "We'll take it!",
             //TODO find appropriate icon
             icon: Icons.backspace,
             findMove: FindMove((chess.Chess game) {

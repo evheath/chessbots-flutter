@@ -14,6 +14,7 @@ class CaptureRook extends Gambit {
             title: "Capture rook",
             color: Colors.red,
             description: "Take one of opponent's rooks.",
+            altText: "How will they recover??",
             //TODO find appropriate icon
             icon: Icons.save,
             findMove: FindMove((chess.Chess game) {

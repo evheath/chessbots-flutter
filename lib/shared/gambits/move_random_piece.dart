@@ -14,6 +14,7 @@ class MoveRandomPiece extends Gambit {
             title: "Move a random piece",
             color: Colors.grey,
             description: "Randomly selects a legal move.",
+            altText: "Hope for the best, plan for the worst",
             //TODO find appropriate icon
             icon: Icons.add_circle_outline,
             findMove: FindMove((chess.Chess game) {

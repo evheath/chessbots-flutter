@@ -23,6 +23,15 @@ class DemoPageState extends State<DemoPage> {
     _demoBoardController.loadFEN(widget.gambit.demoFEN);
   }
 
+  Widget _buildText() {
+    if (_hasNotMoved) {
+      // button has not been pressed yet
+      return Text(widget.gambit.description);
+    } else {
+      return Text(widget.gambit.altText);
+    }
+  }
+
   Widget _buildButton() {
     if (_hasNotMoved) {
       // button has not been pressed yet
@@ -69,7 +78,7 @@ class DemoPageState extends State<DemoPage> {
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Text(widget.gambit.description),
+            _buildText(),
             SizedBox(height: 20),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,

@@ -14,7 +14,8 @@ class PromotePawnToKnight extends Gambit {
             title: "Promote to knight",
             color: Colors.yellow,
             description:
-                "If a pawn can reach the back rank, it will promote to a knight--better than nothing!",
+                "If a pawn can reach the back rank, it will promote to a knight",
+            altText: "Better than nothing!",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

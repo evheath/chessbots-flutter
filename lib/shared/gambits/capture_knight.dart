@@ -10,10 +10,13 @@ class CaptureKnight extends Gambit {
 
   CaptureKnight._internal()
       : super(
+            demoFEN:
+                'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
             vector: WhiteKnight(),
             title: "Capture knight",
             color: Colors.red,
-            description: "Take one of opponent's knights. Heyo!",
+            description: "Take one of opponent's knights.",
+            altText: "Heyo!",
             //TODO find appropriate icon
             icon: Icons.sentiment_very_satisfied,
             findMove: FindMove((chess.Chess game) {

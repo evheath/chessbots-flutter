@@ -13,7 +13,8 @@ class MoveRandomPawn extends Gambit {
             vector: WhitePawn(),
             title: "Move a random pawn",
             color: Colors.grey,
-            description: "Make a random pawn move, includes captures!",
+            description: "Make a random pawn move, including captures!",
+            altText: "March, march, march!",
             //TODO find appropriate icon
             icon: Icons.repeat,
             findMove: FindMove((chess.Chess game) {
