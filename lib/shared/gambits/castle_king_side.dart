@@ -10,10 +10,12 @@ class CastleKingSide extends Gambit {
 
   CastleKingSide._internal()
       : super(
+            demoFEN:
+                "r1bqkb1r/pppp1ppp/2n2n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
             vector: WhiteRook(),
             title: "Castle King Side",
             color: Colors.blue,
-            description: "Moves your king to safety while activating a rook!",
+            description: "Move your king to safety while activating a rook!",
             altText: "Get me outta here!",
             //TODO find appropriate icon
             icon: Icons.blur_circular,

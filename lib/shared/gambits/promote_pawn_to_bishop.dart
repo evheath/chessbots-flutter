@@ -10,12 +10,13 @@ class PromotePawnToBishop extends Gambit {
 
   PromotePawnToBishop._internal()
       : super(
+            demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhiteBishop(),
             title: "Promote to bishop",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a bishop",
-            altText: "not bad!",
+            altText: "Not bad!",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

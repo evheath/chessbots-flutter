@@ -24,6 +24,7 @@ class DemoPageState extends State<DemoPage> {
   }
 
   Widget _buildText() {
+    //TODO: set size on text box
     if (_hasNotMoved) {
       // button has not been pressed yet
       return Text(widget.gambit.description);

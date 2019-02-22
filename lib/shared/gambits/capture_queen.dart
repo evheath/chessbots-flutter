@@ -10,6 +10,8 @@ class CaptureQueen extends Gambit {
 
   CaptureQueen._internal()
       : super(
+            demoFEN:
+                "rnb1kbn1/ppppp1pr/8/6N1/4P3/7q/PPPP1P1P/RNBQK2R w KQkq - 0 1",
             vector: WhiteQueen(),
             title: "Capture queen",
             color: Colors.red,
@@ -22,6 +24,7 @@ class CaptureQueen extends Gambit {
                   .moves()
                   .where((move) => move.toString().contains('x'))
                   .toList();
+              captures.shuffle();
               String move = captures.firstWhere(
                 (capture) {
                   String landingSquare = Gambit.squareOf(capture);

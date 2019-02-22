@@ -25,6 +25,7 @@ class CapturePawn extends Gambit {
                   .moves()
                   .where((move) => move.toString().contains('x'))
                   .toList();
+              captures.shuffle();
               String move = captures.firstWhere(
                 (capture) {
                   String landingSquare = Gambit.squareOf(capture);
