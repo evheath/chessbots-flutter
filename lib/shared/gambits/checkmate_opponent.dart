@@ -12,7 +12,7 @@ class CheckmateOpponent extends Gambit {
       : super(
             vector: WhiteKing(), // TODO find a different vector perhaps?
             title: "Checkmate Opponent",
-            color: Colors.yellowAccent,
+            color: Colors.orange,
             description:
                 "Win the game by ensuring the capture of the opponent's King",
             //TODO find appropriate icon
