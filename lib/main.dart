@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          // '/': (context) => AssemblePage(),
-          '/': (context) => LabPage(),
+          '/': (context) => AssemblePage(),
+          // '/': (context) => LabPage(),
           '/lab': (context) => LabPage(),
           '/assemble': (context) => AssemblePage(),
         });

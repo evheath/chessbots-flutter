@@ -26,9 +26,8 @@ class GambitListTile extends StatelessWidget {
           ),
           trailing: GestureDetector(
             onTap: () {
-              //TODO route to demo page
-              print("you tapped the ${gambit.title} gambit");
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DemoPage(gambit)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DemoPage(gambit)));
             },
             child: Icon(Icons.help),
           ),

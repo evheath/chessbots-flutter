@@ -1,4 +1,3 @@
-//TODO: it would be better if this relied solely on a FEN instead of a chess object
 import 'package:flutter/material.dart';
 import './board_model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -145,6 +144,10 @@ class BoardSquare extends StatelessWidget {
   /// Get image to display on square
   Widget _getImageToDisplay({double size, BoardModel model}) {
     Widget imageToDisplay = Container();
+
+    if (model.chessBoardController.game.get(squareName) == null) {
+      return Container();
+    }
 
     String piece = model.chessBoardController.game
             .get(squareName)

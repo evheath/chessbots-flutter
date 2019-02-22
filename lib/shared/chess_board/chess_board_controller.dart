@@ -65,7 +65,7 @@ class ChessBoardController {
   void loadFEN(String fen) {
     game.load(fen);
     // refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
-    refreshBoard == null ? () {} : refreshBoard();
+    refreshBoard?.call();
   }
 
   /// Exception when a controller is not attached to a board
