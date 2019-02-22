@@ -7,6 +7,8 @@ typedef Null MoveCallback(String moveNotation);
 typedef Null CheckMateCallback(String winColor);
 
 class BoardModel extends Model {
+  bool moveAnyPiece;
+
   /// The size of the board (The board is a square)
   double size;
 
@@ -37,13 +39,15 @@ class BoardModel extends Model {
   }
 
   BoardModel(
-      this.size,
-      this.onMove,
-      this.onCheckMate,
-      this.onDraw,
-      this.whiteSideTowardsUser,
-      this.chessBoardController,
-      this.enableUserMoves) {
+    this.size,
+    this.onMove,
+    this.onCheckMate,
+    this.onDraw,
+    this.whiteSideTowardsUser,
+    this.chessBoardController,
+    this.enableUserMoves,
+    this.moveAnyPiece,
+  ) {
     // chessBoardController?.game = game;
     chessBoardController?.refreshBoard = refreshBoard;
   }

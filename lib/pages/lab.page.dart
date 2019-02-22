@@ -20,7 +20,7 @@ class LabPage extends StatefulWidget {
 class LabPageState extends State<LabPage> {
   bool _whiteSideTowardsUser = true;
   ChessBoardController _labBoardController = ChessBoardController();
-  Gambit _lastGambitUsed = CaptureBishop(); //TODO: empty gambit?
+  Gambit _lastGambitUsed = MoveRandomPiece();
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class LabPageState extends State<LabPage> {
         child: Column(
           children: <Widget>[
             ChessBoard(
-              //TODO moveAnyPiece: true,
+              moveAnyPiece: true,
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
               chessBoardController: _labBoardController,
@@ -45,7 +45,6 @@ class LabPageState extends State<LabPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            //TODO GambitAvatar instead of ListTile
             StatusListTile(gambit: _lastGambitUsed),
           ],
         ),
