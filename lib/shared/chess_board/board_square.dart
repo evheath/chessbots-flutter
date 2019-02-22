@@ -19,6 +19,12 @@ class BoardSquare extends StatelessWidget {
       return Expanded(
         flex: 1,
         child: DragTarget(builder: (context, accepted, rejected) {
+          if (model.enableUserMoves == false) {
+            // prevents user from picking up any piece if configured to do so
+            return Container(
+              child: _getImageToDisplay(size: model.size / 8, model: model),
+            );
+          }
           return model.chessBoardController.game.get(squareName) != null
               ? Draggable(
                   child: _getImageToDisplay(size: model.size / 8, model: model),
@@ -38,6 +44,7 @@ class BoardSquare extends StatelessWidget {
         }, onWillAccept: (willAccept) {
           return model.enableUserMoves ? true : false;
         }, onAccept: (List moveInfo) {
+          //TODO is this where I can allow pieces to be moved even if it isn't the proper turn?
           // A way to check if move occurred.
           chess.Color moveColor = model.chessBoardController.game.turn;
 
