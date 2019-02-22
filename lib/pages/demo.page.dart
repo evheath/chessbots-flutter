@@ -24,12 +24,14 @@ class DemoPageState extends State<DemoPage> {
   }
 
   Widget _buildText() {
-    //TODO: set size on text box
     if (_hasNotMoved) {
-      // button has not been pressed yet
-      return Text(widget.gambit.description);
+      return Text(
+        widget.gambit.description,
+      );
     } else {
-      return Text(widget.gambit.altText);
+      return Text(
+        widget.gambit.altText,
+      );
     }
   }
 
@@ -70,16 +72,23 @@ class DemoPageState extends State<DemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.gambit.title),
+        title: Row(
+          children: <Widget>[
+            Text(widget.gambit.title),
+            widget.gambit.vector,
+          ],
+        ),
         backgroundColor: widget.gambit.color,
         centerTitle: true,
-        actions: <Widget>[widget.gambit.vector],
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            _buildText(),
+            Container(
+              child: Center(child: _buildText()),
+              height: 20,
+            ),
             SizedBox(height: 20),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
