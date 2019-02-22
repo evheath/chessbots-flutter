@@ -22,6 +22,7 @@ abstract class Gambit {
   String title;
   String description;
   VectorBase vector;
+  String demoFEN;
 
   /// Function that, given a chess object, can find a move
   FindMove findMove;
@@ -33,6 +34,7 @@ abstract class Gambit {
     @required this.description,
     @required this.findMove,
     @required this.vector,
+    this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
   });
 
   /// returns a square when given a legal move

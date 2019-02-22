@@ -10,6 +10,8 @@ class CheckmateOpponent extends Gambit {
 
   CheckmateOpponent._internal()
       : super(
+            demoFEN:
+                "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 6 1",
             vector: WhiteKing(), // TODO find a different vector perhaps?
             title: "Checkmate Opponent",
             color: Colors.orange,
