@@ -27,6 +27,7 @@ class BoardSquare extends StatelessWidget {
           }
           return model.chessBoardController.game.get(squareName) != null
               ? Draggable(
+                  childWhenDragging: Container(),
                   child: _getImageToDisplay(size: model.size / 8, model: model),
                   feedback: _getImageToDisplay(
                       size: (1.2 * (model.size / 8)), model: model),
@@ -44,7 +45,6 @@ class BoardSquare extends StatelessWidget {
         }, onWillAccept: (willAccept) {
           return model.enableUserMoves ? true : false;
         }, onAccept: (List moveInfo) {
-          //TODO is this where I can allow pieces to be moved even if it isn't the proper turn?
           // A way to check if move occurred.
           chess.Color moveColor = model.chessBoardController.game.turn;
 
@@ -64,6 +64,8 @@ class BoardSquare extends StatelessWidget {
             model.chessBoardController.game
                 .move({"from": moveInfo[0], "to": squareName});
           }
+          //TODO is this where I can allow pieces to be moved even if it isn't the proper turn?
+          //TODO perhaps checkmate/draw checking is done here too
           if (model.chessBoardController.game.turn != moveColor) {
             model.onMove(
                 moveInfo[1] == "P" ? squareName : moveInfo[1] + squareName);
