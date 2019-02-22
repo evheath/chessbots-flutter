@@ -18,7 +18,6 @@ class LabPage extends StatefulWidget {
 }
 
 class LabPageState extends State<LabPage> {
-  bool _whiteSideTowardsUser = true;
   ChessBoardController _labBoardController = ChessBoardController();
   Gambit _lastGambitUsed = MoveRandomPiece();
 
@@ -40,7 +39,6 @@ class LabPageState extends State<LabPage> {
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
               chessBoardController: _labBoardController,
-              whiteSideTowardsUser: _whiteSideTowardsUser,
               onMove: (move) {},
               onCheckMate: (derp) {},
               onDraw: () {},
@@ -65,27 +63,15 @@ class LabPageState extends State<LabPage> {
           FloatingActionButton(
             //TODO disable button if game is over
             onPressed: () {
-              // String move =
-              //     _gambitsBloc.waterfallGambits(_labBoardController.game);
-              // print('The move will be $move');
               setState(() {
                 _lastGambitUsed =
                     _gambitsBloc.gambitToBeUsed(_labBoardController.game);
               });
               var move = _lastGambitUsed.findMove(_labBoardController.game);
-              _labBoardController.makeMove(move);
+              _labBoardController.labMove(move);
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _whiteSideTowardsUser = !_whiteSideTowardsUser;
-              });
-            },
-            tooltip: 'Swap',
-            child: Icon(Icons.shuffle),
           ),
           FloatingActionButton(
             onPressed: () {

@@ -20,48 +20,28 @@ class BoardSquare extends StatelessWidget {
         flex: 1,
         child: DragTarget(builder: (context, accepted, rejected) {
           if (model.enableUserMoves == false) {
-            // prevents user from picking up any piece if configured to do so
+            // prevents user from picking up any piece
             return Container(
               child: _getImageToDisplay(size: model.size / 8, model: model),
             );
           }
-          if (model.moveAnyPiece) {
-            String contents = model.positionMap[squareName];
-            return contents != null
-                ? Draggable(
-                    childWhenDragging: Container(),
-                    child:
-                        _getImageToDisplay(size: model.size / 8, model: model),
-                    feedback: _getImageToDisplay(
-                        size: (1.2 * (model.size / 8)), model: model),
-                    onDragCompleted: () {},
-                    data: [
-                      squareName,
-                      contents[1],
-                      contents[0],
-                    ],
-                  )
-                : Container();
-          } else {
-            return model.chessBoardController.game.get(squareName) != null
-                ? Draggable(
-                    childWhenDragging: Container(),
-                    child:
-                        _getImageToDisplay(size: model.size / 8, model: model),
-                    feedback: _getImageToDisplay(
-                        size: (1.2 * (model.size / 8)), model: model),
-                    onDragCompleted: () {},
-                    data: [
-                      squareName,
-                      model.chessBoardController.game
-                          .get(squareName)
-                          .type
-                          .toUpperCase(),
-                      model.chessBoardController.game.get(squareName).color,
-                    ],
-                  )
-                : Container();
-          }
+          return model.chessBoardController.game.get(squareName) != null
+              ? Draggable(
+                  childWhenDragging: Container(),
+                  child: _getImageToDisplay(size: model.size / 8, model: model),
+                  feedback: _getImageToDisplay(
+                      size: (1.2 * (model.size / 8)), model: model),
+                  onDragCompleted: () {},
+                  data: [
+                    squareName,
+                    model.chessBoardController.game
+                        .get(squareName)
+                        .type
+                        .toUpperCase(),
+                    model.chessBoardController.game.get(squareName).color,
+                  ],
+                )
+              : Container();
         }, onWillAccept: (willAccept) {
           return model.enableUserMoves ? true : false;
         }, onAccept: (List moveInfo) {
@@ -69,39 +49,37 @@ class BoardSquare extends StatelessWidget {
           // eg [c1, B, w]
           // the square being landed on is accessed via squareName
           // c4
+
+          chess.Color moveColor = model.chessBoardController.game.turn;
+          String source = moveInfo[0].toString();
+          chess.Piece piece = model.chessBoardController.game.get(source);
           if (model.moveAnyPiece) {
-            String color = moveInfo[2].toString().toUpperCase();
-            String piece = moveInfo[1].toString();
-            String pieceCode = color + piece;
-
-            // add new piece
-            String destination = squareName.toString();
-            model.positionMap[destination] = pieceCode;
-            // remove old piece
-            String source = moveInfo[0].toString();
-            model.positionMap[source] = null;
-
+            // we aren't playing a game, so we can simply PUT the pieces
+            // instead of moving and promotion etc
+            model.chessBoardController.game.put(piece, squareName);
+            model.chessBoardController.game.remove(source);
+            model.chessBoardController.game.turn = chess.Color.WHITE;
+            // model.chessBoardController.game.turn = chess.Color.WHITE;
+            // String derp = model.chessBoardController.game.turn;
+            // model.chessBoardController.game.in_checkmate
             model.refreshBoard();
           } else {
-            chess.Color moveColor = model.chessBoardController.game.turn;
+            // we are playing a legal game and require move checking
             if (moveInfo[1] == "P" &&
-                ((moveInfo[0][1] == "7" &&
+                ((source[1] == "7" &&
                         squareName[1] == "8" &&
                         moveInfo[2] == chess.Color.WHITE) ||
-                    (moveInfo[0][1] == "2" &&
+                    (source[1] == "2" &&
                         squareName[1] == "1" &&
                         moveInfo[2] == chess.Color.BLACK))) {
               _promotionDialog(context).then((value) {
-                model.chessBoardController.game.move({
-                  "from": moveInfo[0],
-                  "to": squareName,
-                  "promotion": value
-                });
+                model.chessBoardController.game.move(
+                    {"from": source, "to": squareName, "promotion": value});
                 model.refreshBoard();
               });
             } else {
               model.chessBoardController.game
-                  .move({"from": moveInfo[0], "to": squareName});
+                  .move({"from": source, "to": squareName});
             }
             if (model.chessBoardController.game.turn != moveColor) {
               model.onMove(
@@ -162,23 +140,13 @@ class BoardSquare extends StatelessWidget {
   Widget _getImageToDisplay({double size, BoardModel model}) {
     Widget imageToDisplay = Container();
 
-    // print('here is the map ${model.positionMap}');
-
-    String piece;
-    if (model.moveAnyPiece) {
-      // logic for nonController game state, pieces hsould be able to move to and from anywhere
-      piece = model.positionMap[squareName.toString()];
-      // print('rendering $piece on $squareName');
-    } else {
-      // we are in a game that needs legal moves, so we are defering game state to a controller
-      piece = model.chessBoardController.game
-              .get(squareName)
-              .color
-              .toString()
-              .substring(0, 1)
-              .toUpperCase() +
-          model.chessBoardController.game.get(squareName).type.toUpperCase();
-    }
+    String piece = model.chessBoardController.game
+            .get(squareName)
+            .color
+            .toString()
+            .substring(0, 1)
+            .toUpperCase() +
+        model.chessBoardController.game.get(squareName).type.toUpperCase();
 
     switch (piece) {
       case "WP":
