@@ -105,11 +105,11 @@ class GambitsBloc implements BlocBase {
     return move;
   }
 
-  /// find a move by going through all gambits, in order
+  /// similar to waterfallGambits, but returns the gambit itself, not the move
   Gambit gambitToBeUsed(chess.Chess game) {
-    // find the first gambit that returns a move, then get and return that move
     // first we look to see if we can simply checkmate the opponent this turn,
-    // if eventually no gambit can find a move, we just return a random/legal move
+    // then try to find the first gambit that returns a move
+    // if no gambit can find a move, we just return MoveRandomPiece
     String checkmate = CheckmateOpponent().findMove(game);
     Gambit gambit = checkmate != null && checkmate.isNotEmpty
         ? CheckmateOpponent()
