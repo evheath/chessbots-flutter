@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class PromotePawnToRandom extends Gambit {
   // singleton logic so that PromotePawnToRandom is only created once
@@ -9,10 +10,11 @@ class PromotePawnToRandom extends Gambit {
 
   PromotePawnToRandom._internal()
       : super(
-            title: "Promote a pawn to a random piece",
+            vector: BlackKing(), // TODO questionmark vector
+            title: "Promote to random",
             color: Colors.yellow,
             description:
-                "If a pawn reaches the back rank, it can promote to a knight, bishop, rook or queen!",
+                "If a pawn reaches the back rank, it will promote to a knight, bishop, rook or queen!",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

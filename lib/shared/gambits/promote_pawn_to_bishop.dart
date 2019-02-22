@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class PromotePawnToBishop extends Gambit {
   // singleton logic so that PromotePawnToBishop is only created once
@@ -9,7 +10,8 @@ class PromotePawnToBishop extends Gambit {
 
   PromotePawnToBishop._internal()
       : super(
-            title: "Promote a pawn to a bishop",
+            vector: WhiteBishop(),
+            title: "Promote to bishop",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a bishop--not bad!",

@@ -1,6 +1,7 @@
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
+import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class CheckOpponent extends Gambit {
   // singleton logic so that CheckOpponent is only created once
@@ -9,6 +10,7 @@ class CheckOpponent extends Gambit {
 
   CheckOpponent._internal()
       : super(
+            vector: WhiteKing(), //TODO maybe find a different vector
             title: "Check Opponent",
             color: Colors.red,
             description: "Attack your opponent's king!",
