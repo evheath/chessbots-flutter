@@ -12,9 +12,10 @@ class DemoPage extends StatelessWidget {
         // leading: gambit.vector,
         // bottom: gambit.vector,
         centerTitle: true,
+        actions: <Widget>[gambit.vector],
       ),
       body: Center(
-        child: Text("This is the demo page for ${gambit.title}"),
+        child: Text(gambit.description),
       ),
     );
   }
