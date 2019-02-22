@@ -24,7 +24,7 @@ class ChessBoardController {
   /// Makes move on the board then sets the turn back to white
   void labMove(String move) {
     game.move(move);
-    if (!game.in_checkmate) {
+    if (!game.in_checkmate && !game.in_check) {
       game?.turn = chess.Color.WHITE;
     }
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
