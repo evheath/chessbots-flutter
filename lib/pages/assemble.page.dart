@@ -56,12 +56,14 @@ class AssemblePageState extends State<AssemblePage> {
     //configurable gambits first
     List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
       return GambitListTile(
+        //TODO swiping should dismiss the gambit, and leave an open gambit
         gambit: _gambits[index],
         key: Key(_gambits[index].title),
       );
     });
 
     // gambits that are always added to the end
+    // eg MoveRandomPiece(), EmptyGambit(), LevelUpGambit(),
     _gambitTiles.add(GambitListTile(
       gambit: MoveRandomPiece(),
       key: Key(MoveRandomPiece().title),
