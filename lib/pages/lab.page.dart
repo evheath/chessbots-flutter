@@ -63,12 +63,14 @@ class LabPageState extends State<LabPage> {
           FloatingActionButton(
             //TODO disable button if game is over
             onPressed: () {
-              setState(() {
-                _lastGambitUsed =
-                    _gambitsBloc.gambitToBeUsed(_labBoardController.game);
-              });
-              var move = _lastGambitUsed.findMove(_labBoardController.game);
-              _labBoardController.labMove(move);
+              if (!_labBoardController.game.in_checkmate) {
+                setState(() {
+                  _lastGambitUsed =
+                      _gambitsBloc.gambitToBeUsed(_labBoardController.game);
+                });
+                var move = _lastGambitUsed.findMove(_labBoardController.game);
+                _labBoardController.labMove(move);
+              }
             },
             tooltip: 'Test gambits',
             child: Icon(Icons.play_arrow),
@@ -76,6 +78,7 @@ class LabPageState extends State<LabPage> {
           FloatingActionButton(
             onPressed: () {
               _labBoardController.resetBoard();
+              setState(() {});
             },
             tooltip: 'Reset',
             child: Icon(Icons.repeat),

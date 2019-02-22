@@ -8,7 +8,6 @@ import '../bloc/gambits.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';
-import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class AssemblePage extends StatefulWidget {
   @override
@@ -41,7 +40,8 @@ class AssemblePageState extends State<AssemblePage> {
                   key: Key(_gambits[index].title),
                 );
               }),
-              //TODO figure out how to get a trailing ListTile for MakeRandomMove
+              //TODO figure out how to get a trailing ListTile for MakeRandomMove,
+              // also the level up tile, and a blank tile
             );
           },
         ),

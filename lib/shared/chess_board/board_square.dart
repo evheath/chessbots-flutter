@@ -56,6 +56,12 @@ class BoardSquare extends StatelessWidget {
           if (model.moveAnyPiece) {
             // we aren't playing a game, so we can simply PUT the pieces
             // instead of moving and promotion etc
+            chess.Piece pieceBeingLandedOn =
+                model.chessBoardController.game.get(squareName);
+            if (pieceBeingLandedOn?.type == chess.PieceType.KING) {
+              return;
+            }
+
             model.chessBoardController.game.put(piece, squareName);
             model.chessBoardController.game.remove(source);
             model.chessBoardController.game.turn = chess.Color.WHITE;
