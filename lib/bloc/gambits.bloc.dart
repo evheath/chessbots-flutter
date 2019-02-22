@@ -28,20 +28,19 @@ class GambitsBloc implements BlocBase {
   List<Gambit> _gambits = [
     CapturePawn(),
     CaptureKnight(),
-    CaptureBishop(),
-    CaptureRook(),
-    CaptureQueen(),
-    PromotePawnToKnight(),
-    PromotePawnToBishop(),
-    PromotePawnToRook(),
-    PromotePawnToQueen(),
-    PromotePawnToRandom(),
-    MoveRandomPawn(),
-    CheckOpponent(),
-    CastleQueenSide(),
-    CaptureRandomPiece(),
-    CastleKingSide(),
-    // MakeRandomMove(),
+    // CaptureBishop(),
+    // CaptureRook(),
+    // CaptureQueen(),
+    // PromotePawnToKnight(),
+    // PromotePawnToBishop(),
+    // PromotePawnToRook(),
+    // PromotePawnToQueen(),
+    // PromotePawnToRandom(),
+    // MoveRandomPawn(),
+    // CheckOpponent(),
+    // CastleQueenSide(),
+    // CaptureRandomPiece(),
+    // CastleKingSide(),
   ];
 
   // controllers
@@ -66,6 +65,11 @@ class GambitsBloc implements BlocBase {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
+      if (oldIndex >= _gambits.length || newIndex >= _gambits.length) {
+        // user tried to move a gambit passed unconfigurable gambit tiles
+        // or tried to move the unconfigurable gambit tiles up
+        return;
+      }
       if (oldIndex < newIndex) {
         // removing the item at oldIndex will shorten the list by 1.
         newIndex -= 1;

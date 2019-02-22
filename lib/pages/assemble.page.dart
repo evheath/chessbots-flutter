@@ -34,14 +34,7 @@ class AssemblePageState extends State<AssemblePage> {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
               header: GambitListTile(gambit: CheckmateOpponent()),
-              children: List.generate(_gambits.length, (index) {
-                return GambitListTile(
-                  gambit: _gambits[index],
-                  key: Key(_gambits[index].title),
-                );
-              }),
-              //TODO figure out how to get a trailing ListTile for MakeRandomMove,
-              // also the level up tile, and a blank tile
+              children: _buildGambitListTiles(_gambits),
             );
           },
         ),
@@ -59,4 +52,21 @@ class AssemblePageState extends State<AssemblePage> {
     );
   } // Build
 
+  List<Widget> _buildGambitListTiles(List<Gambit> _gambits) {
+    //configurable gambits first
+    List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
+      return GambitListTile(
+        gambit: _gambits[index],
+        key: Key(_gambits[index].title),
+      );
+    });
+
+    // gambits that are always added to the end
+    _gambitTiles.add(GambitListTile(
+      gambit: MoveRandomPiece(),
+      key: Key(MoveRandomPiece().title),
+    ));
+
+    return _gambitTiles;
+  }
 }
