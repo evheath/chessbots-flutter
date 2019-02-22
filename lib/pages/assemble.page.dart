@@ -34,9 +34,12 @@ class AssemblePageState extends State<AssemblePage> {
               onReorder: (oldIndex, newIndex) {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
-              header: GambitListTile(CheckmateOpponent()),
+              header: GambitListTile(gambit: CheckmateOpponent()),
               children: List.generate(_gambits.length, (index) {
-                return GambitListTile(_gambits[index]);
+                return GambitListTile(
+                  gambit: _gambits[index],
+                  key: Key(_gambits[index].title),
+                );
               }),
               //TODO figure out how to get a trailing ListTile for MakeRandomMove
             );

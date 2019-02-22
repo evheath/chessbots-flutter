@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import '../models/gambit.dart';
 
 class GambitListTile extends StatelessWidget {
-  Gambit _gambit;
+  final Gambit gambit;
+  final Key key;
 
-  GambitListTile(this._gambit);
+  GambitListTile({@required this.gambit, this.key});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      key: Key(_gambit.title),
-      title: Text(_gambit.title),
+      title: Text(gambit.title),
       trailing: CircleAvatar(
-        child: _gambit.vector,
-        backgroundColor: _gambit.color,
+        child: gambit.vector,
+        backgroundColor: gambit.color,
       ),
     );
   }
