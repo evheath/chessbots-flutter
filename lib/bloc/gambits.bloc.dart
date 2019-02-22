@@ -110,11 +110,13 @@ class GambitsBloc implements BlocBase {
     // find the first gambit that returns a move, then get and return that move
     // first we look to see if we can simply checkmate the opponent this turn,
     // if eventually no gambit can find a move, we just return a random/legal move
-    Gambit gambit = CheckmateOpponent().findMove(game) ??
-        _gambits.firstWhere(
-          (gambit) => gambit.findMove(game) != null,
-          orElse: () => MoveRandomPiece(),
-        );
+    String checkmate = CheckmateOpponent().findMove(game);
+    Gambit gambit = checkmate != null && checkmate.isNotEmpty
+        ? CheckmateOpponent()
+        : _gambits.firstWhere(
+            (gambit) => gambit.findMove(game) != null,
+            orElse: () => MoveRandomPiece(),
+          );
     return gambit;
   }
 }
