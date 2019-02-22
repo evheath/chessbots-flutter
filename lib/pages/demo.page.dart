@@ -14,12 +14,47 @@ class DemoPage extends StatefulWidget {
 
 class DemoPageState extends State<DemoPage> {
   ChessBoardController _demoBoardController = ChessBoardController();
+  bool _hasNotMoved = true;
 
   @override
   void initState() {
     super.initState();
 
     _demoBoardController.loadFEN(widget.gambit.demoFEN);
+  }
+
+  Widget _buildButton() {
+    if (_hasNotMoved) {
+      // button has not been pressed yet
+      return RaisedButton(
+        onPressed: () {
+          String move = widget.gambit.findMove(_demoBoardController.game);
+          _demoBoardController.makeMove(move);
+          setState(() {
+            _hasNotMoved = false;
+          });
+        },
+        child: Icon(
+          Icons.play_arrow,
+          color: Colors.white,
+        ),
+        color: widget.gambit.color,
+      );
+    } else {
+      return RaisedButton(
+        onPressed: () {
+          _demoBoardController.loadFEN(widget.gambit.demoFEN);
+          setState(() {
+            _hasNotMoved = true;
+          });
+        },
+        child: Icon(
+          Icons.fast_rewind,
+          color: Colors.white,
+        ),
+        color: widget.gambit.color,
+      );
+    }
   }
 
   Widget build(BuildContext context) {
@@ -44,6 +79,8 @@ class DemoPageState extends State<DemoPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
+            _buildButton(),
+            //TODO buy button, since armory page will link here
           ],
         ),
       ),
