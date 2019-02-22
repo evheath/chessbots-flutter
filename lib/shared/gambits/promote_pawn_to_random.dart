@@ -11,10 +11,10 @@ class PromotePawnToRandom extends Gambit {
   PromotePawnToRandom._internal()
       : super(
             vector: BlackKing(), // TODO questionmark vector
-            title: "Promote a pawn to a random piece",
+            title: "Promote to random",
             color: Colors.yellow,
             description:
-                "If a pawn reaches the back rank, it can promote to a knight, bishop, rook or queen!",
+                "If a pawn reaches the back rank, it will promote to a knight, bishop, rook or queen!",
             //TODO find appropriate icon
             icon: Icons.done_all,
             findMove: FindMove((chess.Chess game) {

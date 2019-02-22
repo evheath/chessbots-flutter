@@ -11,7 +11,7 @@ class PromotePawnToRook extends Gambit {
   PromotePawnToRook._internal()
       : super(
             vector: WhiteRook(),
-            title: "Promote a pawn to a rook",
+            title: "Promote to rook",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a rook--very nice!",

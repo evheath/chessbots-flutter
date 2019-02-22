@@ -11,7 +11,7 @@ class PromotePawnToBishop extends Gambit {
   PromotePawnToBishop._internal()
       : super(
             vector: WhiteBishop(),
-            title: "Promote a pawn to a bishop",
+            title: "Promote to bishop",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a bishop--not bad!",

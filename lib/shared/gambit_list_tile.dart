@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../pages/demo.page.dart';
 import '../models/gambit.dart';
 
 class GambitListTile extends StatelessWidget {
@@ -28,6 +28,7 @@ class GambitListTile extends StatelessWidget {
             onTap: () {
               //TODO route to demo page
               print("you tapped the ${gambit.title} gambit");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DemoPage(gambit)));
             },
             child: Icon(Icons.help),
           ),

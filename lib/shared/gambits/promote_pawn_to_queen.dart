@@ -11,7 +11,7 @@ class PromotePawnToQueen extends Gambit {
   PromotePawnToQueen._internal()
       : super(
             vector: WhiteQueen(),
-            title: "Promote a pawn to a queen",
+            title: "Promote to queen",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a queen--the most valuable piece!",

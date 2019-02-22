@@ -11,7 +11,7 @@ class PromotePawnToKnight extends Gambit {
   PromotePawnToKnight._internal()
       : super(
             vector: WhiteKnight(),
-            title: "Promote a pawn to a knight",
+            title: "Promote to knight",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a knight--better than nothing!",
