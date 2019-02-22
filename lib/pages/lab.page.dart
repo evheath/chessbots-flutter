@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
+import '../shared/gambit_list_tile.dart';
+import '../shared/gambits.dart';
 
 import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
+import '../models/gambit.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class LabPage extends StatefulWidget {
 class LabPageState extends State<LabPage> {
   bool _whiteSideTowardsUser = true;
   ChessBoardController _labBoardController = ChessBoardController();
+  Gambit _lastGambitUsed = CaptureBishop(); //TODO: empty gambit?
 
   @override
   void initState() {
@@ -41,7 +45,9 @@ class LabPageState extends State<LabPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            //TODO display gambit used
+            GambitListTile(
+              gambit: _lastGambitUsed,
+            ),
           ],
         ),
       ),
@@ -60,17 +66,14 @@ class LabPageState extends State<LabPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
-              //TODO waterfall all gambits
-              // String move = MakeRandomMove().findMove(_labBoardController.game);
-              // print('legal moves are ${_labBoardController.game.moves()}');
-              // print('generated ${_labBoardController.game.generate_fen()}');
-              // print('fen ${_labBoardController.game.fen}');
-              String move =
-                  _gambitsBloc.waterfallGambits(_labBoardController.game);
-              // CaptureRandomPiece().findMove(_labBoardController.game);
-
-              // String move = _gambits
-              print('The move will be $move');
+              // String move =
+              //     _gambitsBloc.waterfallGambits(_labBoardController.game);
+              // print('The move will be $move');
+              setState(() {
+                _lastGambitUsed =
+                    _gambitsBloc.gambitToBeUsed(_labBoardController.game);
+              });
+              var move = _lastGambitUsed.findMove(_labBoardController.game);
               _labBoardController.makeMove(move);
             },
             tooltip: 'Test gambits',

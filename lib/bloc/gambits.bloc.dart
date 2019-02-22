@@ -104,4 +104,17 @@ class GambitsBloc implements BlocBase {
             .findMove(game);
     return move;
   }
+
+  /// find a move by going through all gambits, in order
+  Gambit gambitToBeUsed(chess.Chess game) {
+    // find the first gambit that returns a move, then get and return that move
+    // first we look to see if we can simply checkmate the opponent this turn,
+    // if eventually no gambit can find a move, we just return a random/legal move
+    Gambit gambit = CheckmateOpponent().findMove(game) ??
+        _gambits.firstWhere(
+          (gambit) => gambit.findMove(game) != null,
+          orElse: () => MoveRandomPiece(),
+        );
+    return gambit;
+  }
 }
