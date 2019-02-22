@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
-import '../shared/gambit_list_tile.dart';
+import '../shared/status_list_tile.dart';
 import '../shared/gambits.dart';
 
 import '../bloc/base.bloc.dart';
@@ -45,9 +45,8 @@ class LabPageState extends State<LabPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            GambitListTile(
-              gambit: _lastGambitUsed,
-            ),
+            //TODO GambitAvatar instead of ListTile
+            StatusListTile(gambit: _lastGambitUsed),
           ],
         ),
       ),
