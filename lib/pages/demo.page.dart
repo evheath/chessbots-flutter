@@ -74,8 +74,9 @@ class DemoPageState extends State<DemoPage> {
       appBar: AppBar(
         title: Row(
           children: <Widget>[
+            Icon(widget.gambit.icon),
+            SizedBox(width: 20),
             Text(widget.gambit.title),
-            widget.gambit.vector,
           ],
         ),
         backgroundColor: widget.gambit.color,
