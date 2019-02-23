@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/demo.page.dart';
-import '../pages/select_gambit.page.dart';
 import '../models/gambit.dart';
-import '../shared/gambits/empty.dart';
 
 class GambitListTile extends StatelessWidget {
   final Gambit gambit;

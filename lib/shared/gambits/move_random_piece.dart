@@ -12,7 +12,7 @@ class MoveRandomPiece extends Gambit {
 
   MoveRandomPiece._internal()
       : super(
-            vector: BlackKing(), // TODO question mark vector
+            vector: BlackKing(),
             title: "Move a random piece",
             color: Colors.grey,
             description: "Randomly selects a legal move.",

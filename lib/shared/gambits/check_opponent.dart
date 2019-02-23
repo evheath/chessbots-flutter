@@ -14,7 +14,7 @@ class CheckOpponent extends Gambit {
       : super(
             demoFEN:
                 "rnbq1b1r/ppp1pkp1/5n1p/8/8/3B4/PPP2PPP/RNBQK2R w KQkq - 0 1",
-            vector: WhiteKing(), //TODO maybe find a different vector
+            vector: WhiteKing(),
             title: "Check Opponent",
             color: Colors.red,
             description: "Attack your opponent's king!",
