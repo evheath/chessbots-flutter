@@ -98,6 +98,11 @@ enum BoardType {
 
 /// The Chessboard Widget
 class ChessBoard extends StatefulWidget {
+  /// allows the player to move any piece at any time
+  ///
+  /// e.g. move black pieces during white's turn
+  final bool moveAnyPiece;
+
   /// Size of chessboard
   final double size;
 
@@ -133,6 +138,7 @@ class ChessBoard extends StatefulWidget {
     this.chessBoardController,
     this.enableUserMoves = true,
     this.boardType = BoardType.brown,
+    this.moveAnyPiece = false,
   });
 
   @override
@@ -151,6 +157,7 @@ class _ChessBoardState extends State<ChessBoard> {
         widget.whiteSideTowardsUser,
         widget.chessBoardController,
         widget.enableUserMoves,
+        widget.moveAnyPiece,
       ),
       child: Container(
         height: widget.size,

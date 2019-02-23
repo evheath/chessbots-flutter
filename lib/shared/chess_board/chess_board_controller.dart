@@ -21,6 +21,15 @@ class ChessBoardController {
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
   }
 
+  /// Makes move on the board then sets the turn back to white
+  void labMove(String move) {
+    game.move(move);
+    if (!game.in_checkmate && !game.in_check) {
+      game?.turn = chess.Color.WHITE;
+    }
+    refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+  }
+
   /// Makes move and promotes pawn to piece (from is a square like d4, to is also a square like e3, pieceToPromoteTo is a String like "Q".
   /// pieceToPromoteTo String will be changed to enum in a future update and this method will be deprecated in the future
   void makeMoveWithPromotion(String from, String to, String pieceToPromoteTo) {
@@ -56,7 +65,7 @@ class ChessBoardController {
   void loadFEN(String fen) {
     game.load(fen);
     // refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
-    refreshBoard == null ? () {} : refreshBoard();
+    refreshBoard?.call();
   }
 
   /// Exception when a controller is not attached to a board

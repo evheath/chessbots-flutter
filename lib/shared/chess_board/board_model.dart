@@ -1,12 +1,15 @@
 import 'dart:ui';
 import './chess_board_controller.dart';
 import 'package:scoped_model/scoped_model.dart';
-// import 'package:chess/chess.dart' as chess;
+import 'package:chess/chess.dart' as chess;
 
 typedef Null MoveCallback(String moveNotation);
 typedef Null CheckMateCallback(String winColor);
 
 class BoardModel extends Model {
+  /// If set to true this means the board is not concerned about legal moves
+  bool moveAnyPiece;
+
   /// The size of the board (The board is a square)
   double size;
 
@@ -28,8 +31,8 @@ class BoardModel extends Model {
   /// User moves can be enabled or disabled by this property
   bool enableUserMoves;
 
-  /// Creates a logical game
-  // chess.Chess game = chess.Chess();
+  /// Creates a game object local to the board
+  chess.Chess game = chess.Chess();
 
   /// Refreshes board
   void refreshBoard() {
@@ -37,13 +40,15 @@ class BoardModel extends Model {
   }
 
   BoardModel(
-      this.size,
-      this.onMove,
-      this.onCheckMate,
-      this.onDraw,
-      this.whiteSideTowardsUser,
-      this.chessBoardController,
-      this.enableUserMoves) {
+    this.size,
+    this.onMove,
+    this.onCheckMate,
+    this.onDraw,
+    this.whiteSideTowardsUser,
+    this.chessBoardController,
+    this.enableUserMoves,
+    this.moveAnyPiece,
+  ) {
     // chessBoardController?.game = game;
     chessBoardController?.refreshBoard = refreshBoard;
   }

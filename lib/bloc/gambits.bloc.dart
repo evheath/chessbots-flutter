@@ -23,25 +23,33 @@ class ReorderEvent extends GambitEvent {
   );
 }
 
+class DismissedEvent extends GambitEvent {
+  int index;
+
+  DismissedEvent(
+    this.index,
+  );
+}
+
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
     CapturePawn(),
     CaptureKnight(),
+    // EmptyGambit(),
     CaptureBishop(),
     CaptureRook(),
     CaptureQueen(),
-    PromotePawnToKnight(),
-    PromotePawnToBishop(),
-    PromotePawnToRook(),
-    PromotePawnToQueen(),
-    PromotePawnToRandom(),
+    // PromotePawnToKnight(),
+    // PromotePawnToBishop(),
+    // PromotePawnToRook(),
+    // PromotePawnToQueen(),
+    // PromotePawnToRandom(),
     MoveRandomPawn(),
-    CheckOpponent(),
-    CastleQueenSide(),
-    CaptureRandomPiece(),
-    CastleKingSide(),
-    // MakeRandomMove(),
+    // CheckOpponent(),
+    // CastleQueenSide(),
+    // CaptureRandomPiece(),
+    // CastleKingSide(),
   ];
 
   // controllers
@@ -66,12 +74,26 @@ class GambitsBloc implements BlocBase {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
+      if (oldIndex >= _gambits.length) {
+        // user tried to move the unconfigurable gambit tiles up
+        return;
+      }
+      if (newIndex > _gambits.length) {
+        // user tried to move a gambit passed unconfigurable gambit tiles
+        // so it should just be dropped to the last
+        newIndex = _gambits.length;
+      }
       if (oldIndex < newIndex) {
         // removing the item at oldIndex will shorten the list by 1.
         newIndex -= 1;
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
+    }
+
+    if (event is DismissedEvent) {
+      int index = event.index;
+      _gambits[index] = EmptyGambit();
     }
     // connect internal-out to internal-in
     _internalIn.add(_gambits);
@@ -103,5 +125,20 @@ class GambitsBloc implements BlocBase {
             )
             .findMove(game);
     return move;
+  }
+
+  /// similar to waterfallGambits, but returns the gambit itself, not the move
+  Gambit gambitToBeUsed(chess.Chess game) {
+    // first we look to see if we can simply checkmate the opponent this turn,
+    // then try to find the first gambit that returns a move
+    // if no gambit can find a move, we just return MoveRandomPiece
+    String checkmate = CheckmateOpponent().findMove(game);
+    Gambit gambit = checkmate != null && checkmate.isNotEmpty
+        ? CheckmateOpponent()
+        : _gambits.firstWhere(
+            (gambit) => gambit.findMove(game) != null,
+            orElse: () => MoveRandomPiece(),
+          );
+    return gambit;
   }
 }

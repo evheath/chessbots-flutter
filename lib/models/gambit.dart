@@ -24,10 +24,12 @@ abstract class Gambit {
 
   /// catch phrase for a gambit
   String altText;
-  VectorBase vector;
+  CustomPaint vector;
   String demoFEN;
 
-  /// Function that, given a chess object, can find a move
+  /// Function that, given a chess object, will return a move as a string
+  ///
+  /// If no move is found, null should be returned
   FindMove findMove;
 
   Gambit({

@@ -8,7 +8,6 @@ import '../bloc/gambits.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';
-import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class AssemblePage extends StatefulWidget {
   @override
@@ -35,13 +34,7 @@ class AssemblePageState extends State<AssemblePage> {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
               header: GambitListTile(gambit: CheckmateOpponent()),
-              children: List.generate(_gambits.length, (index) {
-                return GambitListTile(
-                  gambit: _gambits[index],
-                  key: Key(_gambits[index].title),
-                );
-              }),
-              //TODO figure out how to get a trailing ListTile for MakeRandomMove
+              children: _buildGambitListTiles(_gambits, gambitsBloc),
             );
           },
         ),
@@ -59,4 +52,31 @@ class AssemblePageState extends State<AssemblePage> {
     );
   } // Build
 
+  List<Widget> _buildGambitListTiles(
+      List<Gambit> _gambits, GambitsBloc gambitsBloc) {
+    //configurable gambits first
+    List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
+      return Dismissible(
+        resizeDuration: Duration(microseconds: 1),
+        direction: DismissDirection.horizontal,
+        key: Key(_gambits[index].title),
+        child: GambitListTile(
+          //TODO swiping should dismiss the gambit, and leave an open gambit
+          gambit: _gambits[index],
+        ),
+        onDismissed: (direction) {
+          gambitsBloc.event.add(DismissedEvent(index));
+        },
+      );
+    });
+
+    // gambits that are always added to the end
+    // eg MoveRandomPiece(), EmptyGambit(), LevelUpGambit(),
+    _gambitTiles.add(GambitListTile(
+      gambit: MoveRandomPiece(),
+      key: Key(MoveRandomPiece().title),
+    ));
+
+    return _gambitTiles;
+  }
 }

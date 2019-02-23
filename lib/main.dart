@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (context) => AssemblePage(),
+          // '/': (context) => LabPage(),
           '/lab': (context) => LabPage(),
           '/assemble': (context) => AssemblePage(),
         });
