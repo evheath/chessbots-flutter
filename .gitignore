@@ -1,5 +1,6 @@
 connect.sh
-
+key.properties
+key.jks
 # Miscellaneous
 *.class
 *.lock
