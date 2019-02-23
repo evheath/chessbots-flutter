@@ -24,7 +24,7 @@ abstract class Gambit {
 
   /// catch phrase for a gambit
   String altText;
-  VectorBase vector;
+  CustomPaint vector;
   String demoFEN;
 
   /// Function that, given a chess object, will return a move as a string

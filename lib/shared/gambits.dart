@@ -19,3 +19,6 @@ export './gambits/promote_pawn_to_queen.dart';
 export './gambits/promote_pawn_to_rook.dart';
 export './gambits/promote_pawn_to_bishop.dart';
 export './gambits/promote_pawn_to_knight.dart';
+
+//non configurable gambits
+export './gambits/empty.dart';

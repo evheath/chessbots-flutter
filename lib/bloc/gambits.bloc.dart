@@ -28,6 +28,7 @@ class GambitsBloc implements BlocBase {
   List<Gambit> _gambits = [
     CapturePawn(),
     CaptureKnight(),
+    EmptyGambit(),
     // CaptureBishop(),
     // CaptureRook(),
     // CaptureQueen(),

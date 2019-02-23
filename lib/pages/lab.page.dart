@@ -19,7 +19,7 @@ class LabPage extends StatefulWidget {
 
 class LabPageState extends State<LabPage> {
   ChessBoardController _labBoardController = ChessBoardController();
-  Gambit _lastGambitUsed = MoveRandomPiece();
+  Gambit _lastGambitUsed = EmptyGambit();
 
   @override
   void initState() {
