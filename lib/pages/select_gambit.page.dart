@@ -44,6 +44,7 @@ class SelectGambitPage extends StatelessWidget {
     ),
   ];
 
+//TODO disable gambits already in bloc or unowned
   List<Widget> _buildTabPages(
       List<List<Gambit>> listOfLists, BuildContext context) {
     return List.generate(listOfLists.length, (outerIndex) {

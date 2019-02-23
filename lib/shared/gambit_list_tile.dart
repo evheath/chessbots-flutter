@@ -20,9 +20,12 @@ class GambitListTile extends StatelessWidget {
         ),
         child: ListTile(
           title: Text(gambit.title),
-          leading: CircleAvatar(
-            child: Icon(gambit.icon, color: Colors.white),
-            backgroundColor: gambit.color,
+          leading: Hero(
+            tag: gambit.title,
+            child: CircleAvatar(
+              child: Icon(gambit.icon, color: Colors.white),
+              backgroundColor: gambit.color,
+            ),
           ),
           trailing: IconButton(
             onPressed: () {
