@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/demo.page.dart';
+import '../pages/select_gambit.page.dart';
 import '../models/gambit.dart';
 import '../shared/gambits/empty.dart';
 
@@ -28,7 +29,10 @@ class GambitListTile extends StatelessWidget {
           trailing: GestureDetector(
             onTap: () {
               if (gambit == EmptyGambit()) {
-                //TODO route to assign gambit to slot page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SelectGambitPage()));
               } else {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => DemoPage(gambit)));
