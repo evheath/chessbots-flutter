@@ -61,7 +61,6 @@ class LabPageState extends State<LabPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           FloatingActionButton(
-            //TODO disable button if game is over
             onPressed: () {
               if (!_labBoardController.game.in_checkmate) {
                 setState(() {
