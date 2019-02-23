@@ -5,8 +5,9 @@ import '../models/gambit.dart';
 class GambitListTile extends StatelessWidget {
   final Gambit gambit;
   final Key key;
+  final bool disabled;
 
-  GambitListTile({@required this.gambit, this.key});
+  GambitListTile({@required this.gambit, this.key, this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class GambitListTile extends StatelessWidget {
           color: gambit.color.withAlpha(75),
         ),
         child: ListTile(
+          enabled: !disabled,
           title: Text(gambit.title),
           leading: Hero(
             tag: gambit.title,
