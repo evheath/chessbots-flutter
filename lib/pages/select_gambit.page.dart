@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../shared/gambit_list_tile.dart';
+import '../shared/gambits.dart';
 
 class SelectGambitPage extends StatelessWidget {
   @override
@@ -34,17 +36,39 @@ class SelectGambitPage extends StatelessWidget {
   ];
 
   final List<Widget> _tabPages = [
-    Center(
-      child: Icon(Icons.directions_car),
+    ListView(
+      // offense
+      children: <Widget>[
+        GambitListTile(gambit: CaptureQueen()),
+        GambitListTile(gambit: CaptureRook()),
+        GambitListTile(gambit: CaptureBishop()),
+        GambitListTile(gambit: CaptureKnight()),
+        GambitListTile(gambit: CapturePawn()),
+        GambitListTile(gambit: CaptureRandomPiece()),
+      ],
     ),
-    Center(
-      child: Icon(Icons.directions_transit),
+    ListView(
+      // defense
+      children: <Widget>[
+        GambitListTile(gambit: CastleKingSide()),
+        GambitListTile(gambit: CastleQueenSide()),
+      ],
     ),
-    Center(
-      child: Icon(Icons.directions_bike),
+    ListView(
+      // promotion
+      children: <Widget>[
+        GambitListTile(gambit: PromotePawnToQueen()),
+        GambitListTile(gambit: PromotePawnToRook()),
+        GambitListTile(gambit: PromotePawnToBishop()),
+        GambitListTile(gambit: PromotePawnToKnight()),
+        GambitListTile(gambit: PromotePawnToRandom()),
+      ],
     ),
-    Center(
-      child: Icon(Icons.directions_bike),
+    ListView(
+      // move
+      children: <Widget>[
+        GambitListTile(gambit: MoveRandomPawn()),
+      ],
     ),
   ];
 }
