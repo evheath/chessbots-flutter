@@ -23,21 +23,29 @@ class ReorderEvent extends GambitEvent {
   );
 }
 
+class DismissedEvent extends GambitEvent {
+  int index;
+
+  DismissedEvent(
+    this.index,
+  );
+}
+
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
     CapturePawn(),
     CaptureKnight(),
-    EmptyGambit(),
-    // CaptureBishop(),
-    // CaptureRook(),
-    // CaptureQueen(),
+    // EmptyGambit(),
+    CaptureBishop(),
+    CaptureRook(),
+    CaptureQueen(),
     // PromotePawnToKnight(),
     // PromotePawnToBishop(),
     // PromotePawnToRook(),
     // PromotePawnToQueen(),
     // PromotePawnToRandom(),
-    // MoveRandomPawn(),
+    MoveRandomPawn(),
     // CheckOpponent(),
     // CastleQueenSide(),
     // CaptureRandomPiece(),
@@ -81,6 +89,11 @@ class GambitsBloc implements BlocBase {
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
+    }
+
+    if (event is DismissedEvent) {
+      int index = event.index;
+      _gambits[index] = EmptyGambit();
     }
     // connect internal-out to internal-in
     _internalIn.add(_gambits);

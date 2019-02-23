@@ -34,7 +34,7 @@ class AssemblePageState extends State<AssemblePage> {
                 gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
               },
               header: GambitListTile(gambit: CheckmateOpponent()),
-              children: _buildGambitListTiles(_gambits),
+              children: _buildGambitListTiles(_gambits, gambitsBloc),
             );
           },
         ),
@@ -52,13 +52,19 @@ class AssemblePageState extends State<AssemblePage> {
     );
   } // Build
 
-  List<Widget> _buildGambitListTiles(List<Gambit> _gambits) {
+  List<Widget> _buildGambitListTiles(
+      List<Gambit> _gambits, GambitsBloc gambitsBloc) {
     //configurable gambits first
     List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
-      return GambitListTile(
-        //TODO swiping should dismiss the gambit, and leave an open gambit
-        gambit: _gambits[index],
+      return Dismissible(
         key: Key(_gambits[index].title),
+        child: GambitListTile(
+          //TODO swiping should dismiss the gambit, and leave an open gambit
+          gambit: _gambits[index],
+        ),
+        onDismissed: (direction) {
+          gambitsBloc.event.add(DismissedEvent(index));
+        },
       );
     });
 
