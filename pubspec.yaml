@@ -13,11 +13,10 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
-  # making my own chess_board
+  font_awesome_flutter: ^8.4.0
   chess: ">=0.6.5 <1.0.0"
   scoped_model: ">=1.0.0 <2.0.0"
   chess_vectors_flutter: ">=1.0.6 <2.0.0"
-  # flutter_chess_board: ^0.9.4
 
   rxdart: ^0.20.0
 

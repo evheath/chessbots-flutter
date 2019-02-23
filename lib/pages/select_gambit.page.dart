@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SelectGambitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.grey,
@@ -19,16 +20,16 @@ class SelectGambitPage extends StatelessWidget {
 
   final List<Widget> _tabs = [
     Tab(
-      icon: Icon(
-        Icons.directions_car,
-        color: Colors.red,
-      ),
+      icon: Icon(FontAwesomeIcons.bomb, color: Colors.red),
     ),
     Tab(
-      icon: Icon(Icons.directions_transit),
+      icon: Icon(FontAwesomeIcons.shieldAlt, color: Colors.blue),
     ),
     Tab(
-      icon: Icon(Icons.directions_bike),
+      icon: Icon(FontAwesomeIcons.medal, color: Colors.yellow),
+    ),
+    Tab(
+      icon: Icon(FontAwesomeIcons.shoePrints, color: Colors.white),
     ),
   ];
 
@@ -38,6 +39,9 @@ class SelectGambitPage extends StatelessWidget {
     ),
     Center(
       child: Icon(Icons.directions_transit),
+    ),
+    Center(
+      child: Icon(Icons.directions_bike),
     ),
     Center(
       child: Icon(Icons.directions_bike),
