@@ -2,6 +2,7 @@ import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CheckmateOpponent extends Gambit {
   // singleton logic so that CheckmateOpponent is only created once
@@ -18,8 +19,7 @@ class CheckmateOpponent extends Gambit {
             description:
                 "Win the game by ensuring the capture of the opponent's King",
             altText: "Cha-ching",
-            //TODO find appropriate icon
-            icon: Icons.done_all,
+            icon: FontAwesomeIcons.chessKing,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

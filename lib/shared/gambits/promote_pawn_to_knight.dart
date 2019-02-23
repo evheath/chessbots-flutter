@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -17,8 +19,7 @@ class PromotePawnToKnight extends Gambit {
             description:
                 "If a pawn can reach the back rank, it will promote to a knight",
             altText: "Better than nothing!",
-            //TODO find appropriate icon
-            icon: Icons.done_all,
+            icon: FontAwesomeIcons.chessKnight,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

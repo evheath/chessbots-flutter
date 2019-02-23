@@ -23,7 +23,7 @@ class GambitListTile extends StatelessWidget {
         child: ListTile(
           title: Text(gambit.title),
           leading: CircleAvatar(
-            child: gambit.vector,
+            child: Icon(gambit.icon, color: Colors.white),
             backgroundColor: gambit.color,
           ),
           trailing: GestureDetector(
