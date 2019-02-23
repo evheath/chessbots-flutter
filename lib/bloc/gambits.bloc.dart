@@ -34,22 +34,22 @@ class DismissedEvent extends GambitEvent {
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    CapturePawn(),
-    CaptureKnight(),
+    // CapturePawn(),
+    // CaptureKnight(),
     EmptyGambit(),
-    CaptureBishop(),
-    CaptureRook(),
-    CaptureQueen(),
-    PromotePawnToKnight(),
-    PromotePawnToBishop(),
-    PromotePawnToRook(),
-    PromotePawnToQueen(),
-    PromotePawnToRandom(),
-    MoveRandomPawn(),
-    CheckOpponent(),
-    CastleQueenSide(),
-    CaptureRandomPiece(),
-    CastleKingSide(),
+    // CaptureBishop(),
+    // CaptureRook(),
+    // CaptureQueen(),
+    // PromotePawnToKnight(),
+    // PromotePawnToBishop(),
+    // PromotePawnToRook(),
+    // PromotePawnToQueen(),
+    // PromotePawnToRandom(),
+    // MoveRandomPawn(),
+    // CheckOpponent(),
+    // CastleQueenSide(),
+    // CaptureRandomPiece(),
+    // CastleKingSide(),
   ];
 
   // controllers

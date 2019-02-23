@@ -23,7 +23,7 @@ class SelectGambitPage extends StatelessWidget {
             _defensiveGambits,
             _promotionGambits,
             _movementGambits,
-          ]),
+          ], context),
         ),
       ),
     );
@@ -44,16 +44,18 @@ class SelectGambitPage extends StatelessWidget {
     ),
   ];
 
-  List<Widget> _buildTabPages(List<List<Gambit>> listOfLists) {
+  List<Widget> _buildTabPages(
+      List<List<Gambit>> listOfLists, BuildContext context) {
     return List.generate(listOfLists.length, (outerIndex) {
       // listOfGambits will be _offensiveGambits, _defensiveGambits etc
       List<Gambit> listOfGambits = listOfLists[outerIndex];
       return ListView(
         children: List.generate(listOfGambits.length, (innerIndex) {
+          Gambit _gambit = listOfGambits[innerIndex];
           return GestureDetector(
             onTap: () {
-              // TODO this is where selection logic should go
-              print("tap detector fired");
+              // returns the selected gambit, gambit_list_tile will hand this back
+              Navigator.pop(context, _gambit);
             },
             child: GambitListTile(gambit: listOfGambits[innerIndex]),
           );

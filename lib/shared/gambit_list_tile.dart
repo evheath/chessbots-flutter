@@ -28,15 +28,8 @@ class GambitListTile extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: () {
-              if (gambit == EmptyGambit()) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SelectGambitPage()));
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DemoPage(gambit)));
-              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DemoPage(gambit)));
             },
             icon: Icon(Icons.help),
           ),
