@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/gambit_list_tile.dart';
 import '../shared/gambits.dart';
+import '../models/gambit.dart';
 
 class SelectGambitPage extends StatelessWidget {
   @override
@@ -9,14 +10,22 @@ class SelectGambitPage extends StatelessWidget {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.grey,
-            title: Text("Select a gambit"),
-            bottom: TabBar(
-              tabs: _tabs,
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.grey,
+          title: Text("Select a gambit"),
+          bottom: TabBar(
+            tabs: _tabs,
           ),
-          body: TabBarView(children: _tabPages)),
+        ),
+        body: TabBarView(
+          children: _buildTabPages([
+            _offensiveGambits,
+            _defensiveGambits,
+            _promotionGambits,
+            _movementGambits,
+          ]),
+        ),
+      ),
     );
   }
 
@@ -35,40 +44,47 @@ class SelectGambitPage extends StatelessWidget {
     ),
   ];
 
-  final List<Widget> _tabPages = [
-    ListView(
-      // offense
-      children: <Widget>[
-        GambitListTile(gambit: CaptureQueen()),
-        GambitListTile(gambit: CaptureRook()),
-        GambitListTile(gambit: CaptureBishop()),
-        GambitListTile(gambit: CaptureKnight()),
-        GambitListTile(gambit: CapturePawn()),
-        GambitListTile(gambit: CaptureRandomPiece()),
-      ],
-    ),
-    ListView(
-      // defense
-      children: <Widget>[
-        GambitListTile(gambit: CastleKingSide()),
-        GambitListTile(gambit: CastleQueenSide()),
-      ],
-    ),
-    ListView(
-      // promotion
-      children: <Widget>[
-        GambitListTile(gambit: PromotePawnToQueen()),
-        GambitListTile(gambit: PromotePawnToRook()),
-        GambitListTile(gambit: PromotePawnToBishop()),
-        GambitListTile(gambit: PromotePawnToKnight()),
-        GambitListTile(gambit: PromotePawnToRandom()),
-      ],
-    ),
-    ListView(
-      // move
-      children: <Widget>[
-        GambitListTile(gambit: MoveRandomPawn()),
-      ],
-    ),
+  List<Widget> _buildTabPages(List<List<Gambit>> listOfLists) {
+    return List.generate(listOfLists.length, (outerIndex) {
+      // listOfGambits will be _offensiveGambits, _defensiveGambits etc
+      List<Gambit> listOfGambits = listOfLists[outerIndex];
+      return ListView(
+        children: List.generate(listOfGambits.length, (innerIndex) {
+          return GestureDetector(
+            onTap: () {
+              // TODO this is where selection logic should go
+              print("tap detector fired");
+            },
+            child: GambitListTile(gambit: listOfGambits[innerIndex]),
+          );
+        }),
+      );
+    });
+  }
+
+  static final List<Gambit> _offensiveGambits = [
+    CaptureQueen(),
+    CaptureRook(),
+    CaptureBishop(),
+    CaptureKnight(),
+    CapturePawn(),
+    CaptureRandomPiece(),
+  ];
+
+  static final List<Gambit> _defensiveGambits = [
+    CastleKingSide(),
+    CastleQueenSide(),
+  ];
+
+  static final List<Gambit> _promotionGambits = [
+    PromotePawnToQueen(),
+    PromotePawnToRook(),
+    PromotePawnToBishop(),
+    PromotePawnToKnight(),
+    PromotePawnToRandom(),
+  ];
+
+  static final List<Gambit> _movementGambits = [
+    MoveRandomPawn(),
   ];
 }

@@ -26,8 +26,8 @@ class GambitListTile extends StatelessWidget {
             child: Icon(gambit.icon, color: Colors.white),
             backgroundColor: gambit.color,
           ),
-          trailing: GestureDetector(
-            onTap: () {
+          trailing: IconButton(
+            onPressed: () {
               if (gambit == EmptyGambit()) {
                 Navigator.push(
                     context,
@@ -38,7 +38,7 @@ class GambitListTile extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => DemoPage(gambit)));
               }
             },
-            child: Icon(Icons.help),
+            icon: Icon(Icons.help),
           ),
         ),
       ),
