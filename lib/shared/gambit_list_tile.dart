@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/demo.page.dart';
 import '../models/gambit.dart';
+import '../shared/gambits/empty.dart';
 
 class GambitListTile extends StatelessWidget {
   final Gambit gambit;
@@ -26,8 +27,12 @@ class GambitListTile extends StatelessWidget {
           ),
           trailing: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DemoPage(gambit)));
+              if (gambit == EmptyGambit()) {
+                //TODO route to assign gambit to slot page
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DemoPage(gambit)));
+              }
             },
             child: Icon(Icons.help),
           ),

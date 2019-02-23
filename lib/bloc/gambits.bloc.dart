@@ -66,10 +66,14 @@ class GambitsBloc implements BlocBase {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
-      if (oldIndex >= _gambits.length || newIndex >= _gambits.length) {
-        // user tried to move a gambit passed unconfigurable gambit tiles
-        // or tried to move the unconfigurable gambit tiles up
+      if (oldIndex >= _gambits.length) {
+        // user tried to move the unconfigurable gambit tiles up
         return;
+      }
+      if (newIndex > _gambits.length) {
+        // user tried to move a gambit passed unconfigurable gambit tiles
+        // so it should just be dropped to the last
+        newIndex = _gambits.length;
       }
       if (oldIndex < newIndex) {
         // removing the item at oldIndex will shorten the list by 1.
