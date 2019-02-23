@@ -57,6 +57,8 @@ class AssemblePageState extends State<AssemblePage> {
     //configurable gambits first
     List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
       return Dismissible(
+        resizeDuration: Duration(microseconds: 1),
+        direction: DismissDirection.horizontal,
         key: Key(_gambits[index].title),
         child: GambitListTile(
           //TODO swiping should dismiss the gambit, and leave an open gambit
