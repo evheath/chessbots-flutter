@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -11,14 +13,13 @@ class PromotePawnToRandom extends Gambit {
   PromotePawnToRandom._internal()
       : super(
             demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
-            vector: BlackKing(), // TODO questionmark vector
+            vector: BlackKing(),
             title: "Promote to random",
             color: Colors.yellow,
             description:
                 "If a pawn reaches the back rank, it will promote to a knight, bishop, rook or queen!",
             altText: "Feeling lucky?",
-            //TODO find appropriate icon
-            icon: Icons.done_all,
+            icon: FontAwesomeIcons.question,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

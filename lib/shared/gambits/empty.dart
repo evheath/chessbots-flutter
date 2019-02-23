@@ -1,7 +1,8 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
-import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class EmptyGambit extends Gambit {
   // singleton logic so that MakeRandomMove is only created once
@@ -10,13 +11,12 @@ class EmptyGambit extends Gambit {
 
   EmptyGambit._internal()
       : super(
-            vector: CustomPaint(), // TODO empty vector?
+            vector: CustomPaint(),
             title: "Empty",
             color: Colors.white,
             description: "Assign a gambit!",
             altText: "Waste not",
-            //TODO find appropriate icon
-            icon: Icons.add_circle_outline,
+            icon: FontAwesomeIcons.square,
             findMove: FindMove((chess.Chess game) {
               return null;
             }));

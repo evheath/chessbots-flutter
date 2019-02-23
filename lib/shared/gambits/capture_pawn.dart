@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +20,7 @@ class CapturePawn extends Gambit {
             color: Colors.red,
             description: "Take one of your opponent's pawns.",
             altText: "Small victories add up quickly.",
-            //TODO find appropriate icon
-            icon: Icons.settings_brightness,
+            icon: FontAwesomeIcons.chessPawn,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()

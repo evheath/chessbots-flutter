@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -15,8 +17,7 @@ class MoveRandomPawn extends Gambit {
             color: Colors.grey,
             description: "Make a random pawn move, including captures!",
             altText: "March, march, march!",
-            //TODO find appropriate icon
-            icon: Icons.repeat,
+            icon: FontAwesomeIcons.chessPawn,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

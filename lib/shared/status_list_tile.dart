@@ -22,7 +22,7 @@ class StatusListTile extends StatelessWidget {
           leading: Text("LEVEL100"),
           title: Icon(Icons.directions_railway),
           trailing: CircleAvatar(
-            child: gambit.vector,
+            child: Icon(gambit.icon, color: Colors.white),
             backgroundColor: gambit.color,
           ),
         ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../pages/demo.page.dart';
 import '../models/gambit.dart';
-import '../shared/gambits/empty.dart';
 
 class GambitListTile extends StatelessWidget {
   final Gambit gambit;
   final Key key;
+  final bool disabled;
 
-  GambitListTile({@required this.gambit, this.key});
+  GambitListTile({@required this.gambit, this.key, this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +20,21 @@ class GambitListTile extends StatelessWidget {
           color: gambit.color.withAlpha(75),
         ),
         child: ListTile(
+          enabled: !disabled,
           title: Text(gambit.title),
-          leading: CircleAvatar(
-            child: gambit.vector,
-            backgroundColor: gambit.color,
+          leading: Hero(
+            tag: gambit.title,
+            child: CircleAvatar(
+              child: Icon(gambit.icon, color: Colors.white),
+              backgroundColor: gambit.color,
+            ),
           ),
-          trailing: GestureDetector(
-            onTap: () {
-              if (gambit == EmptyGambit()) {
-                //TODO route to assign gambit to slot page
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DemoPage(gambit)));
-              }
+          trailing: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DemoPage(gambit)));
             },
-            child: Icon(Icons.help),
+            icon: Icon(Icons.help),
           ),
         ),
       ),

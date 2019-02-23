@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -17,8 +19,7 @@ class CaptureKnight extends Gambit {
             color: Colors.red,
             description: "Take one of opponent's knights.",
             altText: "Heyo!",
-            //TODO find appropriate icon
-            icon: Icons.sentiment_very_satisfied,
+            icon: FontAwesomeIcons.chessKnight,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()

@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -12,13 +14,12 @@ class CaptureRandomPiece extends Gambit {
   CaptureRandomPiece._internal()
       : super(
             demoFEN: "3k1n2/8/8/q4R1b/8/8/5p2/1K6 w - - 0 1",
-            vector: BlackKing(), // TODO find a question mark vector
+            vector: BlackKing(),
             title: "Capture a random piece",
             color: Colors.red,
             description: "Capture a piece at random.",
             altText: "Different results given the same position.",
-            //TODO find appropriate icon
-            icon: Icons.backspace,
+            icon: FontAwesomeIcons.question,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

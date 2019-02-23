@@ -31,22 +31,29 @@ class DismissedEvent extends GambitEvent {
   );
 }
 
+class SelectGambitEvent extends GambitEvent {
+  int index;
+  Gambit selectedGambit;
+
+  SelectGambitEvent(this.index, this.selectedGambit);
+}
+
 class GambitsBloc implements BlocBase {
   // state
   List<Gambit> _gambits = [
-    CapturePawn(),
-    CaptureKnight(),
-    // EmptyGambit(),
-    CaptureBishop(),
-    CaptureRook(),
-    CaptureQueen(),
+    // CapturePawn(),
+    // CaptureKnight(),
+    EmptyGambit(),
+    // CaptureBishop(),
+    // CaptureRook(),
+    // CaptureQueen(),
     // PromotePawnToKnight(),
     // PromotePawnToBishop(),
     // PromotePawnToRook(),
     // PromotePawnToQueen(),
     // PromotePawnToRandom(),
-    MoveRandomPawn(),
-    // CheckOpponent(),
+    // MoveRandomPawn(),
+    CheckOpponent(),
     // CastleQueenSide(),
     // CaptureRandomPiece(),
     // CastleKingSide(),
@@ -89,11 +96,13 @@ class GambitsBloc implements BlocBase {
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
-    }
-
-    if (event is DismissedEvent) {
+    } else if (event is DismissedEvent) {
       int index = event.index;
       _gambits[index] = EmptyGambit();
+    } else if (event is SelectGambitEvent) {
+      int index = event.index;
+      Gambit selectedGambit = event.selectedGambit;
+      _gambits[index] = selectedGambit;
     }
     // connect internal-out to internal-in
     _internalIn.add(_gambits);

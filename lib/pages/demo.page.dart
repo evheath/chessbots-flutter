@@ -35,7 +35,7 @@ class DemoPageState extends State<DemoPage> {
     }
   }
 
-  Widget _buildButton() {
+  Widget _buildPlayButton() {
     if (_hasNotMoved) {
       // button has not been pressed yet
       return RaisedButton(
@@ -72,12 +72,7 @@ class DemoPageState extends State<DemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: <Widget>[
-            Text(widget.gambit.title),
-            widget.gambit.vector,
-          ],
-        ),
+        title: Text(widget.gambit.title),
         backgroundColor: widget.gambit.color,
         centerTitle: true,
       ),
@@ -98,8 +93,25 @@ class DemoPageState extends State<DemoPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            _buildButton(),
-            //TODO buy button, since armory page will link here
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Hero(
+                    tag: widget.gambit.title,
+                    child: CircleAvatar(
+                      radius: 35,
+                      child: Icon(
+                        widget.gambit.icon,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                      backgroundColor: widget.gambit.color,
+                    )),
+                _buildPlayButton(),
+              ],
+            )
+            //TODO buy button if gambit is not owned
           ],
         ),
       ),

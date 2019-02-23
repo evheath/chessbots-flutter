@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:chess/chess.dart' as chess;
-import 'package:chess_vectors_flutter/vector_image.dart';
 
 /// this class is used to create a pseudofunction
 ///

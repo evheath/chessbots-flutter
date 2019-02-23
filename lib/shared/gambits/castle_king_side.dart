@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -17,8 +19,7 @@ class CastleKingSide extends Gambit {
             color: Colors.blue,
             description: "Move your king to safety while activating a rook!",
             altText: "Get me outta here!",
-            //TODO find appropriate icon
-            icon: Icons.blur_circular,
+            icon: FontAwesomeIcons.chess,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

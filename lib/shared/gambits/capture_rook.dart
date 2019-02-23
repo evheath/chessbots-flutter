@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -17,8 +19,7 @@ class CaptureRook extends Gambit {
             color: Colors.red,
             description: "Take one of opponent's rooks.",
             altText: "How will they recover??",
-            //TODO find appropriate icon
-            icon: Icons.save,
+            icon: FontAwesomeIcons.chessRook,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()

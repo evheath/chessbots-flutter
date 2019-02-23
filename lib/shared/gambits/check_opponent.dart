@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
@@ -12,13 +14,12 @@ class CheckOpponent extends Gambit {
       : super(
             demoFEN:
                 "rnbq1b1r/ppp1pkp1/5n1p/8/8/3B4/PPP2PPP/RNBQK2R w KQkq - 0 1",
-            vector: WhiteKing(), //TODO maybe find a different vector
+            vector: WhiteKing(),
             title: "Check Opponent",
             color: Colors.red,
             description: "Attack your opponent's king!",
             altText: "Where do you think you're going?",
-            //TODO find appropriate icon
-            icon: Icons.remove_circle_outline,
+            icon: FontAwesomeIcons.chessKing,
             findMove: FindMove((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
