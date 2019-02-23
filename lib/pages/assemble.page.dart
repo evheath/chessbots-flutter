@@ -71,7 +71,8 @@ class AssemblePageState extends State<AssemblePage> {
                             builder: (context) => SelectGambitPage()))
                     .then((Gambit selectedGambit) {
                   if (selectedGambit != null) {
-                    print('the selected gambit was ${selectedGambit.title}');
+                    gambitsBloc.event
+                        .add(SelectGambitEvent(index, selectedGambit));
                   }
                 });
               },
