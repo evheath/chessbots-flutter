@@ -8,12 +8,12 @@ class AuthPage extends StatelessWidget {
     final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auth Page"),
+        title: Text("Sign in"),
         backgroundColor: Colors.amber,
       ),
-      //TODO make auth page presentable, maybe email/password login too
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             MaterialButton(
               onPressed: () => _authBloc.event.add(SignInAnonymouslyEvent()),
@@ -23,16 +23,10 @@ class AuthPage extends StatelessWidget {
             ),
             MaterialButton(
               onPressed: () => _authBloc.event.add(SignInWithGoogleEvent()),
-              color: Colors.white,
+              color: Colors.red,
               textColor: Colors.black,
               child: Text('Login with Google'),
             ),
-            StreamBuilder(
-                stream: _authBloc.user,
-                builder: (context, snapshot) {
-                  return Text(
-                      'User data (should not be seen) ${snapshot.data}');
-                }),
           ],
         ),
       ),
