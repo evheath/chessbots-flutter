@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/custom.icons.dart';
 import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
@@ -11,14 +11,7 @@ class LeftDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          AppBar(
-            automaticallyImplyLeading: false,
-            //TODO rip this thing out when I have a better place for signing out
-            title: MaterialButton(
-              child: Text("SignOut"),
-              onPressed: () => _authBloc.event.add(SignOutEvent()),
-            ),
-          ),
+          AppBar(automaticallyImplyLeading: false),
           ListTile(
             leading: Icon(MyCustomIcons.beaker),
             title: Text('Lab'),
@@ -31,6 +24,13 @@ class LeftDrawer extends StatelessWidget {
             title: Text('Assemble gambits'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/assemble');
+            },
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.cog),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/settings');
             },
           )
         ],

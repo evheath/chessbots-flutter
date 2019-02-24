@@ -11,6 +11,7 @@ class AuthPage extends StatelessWidget {
         title: Text("Auth Page"),
         backgroundColor: Colors.amber,
       ),
+      //TODO make auth page presentable, maybe email/password login too
       body: Center(
         child: Column(
           children: <Widget>[

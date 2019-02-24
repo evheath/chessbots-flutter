@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
 import './pages/assemble.page.dart';
+import './pages/settings.page.dart';
 import './bloc/base.bloc.dart';
 import './bloc/gambits.bloc.dart';
 import './bloc/auth.bloc.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => RouteGuard(AssemblePage()),
           '/lab': (context) => RouteGuard(LabPage()),
           '/assemble': (context) => RouteGuard(AssemblePage()),
+          '/settings': (context) => RouteGuard(SettingsPage()),
         });
   }
 }
