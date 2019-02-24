@@ -1,10 +1,7 @@
-import './pages/auth.page.dart';
 import 'package:flutter/material.dart';
-
-// pages
 import './pages/lab.page.dart';
+import './pages/auth.page.dart';
 import './pages/assemble.page.dart';
-
 import './bloc/base.bloc.dart';
 import './bloc/gambits.bloc.dart';
 import './bloc/auth.bloc.dart';
@@ -19,7 +16,6 @@ void main() => runApp(BlocProvider<AuthBloc>(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Chess Bots',
@@ -27,14 +23,26 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => StreamBuilder(
-                stream: _authBloc.user,
-                builder: (context, snapshot) {
-                  return snapshot.hasData ? AssemblePage() : AuthPage();
-                },
-              ),
-          '/lab': (context) => LabPage(),
-          '/assemble': (context) => AssemblePage(),
+          '/': (context) => RouteGuard(AssemblePage()),
+          '/lab': (context) => RouteGuard(LabPage()),
+          '/assemble': (context) => RouteGuard(AssemblePage()),
         });
+  }
+}
+
+class RouteGuard extends StatelessWidget {
+  final Widget _page;
+
+  RouteGuard(this._page);
+
+  @override
+  Widget build(BuildContext context) {
+    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    return StreamBuilder(
+      stream: _authBloc.user,
+      builder: (context, snapshot) {
+        return snapshot.hasData ? _page : AuthPage();
+      },
+    );
   }
 }
