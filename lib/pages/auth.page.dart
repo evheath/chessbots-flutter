@@ -15,6 +15,7 @@ class AuthPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
+            // google login button
             StreamBuilder<FirebaseUser>(
                 stream: _authBloc.user,
                 builder: (context, snapshot) {
@@ -26,15 +27,25 @@ class AuthPage extends StatelessWidget {
                       child: Text('Signout'),
                     );
                   } else {
-                    return MaterialButton(
-                      onPressed: () => _authBloc.googleSignIn(),
-                      color: Colors.white,
-                      textColor: Colors.black,
-                      child: Text('Login with Google'),
+                    return Column(
+                      children: <Widget>[
+                        MaterialButton(
+                          onPressed: () => _authBloc.anonymousSignIn(),
+                          color: Colors.white,
+                          textColor: Colors.black,
+                          child: Text('Login as guest'),
+                        ),
+                        MaterialButton(
+                          onPressed: () => _authBloc.googleSignIn(),
+                          color: Colors.white,
+                          textColor: Colors.black,
+                          child: Text('Login with Google'),
+                        ),
+                      ],
                     );
                   }
                 }),
-            // LoginButton(), // <-- Built with StreamBuilder
+            // displaying profile:
             StreamBuilder<Map<String, dynamic>>(
                 stream: _authBloc.profile,
                 builder: (context, snapshot) {
@@ -44,7 +55,6 @@ class AuthPage extends StatelessWidget {
                     child: Text("Bloc profile: $_profile"),
                   );
                 }),
-            // UserProfile(), // <-- Built with StatefulWidget
           ],
         ),
       ),

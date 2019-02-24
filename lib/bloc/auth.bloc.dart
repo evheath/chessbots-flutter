@@ -13,7 +13,7 @@ class AuthBloc extends BlocBase {
   // Shared State for Widgets
   Observable<FirebaseUser> user; // firebase user
   Observable<Map<String, dynamic>> profile; // custom user data in Firestore
-  PublishSubject loading = PublishSubject();
+  PublishSubject<bool> loading = PublishSubject();
 
   // constructor
   AuthBloc() {
@@ -32,25 +32,28 @@ class AuthBloc extends BlocBase {
     });
   }
 
-  Future<FirebaseUser> googleSignIn() async {
-    // Start
+  Future<FirebaseUser> anonymousSignIn() async {
     loading.add(true);
 
-    // Step 1
-    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    FirebaseUser _user = await _auth.signInAnonymously();
 
-    // Step 2
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    FirebaseUser user = await _auth.signInWithGoogle(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-    // Step 3
-    updateUserData(user);
+    updateUserData(_user);
 
     // Done
     loading.add(false);
-    print("signed in " + user.displayName);
-    return user;
+    return _user;
+  }
+
+  Future<FirebaseUser> googleSignIn() async {
+    loading.add(true);
+    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    FirebaseUser _user = await _auth.signInWithGoogle(
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+    updateUserData(_user);
+
+    loading.add(false);
+    return _user;
   }
 
   void updateUserData(FirebaseUser user) async {
@@ -59,8 +62,7 @@ class AuthBloc extends BlocBase {
     return ref.setData({
       'uid': user.uid,
       'email': user.email,
-      'photoURL': user.photoUrl,
-      'displayName': user.displayName,
+      'displayName': user.displayName ?? "Guest",
       'lastSeen': DateTime.now()
     }, merge: true);
   }
