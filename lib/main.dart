@@ -1,3 +1,4 @@
+import './pages/auth.page.dart';
 import 'package:flutter/material.dart';
 
 // pages
@@ -6,11 +7,14 @@ import './pages/assemble.page.dart';
 
 import './bloc/base.bloc.dart';
 import './bloc/gambits.bloc.dart';
+import './bloc/auth.bloc.dart';
 
-void main() => runApp(BlocProvider<GambitsBloc>(
+void main() => runApp(BlocProvider<AuthBloc>(
+    bloc: AuthBloc(),
+    child: BlocProvider<GambitsBloc>(
       bloc: GambitsBloc(),
       child: MyApp(),
-    ));
+    )));
 
 class MyApp extends StatelessWidget {
   @override
@@ -22,7 +26,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => AssemblePage(),
+          '/': (context) => AuthPage(),
+          // '/': (context) => AssemblePage(),
           // '/': (context) => LabPage(),
           '/lab': (context) => LabPage(),
           '/assemble': (context) => AssemblePage(),
