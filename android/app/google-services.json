@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "128311889657",
+    "firebase_url": "https://chessbotsmobile.firebaseio.com",
+    "project_id": "chessbotsmobile",
+    "storage_bucket": "chessbotsmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128311889657:android:01f167212bbf1686",
+        "android_client_info": {
+          "package_name": "com.chessbots.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128311889657-ddeckqncmpss6unfe5umulhjh0nbrv9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chessbots.mobile",
+            "certificate_hash": "c2de14c6d347bd1259c162ec2d2811873723a665"
+          }
+        },
+        {
+          "client_id": "128311889657-l0kcmnhe75ve1kbf97r8l8ta4q3ano2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH0fC1xKSLS4_SeP2CeNHO1lNV00YMzOA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128311889657-l0kcmnhe75ve1kbf97r8l8ta4q3ano2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

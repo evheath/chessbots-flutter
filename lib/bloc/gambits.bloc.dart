@@ -11,7 +11,7 @@ import 'package:chess/chess.dart' as chess;
 // eventually the gambits should be obtained programmatically
 import '../shared/gambits.dart';
 
-class GambitEvent {}
+abstract class GambitEvent {}
 
 class ReorderEvent extends GambitEvent {
   int oldIndex;
@@ -77,7 +77,7 @@ class GambitsBloc implements BlocBase {
     _eventController.stream.listen(_handleEvent);
   }
   // internal-out
-  void _handleEvent(event) {
+  void _handleEvent(GambitEvent event) {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;

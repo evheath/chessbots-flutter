@@ -1,4 +1,4 @@
-package com.example.chessbotsmobile;
+package com.chessbots.mobile;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
