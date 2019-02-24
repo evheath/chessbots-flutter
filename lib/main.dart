@@ -19,6 +19,7 @@ void main() => runApp(BlocProvider<AuthBloc>(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Chess Bots',
@@ -26,9 +27,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => AuthPage(),
-          // '/': (context) => AssemblePage(),
-          // '/': (context) => LabPage(),
+          '/': (context) => StreamBuilder(
+                stream: _authBloc.user,
+                builder: (context, snapshot) {
+                  return snapshot.hasData ? AssemblePage() : AuthPage();
+                },
+              ),
           '/lab': (context) => LabPage(),
           '/assemble': (context) => AssemblePage(),
         });

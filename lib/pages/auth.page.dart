@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
@@ -15,45 +14,23 @@ class AuthPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            // google login button
-            StreamBuilder<FirebaseUser>(
+            MaterialButton(
+              onPressed: () => _authBloc.event.add(SignInAnonymouslyEvent()),
+              color: Colors.white,
+              textColor: Colors.black,
+              child: Text('Login as guest'),
+            ),
+            MaterialButton(
+              onPressed: () => _authBloc.event.add(SignInWithGoogleEvent()),
+              color: Colors.white,
+              textColor: Colors.black,
+              child: Text('Login with Google'),
+            ),
+            StreamBuilder(
                 stream: _authBloc.user,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return MaterialButton(
-                      onPressed: () => _authBloc.signOut(),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: Text('Signout'),
-                    );
-                  } else {
-                    return Column(
-                      children: <Widget>[
-                        MaterialButton(
-                          onPressed: () => _authBloc.anonymousSignIn(),
-                          color: Colors.white,
-                          textColor: Colors.black,
-                          child: Text('Login as guest'),
-                        ),
-                        MaterialButton(
-                          onPressed: () => _authBloc.googleSignIn(),
-                          color: Colors.white,
-                          textColor: Colors.black,
-                          child: Text('Login with Google'),
-                        ),
-                      ],
-                    );
-                  }
-                }),
-            // displaying profile:
-            StreamBuilder<Map<String, dynamic>>(
-                stream: _authBloc.profile,
-                builder: (context, snapshot) {
-                  Map<String, dynamic> _profile = snapshot.data;
-                  return Container(
-                    padding: EdgeInsets.all(20),
-                    child: Text("Bloc profile: $_profile"),
-                  );
+                  return Text(
+                      'User data (should not be seen) ${snapshot.data}');
                 }),
           ],
         ),
