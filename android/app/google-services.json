@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "128311889657-kt51kspfi0j5fqe97767h0ce97hn9s40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chessbots.mobile",
+            "certificate_hash": "60c9be05c73093264a054a67193b7fa693192c7c"
+          }
+        },
+        {
           "client_id": "128311889657-l0kcmnhe75ve1kbf97r8l8ta4q3ano2o.apps.googleusercontent.com",
           "client_type": 3
         }
