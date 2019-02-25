@@ -129,7 +129,7 @@ class GambitsBloc implements BlocBase {
     String move = CheckmateOpponent().findMove(game) ??
         _gambits
             .firstWhere(
-              (gambit) => gambit.findMove(game) != null,
+              (gambit) => gambit.findMove.call(game) != null,
               orElse: () => MoveRandomPiece(),
             )
             .findMove(game);
@@ -141,13 +141,15 @@ class GambitsBloc implements BlocBase {
     // first we look to see if we can simply checkmate the opponent this turn,
     // then try to find the first gambit that returns a move
     // if no gambit can find a move, we just return MoveRandomPiece
-    String checkmate = CheckmateOpponent().findMove(game);
-    Gambit gambit = checkmate != null && checkmate.isNotEmpty
-        ? CheckmateOpponent()
-        : _gambits.firstWhere(
-            (gambit) => gambit.findMove(game) != null,
-            orElse: () => MoveRandomPiece(),
-          );
-    return gambit;
+
+    List<Gambit> _gambitsToBeTested = [CheckmateOpponent()];
+    _gambitsToBeTested.addAll(_gambits);
+    // _gambitsToBeTested.add(MoveRandomPiece());
+    // print("legal moves are ${game.moves()}");
+    Gambit _returningGambit = _gambitsToBeTested.firstWhere(
+      (_gambit) => _gambit.findMove.call(game) != null,
+      orElse: () => MoveRandomPiece(),
+    );
+    return _returningGambit;
   }
 }
