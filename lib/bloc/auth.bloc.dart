@@ -49,7 +49,6 @@ class AuthBloc extends BlocBase {
   }
   void _handleEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
-      print("inside google event");
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       FirebaseUser _fbUser = await _auth.signInWithGoogle(

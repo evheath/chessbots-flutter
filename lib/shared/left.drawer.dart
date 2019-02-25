@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/custom.icons.dart';
-import '../bloc/auth.bloc.dart';
-import '../bloc/base.bloc.dart';
+// import '../bloc/auth.bloc.dart';
+// import '../bloc/base.bloc.dart';
 
 class LeftDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    // final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
     return Drawer(
       child: Column(
         children: <Widget>[
-          AppBar(automaticallyImplyLeading: false),
+          AppBar(
+            automaticallyImplyLeading: false,
+            title: Text("Chess Bots Why Lab"),
+          ),
           ListTile(
             leading: Icon(MyCustomIcons.beaker),
             title: Text('Lab'),
