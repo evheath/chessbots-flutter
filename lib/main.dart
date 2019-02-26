@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GambitsBloc human = BlocProvider.of<GambitsBloc>(context);
-    final GambitsBloc levelonecpu =
-        GambitsBloc(gambits: [MoveRandomPawn(), CaptureRandomPiece()]);
+    final GambitsBloc levelonecpu = GambitsBloc(gambits: [
+      CaptureRandomPiece(),
+      MoveRandomPawn(),
+    ]);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,

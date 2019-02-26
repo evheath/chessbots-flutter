@@ -5,8 +5,9 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/status_list_tile.dart';
 import '../shared/gambits.dart';
+import 'package:chess/chess.dart' as chess;
 
-import '../bloc/base.bloc.dart';
+// import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
 import '../models/gambit.dart';
 
@@ -75,5 +76,17 @@ class MatchPageState extends State<MatchPage> {
 
   void _beginMatch() {
     print("we are starting");
+    // while (!_matchBoardController.game.in_checkmate) {
+    chess.Chess game = _matchBoardController.game;
+    var move;
+    if (_matchBoardController.game.turn == chess.Color.WHITE) {
+      //white's move
+      move = widget.whiteBot.waterfallGambits(game);
+    } else {
+      // black's move
+      move = widget.blackBot.waterfallGambits(game);
+    }
+    _matchBoardController.makeMove(move);
   }
+  // }
 }
