@@ -21,6 +21,13 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: Icon(FontAwesomeIcons.userAlt),
+            title: Text('Singleplayer'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/singleplayer');
+            },
+          ),
+          ListTile(
             leading: Icon(MyCustomIcons.beaker),
             title: Text('Lab'),
             onTap: () {
