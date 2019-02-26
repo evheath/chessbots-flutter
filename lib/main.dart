@@ -8,6 +8,8 @@ import './bloc/base.bloc.dart';
 import './bloc/gambits.bloc.dart';
 import './bloc/auth.bloc.dart';
 
+import './shared/gambits.dart';
+
 void main() => runApp(BlocProvider<AuthBloc>(
     bloc: AuthBloc(),
     child: BlocProvider<GambitsBloc>(
@@ -18,6 +20,10 @@ void main() => runApp(BlocProvider<AuthBloc>(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final GambitsBloc human = BlocProvider.of<GambitsBloc>(context);
+    final GambitsBloc levelonecpu =
+        GambitsBloc(gambits: [MoveRandomPawn(), CaptureRandomPiece()]);
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Chess Bots',
@@ -31,7 +37,10 @@ class MyApp extends StatelessWidget {
           '/settings': (context) => RouteGuard(SettingsPage()),
           //TODO singleplayer route should probably have a splash page
           //I am just using the match page for more direct testing
-          '/singleplayer': (context) => RouteGuard(MatchPage()),
+          '/singleplayer': (context) => RouteGuard(MatchPage(
+                whiteBot: human,
+                blackBot: levelonecpu,
+              )),
         });
   }
 }

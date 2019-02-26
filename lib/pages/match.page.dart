@@ -11,6 +11,10 @@ import '../bloc/gambits.bloc.dart';
 import '../models/gambit.dart';
 
 class MatchPage extends StatefulWidget {
+  final GambitsBloc whiteBot;
+  final GambitsBloc blackBot;
+
+  MatchPage({@required this.whiteBot, @required this.blackBot});
   @override
   MatchPageState createState() {
     return MatchPageState();
@@ -18,7 +22,7 @@ class MatchPage extends StatefulWidget {
 }
 
 class MatchPageState extends State<MatchPage> {
-  ChessBoardController _labBoardController = ChessBoardController();
+  ChessBoardController _matchBoardController = ChessBoardController();
   Gambit _lastGambitUsed = EmptyGambit();
 
   @override
@@ -38,7 +42,7 @@ class MatchPageState extends State<MatchPage> {
               moveAnyPiece: true,
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: true,
-              chessBoardController: _labBoardController,
+              chessBoardController: _matchBoardController,
               onMove: (move) {},
               onCheckMate: (derp) {},
               onDraw: () {},
@@ -62,13 +66,13 @@ class MatchPageState extends State<MatchPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
-              if (!_labBoardController.game.in_checkmate) {
+              if (!_matchBoardController.game.in_checkmate) {
                 setState(() {
                   _lastGambitUsed =
-                      _gambitsBloc.gambitToBeUsed(_labBoardController.game);
+                      _gambitsBloc.gambitToBeUsed(_matchBoardController.game);
                 });
-                var move = _lastGambitUsed.findMove(_labBoardController.game);
-                _labBoardController.labMove(move);
+                var move = _lastGambitUsed.findMove(_matchBoardController.game);
+                _matchBoardController.labMove(move);
               }
             },
             tooltip: 'Test gambits',
@@ -76,7 +80,7 @@ class MatchPageState extends State<MatchPage> {
           ),
           FloatingActionButton(
             onPressed: () {
-              _labBoardController.resetBoard();
+              _matchBoardController.resetBoard();
               setState(() {});
             },
             tooltip: 'Reset',
