@@ -32,16 +32,17 @@ class MatchPageState extends State<MatchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
+            //TODO statuslist tile should be handed a bot,
+            //bots will also need a stream for last gambit used for the status to listen to
+            StatusListTile(gambit: _lastGambitUsed),
             ChessBoard(
-              moveAnyPiece: true,
               size: MediaQuery.of(context).size.width - 20,
-              enableUserMoves: true,
+              enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
               onCheckMate: (derp) {},
@@ -52,6 +53,7 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
         title: Row(
           children: [
             Icon(FontAwesomeIcons.dice),
@@ -61,35 +63,17 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       drawer: LeftDrawer(),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          FloatingActionButton(
-            onPressed: () {
-              if (!_matchBoardController.game.in_checkmate) {
-                setState(() {
-                  _lastGambitUsed =
-                      _gambitsBloc.gambitToBeUsed(_matchBoardController.game);
-                });
-                var move = _lastGambitUsed.findMove(_matchBoardController.game);
-                _matchBoardController.labMove(move);
-              }
-            },
-            tooltip: 'Test gambits',
-            child: Icon(Icons.play_arrow),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              _matchBoardController.resetBoard();
-              setState(() {});
-            },
-            tooltip: 'Reset',
-            child: Icon(Icons.repeat),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _beginMatch();
+        },
+        tooltip: 'Begin',
+        child: Icon(Icons.play_arrow),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   } // Build
 
+  void _beginMatch() {
+    print("we are starting");
+  }
 }
