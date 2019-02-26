@@ -40,24 +40,25 @@ class SelectGambitEvent extends GambitEvent {
 
 class GambitsBloc implements BlocBase {
   // state
-  List<Gambit> _gambits = [
-    // CapturePawn(),
-    // CaptureKnight(),
-    EmptyGambit(),
-    // CaptureBishop(),
-    // CaptureRook(),
-    // CaptureQueen(),
-    // PromotePawnToKnight(),
-    // PromotePawnToBishop(),
-    // PromotePawnToRook(),
-    // PromotePawnToQueen(),
-    // PromotePawnToRandom(),
-    // MoveRandomPawn(),
-    CheckOpponent(),
-    // CastleQueenSide(),
-    // CaptureRandomPiece(),
-    // CastleKingSide(),
-  ];
+  List<Gambit> _gambits;
+  // = [
+  //   // CapturePawn(),
+  //   // CaptureKnight(),
+  //   EmptyGambit(),
+  //   // CaptureBishop(),
+  //   // CaptureRook(),
+  //   // CaptureQueen(),
+  //   // PromotePawnToKnight(),
+  //   // PromotePawnToBishop(),
+  //   // PromotePawnToRook(),
+  //   // PromotePawnToQueen(),
+  //   // PromotePawnToRandom(),
+  //   // MoveRandomPawn(),
+  //   CheckOpponent(),
+  //   // CastleQueenSide(),
+  //   // CaptureRandomPiece(),
+  //   // CastleKingSide(),
+  // ];
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
@@ -67,9 +68,9 @@ class GambitsBloc implements BlocBase {
   // external-in
   StreamSink<GambitEvent> get event => _eventController.sink;
 
-  GambitsBloc() {
-    //TODO implement how gambits get intially set
-    _gambits.shuffle();
+  GambitsBloc({List<Gambit> gambits}) {
+    this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
+
     // pushing the initial gambits out of the stream
     _internalIn.add(_gambits);
 
