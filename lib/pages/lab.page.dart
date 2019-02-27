@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
-import '../shared/status_list_tile.dart';
-import '../shared/gambits.dart';
-
+import '../shared/status.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
-import '../models/gambit.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -19,7 +15,6 @@ class LabPage extends StatefulWidget {
 
 class LabPageState extends State<LabPage> {
   ChessBoardController _labBoardController = ChessBoardController();
-  Gambit _lastGambitUsed = EmptyGambit();
 
   @override
   void initState() {
@@ -29,6 +24,7 @@ class LabPageState extends State<LabPage> {
   @override
   Widget build(BuildContext context) {
     final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -43,7 +39,9 @@ class LabPageState extends State<LabPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            StatusListTile(gambit: _lastGambitUsed),
+            Status(
+              _gambitsBloc,
+            ),
           ],
         ),
       ),
@@ -63,11 +61,8 @@ class LabPageState extends State<LabPage> {
           FloatingActionButton(
             onPressed: () {
               if (!_labBoardController.game.in_checkmate) {
-                setState(() {
-                  _lastGambitUsed =
-                      _gambitsBloc.gambitToBeUsed(_labBoardController.game);
-                });
-                var move = _lastGambitUsed.findMove(_labBoardController.game);
+                String move =
+                    _gambitsBloc.waterfallGambits(_labBoardController.game);
                 _labBoardController.labMove(move);
               }
             },

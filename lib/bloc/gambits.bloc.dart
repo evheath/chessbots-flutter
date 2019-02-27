@@ -40,38 +40,24 @@ class SelectGambitEvent extends GambitEvent {
 
 class GambitsBloc implements BlocBase {
   // state
-  List<Gambit> _gambits = [
-    // CapturePawn(),
-    // CaptureKnight(),
-    EmptyGambit(),
-    // CaptureBishop(),
-    // CaptureRook(),
-    // CaptureQueen(),
-    // PromotePawnToKnight(),
-    // PromotePawnToBishop(),
-    // PromotePawnToRook(),
-    // PromotePawnToQueen(),
-    // PromotePawnToRandom(),
-    // MoveRandomPawn(),
-    CheckOpponent(),
-    // CastleQueenSide(),
-    // CaptureRandomPiece(),
-    // CastleKingSide(),
-  ];
+  List<Gambit> _gambits;
+  String botName;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
       BehaviorSubject<List<Gambit>>();
   StreamController<GambitEvent> _eventController = StreamController();
+  StreamController<Gambit> _lastUsedGambitController =
+      StreamController.broadcast();
 
   // external-in
   StreamSink<GambitEvent> get event => _eventController.sink;
 
-  GambitsBloc() {
-    //TODO implement how gambits get intially set
-    _gambits.shuffle();
+  GambitsBloc({List<Gambit> gambits, this.botName = 'Bot'}) {
+    this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
+
     // pushing the initial gambits out of the stream
-    _internalIn.add(_gambits);
+    _internalInGambits.add(_gambits);
 
     // connect external-in to internal-out
     _eventController.stream.listen(_handleEvent);
@@ -105,51 +91,40 @@ class GambitsBloc implements BlocBase {
       _gambits[index] = selectedGambit;
     }
     // connect internal-out to internal-in
-    _internalIn.add(_gambits);
+    _internalInGambits.add(_gambits);
   }
 
   // internal-in
-  StreamSink<List<Gambit>> get _internalIn => _gambitsController.sink;
+  StreamSink<List<Gambit>> get _internalInGambits => _gambitsController.sink;
+  StreamSink<Gambit> get _internalInLastUsedGambit =>
+      _lastUsedGambitController.sink;
 
   // external-out (inherently connected to internal-in via controller)
   Stream<List<Gambit>> get gambits => _gambitsController.stream;
+  Stream<Gambit> get lastUsedGambit => _lastUsedGambitController.stream;
 
   // tear down
   void dispose() {
     _eventController.close();
     _gambitsController.close();
+    _lastUsedGambitController.close();
   }
 
   // external methods
   /// find a move by going through all gambits, in order
   String waterfallGambits(chess.Chess game) {
-    // find the first gambit that returns a move, then get and return that move
-    // first we look to see if we can simply checkmate the opponent this turn,
-    // if eventually no gambit can find a move, we just return a random/legal move
-    String move = CheckmateOpponent().findMove(game) ??
-        _gambits
-            .firstWhere(
-              (gambit) => gambit.findMove.call(game) != null,
-              orElse: () => MoveRandomPiece(),
-            )
-            .findMove(game);
-    return move;
-  }
-
-  /// similar to waterfallGambits, but returns the gambit itself, not the move
-  Gambit gambitToBeUsed(chess.Chess game) {
-    // first we look to see if we can simply checkmate the opponent this turn,
-    // then try to find the first gambit that returns a move
-    // if no gambit can find a move, we just return MoveRandomPiece
-
+    // find the gambit to be used
+    // add it to internal in
+    // return the move
     List<Gambit> _gambitsToBeTested = [CheckmateOpponent()];
     _gambitsToBeTested.addAll(_gambits);
-    // _gambitsToBeTested.add(MoveRandomPiece());
-    // print("legal moves are ${game.moves()}");
-    Gambit _returningGambit = _gambitsToBeTested.firstWhere(
+    Gambit _gambitToBeUsed = _gambitsToBeTested.firstWhere(
       (_gambit) => _gambit.findMove.call(game) != null,
       orElse: () => MoveRandomPiece(),
     );
-    return _returningGambit;
+    _internalInLastUsedGambit.add(_gambitToBeUsed);
+
+    String move = _gambitToBeUsed.findMove(game);
+    return move;
   }
 }
