@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'dart:async';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/status_list_tile.dart';
@@ -25,6 +25,7 @@ class MatchPage extends StatefulWidget {
 class MatchPageState extends State<MatchPage> {
   ChessBoardController _matchBoardController = ChessBoardController();
   Gambit _lastGambitUsed = EmptyGambit();
+  bool _gameStarted = false;
 
   @override
   void initState() {
@@ -64,29 +65,35 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       drawer: LeftDrawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _beginMatch();
-        },
-        tooltip: 'Begin',
-        child: Icon(Icons.play_arrow),
-      ),
+      floatingActionButton: _gameStarted
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () {
+                _beginMatch();
+              },
+              tooltip: 'Begin',
+              child: Icon(Icons.play_arrow),
+            ),
     );
   } // Build
 
-  void _beginMatch() {
+  void _beginMatch() async {
+    setState(() {
+      _gameStarted = true;
+    });
     print("we are starting");
-    // while (!_matchBoardController.game.in_checkmate) {
     chess.Chess game = _matchBoardController.game;
-    var move;
-    if (_matchBoardController.game.turn == chess.Color.WHITE) {
-      //white's move
-      move = widget.whiteBot.waterfallGambits(game);
-    } else {
-      // black's move
-      move = widget.blackBot.waterfallGambits(game);
+    while (!_matchBoardController.game.in_checkmate) {
+      String move;
+      if (_matchBoardController.game.turn == chess.Color.WHITE) {
+        //white's move
+        move = widget.whiteBot.waterfallGambits(game);
+      } else {
+        // black's move
+        move = widget.blackBot.waterfallGambits(game);
+      }
+      await Future.delayed(Duration(seconds: 1));
+      _matchBoardController.makeMove(move);
     }
-    _matchBoardController.makeMove(move);
   }
-  // }
 }
