@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 import '../shared/status.dart';
-// import '../shared/gambits.dart';
-
 import '../bloc/base.bloc.dart';
 import '../bloc/gambits.bloc.dart';
-// import '../models/gambit.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -28,6 +24,7 @@ class LabPageState extends State<LabPage> {
   @override
   Widget build(BuildContext context) {
     final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
