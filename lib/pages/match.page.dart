@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
-import '../shared/status_list_tile.dart';
+// import '../shared/status_list_tile.dart';
+import '../shared/status.dart';
 import '../shared/gambits.dart';
 import 'package:chess/chess.dart' as chess;
 
@@ -41,16 +42,21 @@ class MatchPageState extends State<MatchPage> {
           children: <Widget>[
             //TODO statuslist tile should be handed a bot,
             //bots will also need a stream for last gambit used for the status to listen to
-            StatusListTile(gambit: _lastGambitUsed),
+            Status(widget.blackBot),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
-              onCheckMate: (derp) {},
-              onDraw: () {},
+              onCheckMate: (derp) {
+                //TODO onCheckMate does not fire
+                print("onCheckMate uwu");
+              },
+              onDraw: () {
+                print("onDraw uwu");
+              },
             ),
-            StatusListTile(gambit: _lastGambitUsed),
+            Status(widget.whiteBot),
           ],
         ),
       ),
@@ -81,9 +87,9 @@ class MatchPageState extends State<MatchPage> {
     setState(() {
       _gameStarted = true;
     });
-    print("we are starting");
     chess.Chess game = _matchBoardController.game;
     while (!_matchBoardController.game.in_checkmate) {
+      await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.game.turn == chess.Color.WHITE) {
         //white's move
@@ -92,7 +98,6 @@ class MatchPageState extends State<MatchPage> {
         // black's move
         move = widget.blackBot.waterfallGambits(game);
       }
-      await Future.delayed(Duration(seconds: 1));
       _matchBoardController.makeMove(move);
     }
   }
