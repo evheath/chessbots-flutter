@@ -58,15 +58,13 @@ class BoardSquare extends StatelessWidget {
             chess.Piece pieceBeingLandedOn =
                 model.chessBoardController.game.get(squareName);
             if (pieceBeingLandedOn?.type == chess.PieceType.KING) {
+              // dont let a king disappear from the board
               return;
             }
 
             model.chessBoardController.game.put(piece, squareName);
             model.chessBoardController.game.remove(source);
             model.chessBoardController.game.turn = chess.Color.WHITE;
-            // model.chessBoardController.game.turn = chess.Color.WHITE;
-            // String derp = model.chessBoardController.game.turn;
-            // model.chessBoardController.game.in_checkmate
             model.refreshBoard();
           } else {
             // we are playing a legal game and require move checking
@@ -77,12 +75,14 @@ class BoardSquare extends StatelessWidget {
                     (source[1] == "2" &&
                         squareName[1] == "1" &&
                         moveInfo[2] == chess.Color.BLACK))) {
+              // we are promoting
               _promotionDialog(context).then((value) {
                 model.chessBoardController.game.move(
                     {"from": source, "to": squareName, "promotion": value});
                 model.refreshBoard();
               });
             } else {
+              // we are just doing a regular move
               model.chessBoardController.game
                   .move({"from": source, "to": squareName});
             }
@@ -90,6 +90,13 @@ class BoardSquare extends StatelessWidget {
               model.onMove(
                   moveInfo[1] == "P" ? squareName : moveInfo[1] + squareName);
             }
+            // checkmate logic here does not make much sense
+            // as it is the controller that should know about a game over
+            // since it does not always require user input
+            // if (model.chessBoardController.game.in_checkmate) {
+            //   String color = model.chessBoardController.game.turn.toString();
+            //   model.onCheckMate(color);
+            // }
             model.refreshBoard();
           }
         }),

@@ -46,12 +46,9 @@ class MatchPageState extends State<MatchPage> {
               enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
-              onCheckMate: (derp) {
-                //TODO onCheckMate does not fire
-                print("onCheckMate uwu");
-              },
               onDraw: () {
                 print("onDraw uwu");
+                _showDialog();
               },
             ),
             Status(widget.whiteBot),
@@ -86,7 +83,8 @@ class MatchPageState extends State<MatchPage> {
       _gameStarted = true;
     });
     chess.Chess game = _matchBoardController.game;
-    while (!_matchBoardController.game.in_checkmate) {
+    while (!_matchBoardController.game.in_checkmate &&
+        !_matchBoardController.game.in_draw) {
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.game.turn == chess.Color.WHITE) {
@@ -98,5 +96,49 @@ class MatchPageState extends State<MatchPage> {
       }
       _matchBoardController.makeMove(move);
     }
+  }
+
+  void _showDialog({String winColor}) {
+    winColor != null
+        ? showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: new Text("Checkmate!"),
+                content: new Text("$winColor wins!"),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    child: new Text("Play Again"),
+                    onPressed: () {},
+                  ),
+                  new FlatButton(
+                    child: new Text("Close"),
+                    onPressed: () {},
+                  ),
+                ],
+              );
+            },
+          )
+        : showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: new Text("Draw!"),
+                content: new Text("The game is a draw!"),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    child: new Text("Play Again"),
+                    onPressed: () {},
+                  ),
+                  new FlatButton(
+                    child: new Text("Close"),
+                    onPressed: () {},
+                  ),
+                ],
+              );
+            },
+          );
   }
 }
