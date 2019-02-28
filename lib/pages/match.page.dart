@@ -92,8 +92,8 @@ class MatchPageState extends State<MatchPage> {
       _gameStarted = true;
     });
     chess.Chess game = _matchBoardController.game;
-    while (!_matchBoardController.game.in_checkmate &&
-        !_matchBoardController.game.in_draw) {
+
+    while (!_matchBoardController.gameOver) {
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.turn == chess.Color.WHITE) {
