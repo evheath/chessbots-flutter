@@ -38,6 +38,14 @@ class GameControllerBloc {
   // external-out (inherently connected to internal-in via controller)
   Stream<GameStatus> get status => _statusController.stream;
 
+  // public methods
+
+  chess.Color _turn() {
+    return game.turn;
+  }
+
+  chess.Color get turn => _turn();
+
   /// Makes move on the board
   void makeMove(String move) {
     _internalInStatus.add(GameStatus.in_progress);

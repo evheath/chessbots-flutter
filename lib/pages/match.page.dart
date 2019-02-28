@@ -30,7 +30,7 @@ class MatchPageState extends State<MatchPage> {
     _matchBoardController.status.listen((status) {
       if (status == GameStatus.in_checkmate) {
         // if game is over and it is white's turn, that means black won
-        _matchBoardController.game.turn == chess.Color.WHITE
+        _matchBoardController.turn == chess.Color.WHITE
             ? _handleDefeat()
             : _handleVictory();
         //TODO eventually we should never touch the controllers game
@@ -96,7 +96,7 @@ class MatchPageState extends State<MatchPage> {
         !_matchBoardController.game.in_draw) {
       await Future.delayed(Duration(seconds: 1));
       String move;
-      if (_matchBoardController.game.turn == chess.Color.WHITE) {
+      if (_matchBoardController.turn == chess.Color.WHITE) {
         //white's move
         move = widget.whiteBot.waterfallGambits(game);
       } else {
