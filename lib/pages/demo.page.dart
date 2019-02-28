@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/gambit.dart';
 import '../shared/chess_board.dart';
+import '../bloc/game_controller.bloc.dart';
 
 class DemoPage extends StatefulWidget {
   final Gambit gambit;
@@ -13,7 +14,7 @@ class DemoPage extends StatefulWidget {
 }
 
 class DemoPageState extends State<DemoPage> {
-  ChessBoardController _demoBoardController = ChessBoardController();
+  GameControllerBloc _demoBoardController = GameControllerBloc();
   bool _hasNotMoved = true;
 
   @override

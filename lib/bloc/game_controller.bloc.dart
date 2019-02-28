@@ -12,9 +12,8 @@ enum PieceColor {
 enum GameStatus { in_checkmate, in_progress, in_draw, pending }
 
 /// Controller for programmatically controlling the board
-//TODO rename to game_bloc
-class ChessBoardController {
-//TODO controller for whose turn it is
+class GameControllerBloc {
+  GameStatus _status;
   // controllers
   StreamController<GameStatus> _statusController =
       BehaviorSubject<GameStatus>(); // no external-in atm
@@ -27,9 +26,10 @@ class ChessBoardController {
   Function refreshBoard;
 
   // constructor
-  ChessBoardController() {
+  GameControllerBloc() {
     // game is starting
-    _internalInStatus.add(GameStatus.pending);
+    _status = GameStatus.pending;
+    _internalInStatus.add(_status);
   }
 
   // internal-in
@@ -38,16 +38,34 @@ class ChessBoardController {
   // external-out (inherently connected to internal-in via controller)
   Stream<GameStatus> get status => _statusController.stream;
 
+  // public methods
+
+  chess.Color _turn() {
+    return game.turn;
+  }
+
+  chess.Color get turn => _turn();
+
+  bool _gameOver() {
+    return _status == GameStatus.in_checkmate || _status == GameStatus.in_draw;
+  }
+
+  bool get gameOver => _gameOver();
+
   /// Makes move on the board
   void makeMove(String move) {
-    _internalInStatus.add(GameStatus.in_progress);
+    _status = GameStatus.in_progress;
+
     game?.move(move);
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+
     if (game.in_checkmate) {
-      _internalInStatus.add(GameStatus.in_checkmate);
+      _status = GameStatus.in_checkmate;
     } else if (game.in_draw) {
-      _internalInStatus.add(GameStatus.in_draw);
+      _status = GameStatus.in_draw;
     }
+
+    _internalInStatus.add(_status);
   }
 
   /// Makes move on the board then sets the turn back to white

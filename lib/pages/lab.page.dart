@@ -5,6 +5,7 @@ import '../shared/custom.icons.dart';
 import '../shared/status.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
+import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class LabPage extends StatefulWidget {
 }
 
 class LabPageState extends State<LabPage> {
-  ChessBoardController _labBoardController = ChessBoardController();
+  GameControllerBloc _labBoardController = GameControllerBloc();
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ChessBot _gambitsBloc = BlocProvider.of<ChessBot>(context);
+    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
 
     return Scaffold(
       body: Container(
@@ -40,7 +41,7 @@ class LabPageState extends State<LabPage> {
               onDraw: () {},
             ),
             Status(
-              _gambitsBloc,
+              _chessBot,
             ),
           ],
         ),
@@ -62,7 +63,7 @@ class LabPageState extends State<LabPage> {
             onPressed: () {
               if (!_labBoardController.game.in_checkmate) {
                 String move =
-                    _gambitsBloc.waterfallGambits(_labBoardController.game);
+                    _chessBot.waterfallGambits(_labBoardController.game);
                 _labBoardController.labMove(move);
               }
             },

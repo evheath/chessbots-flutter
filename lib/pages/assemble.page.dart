@@ -22,22 +22,22 @@ class AssemblePage extends StatefulWidget {
 class AssemblePageState extends State<AssemblePage> {
   @override
   Widget build(BuildContext context) {
-    final ChessBot gambitsBloc = BlocProvider.of<ChessBot>(context);
+    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: StreamBuilder(
           initialData: [MoveRandomPiece()], // need for error prevention
-          stream: gambitsBloc.gambits,
+          stream: _chessBot.gambits,
           builder: (context, snapshot) {
             List<Gambit> _gambits = snapshot.data;
             return ReorderableListView(
               scrollDirection: Axis.vertical,
               onReorder: (oldIndex, newIndex) {
-                gambitsBloc.event.add(ReorderEvent(oldIndex, newIndex));
+                _chessBot.event.add(ReorderEvent(oldIndex, newIndex));
               },
               header: GambitListTile(gambit: CheckmateOpponent()),
-              children: _buildGambitListTiles(_gambits, gambitsBloc),
+              children: _buildGambitListTiles(_gambits, _chessBot),
             );
           },
         ),
@@ -56,7 +56,7 @@ class AssemblePageState extends State<AssemblePage> {
   } // Build
 
   List<Widget> _buildGambitListTiles(
-      List<Gambit> _gambits, ChessBot gambitsBloc) {
+      List<Gambit> _gambits, ChessBot _chessBot) {
     //configurable gambits first
     List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
       Gambit _gambit = _gambits[index];
@@ -72,7 +72,7 @@ class AssemblePageState extends State<AssemblePage> {
                             builder: (context) => SelectGambitPage()))
                     .then((Gambit selectedGambit) {
                   if (selectedGambit != null) {
-                    gambitsBloc.event
+                    _chessBot.event
                         .add(SelectGambitEvent(index, selectedGambit));
                   }
                 });
@@ -88,7 +88,7 @@ class AssemblePageState extends State<AssemblePage> {
               ),
               onDismissed: (direction) {
                 // swiping a list tile will replace it with an empty gambit
-                gambitsBloc.event.add(DismissedEvent(index));
+                _chessBot.event.add(DismissedEvent(index));
               },
             );
     });

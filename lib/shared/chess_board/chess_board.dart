@@ -3,7 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import './board_model.dart';
 import './board_rank.dart';
-import './chess_board_controller.dart';
+import '../../bloc/game_controller.bloc.dart';
 
 var whiteSquareList = [
   [
@@ -121,7 +121,7 @@ class ChessBoard extends StatefulWidget {
   final bool whiteSideTowardsUser;
 
   /// A controller to programmatically control the chess board
-  final ChessBoardController chessBoardController;
+  final GameControllerBloc chessBoardController;
 
   /// A boolean which checks if the user should be allowed to make moves
   final bool enableUserMoves;

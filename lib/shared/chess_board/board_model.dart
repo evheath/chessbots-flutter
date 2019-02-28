@@ -1,5 +1,5 @@
 import 'dart:ui';
-import './chess_board_controller.dart';
+import '../../bloc/game_controller.bloc.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:chess/chess.dart' as chess;
 
@@ -26,7 +26,7 @@ class BoardModel extends Model {
   bool whiteSideTowardsUser;
 
   /// The controller for programmatically making moves
-  ChessBoardController chessBoardController;
+  GameControllerBloc chessBoardController;
 
   /// User moves can be enabled or disabled by this property
   bool enableUserMoves;
