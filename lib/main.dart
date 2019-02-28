@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => RouteGuard(MatchPage(
-                whiteBot: human,
-                blackBot: levelonecpu,
-              )),
-          // '/': (context) => RouteGuard(AssemblePage()),
+          // '/': (context) => RouteGuard(MatchPage(
+          //       whiteBot: human,
+          //       blackBot: levelonecpu,
+          //     )),
+          '/': (context) => RouteGuard(AssemblePage()),
           '/lab': (context) => RouteGuard(LabPage()),
           '/assemble': (context) => RouteGuard(AssemblePage()),
           '/settings': (context) => RouteGuard(SettingsPage()),
