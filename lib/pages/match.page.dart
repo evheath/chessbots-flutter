@@ -116,13 +116,15 @@ class MatchPageState extends State<MatchPage> {
           content: new Text("Well played! Enjoy some nerd points"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // new FlatButton(
+            //   child: new Text("Play Again"),
+            //   onPressed: () {},
+            // ),
             new FlatButton(
-              child: new Text("Play Again"),
-              onPressed: () {},
-            ),
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {},
+              child: new Text("Amazing"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );
@@ -139,13 +141,15 @@ class MatchPageState extends State<MatchPage> {
           content: new Text("You get nothing. Good day sir."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // new FlatButton(
+            //   child: new Text("Play Again"),
+            //   onPressed: () {},
+            // ),
             new FlatButton(
-              child: new Text("Play Again"),
-              onPressed: () {},
-            ),
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {},
+              child: new Text("Acknowledge defeat"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );
@@ -162,13 +166,15 @@ class MatchPageState extends State<MatchPage> {
           content: new Text("Wow what a great use of everybody's time."),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Play Again"),
-              onPressed: () {},
-            ),
+            // new FlatButton(
+            //   child: new Text("Play Again"),
+            //   onPressed: () {},
+            // ),
             new FlatButton(
               child: new Text("Close"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );
