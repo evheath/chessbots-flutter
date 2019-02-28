@@ -5,15 +5,15 @@ import './pages/assemble.page.dart';
 import './pages/settings.page.dart';
 import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
-import './bloc/gambits.bloc.dart';
+import './bloc/chess_bot.bloc.dart';
 import './bloc/auth.bloc.dart';
 
 import './shared/gambits.dart';
 
 void main() => runApp(BlocProvider<AuthBloc>(
     bloc: AuthBloc(),
-    child: BlocProvider<GambitsBloc>(
-      bloc: GambitsBloc(botName: "Your bot"),
+    child: BlocProvider<ChessBot>(
+      bloc: ChessBot(botName: "Your bot"),
       child: MyApp(),
     )));
 
@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO these should not exist in main
     // they are here until there is a better way to route to the match page
-    final GambitsBloc human = BlocProvider.of<GambitsBloc>(context);
-    final GambitsBloc levelonecpu = GambitsBloc(gambits: [
+    final ChessBot human = BlocProvider.of<ChessBot>(context);
+    final ChessBot levelonecpu = ChessBot(gambits: [
       CaptureRandomPiece(),
       MoveRandomPawn(),
     ], botName: "Level 1 CPU");

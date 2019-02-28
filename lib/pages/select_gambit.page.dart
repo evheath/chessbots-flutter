@@ -1,5 +1,5 @@
 import '../bloc/base.bloc.dart';
-import '../bloc/gambits.bloc.dart';
+import '../bloc/chess_bot.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/gambit_list_tile.dart';
@@ -9,7 +9,7 @@ import '../models/gambit.dart';
 class SelectGambitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
+    final ChessBot _gambitsBloc = BlocProvider.of<ChessBot>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(

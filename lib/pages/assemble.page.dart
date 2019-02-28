@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 import '../bloc/base.bloc.dart';
-import '../bloc/gambits.bloc.dart';
+import '../bloc/chess_bot.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';
@@ -21,7 +21,7 @@ class AssemblePage extends StatefulWidget {
 class AssemblePageState extends State<AssemblePage> {
   @override
   Widget build(BuildContext context) {
-    final GambitsBloc gambitsBloc = BlocProvider.of<GambitsBloc>(context);
+    final ChessBot gambitsBloc = BlocProvider.of<ChessBot>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -55,7 +55,7 @@ class AssemblePageState extends State<AssemblePage> {
   } // Build
 
   List<Widget> _buildGambitListTiles(
-      List<Gambit> _gambits, GambitsBloc gambitsBloc) {
+      List<Gambit> _gambits, ChessBot gambitsBloc) {
     //configurable gambits first
     List<Widget> _gambitTiles = List.generate(_gambits.length, (index) {
       Gambit _gambit = _gambits[index];

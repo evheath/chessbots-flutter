@@ -4,7 +4,7 @@ import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 import '../shared/status.dart';
 import '../bloc/base.bloc.dart';
-import '../bloc/gambits.bloc.dart';
+import '../bloc/chess_bot.bloc.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    final GambitsBloc _gambitsBloc = BlocProvider.of<GambitsBloc>(context);
+    final ChessBot _gambitsBloc = BlocProvider.of<ChessBot>(context);
 
     return Scaffold(
       body: Container(

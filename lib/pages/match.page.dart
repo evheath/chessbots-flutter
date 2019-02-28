@@ -7,14 +7,15 @@ import '../shared/left.drawer.dart';
 import '../shared/status.dart';
 import '../shared/gambits.dart';
 import 'package:chess/chess.dart' as chess;
-
 // import '../bloc/base.bloc.dart';
-import '../bloc/gambits.bloc.dart';
+import '../bloc/chess_bot.bloc.dart';
 import '../models/gambit.dart';
 
+//TODO: navigating away from a game in progress needs better tear down
+// not sure where this needs to happen
 class MatchPage extends StatefulWidget {
-  final GambitsBloc whiteBot;
-  final GambitsBloc blackBot;
+  final ChessBot whiteBot;
+  final ChessBot blackBot;
 
   MatchPage({@required this.whiteBot, @required this.blackBot});
   @override
