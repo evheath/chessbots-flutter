@@ -1,14 +1,8 @@
 import 'dart:async';
 import 'package:rxdart/subjects.dart';
-
 import './base.bloc.dart';
-
 import '../models/gambit.dart';
-
 import 'package:chess/chess.dart' as chess;
-
-//TODO remove this import, this is just used for testing purpose,
-// eventually the gambits should be obtained programmatically
 import '../shared/gambits.dart';
 
 abstract class GambitEvent {}
@@ -38,7 +32,7 @@ class SelectGambitEvent extends GambitEvent {
   SelectGambitEvent(this.index, this.selectedGambit);
 }
 
-class GambitsBloc implements BlocBase {
+class ChessBot implements BlocBase {
   // state
   List<Gambit> _gambits;
   String botName;
@@ -53,7 +47,7 @@ class GambitsBloc implements BlocBase {
   // external-in
   StreamSink<GambitEvent> get event => _eventController.sink;
 
-  GambitsBloc({List<Gambit> gambits, this.botName = 'Bot'}) {
+  ChessBot({List<Gambit> gambits, this.botName = 'Bot'}) {
     this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
 
     // pushing the initial gambits out of the stream

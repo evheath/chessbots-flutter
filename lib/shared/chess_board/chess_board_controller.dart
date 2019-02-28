@@ -1,4 +1,6 @@
 import 'package:chess/chess.dart' as chess;
+import 'package:rxdart/rxdart.dart';
+import 'dart:async';
 
 enum PieceType { Pawn, Rook, Knight, Bishop, Queen, King }
 
@@ -7,18 +9,45 @@ enum PieceColor {
   Black,
 }
 
+enum GameStatus { in_checkmate, in_progress, in_draw, pending }
+
 /// Controller for programmatically controlling the board
+//TODO rename to game_bloc
 class ChessBoardController {
-  /// The game attached to the controller
+//TODO controller for whose turn it is
+  // controllers
+  StreamController<GameStatus> _statusController =
+      BehaviorSubject<GameStatus>(); // no external-in atm
+
+  // state
+  // GameStatus _gameStatus;
   chess.Chess game = chess.Chess();
 
   /// Function from the ScopedModel to refresh board
   Function refreshBoard;
 
+  // constructor
+  ChessBoardController() {
+    // game is starting
+    _internalInStatus.add(GameStatus.pending);
+  }
+
+  // internal-in
+  StreamSink<GameStatus> get _internalInStatus => _statusController.sink;
+
+  // external-out (inherently connected to internal-in via controller)
+  Stream<GameStatus> get status => _statusController.stream;
+
   /// Makes move on the board
   void makeMove(String move) {
+    _internalInStatus.add(GameStatus.in_progress);
     game?.move(move);
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+    if (game.in_checkmate) {
+      _internalInStatus.add(GameStatus.in_checkmate);
+    } else if (game.in_draw) {
+      _internalInStatus.add(GameStatus.in_draw);
+    }
   }
 
   /// Makes move on the board then sets the turn back to white
@@ -95,5 +124,10 @@ class ChessBoardController {
     }
 
     return chess.Piece(chess.PieceType.PAWN, chess.Color.WHITE);
+  }
+
+  // tear down
+  void dispose() {
+    _statusController.close();
   }
 }

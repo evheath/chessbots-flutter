@@ -1,7 +1,7 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/gambit.dart';
-import '../bloc/gambits.bloc.dart';
+import '../bloc/chess_bot.bloc.dart';
 import 'package:flare_flutter/flare_actor.dart';
 // import '../bloc/auth.bloc.dart';
 // import '../bloc/base.bloc.dart';
@@ -9,7 +9,7 @@ import '../shared/gambits/empty.dart';
 
 ///New, stream-based status tile
 class Status extends StatelessWidget {
-  final GambitsBloc bot;
+  final ChessBot bot;
 
   Status(this.bot);
 

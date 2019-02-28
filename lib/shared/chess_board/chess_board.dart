@@ -133,7 +133,7 @@ class ChessBoard extends StatefulWidget {
     this.size = 200.0,
     this.whiteSideTowardsUser = true,
     @required this.onMove,
-    @required this.onCheckMate,
+    this.onCheckMate,
     @required this.onDraw,
     this.chessBoardController,
     this.enableUserMoves = true,
@@ -152,7 +152,7 @@ class _ChessBoardState extends State<ChessBoard> {
       model: BoardModel(
         widget.size,
         widget.onMove,
-        widget.onCheckMate,
+        widget.onCheckMate ?? (String derp) {},
         widget.onDraw,
         widget.whiteSideTowardsUser,
         widget.chessBoardController,

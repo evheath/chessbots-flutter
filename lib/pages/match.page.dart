@@ -3,18 +3,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
-// import '../shared/status_list_tile.dart';
 import '../shared/status.dart';
-import '../shared/gambits.dart';
 import 'package:chess/chess.dart' as chess;
+import '../bloc/chess_bot.bloc.dart';
 
-// import '../bloc/base.bloc.dart';
-import '../bloc/gambits.bloc.dart';
-import '../models/gambit.dart';
-
+//TODO: navigating away from a game in progress needs better tear down
+// not sure where this needs to happen
 class MatchPage extends StatefulWidget {
-  final GambitsBloc whiteBot;
-  final GambitsBloc blackBot;
+  final ChessBot whiteBot;
+  final ChessBot blackBot;
 
   MatchPage({@required this.whiteBot, @required this.blackBot});
   @override
@@ -25,8 +22,22 @@ class MatchPage extends StatefulWidget {
 
 class MatchPageState extends State<MatchPage> {
   ChessBoardController _matchBoardController = ChessBoardController();
-  Gambit _lastGambitUsed = EmptyGambit();
   bool _gameStarted = false;
+
+  MatchPageState() {
+    // listening to game status
+    _matchBoardController.status.listen((status) {
+      if (status == GameStatus.in_checkmate) {
+        // if game is over and it is white's turn, that means black won
+        _matchBoardController.game.turn == chess.Color.WHITE
+            ? _handleDefeat()
+            : _handleVictory();
+        //TODO eventually we should never touch the controllers game
+      } else if (status == GameStatus.in_draw) {
+        _handleDraw();
+      } else {}
+    });
+  }
 
   @override
   void initState() {
@@ -40,21 +51,13 @@ class MatchPageState extends State<MatchPage> {
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            //TODO statuslist tile should be handed a bot,
-            //bots will also need a stream for last gambit used for the status to listen to
             Status(widget.blackBot),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
-              onCheckMate: (derp) {
-                //TODO onCheckMate does not fire
-                print("onCheckMate uwu");
-              },
-              onDraw: () {
-                print("onDraw uwu");
-              },
+              onDraw: () {},
             ),
             Status(widget.whiteBot),
           ],
@@ -88,7 +91,8 @@ class MatchPageState extends State<MatchPage> {
       _gameStarted = true;
     });
     chess.Chess game = _matchBoardController.game;
-    while (!_matchBoardController.game.in_checkmate) {
+    while (!_matchBoardController.game.in_checkmate &&
+        !_matchBoardController.game.in_draw) {
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.game.turn == chess.Color.WHITE) {
@@ -100,5 +104,75 @@ class MatchPageState extends State<MatchPage> {
       }
       _matchBoardController.makeMove(move);
     }
+  }
+
+  void _handleVictory() {
+    // TODO: nerd points get rewarded here
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("You win!"),
+          content: new Text("Well played! Enjoy some nerd points"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Play Again"),
+              onPressed: () {},
+            ),
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDefeat() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("You lose!"),
+          content: new Text("You get nothing. Good day sir."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Play Again"),
+              onPressed: () {},
+            ),
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDraw() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Draw game!"),
+          content: new Text("Wow what a great use of everybody's time."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Play Again"),
+              onPressed: () {},
+            ),
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
   }
 }
