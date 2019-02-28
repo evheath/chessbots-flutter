@@ -33,7 +33,6 @@ class MatchPageState extends State<MatchPage> {
         _matchBoardController.turn == chess.Color.WHITE
             ? _handleDefeat()
             : _handleVictory();
-        //TODO eventually we should never touch the controllers game
       } else if (status == GameStatus.in_draw) {
         _handleDraw();
       } else {}

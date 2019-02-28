@@ -24,7 +24,7 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ChessBot _gambitsBloc = BlocProvider.of<ChessBot>(context);
+    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
 
     return Scaffold(
       body: Container(
@@ -41,7 +41,7 @@ class LabPageState extends State<LabPage> {
               onDraw: () {},
             ),
             Status(
-              _gambitsBloc,
+              _chessBot,
             ),
           ],
         ),
@@ -63,7 +63,7 @@ class LabPageState extends State<LabPage> {
             onPressed: () {
               if (!_labBoardController.game.in_checkmate) {
                 String move =
-                    _gambitsBloc.waterfallGambits(_labBoardController.game);
+                    _chessBot.waterfallGambits(_labBoardController.game);
                 _labBoardController.labMove(move);
               }
             },

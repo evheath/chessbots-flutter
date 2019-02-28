@@ -9,7 +9,7 @@ import '../models/gambit.dart';
 class SelectGambitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ChessBot _gambitsBloc = BlocProvider.of<ChessBot>(context);
+    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -23,7 +23,7 @@ class SelectGambitPage extends StatelessWidget {
         ),
         body: StreamBuilder(
             initialData: [MoveRandomPiece()], // need for error prevention
-            stream: _gambitsBloc.gambits,
+            stream: _chessBot.gambits,
             builder: (context, snapshot) {
               List<Gambit> _currentGambits = snapshot.data;
               return TabBarView(
