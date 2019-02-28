@@ -5,11 +5,11 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 // import '../shared/status_list_tile.dart';
 import '../shared/status.dart';
-import '../shared/gambits.dart';
+// import '../shared/gambits.dart';
 import 'package:chess/chess.dart' as chess;
 // import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
-import '../models/gambit.dart';
+// import '../models/gambit.dart';
 
 //TODO: navigating away from a game in progress needs better tear down
 // not sure where this needs to happen
@@ -26,7 +26,6 @@ class MatchPage extends StatefulWidget {
 
 class MatchPageState extends State<MatchPage> {
   ChessBoardController _matchBoardController = ChessBoardController();
-  Gambit _lastGambitUsed = EmptyGambit();
   bool _gameStarted = false;
 
   @override
@@ -41,8 +40,6 @@ class MatchPageState extends State<MatchPage> {
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            //TODO statuslist tile should be handed a bot,
-            //bots will also need a stream for last gambit used for the status to listen to
             Status(widget.blackBot),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
