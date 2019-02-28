@@ -13,7 +13,7 @@ enum GameStatus { in_checkmate, in_progress, in_draw, pending }
 
 /// Controller for programmatically controlling the board
 //TODO rename to game_bloc
-class ChessBoardController {
+class GameControllerBloc {
 //TODO controller for whose turn it is
   // controllers
   StreamController<GameStatus> _statusController =
@@ -27,7 +27,7 @@ class ChessBoardController {
   Function refreshBoard;
 
   // constructor
-  ChessBoardController() {
+  GameControllerBloc() {
     // game is starting
     _internalInStatus.add(GameStatus.pending);
   }

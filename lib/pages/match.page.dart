@@ -6,6 +6,7 @@ import '../shared/left.drawer.dart';
 import '../shared/status.dart';
 import 'package:chess/chess.dart' as chess;
 import '../bloc/chess_bot.bloc.dart';
+import '../bloc/game_controller.bloc.dart';
 
 //TODO: navigating away from a game in progress needs better tear down
 // not sure where this needs to happen
@@ -21,7 +22,7 @@ class MatchPage extends StatefulWidget {
 }
 
 class MatchPageState extends State<MatchPage> {
-  ChessBoardController _matchBoardController = ChessBoardController();
+  GameControllerBloc _matchBoardController = GameControllerBloc();
   bool _gameStarted = false;
 
   MatchPageState() {

@@ -5,6 +5,7 @@ import '../shared/custom.icons.dart';
 import '../shared/status.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
+import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class LabPage extends StatefulWidget {
 }
 
 class LabPageState extends State<LabPage> {
-  ChessBoardController _labBoardController = ChessBoardController();
+  GameControllerBloc _labBoardController = GameControllerBloc();
 
   @override
   void initState() {
