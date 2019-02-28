@@ -11,6 +11,7 @@ import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';
 import '../pages/select_gambit.page.dart';
 
+//TODO tutorial on swiping and adding gambits
 class AssemblePage extends StatefulWidget {
   @override
   AssemblePageState createState() {

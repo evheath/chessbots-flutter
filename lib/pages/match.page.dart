@@ -28,6 +28,14 @@ class MatchPageState extends State<MatchPage> {
   ChessBoardController _matchBoardController = ChessBoardController();
   bool _gameStarted = false;
 
+  MatchPageState() {
+    _matchBoardController.status.listen((status) {
+      if (status == GameStatus.in_checkmate) {
+        _showDialog();
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -46,10 +54,7 @@ class MatchPageState extends State<MatchPage> {
               enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
-              onDraw: () {
-                print("onDraw uwu");
-                _showDialog();
-              },
+              onDraw: () {},
             ),
             Status(widget.whiteBot),
           ],
@@ -99,46 +104,25 @@ class MatchPageState extends State<MatchPage> {
   }
 
   void _showDialog({String winColor}) {
-    winColor != null
-        ? showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: new Text("Checkmate!"),
-                content: new Text("$winColor wins!"),
-                actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
-                  new FlatButton(
-                    child: new Text("Play Again"),
-                    onPressed: () {},
-                  ),
-                  new FlatButton(
-                    child: new Text("Close"),
-                    onPressed: () {},
-                  ),
-                ],
-              );
-            },
-          )
-        : showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: new Text("Draw!"),
-                content: new Text("The game is a draw!"),
-                actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
-                  new FlatButton(
-                    child: new Text("Play Again"),
-                    onPressed: () {},
-                  ),
-                  new FlatButton(
-                    child: new Text("Close"),
-                    onPressed: () {},
-                  ),
-                ],
-              );
-            },
-          );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Checkmate!"),
+          content: new Text("Game over wins!"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Play Again"),
+              onPressed: () {},
+            ),
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
   }
 }
