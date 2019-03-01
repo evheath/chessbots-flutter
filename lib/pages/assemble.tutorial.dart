@@ -13,16 +13,27 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     with TickerProviderStateMixin {
   TabController _tutorialTabController;
   AnimationController _animationController;
+  List<Widget> _tabs;
 
   @override
   void initState() {
-    //TODO figure out a non-manual way to keep track of tabs
-    // the problem with moving tabs outside of build means it cannot access animation controller
-    _tutorialTabController = TabController(length: 5, vsync: this);
     _animationController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
-    _animationController
-        .repeat(); // used by multiple children so we are always using it
+    // _animationController is used by multiple children
+    // and in the same way, so repeating here makes sense
+    _animationController.repeat();
+
+    // notice length must be updated if tabs are added
+    _tutorialTabController = TabController(length: 5, vsync: this);
+
+    _tabs = [
+      UndesirableTab(_animationController),
+      RearrangeOrderTab(_tutorialTabController),
+      DesirableOrderTab(_animationController),
+      SpecialGambitsTab(),
+      SwipeTab(_animationController),
+    ];
+
     super.initState();
   }
 
@@ -37,100 +48,7 @@ class _AssembleTutorialState extends State<AssembleTutorial>
   Widget build(BuildContext context) {
     //TODO tabs:
     // - click on empty to fill
-    // - top and bottom cannot be changed
     // - help icon takes you to demo
-    // - drag and drop to reorder
-    // _tabs needs to be in build to access animation controller
-    List<Widget> _tabs = [
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(children: [
-            GambitListTile(gambit: CapturePawn()),
-            GambitListTile(gambit: CaptureKnight())
-          ]),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text.rich(TextSpan(
-              text: "Your bot will make moves based on the ",
-              children: [
-                TextSpan(
-                    text: "order",
-                    style: TextStyle(decoration: TextDecoration.underline)),
-                TextSpan(text: " of your gambits"),
-              ],
-            )),
-            // child: Text(
-            //     "Your bot will make moves based on the order of your gambits")
-          ),
-          UndesirableBoard(controller: _animationController),
-          Text("Notice how the knight isn't captured?"),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Expanded(
-            child: ReorderableListView(
-                padding: const EdgeInsets.all(10),
-                scrollDirection: Axis.vertical,
-                onReorder: (oldIndex, newIndex) {
-                  _tutorialTabController.animateTo(2);
-                },
-                header: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text("Press and hold to rearrange gambits"),
-                ),
-                children: [
-                  GambitListTile(key: Key('2'), gambit: CapturePawn()),
-                  GambitListTile(key: Key('1'), gambit: CaptureKnight())
-                ]),
-          ),
-          // Text("Go on, give it a try"),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(children: [
-            GambitListTile(gambit: CaptureKnight()),
-            GambitListTile(gambit: CapturePawn())
-          ]),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(
-                  "Now 'Capture Knight' gets evaluated before 'Capture Pawn'")),
-          DesirableBoard(controller: _animationController),
-          Text("That's better!"),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text("These two gambits are special:"),
-          ),
-          Column(children: [
-            GambitListTile(gambit: CheckmateOpponent()),
-            GambitListTile(gambit: MoveRandomPiece())
-          ]),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text("You can't move or change them."),
-          ),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text("Lastly,"),
-          // TODO have empty gambit animation in underneath
-          SwipingAnimation(controller: _animationController),
-          Text("Swipe to empty a gambit!"),
-        ],
-      ),
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -256,5 +174,139 @@ class SwipingAnimation extends StatelessWidget {
             child: GambitListTile(gambit: CheckOpponent()),
           );
         });
+  }
+}
+
+class UndesirableTab extends StatelessWidget {
+  final AnimationController _animationController;
+  UndesirableTab(this._animationController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Column(children: [
+          GambitListTile(gambit: CapturePawn()),
+          GambitListTile(gambit: CaptureKnight())
+        ]),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text.rich(TextSpan(
+            text: "Your bot will make moves based on the ",
+            children: [
+              TextSpan(
+                  text: "order",
+                  style: TextStyle(decoration: TextDecoration.underline)),
+              TextSpan(text: " of your gambits"),
+            ],
+          )),
+        ),
+        UndesirableBoard(controller: _animationController),
+        Text("Notice how the knight isn't captured?"),
+      ],
+    );
+  }
+}
+
+/// Note: this Tab should be second to tab
+class RearrangeOrderTab extends StatelessWidget {
+  /// Needed so this tab can animate to the next tab
+  final TabController _tabController;
+  RearrangeOrderTab(this._tabController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Expanded(
+          child: ReorderableListView(
+              padding: const EdgeInsets.all(10),
+              scrollDirection: Axis.vertical,
+              onReorder: (oldIndex, newIndex) {
+                int nextIndex =
+                    _tabController.index >= _tabController.previousIndex
+                        ? _tabController.index + 1
+                        : _tabController.previousIndex;
+                _tabController.animateTo(nextIndex);
+              },
+              header: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text("Press and hold to rearrange gambits"),
+              ),
+              children: [
+                GambitListTile(key: Key('2'), gambit: CapturePawn()),
+                GambitListTile(key: Key('1'), gambit: CaptureKnight())
+              ]),
+        ),
+        // Text("Go on, give it a try"),
+      ],
+    );
+  }
+}
+
+class DesirableOrderTab extends StatelessWidget {
+  final AnimationController _animationController;
+  DesirableOrderTab(this._animationController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Column(children: [
+          GambitListTile(gambit: CaptureKnight()),
+          GambitListTile(gambit: CapturePawn())
+        ]),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+                "Now 'Capture Knight' gets evaluated before 'Capture Pawn'")),
+        DesirableBoard(controller: _animationController),
+        Text("That's better!"),
+      ],
+    );
+  }
+}
+
+class SpecialGambitsTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text("These two gambits are special:"),
+        ),
+        Column(children: [
+          GambitListTile(gambit: CheckmateOpponent()),
+          GambitListTile(gambit: MoveRandomPiece())
+        ]),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text("You can't move or change them."),
+        ),
+      ],
+    );
+  }
+}
+
+class SwipeTab extends StatelessWidget {
+  final AnimationController _animationController;
+  SwipeTab(this._animationController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text("Lastly,"),
+        // TODO have empty gambit animation in underneath
+        SwipingAnimation(controller: _animationController),
+        Text("Swipe to empty a gambit!"),
+      ],
+    );
   }
 }
