@@ -16,7 +16,9 @@ class _AssembleTutorialState extends State<AssembleTutorial>
 
   @override
   void initState() {
-    _tutorialTabController = TabController(length: 2, vsync: this);
+    //TODO figure out a non-manual way to keep track of tabs
+    // the problem with moving tabs outside of build means it cannot access animation controller
+    _tutorialTabController = TabController(length: 3, vsync: this);
     _animationController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
     _animationController
@@ -54,6 +56,20 @@ class _AssembleTutorialState extends State<AssembleTutorial>
         ],
       ),
       //tab2
+
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(children: [
+            GambitListTile(gambit: CaptureKnight()),
+            GambitListTile(gambit: CapturePawn())
+          ]),
+          Text("Now 'Capture Knight' gets evaluated before 'Capture Pawn'"),
+          DesirableBoard(controller: _animationController),
+          Text("That's better!"),
+        ],
+      ),
+      //tab3
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -88,6 +104,41 @@ class _AssembleTutorialState extends State<AssembleTutorial>
         ],
       ),
     );
+  }
+}
+
+class DesirableBoard extends StatelessWidget {
+  final AnimationController controller;
+  final Animation<double> number;
+
+  DesirableBoard({Key key, this.controller})
+      : number = Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(controller),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: controller,
+        builder: (context, widget) {
+          return number.value >= 0.5 // half of the time
+              ? ChessBoard(
+                  onMove: (move) {},
+                  onDraw: () {},
+                  chessBoardController: GameControllerBloc(
+                      initialPosition:
+                          'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                )
+              : ChessBoard(
+                  onMove: (move) {},
+                  onDraw: () {},
+                  chessBoardController: GameControllerBloc(
+                      initialPosition:
+                          'rnbqkb1r/ppppp1pp/8/5pQ1/3P4/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                );
+        });
   }
 }
 
