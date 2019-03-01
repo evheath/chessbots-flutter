@@ -49,7 +49,10 @@ class _AssembleTutorialState extends State<AssembleTutorial>
             GambitListTile(gambit: CapturePawn()),
             GambitListTile(gambit: CaptureKnight())
           ]),
-          Text("Your bot will make moves based on the order of your gambits"),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                  "Your bot will make moves based on the order of your gambits")),
           UndesirableBoard(controller: _animationController),
           Text("Notice how the knight isn't captured?"),
         ],
@@ -83,7 +86,10 @@ class _AssembleTutorialState extends State<AssembleTutorial>
             GambitListTile(gambit: CaptureKnight()),
             GambitListTile(gambit: CapturePawn())
           ]),
-          Text("Now 'Capture Knight' gets evaluated before 'Capture Pawn'"),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                  "Now 'Capture Knight' gets evaluated before 'Capture Pawn'")),
           DesirableBoard(controller: _animationController),
           Text("That's better!"),
         ],
@@ -185,7 +191,7 @@ class UndesirableBoard extends StatelessWidget {
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
                       initialPosition:
-                          'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                          'rnbqkb1r/ppppp1pp/8/5Qn1/3P4/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
                 )
               : ChessBoard(
                   enableUserMoves: false,
@@ -193,7 +199,7 @@ class UndesirableBoard extends StatelessWidget {
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
                       initialPosition:
-                          'rnbqkb1r/ppppp1pp/8/5Qn1/3P4/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                          'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
                 );
         });
   }
