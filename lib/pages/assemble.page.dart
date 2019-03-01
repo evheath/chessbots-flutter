@@ -54,6 +54,7 @@ class AssemblePageState extends State<AssemblePage> {
             tooltip: "Tutorial",
             icon: Icon(FontAwesomeIcons.questionCircle),
             onPressed: () {
+              //TODO is there a way to have the tutorial shown if this is the first time logging in?
               _showTutorial();
             },
           )
