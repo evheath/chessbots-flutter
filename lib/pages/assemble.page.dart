@@ -1,5 +1,5 @@
-/// Page for reordering gambits, similar to right-hand pane in web-app
-
+import './assemble/assemble.tutorial.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
@@ -11,7 +11,6 @@ import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';
 import '../pages/select_gambit.page.dart';
 
-//TODO tutorial on swiping and adding gambits
 class AssemblePage extends StatefulWidget {
   @override
   AssemblePageState createState() {
@@ -47,13 +46,31 @@ class AssemblePageState extends State<AssemblePage> {
           children: [
             Icon(MyCustomIcons.cog_alt),
             SizedBox(width: 10.0),
-            Text("Assemble your gambits"),
+            Text("Build your bot"),
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+            tooltip: "Tutorial",
+            icon: Icon(FontAwesomeIcons.questionCircle),
+            onPressed: () {
+              _showTutorial();
+            },
+          )
+        ],
       ),
       drawer: LeftDrawer(),
     );
   } // Build
+
+  void _showTutorial() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AssembleTutorial();
+      },
+    );
+  }
 
   List<Widget> _buildGambitListTiles(
       List<Gambit> _gambits, ChessBot _chessBot) {
