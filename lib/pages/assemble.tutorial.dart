@@ -1,5 +1,5 @@
-import '../../shared/gambit_list_tile.dart';
-import '../../shared/gambits.dart';
+import '../shared/gambit_list_tile.dart';
+import '../shared/gambits.dart';
 import 'package:flutter/material.dart';
 
 class AssembleTutorial extends StatefulWidget {
@@ -43,16 +43,19 @@ class _AssembleTutorialState extends State<AssembleTutorial>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SwipingAnimation(controller: _animationController),
-          Text("You can swipe to dismiss a gambit!"),
+          Text("Swipe to dismiss a gambit!"),
         ],
       ),
       //tab2
       Icon(Icons.home),
     ];
 
-    return AlertDialog(
-      title: Text("Assemble your chess bot!"),
-      content: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("How to assemble gambits"),
+        backgroundColor: Colors.purple,
+      ),
+      body: Column(
         children: <Widget>[
           Expanded(
             child: TabBarView(
@@ -78,7 +81,7 @@ class SwipingAnimation extends StatelessWidget {
   SwipingAnimation({Key key, this.controller})
       : translation = Tween<double>(
           begin: 0.0,
-          end: 200.0,
+          end: 500.0,
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.ease),
         ),

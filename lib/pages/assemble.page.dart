@@ -1,4 +1,4 @@
-import './assemble/assemble.tutorial.dart';
+import './assemble.tutorial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +54,7 @@ class AssemblePageState extends State<AssemblePage> {
             tooltip: "Tutorial",
             icon: Icon(FontAwesomeIcons.questionCircle),
             onPressed: () {
-              //TODO is there a way to have the tutorial shown if this is the first time logging in?
+              //TODO shared preferences for first time
               _showTutorial();
             },
           )
@@ -65,11 +65,12 @@ class AssemblePageState extends State<AssemblePage> {
   } // Build
 
   void _showTutorial() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AssembleTutorial();
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AssembleTutorial(),
+        fullscreenDialog: true,
+      ),
     );
   }
 

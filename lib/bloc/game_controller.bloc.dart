@@ -54,6 +54,10 @@ class GameControllerBloc {
 
   /// Makes move on the board
   void makeMove(String move) {
+    if (_gameOver()) {
+      return;
+    }
+
     _status = GameStatus.in_progress;
 
     game?.move(move);
