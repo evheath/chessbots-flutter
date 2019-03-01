@@ -13,6 +13,7 @@ enum GameStatus { in_checkmate, in_progress, in_draw, pending }
 
 /// Controller for programmatically controlling the board
 class GameControllerBloc {
+  String initialPosition;
   GameStatus _status;
   // controllers
   StreamController<GameStatus> _statusController =
@@ -26,8 +27,10 @@ class GameControllerBloc {
   Function refreshBoard;
 
   // constructor
-  GameControllerBloc() {
-    // game is starting
+  GameControllerBloc({this.initialPosition}) {
+    if (initialPosition != null) {
+      loadFEN(initialPosition);
+    }
     _status = GameStatus.pending;
     _internalInStatus.add(_status);
   }
