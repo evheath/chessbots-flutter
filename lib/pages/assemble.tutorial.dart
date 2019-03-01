@@ -18,7 +18,7 @@ class _AssembleTutorialState extends State<AssembleTutorial>
   void initState() {
     //TODO figure out a non-manual way to keep track of tabs
     // the problem with moving tabs outside of build means it cannot access animation controller
-    _tutorialTabController = TabController(length: 4, vsync: this);
+    _tutorialTabController = TabController(length: 5, vsync: this);
     _animationController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
     _animationController
@@ -50,9 +50,19 @@ class _AssembleTutorialState extends State<AssembleTutorial>
             GambitListTile(gambit: CaptureKnight())
           ]),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(
-                  "Your bot will make moves based on the order of your gambits")),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text.rich(TextSpan(
+              text: "Your bot will make moves based on the ",
+              children: [
+                TextSpan(
+                    text: "order",
+                    style: TextStyle(decoration: TextDecoration.underline)),
+                TextSpan(text: " of your gambits"),
+              ],
+            )),
+            // child: Text(
+            //     "Your bot will make moves based on the order of your gambits")
+          ),
           UndesirableBoard(controller: _animationController),
           Text("Notice how the knight isn't captured?"),
         ],
@@ -97,9 +107,27 @@ class _AssembleTutorialState extends State<AssembleTutorial>
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text("These two gambits are special:"),
+          ),
+          Column(children: [
+            GambitListTile(gambit: CheckmateOpponent()),
+            GambitListTile(gambit: MoveRandomPiece())
+          ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text("You can't move or change them."),
+          ),
+        ],
+      ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Text("Lastly,"),
           // TODO have empty gambit animation in underneath
           SwipingAnimation(controller: _animationController),
-          Text("Swipe to dismiss a gambit!"),
+          Text("Swipe to empty a gambit!"),
         ],
       ),
     ];
