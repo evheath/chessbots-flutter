@@ -1,6 +1,8 @@
 import '../shared/gambit_list_tile.dart';
 import '../shared/gambits.dart';
 import 'package:flutter/material.dart';
+import '../shared/chess_board.dart';
+import '../bloc/game_controller.bloc.dart';
 
 class AssembleTutorial extends StatefulWidget {
   @override
@@ -17,7 +19,8 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     _tutorialTabController = TabController(length: 2, vsync: this);
     _animationController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
-    // _animationController.repeat();
+    _animationController
+        .repeat(); // used by multiple children so we are always using it
     super.initState();
   }
 
@@ -34,20 +37,31 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     // - click on empty to fill
     // - top and bottom cannot be changed
     // - help icon takes you to demo
-    // drag and drop to reorder
+    // - drag and drop to reorder
     // _tabs needs to be in build to access animation controller
     List<Widget> _tabs = [
       //tab 1
       Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          Column(children: [
+            GambitListTile(gambit: CapturePawn()),
+            GambitListTile(gambit: CaptureKnight())
+          ]),
+          Text("Your bot will make moves based on the order of your gambits"),
+          UndesirableBoard(controller: _animationController),
+          Text("Notice how the knight isn't captured?"),
+        ],
+      ),
+      //tab2
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          // TODO have empty gambit animation in underneath
           SwipingAnimation(controller: _animationController),
           Text("Swipe to dismiss a gambit!"),
         ],
       ),
-      //tab2
-      Icon(Icons.home),
     ];
 
     return Scaffold(
@@ -77,6 +91,41 @@ class _AssembleTutorialState extends State<AssembleTutorial>
   }
 }
 
+class UndesirableBoard extends StatelessWidget {
+  final AnimationController controller;
+  final Animation<double> number;
+
+  UndesirableBoard({Key key, this.controller})
+      : number = Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(controller),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: controller,
+        builder: (context, widget) {
+          return number.value >= 0.5 // half of the time
+              ? ChessBoard(
+                  onMove: (move) {},
+                  onDraw: () {},
+                  chessBoardController: GameControllerBloc(
+                      initialPosition:
+                          'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                )
+              : ChessBoard(
+                  onMove: (move) {},
+                  onDraw: () {},
+                  chessBoardController: GameControllerBloc(
+                      initialPosition:
+                          'rnbqkb1r/ppppp1pp/8/5Qn1/3P4/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
+                );
+        });
+  }
+}
+
 class SwipingAnimation extends StatelessWidget {
   SwipingAnimation({Key key, this.controller})
       : translation = Tween<double>(
@@ -85,9 +134,7 @@ class SwipingAnimation extends StatelessWidget {
         ).animate(
           CurvedAnimation(parent: controller, curve: Curves.ease),
         ),
-        super(key: key) {
-    controller.repeat();
-  }
+        super(key: key);
 
   final AnimationController controller;
   final Animation<double> translation;
