@@ -18,7 +18,7 @@ class _AssembleTutorialState extends State<AssembleTutorial>
   void initState() {
     //TODO figure out a non-manual way to keep track of tabs
     // the problem with moving tabs outside of build means it cannot access animation controller
-    _tutorialTabController = TabController(length: 3, vsync: this);
+    _tutorialTabController = TabController(length: 4, vsync: this);
     _animationController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
     _animationController
@@ -42,7 +42,6 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     // - drag and drop to reorder
     // _tabs needs to be in build to access animation controller
     List<Widget> _tabs = [
-      //tab 1
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -55,8 +54,28 @@ class _AssembleTutorialState extends State<AssembleTutorial>
           Text("Notice how the knight isn't captured?"),
         ],
       ),
-      //tab2
-
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: ReorderableListView(
+                padding: const EdgeInsets.all(10),
+                scrollDirection: Axis.vertical,
+                onReorder: (oldIndex, newIndex) {
+                  _tutorialTabController.animateTo(2);
+                },
+                header: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Press and hold to rearrange gambits"),
+                ),
+                children: [
+                  GambitListTile(key: Key('2'), gambit: CapturePawn()),
+                  GambitListTile(key: Key('1'), gambit: CaptureKnight())
+                ]),
+          ),
+          // Text("Go on, give it a try"),
+        ],
+      ),
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -69,7 +88,6 @@ class _AssembleTutorialState extends State<AssembleTutorial>
           Text("That's better!"),
         ],
       ),
-      //tab3
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -125,6 +143,7 @@ class DesirableBoard extends StatelessWidget {
         builder: (context, widget) {
           return number.value >= 0.5 // half of the time
               ? ChessBoard(
+                  enableUserMoves: false,
                   onMove: (move) {},
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
@@ -132,6 +151,7 @@ class DesirableBoard extends StatelessWidget {
                           'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
                 )
               : ChessBoard(
+                  enableUserMoves: false,
                   onMove: (move) {},
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
@@ -160,6 +180,7 @@ class UndesirableBoard extends StatelessWidget {
         builder: (context, widget) {
           return number.value >= 0.5 // half of the time
               ? ChessBoard(
+                  enableUserMoves: false,
                   onMove: (move) {},
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
@@ -167,6 +188,7 @@ class UndesirableBoard extends StatelessWidget {
                           'rnbqkb1r/ppppp1pp/8/5pn1/3P2Q1/4P3/PPP2PPP/RNB1KBNR w KQkq - 0 1'),
                 )
               : ChessBoard(
+                  enableUserMoves: false,
                   onMove: (move) {},
                   onDraw: () {},
                   chessBoardController: GameControllerBloc(
