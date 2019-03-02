@@ -26,12 +26,11 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     _animationController.repeat();
 
     // notice length must be updated if tabs are added
-    _tutorialTabController = TabController(length: 6, vsync: this);
+    _tutorialTabController = TabController(length: 7, vsync: this);
 
-    //TODO tabs:
-    // - help icon takes you to demo
     _tabs = [
       EmptyGambitsTab(_tutorialTabController),
+      QuestionMarkDemoTab(),
       UndesirableTab(_animationController),
       RearrangeOrderTab(_tutorialTabController),
       DesirableOrderTab(_animationController),
@@ -193,18 +192,26 @@ class UndesirableTab extends StatelessWidget {
         ]),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text.rich(TextSpan(
-            text: "Your bot will make moves based on the ",
-            children: [
-              TextSpan(
-                  text: "order",
-                  style: TextStyle(decoration: TextDecoration.underline)),
-              TextSpan(text: " of your gambits"),
-            ],
-          )),
+          child: Text.rich(
+            TextSpan(
+              style: TextStyle(fontSize: 25),
+              text: "Your bot will make moves based on the ",
+              children: [
+                TextSpan(
+                    text: "order",
+                    style: TextStyle(decoration: TextDecoration.underline)),
+                TextSpan(text: " of your gambits"),
+              ],
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
         UndesirableBoard(controller: _animationController),
-        Text("Notice how the knight isn't captured?"),
+        Text(
+          "Notice how the knight isn't captured?",
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
@@ -234,7 +241,11 @@ class RearrangeOrderTab extends StatelessWidget {
               },
               header: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text("Press and hold to rearrange gambits"),
+                child: Text(
+                  "Press and hold to rearrange gambits",
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
               ),
               children: [
                 GambitListTile(key: Key('2'), gambit: CapturePawn()),
@@ -261,9 +272,13 @@ class DesirableOrderTab extends StatelessWidget {
           GambitListTile(gambit: CapturePawn())
         ]),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-                "Now 'Capture Knight' gets evaluated before 'Capture Pawn'")),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text(
+            "Now 'Capture Knight' gets evaluated before 'Capture Pawn'",
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+        ),
         DesirableBoard(controller: _animationController),
         Text("That's better!"),
       ],
@@ -279,7 +294,11 @@ class SpecialGambitsTab extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text("These two gambits are special:"),
+          child: Text(
+            "These two gambits are special:",
+            style: TextStyle(fontSize: 25),
+            textAlign: TextAlign.center,
+          ),
         ),
         Column(children: [
           GambitListTile(gambit: CheckmateOpponent()),
@@ -287,7 +306,11 @@ class SpecialGambitsTab extends StatelessWidget {
         ]),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text("You can't move or change them."),
+          child: Text(
+            "You can't move or change them.",
+            style: TextStyle(fontSize: 25),
+            textAlign: TextAlign.center,
+          ),
         ),
       ],
     );
@@ -306,7 +329,11 @@ class SwipeTab extends StatelessWidget {
         Text("Lastly,"),
         // TODO have empty gambit animation in underneath
         SwipingAnimation(controller: _animationController),
-        Text("Swipe to empty a gambit!"),
+        Text(
+          "Swipe to empty a gambit!",
+          style: TextStyle(fontSize: 30),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
@@ -324,7 +351,11 @@ class EmptyGambitsTab extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text("Tap on an empty boxes to select a gambit"),
+          child: Text(
+            "Tap on empty boxes to select a gambit",
+            style: TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -337,6 +368,33 @@ class EmptyGambitsTab extends StatelessWidget {
                       : _tabController.previousIndex;
               _tabController.animateTo(nextIndex);
             },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class QuestionMarkDemoTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        //   child: Text("These two gambits are special:"),
+        // ),
+        Column(children: [
+          GambitListTile(gambit: CastleKingSide()),
+          GambitListTile(gambit: PromotePawnToKnight())
+        ]),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text(
+            "If you are unsure what a gambit does, tap the question mark to see a demo.",
+            style: TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
           ),
         ),
       ],
