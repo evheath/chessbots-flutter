@@ -14,6 +14,9 @@ class SignOutEvent extends AuthEvent {}
 class SignInAnonymouslyEvent extends AuthEvent {}
 
 class AuthBloc extends BlocBase {
+  // state
+  bool _loading;
+
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,19 +31,23 @@ class AuthBloc extends BlocBase {
   /// internal-in/external-out controller
   StreamController<FirebaseUser> _userController =
       BehaviorSubject<FirebaseUser>();
+  StreamController<bool> _loadingController =
+      BehaviorSubject<bool>(seedValue: false);
 
   /// internal-in (alias)
-  StreamSink<FirebaseUser> get _internalIn => _userController.sink;
+  StreamSink<FirebaseUser> get _internalInUser => _userController.sink;
+  StreamSink<bool> get _internalInLoading => _loadingController.sink;
 
   /// external-out (alias)
   /// Mostly used to determine if the user is authenticated
   Stream<FirebaseUser> get user => _userController.stream;
+  Stream<bool> get loading => _loadingController.stream;
 
   // constructor
   AuthBloc() {
-    // connect _auth with _internalIn
+    // connect _auth with _internalInUser
     _auth.onAuthStateChanged.listen((_fbUser) {
-      _internalIn.add(_fbUser);
+      _internalInUser.add(_fbUser);
     });
 
     // listen for incoming events from the external-in sink
@@ -49,17 +56,21 @@ class AuthBloc extends BlocBase {
   }
   void _handleEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
+      _internalInLoading.add(true);
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       FirebaseUser _fbUser = await _auth.signInWithGoogle(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      _internalInLoading.add(false);
       _updateUserData(_fbUser);
     } else if (event is SignOutEvent) {
       _auth.signOut();
     } else if (event is SignInAnonymouslyEvent) {
+      _internalInLoading.add(true);
       FirebaseUser _user = await _auth.signInAnonymously();
+      _internalInLoading.add(false);
       _updateUserData(_user);
     }
   }
@@ -79,5 +90,6 @@ class AuthBloc extends BlocBase {
   void dispose() {
     _userController.close();
     _eventController.close();
+    _loadingController.close();
   }
 }

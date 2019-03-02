@@ -21,7 +21,10 @@ class GambitListTile extends StatelessWidget {
         ),
         child: ListTile(
           enabled: !disabled,
-          title: Text(gambit.title),
+          title: Text(
+            gambit.title,
+            softWrap: false,
+          ),
           leading: Hero(
             tag: gambit.title,
             child: CircleAvatar(
