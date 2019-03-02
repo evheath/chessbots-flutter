@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return StreamBuilder<PrefsState>(
         stream: _prefsBloc.prefs,
-        initialData: PrefsState(false),
+        initialData: PrefsState(),
         builder: (context, snapshot) {
           PrefsState _prefs = snapshot.data;
           return MaterialApp(
@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
               title: 'Chess Bots',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
-                // brightness: Brightness.dark,
                 brightness:
                     _prefs.darkTheme ? Brightness.dark : Brightness.light,
               ),

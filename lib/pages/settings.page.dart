@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
           children: <Widget>[
             StreamBuilder<PrefsState>(
                 stream: _prefsBloc.prefs,
-                initialData: PrefsState(false),
+                initialData: PrefsState(),
                 builder: (context, snapshot) {
                   final bool darkTheme = snapshot.data.darkTheme;
                   return Switch(
