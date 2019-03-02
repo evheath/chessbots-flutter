@@ -1,3 +1,5 @@
+import 'package:chessbotsmobile/shared/empty_list_tile.dart';
+
 import '../shared/gambit_list_tile.dart';
 import '../shared/gambits.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,12 @@ class _AssembleTutorialState extends State<AssembleTutorial>
     _animationController.repeat();
 
     // notice length must be updated if tabs are added
-    _tutorialTabController = TabController(length: 5, vsync: this);
+    _tutorialTabController = TabController(length: 6, vsync: this);
 
+    //TODO tabs:
+    // - help icon takes you to demo
     _tabs = [
+      EmptyGambitsTab(_tutorialTabController),
       UndesirableTab(_animationController),
       RearrangeOrderTab(_tutorialTabController),
       DesirableOrderTab(_animationController),
@@ -46,10 +51,6 @@ class _AssembleTutorialState extends State<AssembleTutorial>
 
   @override
   Widget build(BuildContext context) {
-    //TODO tabs:
-    // - click on empty to fill
-    // - help icon takes you to demo
-
     return Scaffold(
       appBar: AppBar(
         title: Text("How to assemble gambits"),
@@ -67,10 +68,10 @@ class _AssembleTutorialState extends State<AssembleTutorial>
             controller: _tutorialTabController,
             selectedColor: Colors.grey,
           ),
-          RaisedButton(
-            child: Text('Close'),
-            onPressed: () => Navigator.pop(context),
-          )
+          // RaisedButton(
+          //   child: Text('Close'),
+          //   onPressed: () => Navigator.pop(context),
+          // )
         ],
       ),
     );
@@ -306,6 +307,38 @@ class SwipeTab extends StatelessWidget {
         // TODO have empty gambit animation in underneath
         SwipingAnimation(controller: _animationController),
         Text("Swipe to empty a gambit!"),
+      ],
+    );
+  }
+}
+
+class EmptyGambitsTab extends StatelessWidget {
+  /// Needed so this tab can animate to the next tab
+  final TabController _tabController;
+  EmptyGambitsTab(this._tabController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text("Tap on an empty boxes to select a gambit"),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: GestureDetector(
+            child: EmptyListTile(),
+            onTap: () {
+              int nextIndex =
+                  _tabController.index >= _tabController.previousIndex
+                      ? _tabController.index + 1
+                      : _tabController.previousIndex;
+              _tabController.animateTo(nextIndex);
+            },
+          ),
+        ),
       ],
     );
   }
