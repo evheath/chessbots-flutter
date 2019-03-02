@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../shared/left.drawer.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,11 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
       drawer: LeftDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            StreamBuilder<PrefsState>(
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text("Dark Mode"),
+            trailing: StreamBuilder<PrefsState>(
                 stream: _prefsBloc.prefs,
                 initialData: PrefsState(),
                 builder: (context, snapshot) {
@@ -30,14 +31,23 @@ class SettingsPage extends StatelessWidget {
                     },
                   );
                 }),
-            MaterialButton(
-              onPressed: () => _authBloc.event.add(SignOutEvent()),
-              color: Colors.white,
-              textColor: Colors.black,
-              child: Text('Signout'),
-            ),
-          ],
-        ),
+          ),
+          Divider(),
+          StreamBuilder<FirebaseUser>(
+              stream: _authBloc.user,
+              builder: (context, snapshot) {
+                FirebaseUser _user = snapshot.data;
+                return ListTile(
+                  title: Text("Signed in as ${_user?.displayName ?? 'Guest'}"),
+                  subtitle: Text("${_user?.email ?? ''}"),
+                  trailing: RaisedButton(
+                    child: Text("Signout"),
+                    onPressed: () => _authBloc.event.add(SignOutEvent()),
+                  ),
+                );
+              }),
+          Divider(),
+        ],
       ),
     );
   }

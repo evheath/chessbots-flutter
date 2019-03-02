@@ -9,7 +9,7 @@ class EmptyListTile extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(),
           borderRadius: BorderRadius.circular(5.0),
-          color: Colors.white,
+          color: Colors.white10,
         ),
         child: ListTile(
           title: Text("Empty"),
