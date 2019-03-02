@@ -166,14 +166,19 @@ class SwipingAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: controller,
-        builder: (context, widget) {
-          return Transform.translate(
-            offset: Offset(translation.value, 0),
-            child: GambitListTile(gambit: CheckOpponent()),
-          );
-        });
+    return Stack(
+      children: [
+        EmptyListTile(),
+        AnimatedBuilder(
+            animation: controller,
+            builder: (context, widget) {
+              return Transform.translate(
+                offset: Offset(translation.value, 0),
+                child: GambitListTile(gambit: CheckOpponent()),
+              );
+            }),
+      ],
+    );
   }
 }
 
@@ -327,7 +332,6 @@ class SwipeTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Text("Lastly,"),
-        // TODO have empty gambit animation in underneath
         SwipingAnimation(controller: _animationController),
         Text(
           "Swipe to empty a gambit!",
