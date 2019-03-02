@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 import './assemble.tutorial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/empty_list_tile.dart';
@@ -19,6 +21,12 @@ class AssemblePage extends StatefulWidget {
 }
 
 class AssemblePageState extends State<AssemblePage> {
+  @override
+  void initState() {
+    _checkIfNeverSeenTutorial();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
@@ -54,7 +62,6 @@ class AssemblePageState extends State<AssemblePage> {
             tooltip: "Tutorial",
             icon: Icon(FontAwesomeIcons.questionCircle),
             onPressed: () {
-              //TODO shared preferences for first time
               _showTutorial();
             },
           )
@@ -71,7 +78,23 @@ class AssemblePageState extends State<AssemblePage> {
         builder: (context) => AssembleTutorial(),
         fullscreenDialog: true,
       ),
-    );
+    ).then((_) async {
+      // marking the tutorial as seen
+      final SharedPreferences _prefsInstance =
+          await SharedPreferences.getInstance();
+      _prefsInstance.setBool("seenAssembleTutorial", true);
+    });
+  }
+
+  Future<void> _checkIfNeverSeenTutorial() async {
+    //TODO is there a way to do this in bloc?
+    final SharedPreferences _prefsInstance =
+        await SharedPreferences.getInstance();
+    final seenAssembleTutorial =
+        _prefsInstance.getBool('seenAssembleTutorial') ?? false;
+    if (!seenAssembleTutorial) {
+      _showTutorial();
+    }
   }
 
   List<Widget> _buildGambitListTiles(

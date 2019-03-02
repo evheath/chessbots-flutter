@@ -1,5 +1,4 @@
 import 'package:chessbotsmobile/shared/empty_list_tile.dart';
-
 import '../shared/gambit_list_tile.dart';
 import '../shared/gambits.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +66,6 @@ class _AssembleTutorialState extends State<AssembleTutorial>
             controller: _tutorialTabController,
             selectedColor: Colors.grey,
           ),
-          // RaisedButton(
-          //   child: Text('Close'),
-          //   onPressed: () => Navigator.pop(context),
-          // )
         ],
       ),
     );
