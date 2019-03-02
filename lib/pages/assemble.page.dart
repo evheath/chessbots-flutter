@@ -109,6 +109,7 @@ class AssemblePageState extends State<AssemblePage> {
                 // swiping a list tile will replace it with an empty gambit
                 _chessBot.event.add(DismissedEvent(index));
               },
+              background: EmptyListTile(),
             );
     });
 
