@@ -16,68 +16,68 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(
-    BlocProvider<AuthBloc>(
-      bloc: AuthBloc(),
-      child: BlocProvider<PrefsBloc>(
-        bloc: PrefsBloc(),
-        child: BlocProvider<ChessBot>(
-          bloc: ChessBot(botName: "Your bot"),
-          child: MyApp(),
-        ),
-      ),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final AuthBloc _authBloc = AuthBloc();
+  final PrefsBloc _prefsBloc = PrefsBloc();
+  final ChessBot _chessBot = ChessBot(botName: "Your bot");
+  // TODO prebuilt chess bots should not exist in main
+  final ChessBot levelonecpu = ChessBot(gambits: [
+    CaptureRandomPiece(),
+    MoveRandomPawn(),
+  ], botName: "Level 1 CPU");
+
   @override
   Widget build(BuildContext context) {
-    //TODO these should not exist in main
-    // they are here until there is a better way to route to the match page
-    final ChessBot human = BlocProvider.of<ChessBot>(context);
-    final ChessBot levelonecpu = ChessBot(gambits: [
-      CaptureRandomPiece(),
-      MoveRandomPawn(),
-    ], botName: "Level 1 CPU");
-
-    final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
-    return StreamBuilder<PrefsState>(
-        stream: _prefsBloc.prefs,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Chess Bots',
-                  theme: ThemeData(
-                    primarySwatch: Colors.blue,
-                    brightness: snapshot.data.darkTheme
-                        ? Brightness.dark
-                        : Brightness.light,
-                  ),
-                  routes: {
-                      // '/': (context) => RouteGuard(MatchPage(
-                      //       whiteBot: human,
-                      //       blackBot: levelonecpu,
-                      //     )),
-                      // '/': (context) => RouteGuard(SettingsPage()),
-                      '/': (context) => RouteGuard(AssemblePage()),
-                      '/lab': (context) => RouteGuard(LabPage()),
-                      '/assemble': (context) => RouteGuard(AssemblePage()),
-                      '/settings': (context) => RouteGuard(SettingsPage()),
-                      //TODO singleplayer route should probably have a splash page
-                      //I am just using the match page for more direct testing
-                      '/singleplayer': (context) => RouteGuard(MatchPage(
-                            whiteBot: human,
-                            blackBot: levelonecpu,
-                          )),
-                    })
-              : Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ); //protecting user from not having their settings
-        });
+    return BlocProvider<AuthBloc>(
+      bloc: _authBloc,
+      child: BlocProvider<PrefsBloc>(
+        bloc: _prefsBloc,
+        child: BlocProvider<ChessBot>(
+          bloc: _chessBot,
+          child: StreamBuilder<PrefsState>(
+              stream: _prefsBloc.prefs,
+              builder: (context, snapshot) {
+                return snapshot.hasData
+                    ? MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        title: 'Chess Bots',
+                        theme: ThemeData(
+                          primarySwatch: Colors.blue,
+                          brightness: snapshot.data.darkTheme
+                              ? Brightness.dark
+                              : Brightness.light,
+                        ),
+                        routes: {
+                            // '/': (context) => RouteGuard(MatchPage(
+                            //       whiteBot: human,
+                            //       blackBot: levelonecpu,
+                            //     )),
+                            // '/': (context) => RouteGuard(SettingsPage()),
+                            '/': (context) => RouteGuard(AssemblePage()),
+                            '/lab': (context) => RouteGuard(LabPage()),
+                            '/assemble': (context) =>
+                                RouteGuard(AssemblePage()),
+                            '/settings': (context) =>
+                                RouteGuard(SettingsPage()),
+                            //TODO singleplayer route should probably have a splash page
+                            //I am just using the match page for more direct testing
+                            '/singleplayer': (context) => RouteGuard(MatchPage(
+                                  whiteBot: _chessBot,
+                                  blackBot: levelonecpu,
+                                )),
+                          })
+                    : Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ); //protecting user from not having their settings
+              }),
+        ),
+      ),
+    );
   }
 }
 
