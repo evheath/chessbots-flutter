@@ -18,6 +18,12 @@ class DemoPageState extends State<DemoPage> {
   bool _hasNotMoved = true;
 
   @override
+  void dispose() {
+    _demoBoardController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 

@@ -8,8 +8,6 @@ import 'package:chess/chess.dart' as chess;
 import '../bloc/chess_bot.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 
-//TODO: navigating away from a game in progress needs better tear down
-// not sure where this needs to happen
 class MatchPage extends StatefulWidget {
   final ChessBot whiteBot;
   final ChessBot blackBot;
@@ -180,5 +178,11 @@ class MatchPageState extends State<MatchPage> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _matchBoardController.dispose();
+    super.dispose();
   }
 }
