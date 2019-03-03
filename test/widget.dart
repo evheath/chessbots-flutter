@@ -10,5 +10,7 @@ void main() {
 
     // check for loading screen
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    await tester.pumpAndSettle();
   });
 }
