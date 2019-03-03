@@ -4,7 +4,13 @@ import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
+  @override
+  _AuthPageState createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage> {
+  GameControllerBloc _demoController = GameControllerBloc(playRandom: true);
   @override
   Widget build(BuildContext context) {
     final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
@@ -23,8 +29,7 @@ class AuthPage extends StatelessWidget {
                           enableUserMoves: false,
                           onDraw: () {},
                           onMove: (move) {},
-                          chessBoardController:
-                              GameControllerBloc(playRandom: true),
+                          chessBoardController: _demoController,
                           size: MediaQuery.of(context).size.width - 20,
                         );
                 }),
@@ -53,5 +58,11 @@ class AuthPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _demoController.dispose();
+    super.dispose();
   }
 }

@@ -134,13 +134,16 @@ class GameControllerBloc {
   }
 
   void _playRandomGame() async {
-    // print("playing full game");
-    while (!_gameOver()) {
-      List<dynamic> moves = game.moves();
-      moves.shuffle();
-      var move = moves[1];
-      await Future.delayed(Duration(milliseconds: 500));
-      makeMove(move.toString());
+    try {
+      while (!_gameOver()) {
+        List<dynamic> moves = game.moves();
+        moves.shuffle();
+        var move = moves[1];
+        await Future.delayed(Duration(milliseconds: 500));
+        makeMove(move.toString());
+      }
+    } catch (e) {
+      // trying to continue a game after tear down results in errors we do not care about
     }
   }
 
