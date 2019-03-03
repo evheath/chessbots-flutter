@@ -95,6 +95,7 @@ class GameControllerBloc {
   void resetBoard() {
     game?.reset();
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+    _status = GameStatus.pending;
   }
 
   /// Clears board
@@ -117,6 +118,7 @@ class GameControllerBloc {
 
   /// Loads a FEN
   void loadFEN(String fen) {
+    _status = GameStatus.pending;
     game.load(fen);
     // refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
     refreshBoard?.call();
