@@ -15,7 +15,6 @@ class SignInAnonymouslyEvent extends AuthEvent {}
 
 class AuthBloc extends BlocBase {
   // state
-  bool _loading;
 
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
 
-//TODO dark theme
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
