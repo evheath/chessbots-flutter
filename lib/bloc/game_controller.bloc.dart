@@ -14,6 +14,7 @@ enum GameStatus { in_checkmate, in_progress, in_draw, pending }
 /// Controller for programmatically controlling the board
 class GameControllerBloc {
   String initialPosition;
+  bool playRandom;
   GameStatus _status;
   // controllers
   StreamController<GameStatus> _statusController =
@@ -27,9 +28,12 @@ class GameControllerBloc {
   Function refreshBoard;
 
   // constructor
-  GameControllerBloc({this.initialPosition}) {
+  GameControllerBloc({this.initialPosition, this.playRandom = false}) {
     if (initialPosition != null) {
       loadFEN(initialPosition);
+    }
+    if (playRandom) {
+      _playRandomGame();
     }
     _status = GameStatus.pending;
     _internalInStatus.add(_status);
@@ -95,6 +99,7 @@ class GameControllerBloc {
   void resetBoard() {
     game?.reset();
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+    _status = GameStatus.pending;
   }
 
   /// Clears board
@@ -117,6 +122,7 @@ class GameControllerBloc {
 
   /// Loads a FEN
   void loadFEN(String fen) {
+    _status = GameStatus.pending;
     game.load(fen);
     // refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
     refreshBoard?.call();
@@ -124,7 +130,18 @@ class GameControllerBloc {
 
   /// Exception when a controller is not attached to a board
   void _throwNotAttachedException() {
-    throw Exception("Controller not attached to a ChessBoard widget!");
+    // throw Exception("Controller not attached to a ChessBoard widget!");
+  }
+
+  void _playRandomGame() async {
+    // print("playing full game");
+    while (!_gameOver()) {
+      List<dynamic> moves = game.moves();
+      moves.shuffle();
+      var move = moves[1];
+      await Future.delayed(Duration(milliseconds: 500));
+      makeMove(move.toString());
+    }
   }
 
   /// Gets respective piece

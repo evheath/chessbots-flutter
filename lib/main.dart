@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
@@ -15,12 +16,18 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(BlocProvider<AuthBloc>(
+  runApp(
+    BlocProvider<AuthBloc>(
       bloc: AuthBloc(),
-      child: BlocProvider<ChessBot>(
-        bloc: ChessBot(botName: "Your bot"),
-        child: MyApp(),
-      )));
+      child: BlocProvider<PrefsBloc>(
+        bloc: PrefsBloc(),
+        child: BlocProvider<ChessBot>(
+          bloc: ChessBot(botName: "Your bot"),
+          child: MyApp(),
+        ),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -34,27 +41,42 @@ class MyApp extends StatelessWidget {
       MoveRandomPawn(),
     ], botName: "Level 1 CPU");
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Chess Bots',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routes: {
-          // '/': (context) => RouteGuard(MatchPage(
-          //       whiteBot: human,
-          //       blackBot: levelonecpu,
-          //     )),
-          '/': (context) => RouteGuard(AssemblePage()),
-          '/lab': (context) => RouteGuard(LabPage()),
-          '/assemble': (context) => RouteGuard(AssemblePage()),
-          '/settings': (context) => RouteGuard(SettingsPage()),
-          //TODO singleplayer route should probably have a splash page
-          //I am just using the match page for more direct testing
-          '/singleplayer': (context) => RouteGuard(MatchPage(
-                whiteBot: human,
-                blackBot: levelonecpu,
-              )),
+    final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
+    return StreamBuilder<PrefsState>(
+        stream: _prefsBloc.prefs,
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Chess Bots',
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                    brightness: snapshot.data.darkTheme
+                        ? Brightness.dark
+                        : Brightness.light,
+                  ),
+                  routes: {
+                      // '/': (context) => RouteGuard(MatchPage(
+                      //       whiteBot: human,
+                      //       blackBot: levelonecpu,
+                      //     )),
+                      // '/': (context) => RouteGuard(SettingsPage()),
+                      '/': (context) => RouteGuard(AssemblePage()),
+                      '/lab': (context) => RouteGuard(LabPage()),
+                      '/assemble': (context) => RouteGuard(AssemblePage()),
+                      '/settings': (context) => RouteGuard(SettingsPage()),
+                      //TODO singleplayer route should probably have a splash page
+                      //I am just using the match page for more direct testing
+                      '/singleplayer': (context) => RouteGuard(MatchPage(
+                            whiteBot: human,
+                            blackBot: levelonecpu,
+                          )),
+                    })
+              : Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ); //protecting user from not having their settings
         });
   }
 }

@@ -23,6 +23,12 @@ class LabPageState extends State<LabPage> {
   }
 
   @override
+  void dispose() {
+    _labBoardController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
 
