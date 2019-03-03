@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.3.1+8
+version: 0.3.2+9
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 dependencies:
@@ -38,6 +38,7 @@ flutter:
   uses-material-design: true
   assets:
     - animations/chessbot.flr
+    - images/icon.png
     - images/chess_board.png
     - images/brown_board.png
     - images/2.0x/brown_board.png
