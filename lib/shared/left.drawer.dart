@@ -15,11 +15,20 @@ class LeftDrawer extends StatelessWidget {
         children: <Widget>[
           AppBar(
             automaticallyImplyLeading: false,
-            title: StreamBuilder<FirebaseUser>(
-              stream: _firestoreBloc.user,
-              builder: (context, snapshot) =>
-                  Text(snapshot.data?.displayName ?? "Guest"),
-            ),
+            title: StreamBuilder<Map<String, dynamic>>(
+                stream: _firestoreBloc.userDoc,
+                builder: (context, snapshot) {
+                  String _name;
+                  int _nerdPoints;
+                  if (!snapshot.hasData) {
+                    _name = "Guest";
+                    _nerdPoints = 0;
+                  } else {
+                    _name = snapshot.data['displayName'] ?? "Guest";
+                    _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
+                  }
+                  return Text("$_name $_nerdPoints");
+                }),
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.userAlt),
