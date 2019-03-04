@@ -9,7 +9,8 @@ import '../bloc/base.bloc.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
@@ -33,7 +34,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Divider(),
           StreamBuilder<FirebaseUser>(
-              stream: _authBloc.user,
+              stream: _firestoreBloc.user,
               builder: (context, snapshot) {
                 FirebaseUser _user = snapshot.data;
                 return ListTile(
@@ -41,7 +42,8 @@ class SettingsPage extends StatelessWidget {
                   subtitle: Text("${_user?.email ?? ''}"),
                   trailing: RaisedButton(
                     child: Text("Signout"),
-                    onPressed: () => _authBloc.authEvent.add(SignOutEvent()),
+                    onPressed: () =>
+                        _firestoreBloc.authEvent.add(SignOutEvent()),
                   ),
                 );
               }),

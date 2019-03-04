@@ -8,14 +8,15 @@ import '../bloc/base.bloc.dart';
 class LeftDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
             automaticallyImplyLeading: false,
             title: StreamBuilder<FirebaseUser>(
-              stream: _authBloc.user,
+              stream: _firestoreBloc.user,
               builder: (context, snapshot) =>
                   Text(snapshot.data?.displayName ?? "Guest"),
             ),

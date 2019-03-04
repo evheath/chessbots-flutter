@@ -15,7 +15,7 @@ class Status extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    // final AuthBloc _firestoreBloc = BlocProvider.of<AuthBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DecoratedBox(

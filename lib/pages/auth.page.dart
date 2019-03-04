@@ -13,14 +13,15 @@ class _AuthPageState extends State<AuthPage> {
   GameControllerBloc _demoController = GameControllerBloc(playRandom: true);
   @override
   Widget build(BuildContext context) {
-    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             StreamBuilder<bool>(
-                stream: _authBloc.loading,
+                stream: _firestoreBloc.loading,
                 initialData: false,
                 builder: (context, snapshot) {
                   return snapshot.data
@@ -38,14 +39,14 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 MaterialButton(
                   onPressed: () =>
-                      _authBloc.authEvent.add(SignInAnonymouslyEvent()),
+                      _firestoreBloc.authEvent.add(SignInAnonymouslyEvent()),
                   color: Colors.white,
                   textColor: Colors.black,
                   child: Text('Login as guest'),
                 ),
                 MaterialButton(
                   onPressed: () =>
-                      _authBloc.authEvent.add(SignInWithGoogleEvent()),
+                      _firestoreBloc.authEvent.add(SignInWithGoogleEvent()),
                   color: Colors.red,
                   textColor: Colors.black,
                   child: Text(
