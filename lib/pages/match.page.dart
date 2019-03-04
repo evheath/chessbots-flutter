@@ -1,3 +1,5 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
@@ -105,21 +107,18 @@ class MatchPageState extends State<MatchPage> {
   }
 
   void _handleVictory() {
-    // TODO: nerd points get rewarded here
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final FirestoreBloc _firestoreBloc =
+            BlocProvider.of<FirestoreBloc>(context);
+        _firestoreBloc.firestoreEvent.add(AwardNerdPointsEvent(10));
         return AlertDialog(
-          title: new Text("You win!"),
-          content: new Text("Well played! Enjoy some nerd points"),
+          title: Text("You win!"),
+          content: Text("Well played! Enjoy 10 nerd points"),
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            // new FlatButton(
-            //   child: new Text("Play Again"),
-            //   onPressed: () {},
-            // ),
-            new FlatButton(
-              child: new Text("Amazing"),
+            FlatButton(
+              child: Text("Amazing"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -135,16 +134,11 @@ class MatchPageState extends State<MatchPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("You lose!"),
-          content: new Text("You get nothing. Good day sir."),
+          title: Text("You lose!"),
+          content: Text("You get nothing. Good day sir."),
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            // new FlatButton(
-            //   child: new Text("Play Again"),
-            //   onPressed: () {},
-            // ),
-            new FlatButton(
-              child: new Text("Acknowledge defeat"),
+            FlatButton(
+              child: Text("Acknowledge defeat"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -159,17 +153,15 @@ class MatchPageState extends State<MatchPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final FirestoreBloc _firestoreBloc =
+            BlocProvider.of<FirestoreBloc>(context);
+        _firestoreBloc.firestoreEvent.add(AwardNerdPointsEvent(1));
         return AlertDialog(
-          title: new Text("Draw game!"),
-          content: new Text("Wow what a great use of everybody's time."),
+          title: Text("Draw!"),
+          content: Text("Better luck next time. Have a pity point"),
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            // new FlatButton(
-            //   child: new Text("Play Again"),
-            //   onPressed: () {},
-            // ),
-            new FlatButton(
-              child: new Text("Close"),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
