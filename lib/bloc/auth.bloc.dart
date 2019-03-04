@@ -20,7 +20,7 @@ class AwardNerdPointsEvent extends FirestoreEvent {
   AwardNerdPointsEvent(this.nerdPoints);
 }
 
-class AuthBloc extends BlocBase {
+class FirestoreBloc extends BlocBase {
   // provides its own external-out
   // internal in handled in constructor
   /// user document in firestore
@@ -57,7 +57,7 @@ class AuthBloc extends BlocBase {
   Stream<bool> get loading => _loadingController.stream;
 
   // constructor
-  AuthBloc() {
+  FirestoreBloc() {
     // setup user stream (behavior subject)
     _auth.onAuthStateChanged.listen((_fbUser) {
       _internalInUser.add(_fbUser);

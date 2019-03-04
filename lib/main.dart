@@ -20,7 +20,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final AuthBloc _authBloc = AuthBloc();
+  final FirestoreBloc _authBloc = FirestoreBloc();
   final PrefsBloc _prefsBloc = PrefsBloc();
   final ChessBot _chessBot = ChessBot(botName: "Your bot");
   // TODO prebuilt chess bots should not exist in main
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
+    return BlocProvider<FirestoreBloc>(
       bloc: _authBloc,
       child: BlocProvider<PrefsBloc>(
         bloc: _prefsBloc,
@@ -88,7 +88,7 @@ class RouteGuard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
     return StreamBuilder(
       stream: _authBloc.user,
       builder: (context, snapshot) {

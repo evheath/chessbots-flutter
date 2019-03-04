@@ -9,7 +9,7 @@ import '../bloc/base.bloc.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),

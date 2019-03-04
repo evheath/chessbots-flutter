@@ -8,7 +8,7 @@ import '../bloc/base.bloc.dart';
 class LeftDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
     return Drawer(
       child: Column(
         children: <Widget>[

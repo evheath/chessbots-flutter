@@ -13,7 +13,7 @@ class _AuthPageState extends State<AuthPage> {
   GameControllerBloc _demoController = GameControllerBloc(playRandom: true);
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _authBloc = BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       body: Center(
         child: Column(
