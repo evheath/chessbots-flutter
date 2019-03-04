@@ -1,6 +1,6 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:flutter/material.dart';
-import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 

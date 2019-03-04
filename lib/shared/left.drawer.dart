@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/custom.icons.dart';
-import '../bloc/auth.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import '../bloc/base.bloc.dart';
 
 class LeftDrawer extends StatelessWidget {

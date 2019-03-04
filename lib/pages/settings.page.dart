@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../shared/left.drawer.dart';
 import 'package:flutter/material.dart';
-import '../bloc/auth.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import '../bloc/base.bloc.dart';
 
 class SettingsPage extends StatelessWidget {

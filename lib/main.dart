@@ -7,7 +7,7 @@ import './pages/settings.page.dart';
 import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
 import './bloc/chess_bot.bloc.dart';
-import './bloc/auth.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:flutter/services.dart';
 import './shared/gambits.dart';
 
