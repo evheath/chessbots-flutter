@@ -38,13 +38,14 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 MaterialButton(
                   onPressed: () =>
-                      _authBloc.event.add(SignInAnonymouslyEvent()),
+                      _authBloc.authEvent.add(SignInAnonymouslyEvent()),
                   color: Colors.white,
                   textColor: Colors.black,
                   child: Text('Login as guest'),
                 ),
                 MaterialButton(
-                  onPressed: () => _authBloc.event.add(SignInWithGoogleEvent()),
+                  onPressed: () =>
+                      _authBloc.authEvent.add(SignInWithGoogleEvent()),
                   color: Colors.red,
                   textColor: Colors.black,
                   child: Text(

@@ -13,8 +13,18 @@ class SignOutEvent extends AuthEvent {}
 
 class SignInAnonymouslyEvent extends AuthEvent {}
 
+abstract class FirestoreEvent {}
+
+class AwardNerdPointsEvent extends FirestoreEvent {
+  final int nerdPoints;
+  AwardNerdPointsEvent(this.nerdPoints);
+}
+
 class AuthBloc extends BlocBase {
-  // state
+  // provides its own external-out
+  // internal in handled in constructor
+  /// user document in firestore
+  Observable<Map<String, dynamic>> userDoc;
 
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -22,10 +32,14 @@ class AuthBloc extends BlocBase {
   final Firestore _db = Firestore.instance;
 
   /// external-in/internal-out controller
-  StreamController<AuthEvent> _eventController = StreamController();
+  StreamController<AuthEvent> _authEventController = StreamController();
+  StreamController<FirestoreEvent> _firestoreEventController =
+      StreamController();
 
   /// external-in (alias)
-  StreamSink<AuthEvent> get event => _eventController.sink;
+  StreamSink<AuthEvent> get authEvent => _authEventController.sink;
+  StreamSink<FirestoreEvent> get firestoreEvent =>
+      _firestoreEventController.sink;
 
   /// internal-in/external-out controller
   StreamController<FirebaseUser> _userController =
@@ -44,16 +58,30 @@ class AuthBloc extends BlocBase {
 
   // constructor
   AuthBloc() {
-    // connect _auth with _internalInUser
+    // setup user stream (behavior subject)
     _auth.onAuthStateChanged.listen((_fbUser) {
       _internalInUser.add(_fbUser);
     });
 
+    // setup userDoc (by listening to user stream)
+    userDoc = Observable(user).switchMap((FirebaseUser u) {
+      if (u != null) {
+        return _db
+            .collection('users')
+            .document(u.uid)
+            .snapshots()
+            .map((snap) => snap.data);
+      } else {
+        return Observable.just({});
+      }
+    });
+
     // listen for incoming events from the external-in sink
     // these events will interact with _auth
-    _eventController.stream.listen(_handleEvent);
+    _authEventController.stream.listen(_handleAuthEvent);
+    _firestoreEventController.stream.listen(_handleFirestoreEvent);
   }
-  void _handleEvent(AuthEvent event) async {
+  void _handleAuthEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
       print('sign in event');
       _internalInLoading.add(true);
@@ -78,7 +106,21 @@ class AuthBloc extends BlocBase {
     }
   }
 
+  void _handleFirestoreEvent(FirestoreEvent event) async {
+    // events are inherently connected to internal-in if they update the proper document reference
+    if (event is AwardNerdPointsEvent) {
+      Map<String, dynamic> _currentProfile = await userDoc.first;
+      int _currentNerdPoints = _currentProfile["nerdPoints"] ?? 0;
+      int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
+
+      DocumentReference _ref =
+          _db.collection('users').document(_currentProfile["uid"]);
+      await _ref.updateData({"nerdPoints": _newNerdPoints});
+    }
+  }
+
   /// keeps firestore user collection up-to-date with firebase auth data
+  /// typically run after sign in
   void _updateUserData(FirebaseUser _fbUser) async {
     DocumentReference ref = _db.collection('users').document(_fbUser.uid);
 
@@ -92,7 +134,8 @@ class AuthBloc extends BlocBase {
 
   void dispose() {
     _userController.close();
-    _eventController.close();
+    _authEventController.close();
     _loadingController.close();
+    _firestoreEventController.close();
   }
 }

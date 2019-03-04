@@ -41,7 +41,7 @@ class SettingsPage extends StatelessWidget {
                   subtitle: Text("${_user?.email ?? ''}"),
                   trailing: RaisedButton(
                     child: Text("Signout"),
-                    onPressed: () => _authBloc.event.add(SignOutEvent()),
+                    onPressed: () => _authBloc.authEvent.add(SignOutEvent()),
                   ),
                 );
               }),
