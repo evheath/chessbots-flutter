@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,11 +18,6 @@ abstract class FirestoreEvent {}
 class AwardNerdPointsEvent extends FirestoreEvent {
   final int nerdPoints;
   AwardNerdPointsEvent(this.nerdPoints);
-}
-
-class UnlockGambitSlotEvent extends FirestoreEvent {
-  final ChessBot chessBot;
-  UnlockGambitSlotEvent(this.chessBot);
 }
 
 class FirestoreBloc extends BlocBase {
@@ -82,6 +76,10 @@ class FirestoreBloc extends BlocBase {
       }
     });
 
+    //TODO converter function (or something)
+    // that listens to userDoc and gets user data
+    // so that we can later say userData.nerdPoints or profile.nerdPoints etc
+
     // listen for incoming events from the external-in sink
     // these events will interact with _auth
     _authEventController.stream.listen(_handleAuthEvent);
@@ -115,6 +113,10 @@ class FirestoreBloc extends BlocBase {
   void _handleFirestoreEvent(FirestoreEvent event) async {
     // events are inherently connected to internal-in if they update the proper document reference
     if (event is AwardNerdPointsEvent) {
+      // quick sanity check
+      if (event.nerdPoints <= 0) {
+        return;
+      }
       Map<String, dynamic> _currentProfile = await userDoc.first;
       int _currentNerdPoints = _currentProfile["nerdPoints"] ?? 0;
       int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
@@ -122,9 +124,6 @@ class FirestoreBloc extends BlocBase {
       DocumentReference _ref =
           _db.collection('users').document(_currentProfile["uid"]);
       await _ref.updateData({"nerdPoints": _newNerdPoints});
-    } else if (event is UnlockGambitSlotEvent) {
-      // TODO nerd point checks here
-      event.chessBot.event.add(AddEmptyGambitEvent());
     }
   }
 
@@ -146,5 +145,20 @@ class FirestoreBloc extends BlocBase {
     _authEventController.close();
     _loadingController.close();
     _firestoreEventController.close();
+  }
+
+  Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
+    // this is not in the events because we need to return a promise
+    Map<String, dynamic> _currentProfile = await userDoc.first;
+    int _currentNerdPoints = _currentProfile["nerdPoints"] ?? 0;
+    int _newNerdPoints = _currentNerdPoints - _nerdPointsToBeSpent;
+    if (_newNerdPoints < 0) {
+      throw ("Not enough nerd points");
+    } else {
+      DocumentReference _ref =
+          _db.collection('users').document(_currentProfile["uid"]);
+      await _ref.updateData({"nerdPoints": _newNerdPoints});
+      return;
+    }
   }
 }

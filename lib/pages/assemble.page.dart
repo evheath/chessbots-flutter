@@ -31,6 +31,8 @@ class AssemblePageState extends State<AssemblePage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO in the future this bot might be handed through constructor
+    // when the user has multiple bots
     final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return Scaffold(
       body: Container(
@@ -159,13 +161,31 @@ class AssemblePageState extends State<AssemblePage> {
     return _gambitTiles;
   }
 
+  void _displayError(String e) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // title: Text("Problem"),
+            content: Text(e),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text("Ah shucks"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+            ],
+          );
+        });
+  }
+
   void _levelUpPrompt() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Level Up?"),
-          content: Text("Spend nerd points to unlock a new gambit slot?"),
+          content: Text("Spend 1 nerd point to unlock a new gambit slot?"),
           actions: <Widget>[
             FlatButton(
               child: Text("Nah"),
@@ -176,12 +196,20 @@ class AssemblePageState extends State<AssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
+                // TODO eventually the calcuation should be dynamic
+                // such as growing with number of gambits
+                final int _nerdPointsToBeSpent = 1;
                 final FirestoreBloc _firestoreBloc =
                     BlocProvider.of<FirestoreBloc>(context);
                 final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
-                _firestoreBloc.firestoreEvent
-                    .add(UnlockGambitSlotEvent(_chessBot));
-                Navigator.of(context).pop();
+                _firestoreBloc.spendNerdPoints(_nerdPointsToBeSpent).then((_) {
+                  _chessBot.event.add(AddEmptyGambitEvent());
+                  Navigator.of(context).pop();
+                }).catchError((e) {
+                  // need to pop first, since display error has its own context
+                  Navigator.of(context).pop();
+                  _displayError(e);
+                });
               },
             ),
           ],
