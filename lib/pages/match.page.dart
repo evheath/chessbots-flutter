@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
+import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
@@ -67,23 +68,7 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       appBar: AppBar(
-        actions: <Widget>[
-          StreamBuilder<Map<String, dynamic>>(
-              stream: _firestoreBloc.userDoc,
-              builder: (context, snapshot) {
-                int _nerdPoints;
-                if (!snapshot.hasData) {
-                  _nerdPoints = 0;
-                } else {
-                  _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
-                }
-                return FlatButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.attach_money),
-                  label: Text("$_nerdPoints"),
-                );
-              }),
-        ],
+        actions: <Widget>[NerdPointActionDisplay()],
         backgroundColor: Colors.blueGrey,
         title: Row(
           children: [

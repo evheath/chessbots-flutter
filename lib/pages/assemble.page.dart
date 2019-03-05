@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/shared/level_up_list.dart';
+import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './assemble.tutorial.dart';
@@ -59,13 +60,15 @@ class AssemblePageState extends State<AssemblePage> {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            tooltip: "Tutorial",
-            icon: Icon(FontAwesomeIcons.questionCircle),
-            onPressed: () {
-              _showTutorial();
-            },
-          )
+          // IconButton(
+          //   tooltip: "Tutorial",
+          //   icon: Icon(FontAwesomeIcons.questionCircle),
+          //   onPressed: () {
+          //// TODO move tutorial to a 'help' page
+          //     _showTutorial();
+          //   },
+          // ),
+          NerdPointActionDisplay(),
         ],
       ),
       drawer: LeftDrawer(),
@@ -144,6 +147,7 @@ class AssemblePageState extends State<AssemblePage> {
         child: LevelUpTile(),
         onTap: () {
           print("level up suckaa!");
+          _levelUpPrompt();
         },
       ),
       GambitListTile(
@@ -153,5 +157,31 @@ class AssemblePageState extends State<AssemblePage> {
     ]);
 
     return _gambitTiles;
+  }
+
+  void _levelUpPrompt() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Level Up?"),
+          content: Text("Spend nerd points to unlock a new gambit slot?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Nah"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Yes"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
