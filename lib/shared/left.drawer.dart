@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/custom.icons.dart';
@@ -57,9 +57,21 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, '/settings');
             },
-          )
+          ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.discord),
+            title: Text('Discord'),
+            onTap: _launchDiscordURL,
+          ),
         ],
       ),
     );
+  }
+
+  _launchDiscordURL() async {
+    const url = 'https://discord.gg/eC2WHe6';
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
   }
 }
