@@ -10,14 +10,17 @@ class NerdPointActionDisplay extends StatelessWidget {
         BlocProvider.of<FirestoreBloc>(context);
     return StreamBuilder<UserDoc>(
         stream: _firestoreBloc.userDoc$,
-        initialData: UserDoc(),
         builder: (context, snapshot) {
-          int _nerdPoints = snapshot.data?.nerdPoints ?? 0;
-          return FlatButton.icon(
-            onPressed: () {},
-            icon: Icon(Icons.attach_money),
-            label: Text("$_nerdPoints"),
-          );
+          if (snapshot.hasData) {
+            int _nerdPoints = snapshot.data.nerdPoints ?? 0;
+            return FlatButton.icon(
+              onPressed: () {},
+              icon: Icon(Icons.attach_money),
+              label: Text("$_nerdPoints"),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
         });
   }
 }

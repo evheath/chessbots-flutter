@@ -7,10 +7,10 @@ class UserDoc {
 
   UserDoc({
     this.uid,
-    this.displayName,
+    this.displayName = "Guest",
     this.email,
     this.lastSeen,
-    this.nerdPoints,
+    this.nerdPoints = 0,
   });
 
   UserDoc.fromFirestore(Map<String, dynamic> _snapshotData) {

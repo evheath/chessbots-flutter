@@ -17,10 +17,13 @@ class LeftDrawer extends StatelessWidget {
             automaticallyImplyLeading: false,
             title: StreamBuilder<UserDoc>(
                 stream: _firestoreBloc.userDoc$,
-                initialData: UserDoc(),
                 builder: (context, snapshot) {
-                  String _name = snapshot.data.displayName ?? "Guest";
-                  return Text("$_name");
+                  if (snapshot.hasData) {
+                    String _name = snapshot.data.displayName ?? "Guest";
+                    return Text("$_name");
+                  } else {
+                    return CircularProgressIndicator();
+                  }
                 }),
           ),
           ListTile(
