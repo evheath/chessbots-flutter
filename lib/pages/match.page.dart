@@ -26,6 +26,7 @@ class MatchPageState extends State<MatchPage> {
   bool _gameStarted = false;
 
   MatchPageState() {
+    //TODO can this be moved to _beginMatch()?
     // listening to game status
     _matchBoardController.status.listen((status) {
       if (status == GameStatus.in_checkmate) {
@@ -46,6 +47,8 @@ class MatchPageState extends State<MatchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -64,6 +67,23 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       appBar: AppBar(
+        actions: <Widget>[
+          StreamBuilder<Map<String, dynamic>>(
+              stream: _firestoreBloc.userDoc,
+              builder: (context, snapshot) {
+                int _nerdPoints;
+                if (!snapshot.hasData) {
+                  _nerdPoints = 0;
+                } else {
+                  _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
+                }
+                return FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.attach_money),
+                  label: Text("$_nerdPoints"),
+                );
+              }),
+        ],
         backgroundColor: Colors.blueGrey,
         title: Row(
           children: [
@@ -93,6 +113,7 @@ class MatchPageState extends State<MatchPage> {
     chess.Chess game = _matchBoardController.game;
 
     while (!_matchBoardController.gameOver) {
+      // print("Current FEN is ${_matchBoardController.game.generate_fen()}");
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.turn == chess.Color.WHITE) {
@@ -102,6 +123,7 @@ class MatchPageState extends State<MatchPage> {
         // black's move
         move = widget.blackBot.waterfallGambits(game);
       }
+      // print("choosen move: $move");
       _matchBoardController.makeMove(move);
     }
   }
@@ -118,7 +140,17 @@ class MatchPageState extends State<MatchPage> {
           content: Text("Well played! Enjoy 10 nerd points"),
           actions: <Widget>[
             FlatButton(
-              child: Text("Amazing"),
+              child: Text("Again"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // setState
+                _matchBoardController.loadFEN(
+                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+                _beginMatch();
+              },
+            ),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -136,9 +168,19 @@ class MatchPageState extends State<MatchPage> {
         return AlertDialog(
           title: Text("You lose!"),
           content: Text("You get nothing. Good day sir."),
-          actions: <Widget>[
+          actions: [
             FlatButton(
-              child: Text("Acknowledge defeat"),
+              child: Text("Again"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // setState
+                _matchBoardController.loadFEN(
+                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+                _beginMatch();
+              },
+            ),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -160,6 +202,16 @@ class MatchPageState extends State<MatchPage> {
           title: Text("Draw!"),
           content: Text("Better luck next time. Have a pity point"),
           actions: <Widget>[
+            FlatButton(
+              child: Text("Again"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // setState
+                _matchBoardController.loadFEN(
+                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+                _beginMatch();
+              },
+            ),
             FlatButton(
               child: Text("Close"),
               onPressed: () {
