@@ -35,7 +35,8 @@ class SelectGambitEvent extends GambitEvent {
 class AddEmptyGambitEvent extends GambitEvent {}
 
 class ChessBot implements BlocBase {
-  // state
+  ///Owner of the bot
+  String uid;
   List<Gambit> _gambits;
   String name;
 
@@ -49,6 +50,7 @@ class ChessBot implements BlocBase {
   // external-in
   StreamSink<GambitEvent> get event => _eventController.sink;
 
+  //constructors
   ChessBot({List<Gambit> gambits, this.name = 'Bot'}) {
     this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
 
@@ -58,6 +60,32 @@ class ChessBot implements BlocBase {
     // connect external-in to internal-out
     _eventController.stream.listen(_handleEvent);
   }
+
+  ChessBot.fromFirestore(Map<String, dynamic> _snapshotData) {
+    // this.uid = _snapshotData["uid"];
+    this.name = _snapshotData["name"] ?? "Super cool bot";
+
+    List<String> gambitNames = _snapshotData["gambits"];
+
+    this._gambits = gambitNames.map((name) => gambitMap[name]) ??
+        [EmptyGambit(), CheckOpponent()];
+
+    // pushing the initial gambits out of the stream
+    _internalInGambits.add(_gambits);
+
+    // connect external-in to internal-out
+    _eventController.stream.listen(_handleEvent);
+  }
+
+  Map<String, dynamic> toFireStore() {
+    Map<String, dynamic> _map = {
+      "uid": uid,
+      "gambits": _gambits.map((gambit) => gambit.title),
+      "name": name,
+    };
+    return _map;
+  }
+
   // internal-out
   void _handleEvent(GambitEvent event) {
     if (event is ReorderEvent) {
@@ -125,4 +153,23 @@ class ChessBot implements BlocBase {
     String move = _gambitToBeUsed.findMove(game);
     return move;
   }
+
+  /// Given a title (a string), returns the matching gambit
+  Map<String, Gambit> gambitMap = {
+    CaptureBishop().title: CaptureBishop(),
+    CaptureKnight().title: CaptureKnight(),
+    CapturePawn().title: CapturePawn(),
+    CaptureQueen().title: CaptureQueen(),
+    CaptureRook().title: CaptureRook(),
+    CastleKingSide().title: CastleKingSide(),
+    CastleQueenSide().title: CastleQueenSide(),
+    CheckOpponent().title: CheckOpponent(),
+    MoveRandomPawn().title: MoveRandomPawn(),
+    PawnToE4().title: PawnToE4(),
+    PromotePawnToBishop().title: PromotePawnToBishop(),
+    PromotePawnToKnight().title: PromotePawnToKnight(),
+    PromotePawnToQueen().title: PromotePawnToQueen(),
+    PromotePawnToRandom().title: PromotePawnToRandom(),
+    PromotePawnToRook().title: PromotePawnToRook(),
+  };
 }
