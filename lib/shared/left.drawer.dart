@@ -19,15 +19,16 @@ class LeftDrawer extends StatelessWidget {
                 stream: _firestoreBloc.userDoc,
                 builder: (context, snapshot) {
                   String _name;
-                  int _nerdPoints;
+                  // int _nerdPoints;
                   if (!snapshot.hasData) {
                     _name = "Guest";
-                    _nerdPoints = 0;
+                    // _nerdPoints = 0;
                   } else {
                     _name = snapshot.data['displayName'] ?? "Guest";
-                    _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
+                    // _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
                   }
-                  return Text("$_name $_nerdPoints");
+                  // return Text("$_name $_nerdPoints");
+                  return Text("$_name");
                 }),
           ),
           ListTile(
