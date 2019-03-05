@@ -1,9 +1,9 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/shared/level_up_list.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './assemble.tutorial.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
@@ -176,6 +176,11 @@ class AssemblePageState extends State<AssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
+                final FirestoreBloc _firestoreBloc =
+                    BlocProvider.of<FirestoreBloc>(context);
+                final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
+                _firestoreBloc.firestoreEvent
+                    .add(UnlockGambitSlotEvent(_chessBot));
                 Navigator.of(context).pop();
               },
             ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +19,11 @@ abstract class FirestoreEvent {}
 class AwardNerdPointsEvent extends FirestoreEvent {
   final int nerdPoints;
   AwardNerdPointsEvent(this.nerdPoints);
+}
+
+class UnlockGambitSlotEvent extends FirestoreEvent {
+  final ChessBot chessBot;
+  UnlockGambitSlotEvent(this.chessBot);
 }
 
 class FirestoreBloc extends BlocBase {
@@ -116,6 +122,9 @@ class FirestoreBloc extends BlocBase {
       DocumentReference _ref =
           _db.collection('users').document(_currentProfile["uid"]);
       await _ref.updateData({"nerdPoints": _newNerdPoints});
+    } else if (event is UnlockGambitSlotEvent) {
+      // TODO nerd point checks here
+      event.chessBot.event.add(AddEmptyGambitEvent());
     }
   }
 

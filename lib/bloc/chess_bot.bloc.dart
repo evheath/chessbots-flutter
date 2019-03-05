@@ -32,6 +32,8 @@ class SelectGambitEvent extends GambitEvent {
   SelectGambitEvent(this.index, this.selectedGambit);
 }
 
+class AddEmptyGambitEvent extends GambitEvent {}
+
 class ChessBot implements BlocBase {
   // state
   List<Gambit> _gambits;
@@ -83,6 +85,8 @@ class ChessBot implements BlocBase {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
+    } else if (event is AddEmptyGambitEvent) {
+      _gambits.add(EmptyGambit());
     }
     // connect internal-out to internal-in
     _internalInGambits.add(_gambits);
