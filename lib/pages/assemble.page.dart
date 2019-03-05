@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/shared/level_up_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './assemble.tutorial.dart';
@@ -137,11 +138,19 @@ class AssemblePageState extends State<AssemblePage> {
     });
 
     // gambits that are always added to the end
-    // eg MoveRandomPiece(), LevelUpGambit(),
-    _gambitTiles.add(GambitListTile(
-      gambit: MoveRandomPiece(),
-      key: Key(MoveRandomPiece().title),
-    ));
+    _gambitTiles.addAll([
+      GestureDetector(
+        key: Key("Level up"),
+        child: LevelUpTile(),
+        onTap: () {
+          print("level up suckaa!");
+        },
+      ),
+      GambitListTile(
+        gambit: MoveRandomPiece(),
+        key: Key(MoveRandomPiece().title),
+      ),
+    ]);
 
     return _gambitTiles;
   }

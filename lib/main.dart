@@ -51,12 +51,12 @@ class MyApp extends StatelessWidget {
                               : Brightness.light,
                         ),
                         routes: {
-                            '/': (context) => RouteGuard(MatchPage(
-                                  whiteBot: _chessBot,
-                                  blackBot: levelonecpu,
-                                )),
+                            // '/': (context) => RouteGuard(MatchPage(
+                            //       whiteBot: _chessBot,
+                            //       blackBot: levelonecpu,
+                            //     )),
                             // '/': (context) => RouteGuard(SettingsPage()),
-                            // '/': (context) => RouteGuard(AssemblePage()),
+                            '/': (context) => RouteGuard(AssemblePage()),
                             '/lab': (context) => RouteGuard(LabPage()),
                             '/assemble': (context) =>
                                 RouteGuard(AssemblePage()),
