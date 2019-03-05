@@ -113,7 +113,6 @@ class MatchPageState extends State<MatchPage> {
     chess.Chess game = _matchBoardController.game;
 
     while (!_matchBoardController.gameOver) {
-      // print("Current FEN is ${_matchBoardController.game.generate_fen()}");
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.turn == chess.Color.WHITE) {
@@ -123,7 +122,6 @@ class MatchPageState extends State<MatchPage> {
         // black's move
         move = widget.blackBot.waterfallGambits(game);
       }
-      // print("choosen move: $move");
       _matchBoardController.makeMove(move);
     }
   }
