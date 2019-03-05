@@ -38,8 +38,10 @@ class _AuthPageState extends State<AuthPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 MaterialButton(
-                  onPressed: () =>
-                      _firestoreBloc.authEvent.add(SignInAnonymouslyEvent()),
+                  onPressed: () {
+                    // _firestoreBloc.authEvent.add(SignInAnonymouslyEvent()),
+                    _warnGuest();
+                  },
                   color: Colors.white,
                   textColor: Colors.black,
                   child: Text('Login as guest'),
@@ -59,6 +61,35 @@ class _AuthPageState extends State<AuthPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _warnGuest() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final FirestoreBloc _firestoreBloc =
+            BlocProvider.of<FirestoreBloc>(context);
+        return AlertDialog(
+          title: Text("Caution"),
+          content: Text("Guest accounts are lost after signout!"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Okay"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _firestoreBloc.authEvent.add(SignInAnonymouslyEvent());
+              },
+            ),
+            FlatButton(
+              child: Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
