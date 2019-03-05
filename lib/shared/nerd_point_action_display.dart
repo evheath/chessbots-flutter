@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:flutter/material.dart';
 
 class NerdPointActionDisplay extends StatelessWidget {
@@ -7,11 +8,11 @@ class NerdPointActionDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirestoreBloc _firestoreBloc =
         BlocProvider.of<FirestoreBloc>(context);
-    return StreamBuilder<Map<String, dynamic>>(
-        stream: _firestoreBloc.userDoc,
-        initialData: {"nerdPoints": 0},
+    return StreamBuilder<UserDoc>(
+        stream: _firestoreBloc.userDoc$,
+        initialData: UserDoc(),
         builder: (context, snapshot) {
-          int _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
+          int _nerdPoints = snapshot.data?.nerdPoints ?? 0;
           return FlatButton.icon(
             onPressed: () {},
             icon: Icon(Icons.attach_money),

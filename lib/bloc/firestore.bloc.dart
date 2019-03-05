@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,7 +25,7 @@ class FirestoreBloc extends BlocBase {
   // provides its own external-out
   // internal in handled in constructor
   /// user document in firestore
-  Observable<Map<String, dynamic>> userDoc;
+  Observable<UserDoc> userDoc$;
 
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -63,22 +64,19 @@ class FirestoreBloc extends BlocBase {
       _internalInUser.add(_fbUser);
     });
 
-    // setup userDoc (by listening to user stream)
-    userDoc = Observable(user).switchMap((FirebaseUser u) {
+    // setup userDoc (by listening to firebase user stream)
+    userDoc$ = Observable(user).switchMap((FirebaseUser u) {
       if (u != null) {
+        print("we have data");
         return _db
             .collection('users')
             .document(u.uid)
             .snapshots()
-            .map((snap) => snap.data);
+            .map((snap) => UserDoc.fromFirestore(snap.data));
       } else {
-        return Observable.just({});
+        return Observable.just(UserDoc(displayName: "Guest", nerdPoints: 0));
       }
     });
-
-    //TODO converter function (or something)
-    // that listens to userDoc and gets user data
-    // so that we can later say userData.nerdPoints or profile.nerdPoints etc
 
     // listen for incoming events from the external-in sink
     // these events will interact with _auth
@@ -117,12 +115,12 @@ class FirestoreBloc extends BlocBase {
       if (event.nerdPoints <= 0) {
         return;
       }
-      Map<String, dynamic> _currentProfile = await userDoc.first;
-      int _currentNerdPoints = _currentProfile["nerdPoints"] ?? 0;
+      UserDoc _currentUserData = await userDoc$.first;
+      int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
       int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
 
       DocumentReference _ref =
-          _db.collection('users').document(_currentProfile["uid"]);
+          _db.collection('users').document(_currentUserData.uid);
       await _ref.updateData({"nerdPoints": _newNerdPoints});
     }
   }
@@ -149,14 +147,14 @@ class FirestoreBloc extends BlocBase {
 
   Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
     // this is not in the events because we need to return a promise
-    Map<String, dynamic> _currentProfile = await userDoc.first;
-    int _currentNerdPoints = _currentProfile["nerdPoints"] ?? 0;
+    UserDoc _currentUserData = await userDoc$.first;
+    int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
     int _newNerdPoints = _currentNerdPoints - _nerdPointsToBeSpent;
     if (_newNerdPoints < 0) {
       throw ("Not enough nerd points");
     } else {
       DocumentReference _ref =
-          _db.collection('users').document(_currentProfile["uid"]);
+          _db.collection('users').document(_currentUserData.uid);
       await _ref.updateData({"nerdPoints": _newNerdPoints});
       return;
     }

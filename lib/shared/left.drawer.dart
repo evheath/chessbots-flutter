@@ -1,4 +1,4 @@
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../shared/custom.icons.dart';
@@ -15,19 +15,11 @@ class LeftDrawer extends StatelessWidget {
         children: <Widget>[
           AppBar(
             automaticallyImplyLeading: false,
-            title: StreamBuilder<Map<String, dynamic>>(
-                stream: _firestoreBloc.userDoc,
+            title: StreamBuilder<UserDoc>(
+                stream: _firestoreBloc.userDoc$,
+                initialData: UserDoc(),
                 builder: (context, snapshot) {
-                  String _name;
-                  // int _nerdPoints;
-                  if (!snapshot.hasData) {
-                    _name = "Guest";
-                    // _nerdPoints = 0;
-                  } else {
-                    _name = snapshot.data['displayName'] ?? "Guest";
-                    // _nerdPoints = snapshot.data['nerdPoints'] ?? 0;
-                  }
-                  // return Text("$_name $_nerdPoints");
+                  String _name = snapshot.data.displayName ?? "Guest";
                   return Text("$_name");
                 }),
           ),
