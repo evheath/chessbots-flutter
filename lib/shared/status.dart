@@ -25,7 +25,7 @@ class Status extends StatelessWidget {
             // color: gambit.color.withAlpha(75),
             ),
         child: ListTile(
-          leading: Text(bot.botName ?? "Guest"),
+          leading: Text(bot.name ?? "Guest"),
           title: SizedBox(
             height: 75,
             child: FlareActor(

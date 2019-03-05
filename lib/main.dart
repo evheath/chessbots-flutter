@@ -22,12 +22,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   final FirestoreBloc _firestoreBloc = FirestoreBloc();
   final PrefsBloc _prefsBloc = PrefsBloc();
-  final ChessBot _chessBot = ChessBot(botName: "Your bot");
+  final ChessBot _chessBot = ChessBot(name: "Your bot");
   // TODO prebuilt chess bots should not exist in main
   final ChessBot levelonecpu = ChessBot(gambits: [
     CaptureRandomPiece(),
     MoveRandomPawn(),
-  ], botName: "Level 1 CPU");
+  ], name: "Level 1 CPU");
 
   @override
   Widget build(BuildContext context) {

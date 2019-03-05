@@ -35,7 +35,7 @@ class SelectGambitEvent extends GambitEvent {
 class ChessBot implements BlocBase {
   // state
   List<Gambit> _gambits;
-  String botName;
+  String name;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
@@ -47,7 +47,7 @@ class ChessBot implements BlocBase {
   // external-in
   StreamSink<GambitEvent> get event => _eventController.sink;
 
-  ChessBot({List<Gambit> gambits, this.botName = 'Bot'}) {
+  ChessBot({List<Gambit> gambits, this.name = 'Bot'}) {
     this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
 
     // pushing the initial gambits out of the stream
