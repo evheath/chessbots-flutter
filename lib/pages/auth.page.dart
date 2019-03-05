@@ -75,16 +75,16 @@ class _AuthPageState extends State<AuthPage> {
           content: Text("Guest accounts are lost after signout!"),
           actions: <Widget>[
             FlatButton(
+              child: Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
               child: Text("Okay"),
               onPressed: () {
                 Navigator.of(context).pop();
                 _firestoreBloc.authEvent.add(SignInAnonymouslyEvent());
-              },
-            ),
-            FlatButton(
-              child: Text("Back"),
-              onPressed: () {
-                Navigator.of(context).pop();
               },
             ),
           ],
