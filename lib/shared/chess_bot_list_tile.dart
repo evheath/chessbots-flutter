@@ -63,11 +63,40 @@ class ChessBotListTile extends StatelessWidget {
                     icon: Icon(FontAwesomeIcons.pencilAlt),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _sellDialog(context, _botDoc);
+                    },
                     icon: Icon(FontAwesomeIcons.dollarSign),
                   ),
                 ],
               )
+            ],
+          );
+        });
+  }
+
+  void _sellDialog(BuildContext context, BotDoc _botDoc) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          int sellValue = (_botDoc.value / 2).round();
+          return AlertDialog(
+            title: Text("Sell"),
+            content: Text("Scrap ${_botDoc.name} for $sellValue nerd points?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Noooo!"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Delete"),
+                onPressed: () {
+                  //TODO deletion and awarding logic
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           );
         });
