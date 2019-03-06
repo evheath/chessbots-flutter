@@ -15,13 +15,23 @@ class SignOutEvent extends AuthEvent {}
 
 class SignInAnonymouslyEvent extends AuthEvent {}
 
-abstract class FirestoreEvent {}
+abstract class FirestoreEvent {
+  const FirestoreEvent();
+}
 
 class AwardNerdPointsEvent extends FirestoreEvent {
   final int nerdPoints;
-  AwardNerdPointsEvent(this.nerdPoints);
+  const AwardNerdPointsEvent(this.nerdPoints);
 }
 
+class DeleteBotDocEvent extends FirestoreEvent {
+  final DocumentReference bodDocRef;
+  const DeleteBotDocEvent(this.bodDocRef);
+}
+
+/// Singleton used for all things firebase
+///
+/// E.g. authentication, firestore CRUD etc
 class FirestoreBloc extends BlocBase {
   static final FirestoreBloc _singleton = FirestoreBloc._internal();
 
@@ -129,6 +139,21 @@ class FirestoreBloc extends BlocBase {
       int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
 
       await _userRef.updateData({"nerdPoints": _newNerdPoints});
+    } else if (event is DeleteBotDocEvent) {
+      DocumentReference _docToBeDeleted = event.bodDocRef;
+      // award nerd points if applicable
+      final _snap = await _docToBeDeleted.snapshots().first;
+      BotDoc _bot = BotDoc.fromSnapshot(_snap.data);
+      int _reward = (_bot.value / 2).round();
+      if (_reward > 0) {
+        firestoreEvent.add(AwardNerdPointsEvent(_reward));
+      }
+      // remove reference in user doc
+      _userRef.updateData({
+        "bots": FieldValue.arrayRemove([_docToBeDeleted])
+      });
+      // delete the doc
+      _docToBeDeleted.delete();
     }
   }
 
@@ -150,6 +175,8 @@ class FirestoreBloc extends BlocBase {
     _firestoreEventController.close();
   }
 
+  // public methods that the UI depends on
+
   Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
     // this is not in the events because the UI is depending on a promise
     // TODO can we somehow launch dialogs from in here?
@@ -168,8 +195,11 @@ class FirestoreBloc extends BlocBase {
     final _fbUser = await user.first;
     BotDoc _newBotDocObject = BotDoc(name: name, uid: _fbUser.uid);
 
+    // create document
     final DocumentReference _newBotDocRef = _db.collection('bots').document();
+    // set the data in the doc
     await _newBotDocRef.setData(_newBotDocObject.toMap());
+    // save a reference to the doc to the user
     return _userRef.updateData({
       "bots": FieldValue.arrayUnion([_newBotDocRef])
     });

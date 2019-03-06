@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -93,7 +94,9 @@ class ChessBotListTile extends StatelessWidget {
               FlatButton(
                 child: Text("Delete"),
                 onPressed: () {
-                  //TODO deletion and awarding logic
+                  FirestoreBloc()
+                      .firestoreEvent
+                      .add(DeleteBotDocEvent(_botRef));
                   Navigator.of(context).pop();
                 },
               ),
