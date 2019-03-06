@@ -72,14 +72,16 @@ class FirestoreBloc extends BlocBase {
       } else {
         _userRef = _db.collection('users').document(u.uid);
 
-        userDoc$ = Observable(_userRef
-            .snapshots()
-            .map((snap) => UserDoc.fromFirestore(snap.data))).shareValue();
+        // needed otherwise the userdoc will not rebuilt on snap changes
+        ValueObservable<DocumentSnapshot> _snaps =
+            Observable(_userRef.snapshots()).shareValue();
+
+        userDoc$ =
+            _snaps.map((snap) => UserDoc.fromFirestore(snap.data)).shareValue();
       }
     });
 
     // listen for incoming events from the external-in sink
-    // these events will interact with _auth
     _authEventController.stream.listen(_handleAuthEvent);
     _firestoreEventController.stream.listen(_handleFirestoreEvent);
   }
