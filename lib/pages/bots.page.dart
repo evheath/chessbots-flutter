@@ -16,31 +16,33 @@ class BotsPage extends StatefulWidget {
 }
 
 class BotsPageState extends State<BotsPage> {
-  List<DocumentReference> _bots;
   final FirestoreBloc _firestoreBloc = FirestoreBloc();
 
   @override
   void initState() {
-    _getBots();
     super.initState();
-  }
-
-  void _getBots() async {
-    UserDoc _currentUserData = await _firestoreBloc.userDoc$.first;
-    _bots = _currentUserData.bots;
-    print("bots is $_bots");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: ListView(
-          children: <Widget>[
-            ChessBotListTile(),
-          ],
-        ),
+      body: StreamBuilder<UserDoc>(
+        stream: _firestoreBloc.userDoc$,
+        builder: (context, snap) {
+          if (!snap.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          final _bots = snap.data.bots;
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            child: ListView.builder(
+              itemCount: _bots?.length ?? 0,
+              itemBuilder: (context, index) {
+                return ChessBotListTile();
+              },
+            ),
+          );
+        },
       ),
       appBar: AppBar(
         title: Row(
