@@ -205,6 +205,7 @@ class AssemblePageState extends State<AssemblePage> {
                   _chessBot.event.add(AddEmptyGambitEvent());
                   Navigator.of(context).pop();
                 }).catchError((e) {
+                  print(e);
                   // need to pop first, since display error has its own context
                   Navigator.of(context).pop();
                   _displayError(e);

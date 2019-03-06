@@ -16,6 +16,7 @@ class BotsPage extends StatefulWidget {
 
 class BotsPageState extends State<BotsPage> {
   final FirestoreBloc _firestoreBloc = FirestoreBloc();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -71,30 +72,50 @@ class BotsPageState extends State<BotsPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Create a bot"),
-            // content: Text("DERPDERPDERP"),
-            content: TextField(
-              decoration: InputDecoration(
-                labelText: "Give your bot a name",
-              ),
-              autofocus: true,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Discard"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text("Create"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
+          return Form(
+              key: _formKey,
+              child: AlertDialog(
+                title: Text("Create a bot"),
+                // content: Text("DERPDERPDERP"),
+                content: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Give your bot a name",
+                  ),
+                  autofocus: true,
+                  onSaved: (String name) {
+                    print("creating $name");
+                    _firestoreBloc.createBotDoc(name).then((_) {
+                      print("created bot");
+                      Navigator.pop(context);
+                    }).catchError((e) {
+                      print("could not create bot");
+                    });
+                  },
+                  validator: (name) {
+                    if (name.isEmpty) {
+                      return "You have to give it a name";
+                    } else if (name.length > 20) {
+                      return "Chill out, it is just a name";
+                    }
+                  },
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Discard"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Create"),
+                    onPressed: () {
+                      _formKey.currentState.validate()
+                          ? _formKey.currentState.save()
+                          : () {};
+                    },
+                  ),
+                ],
+              ));
         });
   }
 }

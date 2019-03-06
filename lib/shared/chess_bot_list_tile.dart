@@ -20,7 +20,10 @@ class ChessBotListTile extends StatelessWidget {
             _botRef.snapshots().map((snap) => BotDoc.fromSnapshot(snap.data)),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return ListTile(leading: CircularProgressIndicator());
+            return ListTile(
+              leading: CircularProgressIndicator(),
+              title: Text("Loading"),
+            );
           }
           BotDoc _botDoc = snapshot.data;
           return ExpansionTile(

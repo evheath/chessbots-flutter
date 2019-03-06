@@ -6,16 +6,16 @@ class BotDoc {
   int value;
   //TODO enum status some how
   String status;
-  List<String> gambits = [];
+  List<String> gambits;
 
   BotDoc({
     this.uid,
     this.name,
-    this.level,
-    this.kills,
-    this.value,
-    this.status,
-    this.gambits,
+    this.level = 1,
+    this.kills = 0,
+    this.value = 0,
+    this.status = "ready",
+    this.gambits = const [],
   });
 
   BotDoc.fromSnapshot(Map<String, dynamic> _snapshotData) {

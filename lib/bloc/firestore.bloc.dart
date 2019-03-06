@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -159,8 +160,14 @@ class FirestoreBloc extends BlocBase {
     if (_newNerdPoints < 0) {
       throw ("Not enough nerd points");
     } else {
-      await _userRef.updateData({"nerdPoints": _newNerdPoints});
-      return;
+      return _userRef.updateData({"nerdPoints": _newNerdPoints});
     }
+  }
+
+  Future<void> createBotDoc(String name) async {
+    final _fbUser = await user.first;
+    BotDoc _docData = BotDoc(name: name, uid: _fbUser.uid);
+    // _docData.toMap();
+    return _db.collection('bots').document().setData(_docData.toMap());
   }
 }
