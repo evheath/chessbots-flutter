@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
 
-//TODO: button to add bots
 class BotsPage extends StatefulWidget {
   @override
   BotsPageState createState() {
@@ -109,9 +108,9 @@ class BotsPageState extends State<BotsPage> {
                   FlatButton(
                     child: Text("Create"),
                     onPressed: () {
-                      _formKey.currentState.validate()
-                          ? _formKey.currentState.save()
-                          : () {};
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                      }
                     },
                   ),
                 ],
