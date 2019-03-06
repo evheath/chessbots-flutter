@@ -22,12 +22,18 @@ class AwardNerdPointsEvent extends FirestoreEvent {
 }
 
 class FirestoreBloc extends BlocBase {
+  static final FirestoreBloc _singleton = FirestoreBloc._internal();
+
+  factory FirestoreBloc() {
+    return _singleton;
+  }
+
   DocumentReference _userRef;
 
   // provides its own external-out
   // internal in handled in constructor
   /// user document in firestore
-  Observable<UserDoc> userDoc$;
+  ValueObservable<UserDoc> userDoc$;
 
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -60,7 +66,7 @@ class FirestoreBloc extends BlocBase {
   Stream<bool> get loading => _loadingController.stream;
 
   // constructor
-  FirestoreBloc() {
+  FirestoreBloc._internal() {
     // all things impacted by auth changes (where we get the delicious uid)
     _auth.onAuthStateChanged.listen((u) {
       // send the raw firebase user out our behavior subject
