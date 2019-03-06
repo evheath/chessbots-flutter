@@ -166,8 +166,12 @@ class FirestoreBloc extends BlocBase {
 
   Future<void> createBotDoc(String name) async {
     final _fbUser = await user.first;
-    BotDoc _docData = BotDoc(name: name, uid: _fbUser.uid);
-    // _docData.toMap();
-    return _db.collection('bots').document().setData(_docData.toMap());
+    BotDoc _newBotDocObject = BotDoc(name: name, uid: _fbUser.uid);
+
+    final DocumentReference _newBotDocRef = _db.collection('bots').document();
+    await _newBotDocRef.setData(_newBotDocObject.toMap());
+    return _userRef.updateData({
+      "bots": FieldValue.arrayUnion([_newBotDocRef])
+    });
   }
 }
