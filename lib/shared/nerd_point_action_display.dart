@@ -17,6 +17,7 @@ class NerdPointActionDisplay extends StatelessWidget {
               onPressed: () {},
               icon: Icon(Icons.attach_money),
               label: Text("$_nerdPoints"),
+              textColor: Colors.white,
             );
           } else {
             return Container();
