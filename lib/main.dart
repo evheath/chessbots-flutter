@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
+import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
@@ -55,8 +56,7 @@ class MyApp extends StatelessWidget {
                             //       whiteBot: _chessBot,
                             //       blackBot: levelonecpu,
                             //     )),
-                            // '/': (context) => RouteGuard(SettingsPage()),
-                            '/': (context) => RouteGuard(AssemblePage()),
+                            '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
                             '/assemble': (context) =>
                                 RouteGuard(AssemblePage()),
@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
                                   whiteBot: _chessBot,
                                   blackBot: levelonecpu,
                                 )),
+                            '/bots': (context) => RouteGuard(BotsPage()),
                           })
                     : Container(
                         child: Center(

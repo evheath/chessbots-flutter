@@ -41,8 +41,15 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(FontAwesomeIcons.robot),
+            title: Text('Bots'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/bots');
+            },
+          ),
+          ListTile(
             leading: Icon(MyCustomIcons.cog_alt),
-            title: Text('Assemble gambits'),
+            title: Text('Gambits'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/assemble');
             },
