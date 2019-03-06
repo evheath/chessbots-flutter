@@ -144,16 +144,16 @@ class AssemblePageState extends State<AssemblePage> {
 
     // gambits that are always added to the end
     _gambitTiles.addAll([
+      GambitListTile(
+        gambit: MoveRandomPiece(),
+        key: Key(MoveRandomPiece().title),
+      ),
       GestureDetector(
         key: Key("Level up"),
         child: LevelUpTile(),
         onTap: () {
           _levelUpPrompt();
         },
-      ),
-      GambitListTile(
-        gambit: MoveRandomPiece(),
-        key: Key(MoveRandomPiece().title),
       ),
     ]);
 
