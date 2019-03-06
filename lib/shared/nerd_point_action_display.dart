@@ -19,7 +19,7 @@ class NerdPointActionDisplay extends StatelessWidget {
               label: Text("$_nerdPoints"),
             );
           } else {
-            return CircularProgressIndicator();
+            return Container();
           }
         });
   }

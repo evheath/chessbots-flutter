@@ -148,7 +148,6 @@ class AssemblePageState extends State<AssemblePage> {
         key: Key("Level up"),
         child: LevelUpTile(),
         onTap: () {
-          print("level up suckaa!");
           _levelUpPrompt();
         },
       ),

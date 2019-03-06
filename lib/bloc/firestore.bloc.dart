@@ -22,6 +22,8 @@ class AwardNerdPointsEvent extends FirestoreEvent {
 }
 
 class FirestoreBloc extends BlocBase {
+  DocumentReference _userRef;
+
   // provides its own external-out
   // internal in handled in constructor
   /// user document in firestore
@@ -59,22 +61,20 @@ class FirestoreBloc extends BlocBase {
 
   // constructor
   FirestoreBloc() {
-    // setup user stream (behavior subject)
-    _auth.onAuthStateChanged.listen((_fbUser) {
-      _internalInUser.add(_fbUser);
-    });
+    // all things impacted by auth changes (where we get the delicious uid)
+    _auth.onAuthStateChanged.listen((u) {
+      // send the raw firebase user out our behavior subject
+      _internalInUser.add(u);
 
-    // setup userDoc (by listening to firebase user stream)
-    userDoc$ = Observable(user).switchMap((FirebaseUser u) {
-      if (u != null) {
-        print("we have data");
-        return _db
-            .collection('users')
-            .document(u.uid)
-            .snapshots()
-            .map((snap) => UserDoc.fromFirestore(snap.data));
+      if (u == null) {
+        _userRef = null;
+        userDoc$ = Observable.just(UserDoc()).shareValue();
       } else {
-        return Observable.just(UserDoc(displayName: "Guest", nerdPoints: 0));
+        _userRef = _db.collection('users').document(u.uid);
+
+        userDoc$ = Observable(_userRef
+            .snapshots()
+            .map((snap) => UserDoc.fromFirestore(snap.data))).shareValue();
       }
     });
 
@@ -85,17 +85,17 @@ class FirestoreBloc extends BlocBase {
   }
   void _handleAuthEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
-      print('sign in event');
+      // print('sign in event');
       _internalInLoading.add(true);
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      print('got google user');
+      // print('got google user');
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      print('got google auth');
+      // print('got google auth');
       FirebaseUser _fbUser = await _auth.signInWithGoogle(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print('got firebase auth');
+      // print('got firebase auth');
       _internalInLoading.add(false);
       _updateUserData(_fbUser);
     } else if (event is SignOutEvent) {
@@ -119,18 +119,14 @@ class FirestoreBloc extends BlocBase {
       int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
       int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
 
-      DocumentReference _ref =
-          _db.collection('users').document(_currentUserData.uid);
-      await _ref.updateData({"nerdPoints": _newNerdPoints});
+      await _userRef.updateData({"nerdPoints": _newNerdPoints});
     }
   }
 
   /// keeps firestore user collection up-to-date with firebase auth data
   /// typically run after sign in
   void _updateUserData(FirebaseUser _fbUser) async {
-    DocumentReference ref = _db.collection('users').document(_fbUser.uid);
-
-    return ref.setData({
+    return _userRef.setData({
       'uid': _fbUser.uid,
       'email': _fbUser.email,
       'displayName': _fbUser.displayName ?? "Guest",
@@ -146,16 +142,16 @@ class FirestoreBloc extends BlocBase {
   }
 
   Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
-    // this is not in the events because we need to return a promise
+    // this is not in the events because the UI is depending on a promise
+    // TODO can we somehow launch dialogs from in here?
+    // if so, then we could put this in the event queue
     UserDoc _currentUserData = await userDoc$.first;
     int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
     int _newNerdPoints = _currentNerdPoints - _nerdPointsToBeSpent;
     if (_newNerdPoints < 0) {
       throw ("Not enough nerd points");
     } else {
-      DocumentReference _ref =
-          _db.collection('users').document(_currentUserData.uid);
-      await _ref.updateData({"nerdPoints": _newNerdPoints});
+      await _userRef.updateData({"nerdPoints": _newNerdPoints});
       return;
     }
   }

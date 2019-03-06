@@ -21,7 +21,7 @@ class UserDoc {
     this.nerdPoints = _snapshotData["nerdPoints"] ?? 0;
   }
 
-  Map<String, dynamic> toFireStore() {
+  Map<String, dynamic> toMap() {
     Map<String, dynamic> _map = {
       "uid": uid,
       "displayName": displayName,
