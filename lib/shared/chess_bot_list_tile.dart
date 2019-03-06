@@ -60,13 +60,11 @@ class ChessBotListTile extends StatelessWidget {
                     icon: Icon(MyCustomIcons.cog_alt),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => _editDialog(context, _botDoc),
                     icon: Icon(FontAwesomeIcons.pencilAlt),
                   ),
                   IconButton(
-                    onPressed: () {
-                      _sellDialog(context, _botDoc);
-                    },
+                    onPressed: () => _sellDialog(context, _botDoc),
                     icon: Icon(FontAwesomeIcons.dollarSign),
                   ),
                 ],
@@ -102,6 +100,54 @@ class ChessBotListTile extends StatelessWidget {
               ),
             ],
           );
+        });
+  }
+
+  void _editDialog(BuildContext context, BotDoc _botDoc) {
+    final GlobalKey<FormState> _editFormKey = GlobalKey<FormState>();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Form(
+              key: _editFormKey,
+              child: AlertDialog(
+                title: Text("Rename ${_botDoc.name}"),
+                content: TextFormField(
+                  initialValue: _botDoc.name,
+                  // decoration: InputDecoration(
+                  //   labelText: "Rename ${_botDoc.name}",
+                  // ),
+                  autofocus: true,
+                  onSaved: (String name) {
+                    // print("renaming $name");
+                    _botRef.updateData({"name": name});
+                    Navigator.pop(context);
+                  },
+                  validator: (name) {
+                    if (name.isEmpty) {
+                      return "You have to give it a name";
+                    } else if (name.length > 20) {
+                      return "Chill out, it is just a name";
+                    }
+                  },
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Discard"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Save"),
+                    onPressed: () {
+                      if (_editFormKey.currentState.validate()) {
+                        _editFormKey.currentState.save();
+                      }
+                    },
+                  ),
+                ],
+              ));
         });
   }
 }
