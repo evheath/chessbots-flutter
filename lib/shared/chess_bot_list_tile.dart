@@ -8,9 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // TODO:
 // cogs link to assemble page
-// pencil lets a rename occur
-// wrench = repair
-// dollar sign sells bot for 1/2 its value
 class ChessBotListTile extends StatelessWidget {
   final DocumentReference _botRef;
   const ChessBotListTile(this._botRef);
@@ -52,7 +49,9 @@ class ChessBotListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _botDoc.status == "damaged"
+                        ? () => _repairDialog(context, _botDoc)
+                        : null,
                     icon: Icon(FontAwesomeIcons.wrench),
                   ),
                   IconButton(
@@ -148,6 +147,33 @@ class ChessBotListTile extends StatelessWidget {
                   ),
                 ],
               ));
+        });
+  }
+
+  void _repairDialog(BuildContext context, BotDoc _botDoc) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          int sellValue = (_botDoc.value / 2).round();
+          return AlertDialog(
+            title: Text("Sell"),
+            content: Text("Repair ${_botDoc.name} for $sellValue nerd points?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  FirestoreBloc().firestoreEvent.add(RepairBotEvent(_botRef));
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
         });
   }
 }

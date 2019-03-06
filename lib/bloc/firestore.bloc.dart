@@ -25,8 +25,13 @@ class AwardNerdPointsEvent extends FirestoreEvent {
 }
 
 class DeleteBotDocEvent extends FirestoreEvent {
-  final DocumentReference bodDocRef;
-  const DeleteBotDocEvent(this.bodDocRef);
+  final DocumentReference botDocRef;
+  const DeleteBotDocEvent(this.botDocRef);
+}
+
+class RepairBotEvent extends FirestoreEvent {
+  final DocumentReference botDocRef;
+  const RepairBotEvent(this.botDocRef);
 }
 
 /// Singleton used for all things firebase
@@ -140,7 +145,7 @@ class FirestoreBloc extends BlocBase {
 
       await _userRef.updateData({"nerdPoints": _newNerdPoints});
     } else if (event is DeleteBotDocEvent) {
-      DocumentReference _docToBeDeleted = event.bodDocRef;
+      DocumentReference _docToBeDeleted = event.botDocRef;
       // award nerd points if applicable
       final _snap = await _docToBeDeleted.snapshots().first;
       BotDoc _bot = BotDoc.fromSnapshot(_snap.data);
@@ -154,6 +159,23 @@ class FirestoreBloc extends BlocBase {
       });
       // delete the doc
       _docToBeDeleted.delete();
+    } else if (event is RepairBotEvent) {
+      DocumentReference _docToBeRepaired = event.botDocRef;
+      final _snap = await _docToBeRepaired.snapshots().first;
+      BotDoc _bot = BotDoc.fromSnapshot(_snap.data);
+      //sanity check that it is really broken
+      if (_bot.status != "damaged") {
+        return;
+      }
+      int _cost = (_bot.value / 2).round();
+      await spendNerdPoints(_cost).then((_) {
+        _docToBeRepaired.updateData({
+          "status": "ready",
+        });
+      }).catchError((e) {
+        //TODO push to alert dialog bloc after it is built
+        print("Problem repairing");
+      });
     }
   }
 
