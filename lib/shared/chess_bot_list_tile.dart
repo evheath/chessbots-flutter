@@ -4,6 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// TODO:
+// wrench = repair
+// cogs link to assemble page
+// pencil lets a rename occur
+// dollar sign sells bot for 1/2 its value
+// diplay level, value, status kills
+// perhaps display a flare actor
 class ChessBotListTile extends StatelessWidget {
   final DocumentReference _botRef;
   const ChessBotListTile(this._botRef);

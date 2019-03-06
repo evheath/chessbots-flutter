@@ -1,13 +1,12 @@
-import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/shared/chess_bot_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
 
+//TODO: button to add bots
 class BotsPage extends StatefulWidget {
   @override
   BotsPageState createState() {
