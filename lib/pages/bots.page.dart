@@ -25,6 +25,13 @@ class BotsPageState extends State<BotsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          print("Making a new bot!!!!!");
+          _showCreationDialog();
+        },
+      ),
       body: StreamBuilder<UserDoc>(
         stream: _firestoreBloc.userDoc$,
         builder: (context, snap) {
@@ -58,5 +65,36 @@ class BotsPageState extends State<BotsPage> {
       ),
       drawer: LeftDrawer(),
     );
+  }
+
+  void _showCreationDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Create a bot"),
+            // content: Text("DERPDERPDERP"),
+            content: TextField(
+              decoration: InputDecoration(
+                labelText: "Give your bot a name",
+              ),
+              autofocus: true,
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Discard"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Create"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }
