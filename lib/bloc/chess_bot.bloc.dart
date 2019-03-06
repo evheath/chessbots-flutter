@@ -61,31 +61,6 @@ class ChessBot implements BlocBase {
     _eventController.stream.listen(_handleEvent);
   }
 
-  ChessBot.fromFirestore(Map<String, dynamic> _snapshotData) {
-    // this.uid = _snapshotData["uid"];
-    this.name = _snapshotData["name"] ?? "Super cool bot";
-
-    List<String> gambitNames = _snapshotData["gambits"];
-
-    this._gambits = gambitNames.map((name) => gambitMap[name]) ??
-        [EmptyGambit(), CheckOpponent()];
-
-    // pushing the initial gambits out of the stream
-    _internalInGambits.add(_gambits);
-
-    // connect external-in to internal-out
-    _eventController.stream.listen(_handleEvent);
-  }
-
-  Map<String, dynamic> toFireStore() {
-    Map<String, dynamic> _map = {
-      "uid": uid,
-      "gambits": _gambits.map((gambit) => gambit.title),
-      "name": name,
-    };
-    return _map;
-  }
-
   // internal-out
   void _handleEvent(GambitEvent event) {
     if (event is ReorderEvent) {
@@ -154,7 +129,36 @@ class ChessBot implements BlocBase {
     return move;
   }
 
-  /// Given a title (a string), returns the matching gambit
+  // all the firestore buggery
+
+  /// Marshal a ChessBot from a firestore document
+  ChessBot.fromFirestore(Map<String, dynamic> _snapshotData) {
+    // this.uid = _snapshotData["uid"];
+    this.name = _snapshotData["name"] ?? "Super cool bot";
+
+    List<String> gambitNames = _snapshotData["gambits"];
+
+    this._gambits = gambitNames.map((name) => gambitMap[name]) ??
+        [EmptyGambit(), CheckOpponent()];
+
+    // pushing the initial gambits out of the stream
+    _internalInGambits.add(_gambits);
+
+    // connect external-in to internal-out
+    _eventController.stream.listen(_handleEvent);
+  }
+
+  /// Serialize a ChessBot to a firestore document
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> _map = {
+      "uid": uid,
+      "gambits": _gambits.map((gambit) => gambit.title),
+      "name": name,
+    };
+    return _map;
+  }
+
+  /// Given a title, returns the matching gambit
   Map<String, Gambit> gambitMap = {
     CaptureBishop().title: CaptureBishop(),
     CaptureKnight().title: CaptureKnight(),
