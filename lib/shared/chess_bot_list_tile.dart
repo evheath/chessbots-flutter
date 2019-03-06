@@ -1,16 +1,15 @@
 import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // TODO:
-// wrench = repair
 // cogs link to assemble page
 // pencil lets a rename occur
+// wrench = repair
 // dollar sign sells bot for 1/2 its value
-// diplay level, value, status kills
-// perhaps display a flare actor
 class ChessBotListTile extends StatelessWidget {
   final DocumentReference _botRef;
   const ChessBotListTile(this._botRef);
@@ -25,7 +24,25 @@ class ChessBotListTile extends StatelessWidget {
           }
           BotDoc _botDoc = snapshot.data;
           return ExpansionTile(
-            title: Text("${_botDoc.name}"),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${_botDoc.name}"),
+                Text("Level ${_botDoc.level}"),
+                Text("Value: ${_botDoc.value}"),
+                Text("Kills: ${_botDoc.kills}"),
+              ],
+            ),
+            trailing: Column(
+              children: [
+                CircleAvatar(
+                  child:
+                      FlareActor('animations/chessbot.flr', animation: 'idle'),
+                  backgroundColor: Colors.transparent,
+                ),
+                Text("${_botDoc.status}"),
+              ],
+            ),
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
