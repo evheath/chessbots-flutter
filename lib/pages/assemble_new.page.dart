@@ -37,26 +37,38 @@ class NewAssemblePageState extends State<NewAssemblePage> {
 
   @override
   Widget build(BuildContext context) {
-    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: StreamBuilder(
-          initialData: [MoveRandomPiece()], // need for error prevention
-          stream: _chessBot.gambits,
+      body: FutureBuilder<DocumentSnapshot>(
+          future: _botDocSnap$.first,
           builder: (context, snapshot) {
-            List<Gambit> _gambits = snapshot.data;
-            return ReorderableListView(
-              scrollDirection: Axis.vertical,
-              onReorder: (oldIndex, newIndex) {
-                _chessBot.event.add(ReorderEvent(oldIndex, newIndex));
-              },
-              header: GambitListTile(gambit: CheckmateOpponent()),
-              children: _buildGambitListTiles(_gambits, _chessBot),
-            );
-          },
-        ),
-      ),
+            if (snapshot.connectionState != ConnectionState.done) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              ChessBot _chessBot = ChessBot.fromFirestore(snapshot.data.data);
+              return Container(
+                padding: EdgeInsets.all(10.0),
+                child: StreamBuilder(
+                  initialData: [
+                    MoveRandomPiece()
+                  ], // needed for error prevention
+                  stream: _chessBot.gambits,
+                  builder: (context, snapshot) {
+                    List<Gambit> _gambits = snapshot.data;
+                    return ReorderableListView(
+                      scrollDirection: Axis.vertical,
+                      onReorder: (oldIndex, newIndex) {
+                        _chessBot.event.add(ReorderEvent(oldIndex, newIndex));
+                      },
+                      header: GambitListTile(gambit: CheckmateOpponent()),
+                      children: _buildGambitListTiles(_gambits, _chessBot),
+                    );
+                  },
+                ),
+              );
+            }
+          }),
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
@@ -75,7 +87,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     ChessBot _bot = ChessBot.fromFirestore(snapshot.data.data);
-                    return Text("O${_bot.name}");
+                    return Text("${_bot.name}");
                   } else {
                     return Text("Build your bot");
                   }
