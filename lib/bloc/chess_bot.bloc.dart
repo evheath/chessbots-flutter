@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import './base.bloc.dart';
 import '../models/gambit.dart';
@@ -67,8 +68,16 @@ class ChessBot implements BlocBase {
   StreamSink<ChessBotEvent> get event => _eventController.sink;
 
   //constructors
-  ChessBot({List<Gambit> gambits, this.name = 'Bot', this.uid}) {
-    this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
+  ChessBot(
+      {List<Gambit> gambits,
+      this.name = 'Bot',
+      this.uid,
+      this.status,
+      this.value,
+      this.kills,
+      this.level,
+      this.botRef}) {
+    this._gambits = gambits ?? [EmptyGambit()];
 
     // pushing the initial gambits out of the stream
     _internalInGambits.add(_gambits);
@@ -97,13 +106,16 @@ class ChessBot implements BlocBase {
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
+      syncWithFirestore();
     } else if (event is DismissedEvent) {
       int index = event.index;
       _gambits[index] = EmptyGambit();
+      syncWithFirestore();
     } else if (event is SelectGambitEvent) {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
+      syncWithFirestore();
     } else if (event is DeleteBotDocEvent) {
       int _reward = (value / 2).round();
       if (_reward > 0) {
@@ -111,8 +123,7 @@ class ChessBot implements BlocBase {
       }
       // remove reference in user doc
       FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
-      botRef.delete();
-      dispose();
+      await botRef.delete();
     } else if (event is AddEmptyGambitEvent) {
       _gambits.contains(EmptyGambit())
           ? print("cannot add another empty slot")
@@ -127,13 +138,12 @@ class ChessBot implements BlocBase {
       int _cost = (value / 2).round();
       await FirestoreBloc().spendNerdPoints(_cost).then((_) {
         status = "ready";
+        syncWithFirestore();
       }).catchError((e) {
         //TODO push to alert dialog bloc after it is built
         print("Problem repairing");
       });
-    } 
-    // after any event
-    syncWithFirestore();
+    }
 
     // connect internal-out to internal-in
     // (let listeners know about the gambits)
@@ -247,3 +257,35 @@ Map<String, Gambit> gambitMap = {
   PromotePawnToRook().title: PromotePawnToRook(),
   EmptyGambit().title: EmptyGambit(),
 };
+
+Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
+  return Observable(botRef.snapshots().map((snap) {
+    final _snapshotData = snap.data;
+    final uid = _snapshotData["uid"];
+    final name = _snapshotData["name"] ?? "Your bot";
+    final level = _snapshotData["level"];
+    final kills = _snapshotData["kills"];
+    final value = _snapshotData["value"];
+    final status = _snapshotData["status"];
+    List<String> _gambitNames = [];
+    if (_snapshotData["gambits"] != null) {
+      _snapshotData["gambits"].forEach((element) {
+        if (element is String) {
+          _gambitNames.add(element);
+        }
+      });
+    }
+    final gambits =
+        _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
+    return ChessBot(
+      uid: uid,
+      name: name,
+      level: level,
+      kills: kills,
+      value: value,
+      status: status,
+      gambits: gambits,
+      botRef: botRef,
+    );
+  })).shareValue();
+}

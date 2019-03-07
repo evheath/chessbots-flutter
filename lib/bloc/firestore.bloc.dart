@@ -186,8 +186,15 @@ class FirestoreBloc extends BlocBase {
 
   Future<void> createBotDoc(String name) async {
     final _fbUser = await user.first;
-    ChessBot _newBotDocObject =
-        ChessBot(name: name, uid: _fbUser.uid, gambits: [EmptyGambit()]);
+    ChessBot _newBotDocObject = ChessBot(
+      name: name,
+      uid: _fbUser.uid,
+      gambits: [EmptyGambit()],
+      level: 1,
+      value: 0,
+      kills: 0,
+      status: "ready",
+    );
 
     // create document
     final DocumentReference _newBotDocRef = _db.collection('bots').document();

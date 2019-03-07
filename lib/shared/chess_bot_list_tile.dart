@@ -1,6 +1,5 @@
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
-// import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/pages/assemble_new.page.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,67 +7,74 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// TODO:
-// cogs link to assemble page
 class ChessBotListTile extends StatelessWidget {
   final DocumentReference _botRef;
   const ChessBotListTile(this._botRef);
   @override
   Widget build(BuildContext context) {
-    ChessBot _bot = ChessBot.marshal(_botRef);
-    //TODO null checking
-    return ExpansionTile(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("${_bot.name}"),
-          Text("Level ${_bot.level}"),
-          Text("Value: ${_bot.value}"),
-          Text("Kills: ${_bot.kills}"),
-        ],
-      ),
-      trailing: Column(
-        children: [
-          CircleAvatar(
-            child: FlareActor('animations/chessbot.flr', animation: 'idle'),
-            backgroundColor: Colors.transparent,
-          ),
-          Text("${_bot.status}"),
-        ],
-      ),
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              onPressed: _bot.status == "damaged"
-                  ? () => _repairDialog(context, _bot)
-                  : null,
-              icon: Icon(FontAwesomeIcons.wrench),
+    return StreamBuilder<ChessBot>(
+        stream: marshalChessBot(_botRef),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return ListTile(
+              leading: CircularProgressIndicator(),
+            );
+          }
+          ChessBot _bot = snapshot.data;
+          return ExpansionTile(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${_bot.name}"),
+                Text("Level ${_bot.level}"),
+                Text("Value: ${_bot.value}"),
+                Text("Kills: ${_bot.kills}"),
+              ],
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NewAssemblePage(_botRef),
+            trailing: Column(
+              children: [
+                CircleAvatar(
+                  child:
+                      FlareActor('animations/chessbot.flr', animation: 'idle'),
+                  backgroundColor: Colors.transparent,
+                ),
+                Text("${_bot.status}"),
+              ],
+            ),
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: _bot.status == "damaged"
+                        ? () => _repairDialog(context, _bot)
+                        : null,
+                    icon: Icon(FontAwesomeIcons.wrench),
                   ),
-                );
-              },
-              icon: Icon(MyCustomIcons.cog_alt),
-            ),
-            IconButton(
-              onPressed: () => _editDialog(context, _bot),
-              icon: Icon(FontAwesomeIcons.pencilAlt),
-            ),
-            IconButton(
-              onPressed: () => _sellDialog(context, _bot),
-              icon: Icon(FontAwesomeIcons.dollarSign),
-            ),
-          ],
-        )
-      ],
-    );
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewAssemblePage(_botRef),
+                        ),
+                      );
+                    },
+                    icon: Icon(MyCustomIcons.cog_alt),
+                  ),
+                  IconButton(
+                    onPressed: () => _editDialog(context, _bot),
+                    icon: Icon(FontAwesomeIcons.pencilAlt),
+                  ),
+                  IconButton(
+                    onPressed: () => _sellDialog(context, _bot),
+                    icon: Icon(FontAwesomeIcons.dollarSign),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 
   void _sellDialog(BuildContext context, ChessBot _bot) {
@@ -89,8 +95,8 @@ class ChessBotListTile extends StatelessWidget {
               FlatButton(
                 child: Text("Delete"),
                 onPressed: () {
-                  _bot.event.add(DeleteBotDocEvent());
                   Navigator.of(context).pop();
+                  _bot.event.add(DeleteBotDocEvent());
                 },
               ),
             ],
