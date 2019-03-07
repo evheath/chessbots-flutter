@@ -40,8 +40,6 @@ class SelectGambitEvent extends ChessBotEvent {
 
 class DeleteBotDocEvent extends ChessBotEvent {}
 
-class AddEmptyGambitEvent extends ChessBotEvent {}
-
 class ChessBot implements BlocBase {
   // firestore fields that can be directly ported
   String uid;
@@ -106,16 +104,16 @@ class ChessBot implements BlocBase {
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
-      syncWithFirestore();
+      _syncWithFirestore();
     } else if (event is DismissedEvent) {
       int index = event.index;
       _gambits[index] = EmptyGambit();
-      syncWithFirestore();
+      _syncWithFirestore();
     } else if (event is SelectGambitEvent) {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
-      syncWithFirestore();
+      _syncWithFirestore();
     } else if (event is DeleteBotDocEvent) {
       int _reward = (value / 2).round();
       if (_reward > 0) {
@@ -124,20 +122,6 @@ class ChessBot implements BlocBase {
       // remove reference in user doc
       FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
       await botRef.delete();
-    } else if (event is AddEmptyGambitEvent) {
-      if (_gambits.contains(EmptyGambit())) {
-        //TODO send error to toaster service
-        print("cannot add another empty slot");
-      } else {
-        await FirestoreBloc().spendNerdPoints(costOfUpgrading()).then((_) {
-          _gambits.add(EmptyGambit());
-          level = _gambits.length;
-          syncWithFirestore();
-        }).catchError((e) {
-          //TODO send erro to toaster
-          print("could not buy");
-        });
-      }
     } else if (event is RepairBotEvent) {
       //sanity check that it is really broken
       if (status != "damaged") {
@@ -146,7 +130,7 @@ class ChessBot implements BlocBase {
       int _cost = (value / 2).round();
       await FirestoreBloc().spendNerdPoints(_cost).then((_) {
         status = "ready";
-        syncWithFirestore();
+        _syncWithFirestore();
       }).catchError((e) {
         //TODO push to alert dialog bloc after it is built
         print("Problem repairing");
@@ -175,13 +159,24 @@ class ChessBot implements BlocBase {
   }
 
   // internal methods
-  void syncWithFirestore() async {
+  /// Output this ChessBot to firestore-friendly format
+
+  void _syncWithFirestore() async {
     botRef.setData(serialize(), merge: true);
   }
 
   // external methods
-  int costOfUpgrading() {
-    return _gambits.length + 1;
+  Map<String, dynamic> serialize() {
+    Map<String, dynamic> _map = {
+      "uid": uid,
+      "name": name,
+      "level": level,
+      "kills": kills,
+      "value": value,
+      "status": status,
+      "gambits": _gambits.map((gambit) => gambit.title).toList(),
+    };
+    return _map;
   }
 
   /// find a move by going through all gambits, in order
@@ -201,18 +196,17 @@ class ChessBot implements BlocBase {
     return move;
   }
 
-  /// Output this ChessBot to firestore-friendly format
-  Map<String, dynamic> serialize() {
-    Map<String, dynamic> _map = {
-      "uid": uid,
-      "name": name,
-      "level": level,
-      "kills": kills,
-      "value": value,
-      "status": status,
-      "gambits": _gambits.map((gambit) => gambit.title).toList(),
-    };
-    return _map;
+  // UI dependent methods
+  int costOfUpgrading() {
+    return _gambits.length + 1;
+  }
+
+  Future<void> attemptLevelUp() async {
+    await FirestoreBloc().spendNerdPoints(costOfUpgrading()).then((_) {
+      _gambits.add(EmptyGambit());
+      level = _gambits.length;
+      _syncWithFirestore();
+    });
   }
 }
 
