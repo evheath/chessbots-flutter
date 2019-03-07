@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import './base.bloc.dart';
 import '../models/gambit.dart';
 import 'package:chess/chess.dart' as chess;
 import '../shared/gambits.dart';
 
-abstract class GambitEvent {}
+abstract class ChessBotEvent {}
 
-class ReorderEvent extends GambitEvent {
+/// For when gambits have changed order
+class ReorderEvent extends ChessBotEvent {
   int oldIndex;
   int newIndex;
 
@@ -17,7 +21,8 @@ class ReorderEvent extends GambitEvent {
   );
 }
 
-class DismissedEvent extends GambitEvent {
+/// For when a gambit is emptied
+class DismissedEvent extends ChessBotEvent {
   int index;
 
   DismissedEvent(
@@ -25,30 +30,54 @@ class DismissedEvent extends GambitEvent {
   );
 }
 
-class SelectGambitEvent extends GambitEvent {
+/// For when an empty gambit needs to be filled
+class SelectGambitEvent extends ChessBotEvent {
   int index;
   Gambit selectedGambit;
 
   SelectGambitEvent(this.index, this.selectedGambit);
 }
 
+class DeleteBotDocEvent extends ChessBotEvent {}
+
+class AddEmptyGambitEvent extends ChessBotEvent {}
+
 class ChessBot implements BlocBase {
-  // state
+  // firestore fields that can be directly ported
+  String uid;
+  String name;
+  int kills;
+  int level;
+  int value;
+  String status; //TODO enum status some how
+
+  // fields that require conversion
   List<Gambit> _gambits;
-  String botName;
+
+  // other firestore data
+  DocumentReference botRef;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
       BehaviorSubject<List<Gambit>>();
-  StreamController<GambitEvent> _eventController = StreamController();
+  StreamController<ChessBotEvent> _eventController = StreamController();
   StreamController<Gambit> _lastUsedGambitController =
       StreamController.broadcast();
 
   // external-in
-  StreamSink<GambitEvent> get event => _eventController.sink;
+  StreamSink<ChessBotEvent> get event => _eventController.sink;
 
-  ChessBot({List<Gambit> gambits, this.botName = 'Bot'}) {
-    this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
+  //constructors
+  ChessBot(
+      {List<Gambit> gambits,
+      this.name = 'Bot',
+      this.uid,
+      this.status,
+      this.value,
+      this.kills,
+      this.level,
+      this.botRef}) {
+    this._gambits = gambits ?? [EmptyGambit()];
 
     // pushing the initial gambits out of the stream
     _internalInGambits.add(_gambits);
@@ -56,8 +85,9 @@ class ChessBot implements BlocBase {
     // connect external-in to internal-out
     _eventController.stream.listen(_handleEvent);
   }
+
   // internal-out
-  void _handleEvent(GambitEvent event) {
+  void _handleEvent(ChessBotEvent event) async {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
@@ -76,15 +106,55 @@ class ChessBot implements BlocBase {
       }
       final Gambit movedGambit = _gambits.removeAt(oldIndex);
       _gambits.insert(newIndex, movedGambit);
+      syncWithFirestore();
     } else if (event is DismissedEvent) {
       int index = event.index;
       _gambits[index] = EmptyGambit();
+      syncWithFirestore();
     } else if (event is SelectGambitEvent) {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
+      syncWithFirestore();
+    } else if (event is DeleteBotDocEvent) {
+      int _reward = (value / 2).round();
+      if (_reward > 0) {
+        FirestoreBloc().userEvent.add(AwardNerdPointsEvent(_reward));
+      }
+      // remove reference in user doc
+      FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
+      await botRef.delete();
+    } else if (event is AddEmptyGambitEvent) {
+      if (_gambits.contains(EmptyGambit())) {
+        //TODO send error to toaster service
+        print("cannot add another empty slot");
+      } else {
+        await FirestoreBloc().spendNerdPoints(costOfUpgrading()).then((_) {
+          _gambits.add(EmptyGambit());
+          level = _gambits.length;
+          syncWithFirestore();
+        }).catchError((e) {
+          //TODO send erro to toaster
+          print("could not buy");
+        });
+      }
+    } else if (event is RepairBotEvent) {
+      //sanity check that it is really broken
+      if (status != "damaged") {
+        return;
+      }
+      int _cost = (value / 2).round();
+      await FirestoreBloc().spendNerdPoints(_cost).then((_) {
+        status = "ready";
+        syncWithFirestore();
+      }).catchError((e) {
+        //TODO push to alert dialog bloc after it is built
+        print("Problem repairing");
+      });
     }
+
     // connect internal-out to internal-in
+    // (let listeners know about the gambits)
     _internalInGambits.add(_gambits);
   }
 
@@ -104,7 +174,16 @@ class ChessBot implements BlocBase {
     _lastUsedGambitController.close();
   }
 
+  // internal methods
+  void syncWithFirestore() async {
+    botRef.setData(serialize(), merge: true);
+  }
+
   // external methods
+  int costOfUpgrading() {
+    return _gambits.length + 1;
+  }
+
   /// find a move by going through all gambits, in order
   String waterfallGambits(chess.Chess game) {
     // find the gambit to be used
@@ -121,4 +200,71 @@ class ChessBot implements BlocBase {
     String move = _gambitToBeUsed.findMove(game);
     return move;
   }
+
+  /// Output this ChessBot to firestore-friendly format
+  Map<String, dynamic> serialize() {
+    Map<String, dynamic> _map = {
+      "uid": uid,
+      "name": name,
+      "level": level,
+      "kills": kills,
+      "value": value,
+      "status": status,
+      "gambits": _gambits.map((gambit) => gambit.title).toList(),
+    };
+    return _map;
+  }
+}
+
+/// Given a title, returns the matching gambit
+Map<String, Gambit> gambitMap = {
+  CaptureBishop().title: CaptureBishop(),
+  CaptureKnight().title: CaptureKnight(),
+  CapturePawn().title: CapturePawn(),
+  CaptureQueen().title: CaptureQueen(),
+  CaptureRook().title: CaptureRook(),
+  CastleKingSide().title: CastleKingSide(),
+  CastleQueenSide().title: CastleQueenSide(),
+  CheckOpponent().title: CheckOpponent(),
+  MoveRandomPawn().title: MoveRandomPawn(),
+  PawnToE4().title: PawnToE4(),
+  PromotePawnToBishop().title: PromotePawnToBishop(),
+  PromotePawnToKnight().title: PromotePawnToKnight(),
+  PromotePawnToQueen().title: PromotePawnToQueen(),
+  PromotePawnToRandom().title: PromotePawnToRandom(),
+  PromotePawnToRook().title: PromotePawnToRook(),
+  EmptyGambit().title: EmptyGambit(),
+};
+
+/// Instaniate an observable ChessBot using only firestore document reference
+Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
+  return Observable(botRef.snapshots().map((snap) {
+    final _snapshotData = snap.data;
+    final uid = _snapshotData["uid"];
+    final name = _snapshotData["name"] ?? "Your bot";
+    final level = _snapshotData["level"];
+    final kills = _snapshotData["kills"];
+    final value = _snapshotData["value"];
+    final status = _snapshotData["status"];
+    List<String> _gambitNames = [];
+    if (_snapshotData["gambits"] != null) {
+      _snapshotData["gambits"].forEach((element) {
+        if (element is String) {
+          _gambitNames.add(element);
+        }
+      });
+    }
+    final gambits =
+        _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
+    return ChessBot(
+      uid: uid,
+      name: name,
+      level: level,
+      kills: kills,
+      value: value,
+      status: status,
+      gambits: gambits,
+      botRef: botRef,
+    );
+  })).shareValue();
 }

@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../shared/left.drawer.dart';
 import 'package:flutter/material.dart';
-import '../bloc/auth.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import '../bloc/base.bloc.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
@@ -33,7 +34,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Divider(),
           StreamBuilder<FirebaseUser>(
-              stream: _authBloc.user,
+              stream: _firestoreBloc.user,
               builder: (context, snapshot) {
                 FirebaseUser _user = snapshot.data;
                 return ListTile(
@@ -41,7 +42,8 @@ class SettingsPage extends StatelessWidget {
                   subtitle: Text("${_user?.email ?? ''}"),
                   trailing: RaisedButton(
                     child: Text("Signout"),
-                    onPressed: () => _authBloc.event.add(SignOutEvent()),
+                    onPressed: () =>
+                        _firestoreBloc.authEvent.add(SignOutEvent()),
                   ),
                 );
               }),

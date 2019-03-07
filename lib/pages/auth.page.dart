@@ -1,6 +1,6 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:flutter/material.dart';
-import '../bloc/auth.bloc.dart';
 import '../bloc/base.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 
@@ -13,14 +13,15 @@ class _AuthPageState extends State<AuthPage> {
   GameControllerBloc _demoController = GameControllerBloc(playRandom: true);
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             StreamBuilder<bool>(
-                stream: _authBloc.loading,
+                stream: _firestoreBloc.loading,
                 initialData: false,
                 builder: (context, snapshot) {
                   return snapshot.data
@@ -37,14 +38,17 @@ class _AuthPageState extends State<AuthPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 MaterialButton(
-                  onPressed: () =>
-                      _authBloc.event.add(SignInAnonymouslyEvent()),
+                  onPressed: () {
+                    // _firestoreBloc.authEvent.add(SignInAnonymouslyEvent()),
+                    _warnGuest();
+                  },
                   color: Colors.white,
                   textColor: Colors.black,
                   child: Text('Login as guest'),
                 ),
                 MaterialButton(
-                  onPressed: () => _authBloc.event.add(SignInWithGoogleEvent()),
+                  onPressed: () =>
+                      _firestoreBloc.authEvent.add(SignInWithGoogleEvent()),
                   color: Colors.red,
                   textColor: Colors.black,
                   child: Text(
@@ -57,6 +61,35 @@ class _AuthPageState extends State<AuthPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _warnGuest() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final FirestoreBloc _firestoreBloc =
+            BlocProvider.of<FirestoreBloc>(context);
+        return AlertDialog(
+          title: Text("Caution"),
+          content: Text("Guest accounts are lost after signout!"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Okay"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _firestoreBloc.authEvent.add(SignInAnonymouslyEvent());
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

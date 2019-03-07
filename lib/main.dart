@@ -1,13 +1,13 @@
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
+import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
-import './pages/assemble.page.dart';
 import './pages/settings.page.dart';
 import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
 import './bloc/chess_bot.bloc.dart';
-import './bloc/auth.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:flutter/services.dart';
 import './shared/gambits.dart';
 
@@ -20,19 +20,19 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final AuthBloc _authBloc = AuthBloc();
+  final FirestoreBloc _firestoreBloc = FirestoreBloc();
   final PrefsBloc _prefsBloc = PrefsBloc();
-  final ChessBot _chessBot = ChessBot(botName: "Your bot");
+  final ChessBot _chessBot = ChessBot(name: "Your bot");
   // TODO prebuilt chess bots should not exist in main
   final ChessBot levelonecpu = ChessBot(gambits: [
     CaptureRandomPiece(),
     MoveRandomPawn(),
-  ], botName: "Level 1 CPU");
+  ], name: "Level 1 CPU");
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      bloc: _authBloc,
+    return BlocProvider<FirestoreBloc>(
+      bloc: _firestoreBloc,
       child: BlocProvider<PrefsBloc>(
         bloc: _prefsBloc,
         child: BlocProvider<ChessBot>(
@@ -52,22 +52,20 @@ class MyApp extends StatelessWidget {
                         ),
                         routes: {
                             // '/': (context) => RouteGuard(MatchPage(
-                            //       whiteBot: human,
+                            //       whiteBot: _chessBot,
                             //       blackBot: levelonecpu,
                             //     )),
-                            // '/': (context) => RouteGuard(SettingsPage()),
-                            '/': (context) => RouteGuard(AssemblePage()),
+                            '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
-                            '/assemble': (context) =>
-                                RouteGuard(AssemblePage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),
-                            //TODO singleplayer route should probably have a splash page
-                            //I am just using the match page for more direct testing
+                            //TODO singleplayer route should have a splash page
+                            //where player chooses their own bot and an opponent
                             '/singleplayer': (context) => RouteGuard(MatchPage(
                                   whiteBot: _chessBot,
                                   blackBot: levelonecpu,
                                 )),
+                            '/bots': (context) => RouteGuard(BotsPage()),
                           })
                     : Container(
                         child: Center(
@@ -88,9 +86,10 @@ class RouteGuard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    final FirestoreBloc _firestoreBloc =
+        BlocProvider.of<FirestoreBloc>(context);
     return StreamBuilder(
-      stream: _authBloc.user,
+      stream: _firestoreBloc.user,
       builder: (context, snapshot) {
         return snapshot.hasData ? _page : AuthPage();
       },

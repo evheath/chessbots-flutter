@@ -15,7 +15,7 @@ class Status extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    // final AuthBloc _firestoreBloc = BlocProvider.of<AuthBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DecoratedBox(
@@ -25,7 +25,7 @@ class Status extends StatelessWidget {
             // color: gambit.color.withAlpha(75),
             ),
         child: ListTile(
-          leading: Text(bot.botName ?? "Guest"),
+          leading: Text(bot.name ?? "Guest"),
           title: SizedBox(
             height: 75,
             child: FlareActor(
