@@ -6,7 +6,7 @@ class BotDoc {
   int value;
   //TODO enum status some how
   String status;
-  List<String> gambits;
+  List<String> gambits = [];
 
   BotDoc({
     this.uid,

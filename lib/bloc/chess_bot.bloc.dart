@@ -184,5 +184,6 @@ class ChessBot implements BlocBase {
     PromotePawnToQueen().title: PromotePawnToQueen(),
     PromotePawnToRandom().title: PromotePawnToRandom(),
     PromotePawnToRook().title: PromotePawnToRook(),
+    EmptyGambit().title: EmptyGambit(),
   };
 }
