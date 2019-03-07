@@ -136,9 +136,18 @@ class ChessBot implements BlocBase {
     // this.uid = _snapshotData["uid"];
     this.name = _snapshotData["name"] ?? "Super cool bot";
 
-    List<String> gambitNames = _snapshotData["gambits"];
+    List<String> gambitNames = [];
+    if (_snapshotData["gambits"] != null) {
+      _snapshotData["gambits"].forEach((element) {
+        if (element is String) {
+          gambitNames.add(element);
+        }
+      });
+    }
 
-    this._gambits = gambitNames.map((name) => gambitMap[name]) ??
+    print("Gambits are $gambitNames");
+
+    this._gambits = gambitNames.map((name) => gambitMap[name]).toList() ??
         [EmptyGambit(), CheckOpponent()];
 
     // pushing the initial gambits out of the stream

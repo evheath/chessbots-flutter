@@ -1,5 +1,7 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/bot.doc.dart';
+// import 'package:chessbotsmobile/pages/assemble.page.dart';
+import 'package:chessbotsmobile/pages/assemble_new.page.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -55,7 +57,14 @@ class ChessBotListTile extends StatelessWidget {
                     icon: Icon(FontAwesomeIcons.wrench),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewAssemblePage(_botRef),
+                        ),
+                      );
+                    },
                     icon: Icon(MyCustomIcons.cog_alt),
                   ),
                   IconButton(
