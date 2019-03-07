@@ -125,11 +125,19 @@ class ChessBot implements BlocBase {
       FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
       await botRef.delete();
     } else if (event is AddEmptyGambitEvent) {
-      _gambits.contains(EmptyGambit())
-          ? print("cannot add another empty slot")
-          : _gambits.add(EmptyGambit());
-      //TODO send error message to toaster service
-      //TODO spend nerd points/ update userdoc
+      if (_gambits.contains(EmptyGambit())) {
+        //TODO send error to toaster service
+        print("cannot add another empty slot");
+      } else {
+        await FirestoreBloc().spendNerdPoints(costOfUpgrading()).then((_) {
+          _gambits.add(EmptyGambit());
+          level = _gambits.length;
+          syncWithFirestore();
+        }).catchError((e) {
+          //TODO send erro to toaster
+          print("could not buy");
+        });
+      }
     } else if (event is RepairBotEvent) {
       //sanity check that it is really broken
       if (status != "damaged") {
@@ -172,6 +180,10 @@ class ChessBot implements BlocBase {
   }
 
   // external methods
+  int costOfUpgrading() {
+    return _gambits.length + 1;
+  }
+
   /// find a move by going through all gambits, in order
   String waterfallGambits(chess.Chess game) {
     // find the gambit to be used
@@ -187,39 +199,6 @@ class ChessBot implements BlocBase {
 
     String move = _gambitToBeUsed.findMove(game);
     return move;
-  }
-
-  /// Create a ChessBot using a firestore document reference
-  ChessBot.marshal(this.botRef) {
-    // ChessBot.marshal(Map<String, dynamic> _snapshotData) {
-    // Map<String, dynamic> _snapshotData =
-    botRef.snapshots().listen((snap) {
-      final _snapshotData = snap.data;
-      this.uid = _snapshotData["uid"];
-      this.name = _snapshotData["name"] ?? "Your bot";
-      this.level = _snapshotData["level"];
-      this.kills = _snapshotData["kills"];
-      this.value = _snapshotData["value"];
-      this.status = _snapshotData["status"];
-
-      List<String> gambitNames = [];
-      if (_snapshotData["gambits"] != null) {
-        _snapshotData["gambits"].forEach((element) {
-          if (element is String) {
-            gambitNames.add(element);
-          }
-        });
-      }
-
-      this._gambits = gambitNames.map((name) => gambitMap[name]).toList() ??
-          [EmptyGambit(), CheckOpponent()];
-
-      // pushing the initial gambits out of the stream
-      _internalInGambits.add(_gambits);
-
-      // connect external-in to internal-out
-      _eventController.stream.listen(_handleEvent);
-    });
   }
 
   /// Output this ChessBot to firestore-friendly format
@@ -258,6 +237,7 @@ Map<String, Gambit> gambitMap = {
   EmptyGambit().title: EmptyGambit(),
 };
 
+/// Instaniate an observable ChessBot using only firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
   return Observable(botRef.snapshots().map((snap) {
     final _snapshotData = snap.data;

@@ -1,6 +1,8 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './assemble.tutorial.dart';
@@ -16,6 +18,8 @@ import '../shared/gambit_list_tile.dart';
 import '../pages/select_gambit.page.dart';
 
 class AssemblePage extends StatefulWidget {
+  final DocumentReference botRef;
+  const AssemblePage(this.botRef);
   @override
   AssemblePageState createState() {
     return AssemblePageState();
@@ -31,45 +35,65 @@ class AssemblePageState extends State<AssemblePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO in the future this bot might be handed through constructor
-    // when the user has multiple bots
-    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: StreamBuilder(
-          initialData: [MoveRandomPiece()], // need for error prevention
-          stream: _chessBot.gambits,
+      body: StreamBuilder<ChessBot>(
+          stream: marshalChessBot(widget.botRef),
           builder: (context, snapshot) {
-            List<Gambit> _gambits = snapshot.data;
-            return ReorderableListView(
-              scrollDirection: Axis.vertical,
-              onReorder: (oldIndex, newIndex) {
-                _chessBot.event.add(ReorderEvent(oldIndex, newIndex));
-              },
-              header: GambitListTile(gambit: CheckmateOpponent()),
-              children: _buildGambitListTiles(_gambits, _chessBot),
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              ChessBot _chessBot = snapshot.data;
+              return Container(
+                padding: EdgeInsets.all(10.0),
+                child: StreamBuilder(
+                  initialData: [
+                    MoveRandomPiece()
+                  ], // needed for error prevention
+                  stream: _chessBot.gambits,
+                  builder: (context, snapshot) {
+                    List<Gambit> _gambits = snapshot.data;
+                    return ReorderableListView(
+                      scrollDirection: Axis.vertical,
+                      onReorder: (oldIndex, newIndex) {
+                        _chessBot.event.add(ReorderEvent(oldIndex, newIndex));
+                      },
+                      header: GambitListTile(gambit: CheckmateOpponent()),
+                      children: _buildGambitListTiles(_gambits, _chessBot),
+                    );
+                  },
+                ),
+              );
+            }
+          }),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            // TODO implement this button style on other pages
+            // instead of relying on default hamburger button
+            return IconButton(
+              icon: const Icon(MyCustomIcons.cog_alt),
+              onPressed: () => Scaffold.of(context).openDrawer(),
             );
           },
         ),
-      ),
-      appBar: AppBar(
-        title: Row(
+        title: Wrap(
           children: [
-            Icon(MyCustomIcons.cog_alt),
-            SizedBox(width: 10.0),
-            Text("Build your bot"),
+            Text("Build your bot")
+            // FutureBuilder<DocumentSnapshot>(
+            //     future: _botDocSnap$.first,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.done) {
+            //         ChessBot _bot = ChessBot.marshal(widget.botRef);
+            //         return Text("${_bot.name}");
+            //       } else {
+            //         return Text("Build your bot");
+            //       }
+            //     }),
           ],
         ),
         actions: <Widget>[
-          // IconButton(
-          //   tooltip: "Tutorial",
-          //   icon: Icon(FontAwesomeIcons.questionCircle),
-          //   onPressed: () {
-          //// TODO move tutorial to a 'help' page
-          //     _showTutorial();
-          //   },
-          // ),
           NerdPointActionDisplay(),
         ],
       ),
@@ -152,7 +176,7 @@ class AssemblePageState extends State<AssemblePage> {
         key: Key("Level up"),
         child: LevelUpTile(),
         onTap: () {
-          _levelUpPrompt();
+          _levelUpPrompt(_chessBot);
         },
       ),
     ]);
@@ -178,13 +202,14 @@ class AssemblePageState extends State<AssemblePage> {
         });
   }
 
-  void _levelUpPrompt() {
+  void _levelUpPrompt(ChessBot _chessBot) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Level Up?"),
-          content: Text("Spend 1 nerd point to unlock a new gambit slot?"),
+          content: Text(
+              "Spend ${_chessBot.costOfUpgrading()} nerd point to unlock a new gambit slot?"),
           actions: <Widget>[
             FlatButton(
               child: Text("Nah"),
@@ -195,21 +220,8 @@ class AssemblePageState extends State<AssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
-                // TODO eventually the calcuation should be dynamic
-                // such as growing with number of gambits
-                final int _nerdPointsToBeSpent = 1;
-                final FirestoreBloc _firestoreBloc =
-                    BlocProvider.of<FirestoreBloc>(context);
-                final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
-                _firestoreBloc.spendNerdPoints(_nerdPointsToBeSpent).then((_) {
-                  // _chessBot.event.add(AddEmptyGambitEvent());
-                  Navigator.of(context).pop();
-                }).catchError((e) {
-                  print(e);
-                  // need to pop first, since display error has its own context
-                  Navigator.of(context).pop();
-                  _displayError(e);
-                });
+                _chessBot.event.add(AddEmptyGambitEvent());
+                Navigator.of(context).pop();
               },
             ),
           ],
