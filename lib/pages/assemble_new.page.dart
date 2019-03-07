@@ -18,8 +18,8 @@ import '../shared/gambit_list_tile.dart';
 import '../pages/select_gambit.page.dart';
 
 class NewAssemblePage extends StatefulWidget {
-  final DocumentReference _botRef;
-  const NewAssemblePage(this._botRef);
+  final DocumentReference botRef;
+  const NewAssemblePage(this.botRef);
   @override
   NewAssemblePageState createState() {
     return NewAssemblePageState();
@@ -30,7 +30,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
   ValueObservable<DocumentSnapshot> _botDocSnap$;
   @override
   void initState() {
-    _botDocSnap$ = Observable(widget._botRef.snapshots()).shareValue();
+    _botDocSnap$ = Observable(widget.botRef.snapshots()).shareValue();
     _checkIfNeverSeenTutorial();
     super.initState();
   }
@@ -38,10 +38,10 @@ class NewAssemblePageState extends State<NewAssemblePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<DocumentSnapshot>(
-          future: _botDocSnap$.first,
+      body: StreamBuilder<DocumentSnapshot>(
+          stream: _botDocSnap$,
           builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
+            if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
               );
@@ -220,18 +220,28 @@ class NewAssemblePageState extends State<NewAssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
+                FirestoreBloc()
+                    .firestoreEvent
+                    .add(AddEmptyGambitEvent(_chessBot, widget.botRef));
+                Navigator.of(context).pop();
                 // TODO eventually the calcuation should be dynamic
                 // such as growing with number of gambits
-                final int _nerdPointsToBeSpent = 1;
-                FirestoreBloc().spendNerdPoints(_nerdPointsToBeSpent).then((_) {
-                  _chessBot.event.add(AddEmptyGambitEvent());
-                  Navigator.of(context).pop();
-                }).catchError((e) {
-                  print(e);
-                  // need to pop first, since display error has its own context
-                  Navigator.of(context).pop();
-                  _displayError(e);
-                });
+                // final int _nerdPointsToBeSpent = 1;
+                // FirestoreBloc().spendNerdPoints(_nerdPointsToBeSpent).then((_) {
+                // THE ADDING SHOULDNT EVEN HAPPEN TO THE CHESS BOT
+                // IT SHOULD BE SYNCED WITH FIREBASE WHERE THE ADDING HAPPENS
+                // _chessBot.event.add(AddEmptyGambitEvent());
+
+                //   FirestoreBloc()
+                //       .firestoreEvent
+                //       .add(AddEmptyGambitEvent(_chessBot, widget.botRef));
+                //   Navigator.of(context).pop();
+                // }).catchError((e) {
+                //   print(e);
+                //   // need to pop first, since display error has its own context
+                //   Navigator.of(context).pop();
+                //   _displayError(e);
+                // });
               },
             ),
           ],

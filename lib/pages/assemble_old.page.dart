@@ -202,7 +202,7 @@ class AssemblePageState extends State<AssemblePage> {
                     BlocProvider.of<FirestoreBloc>(context);
                 final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
                 _firestoreBloc.spendNerdPoints(_nerdPointsToBeSpent).then((_) {
-                  _chessBot.event.add(AddEmptyGambitEvent());
+                  // _chessBot.event.add(AddEmptyGambitEvent());
                   Navigator.of(context).pop();
                 }).catchError((e) {
                   print(e);
