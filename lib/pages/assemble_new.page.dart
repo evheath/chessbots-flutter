@@ -177,7 +177,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
         key: Key("Level up"),
         child: LevelUpTile(),
         onTap: () {
-          _levelUpPrompt();
+          _levelUpPrompt(_chessBot);
         },
       ),
     ]);
@@ -203,7 +203,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
         });
   }
 
-  void _levelUpPrompt() {
+  void _levelUpPrompt(ChessBot _chessBot) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -223,10 +223,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
                 // TODO eventually the calcuation should be dynamic
                 // such as growing with number of gambits
                 final int _nerdPointsToBeSpent = 1;
-                final FirestoreBloc _firestoreBloc =
-                    BlocProvider.of<FirestoreBloc>(context);
-                final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
-                _firestoreBloc.spendNerdPoints(_nerdPointsToBeSpent).then((_) {
+                FirestoreBloc().spendNerdPoints(_nerdPointsToBeSpent).then((_) {
                   _chessBot.event.add(AddEmptyGambitEvent());
                   Navigator.of(context).pop();
                 }).catchError((e) {
