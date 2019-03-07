@@ -5,13 +5,10 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 import '../shared/status.dart';
-import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
-  //TODO this page needs to accept a bot, or let the player choose the bot
-  // Getting a bot through the BlocProvider will be going away
   @override
   LabPageState createState() {
     return LabPageState();
@@ -86,21 +83,20 @@ class LabPageState extends State<LabPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () {
-                    if (!_labBoardController.game.in_checkmate) {
-                      String move =
-                          _chessBot.waterfallGambits(_labBoardController.game);
-                      _labBoardController.labMove(move);
-                    }
-                  },
+                  onPressed: _selectedBot == null
+                      ? null
+                      : () {
+                          if (!_labBoardController.game.in_checkmate) {
+                            String move = _chessBot
+                                .waterfallGambits(_labBoardController.game);
+                            _labBoardController.labMove(move);
+                          }
+                        },
                   tooltip: 'Test gambits',
                   child: Icon(Icons.play_arrow),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
-                    _labBoardController.resetBoard();
-                    setState(() {});
-                  },
+                  onPressed: () => _labBoardController.resetBoard(),
                   tooltip: 'Reset',
                   child: Icon(Icons.repeat),
                 ),
