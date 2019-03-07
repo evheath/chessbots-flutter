@@ -53,7 +53,7 @@ class ChessBotListTile extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push<ChessBot>(
                         context,
                         MaterialPageRoute(
                           builder: (context) => AssemblePage(_botRef),

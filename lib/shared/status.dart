@@ -25,7 +25,15 @@ class Status extends StatelessWidget {
             // color: gambit.color.withAlpha(75),
             ),
         child: ListTile(
-          leading: Text(bot.name ?? "Guest"),
+          leading: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${bot.name}"),
+              Text("Level ${bot.level}"),
+              Text("Value: ${bot.value}"),
+              Text("Kills: ${bot.kills}"),
+            ],
+          ),
           title: SizedBox(
             height: 75,
             child: FlareActor(

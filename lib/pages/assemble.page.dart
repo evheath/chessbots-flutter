@@ -66,19 +66,19 @@ class AssemblePageState extends State<AssemblePage> {
             }
           }),
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            // TODO implement this button style on other pages
-            // instead of relying on default hamburger button
-            return IconButton(
-              icon: const Icon(MyCustomIcons.cog_alt),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            );
-          },
-        ),
+        // leading: Builder(
+        //   builder: (context) {
+        //     // TODO implement this button style on other pages
+        //     // instead of relying on default hamburger button
+        //     return IconButton(
+        //       icon: const Icon(MyCustomIcons.cog_alt),
+        //       onPressed: () => Scaffold.of(context).openDrawer(),
+        //     );
+        //   },
+        // ),
         title: Wrap(
           children: [
-            Text("Build your bot")
+            Text("Assemble gambits")
             // FutureBuilder<DocumentSnapshot>(
             //     future: _botDocSnap$.first,
             //     builder: (context, snapshot) {
@@ -95,7 +95,7 @@ class AssemblePageState extends State<AssemblePage> {
           NerdPointActionDisplay(),
         ],
       ),
-      drawer: LeftDrawer(),
+      // drawer: LeftDrawer(),
     );
   } // Build
 
