@@ -117,7 +117,7 @@ class MatchPageState extends State<MatchPage> {
       builder: (BuildContext context) {
         final FirestoreBloc _firestoreBloc =
             BlocProvider.of<FirestoreBloc>(context);
-        _firestoreBloc.firestoreEvent.add(AwardNerdPointsEvent(10));
+        _firestoreBloc.userEvent.add(AwardNerdPointsEvent(10));
         return AlertDialog(
           title: Text("You win!"),
           content: Text("Well played! Enjoy 10 nerd points"),
@@ -180,7 +180,7 @@ class MatchPageState extends State<MatchPage> {
       builder: (BuildContext context) {
         final FirestoreBloc _firestoreBloc =
             BlocProvider.of<FirestoreBloc>(context);
-        _firestoreBloc.firestoreEvent.add(AwardNerdPointsEvent(1));
+        _firestoreBloc.userEvent.add(AwardNerdPointsEvent(1));
         return AlertDialog(
           title: Text("Draw!"),
           content: Text("Better luck next time. Have a pity point"),

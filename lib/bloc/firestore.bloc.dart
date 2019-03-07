@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
-import 'package:chessbotsmobile/models/bot.doc.dart';
+// import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,29 +17,23 @@ class SignOutEvent extends AuthEvent {}
 
 class SignInAnonymouslyEvent extends AuthEvent {}
 
-abstract class FirestoreEvent {
-  const FirestoreEvent();
+abstract class UserEvent {
+  const UserEvent();
 }
 
-class AwardNerdPointsEvent extends FirestoreEvent {
+class AwardNerdPointsEvent extends UserEvent {
   final int nerdPoints;
   const AwardNerdPointsEvent(this.nerdPoints);
 }
 
-class DeleteBotDocEvent extends FirestoreEvent {
+class RemoveBotRef extends UserEvent {
   final DocumentReference botDocRef;
-  const DeleteBotDocEvent(this.botDocRef);
+  const RemoveBotRef(this.botDocRef);
 }
 
-class RepairBotEvent extends FirestoreEvent {
+class RepairBotEvent extends UserEvent {
   final DocumentReference botDocRef;
   const RepairBotEvent(this.botDocRef);
-}
-
-class AddEmptyGambitEvent extends FirestoreEvent {
-  final ChessBot bot;
-  final DocumentReference botDocRef;
-  const AddEmptyGambitEvent(this.bot, this.botDocRef);
 }
 
 /// Singleton used for all things firebase
@@ -66,13 +60,11 @@ class FirestoreBloc extends BlocBase {
 
   /// external-in/internal-out controller
   StreamController<AuthEvent> _authEventController = StreamController();
-  StreamController<FirestoreEvent> _firestoreEventController =
-      StreamController();
+  StreamController<UserEvent> _firestoreEventController = StreamController();
 
   /// external-in (alias)
   StreamSink<AuthEvent> get authEvent => _authEventController.sink;
-  StreamSink<FirestoreEvent> get firestoreEvent =>
-      _firestoreEventController.sink;
+  StreamSink<UserEvent> get userEvent => _firestoreEventController.sink;
 
   /// internal-in/external-out controller
   StreamController<FirebaseUser> _userController =
@@ -113,7 +105,7 @@ class FirestoreBloc extends BlocBase {
 
     // listen for incoming events from the external-in sink
     _authEventController.stream.listen(_handleAuthEvent);
-    _firestoreEventController.stream.listen(_handleFirestoreEvent);
+    _firestoreEventController.stream.listen(_handleUserEvent);
   }
   void _handleAuthEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
@@ -140,7 +132,7 @@ class FirestoreBloc extends BlocBase {
     }
   }
 
-  void _handleFirestoreEvent(FirestoreEvent event) async {
+  void _handleUserEvent(UserEvent event) async {
     // events are inherently connected to internal-in if they update the proper document reference
     if (event is AwardNerdPointsEvent) {
       // quick sanity check
@@ -152,54 +144,10 @@ class FirestoreBloc extends BlocBase {
       int _newNerdPoints = _currentNerdPoints += event.nerdPoints;
 
       await _userRef.updateData({"nerdPoints": _newNerdPoints});
-    } else if (event is DeleteBotDocEvent) {
-      DocumentReference _docToBeDeleted = event.botDocRef;
-      // award nerd points if applicable
-      final _snap = await _docToBeDeleted.snapshots().first;
-      BotDoc _bot = BotDoc.fromSnapshot(_snap.data);
-      int _reward = (_bot.value / 2).round();
-      if (_reward > 0) {
-        firestoreEvent.add(AwardNerdPointsEvent(_reward));
-      }
-      // remove reference in user doc
+    } else if (event is RemoveBotRef) {
       _userRef.updateData({
-        "bots": FieldValue.arrayRemove([_docToBeDeleted])
+        "bots": FieldValue.arrayRemove([event.botDocRef])
       });
-      // delete the doc
-      _docToBeDeleted.delete();
-    } else if (event is RepairBotEvent) {
-      DocumentReference _docToBeRepaired = event.botDocRef;
-      final _snap = await _docToBeRepaired.snapshots().first;
-      BotDoc _bot = BotDoc.fromSnapshot(_snap.data);
-      //sanity check that it is really broken
-      if (_bot.status != "damaged") {
-        return;
-      }
-      int _cost = (_bot.value / 2).round();
-      await spendNerdPoints(_cost).then((_) {
-        _docToBeRepaired.updateData({
-          "status": "ready",
-        });
-      }).catchError((e) {
-        //TODO push to alert dialog bloc after it is built
-        print("Problem repairing");
-      });
-    } else if (event is AddEmptyGambitEvent) {
-      final _ref = event.botDocRef;
-      final _bot = event.bot;
-      // NOTE: arrayUnion cannot add additional elements of the same kind
-      // so we will do a safety check
-      final _gambits = await _bot.gambits.first;
-      if (_gambits.contains(EmptyGambit())) {
-        print("cannot add another empty slot");
-        //TODO send error message to toaster service
-      } else {
-        _ref.updateData({
-          "gambits": FieldValue.arrayUnion(["Empty"]),
-        }).catchError((e) {
-          //TODO send to toaster service
-        });
-      }
     }
   }
 
@@ -225,7 +173,6 @@ class FirestoreBloc extends BlocBase {
 
   Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
     // this is not in the events because the UI is depending on a promise
-    // TODO can we somehow launch dialogs from in here?
     // if so, then we could put this in the event queue
     UserDoc _currentUserData = await userDoc$.first;
     int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
@@ -239,13 +186,13 @@ class FirestoreBloc extends BlocBase {
 
   Future<void> createBotDoc(String name) async {
     final _fbUser = await user.first;
-    BotDoc _newBotDocObject =
-        BotDoc(name: name, uid: _fbUser.uid, gambits: ["Empty"]);
+    ChessBot _newBotDocObject =
+        ChessBot(name: name, uid: _fbUser.uid, gambits: [EmptyGambit()]);
 
     // create document
     final DocumentReference _newBotDocRef = _db.collection('bots').document();
     // set the data in the doc
-    await _newBotDocRef.setData(_newBotDocObject.toMap());
+    await _newBotDocRef.setData(_newBotDocObject.serialize());
     // save a reference to the doc to the user
     return _userRef.updateData({
       "bots": FieldValue.arrayUnion([_newBotDocRef])

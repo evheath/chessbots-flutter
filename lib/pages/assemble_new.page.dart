@@ -220,28 +220,8 @@ class NewAssemblePageState extends State<NewAssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
-                FirestoreBloc()
-                    .firestoreEvent
-                    .add(AddEmptyGambitEvent(_chessBot, widget.botRef));
+                _chessBot.event.add(AddEmptyGambitEvent());
                 Navigator.of(context).pop();
-                // TODO eventually the calcuation should be dynamic
-                // such as growing with number of gambits
-                // final int _nerdPointsToBeSpent = 1;
-                // FirestoreBloc().spendNerdPoints(_nerdPointsToBeSpent).then((_) {
-                // THE ADDING SHOULDNT EVEN HAPPEN TO THE CHESS BOT
-                // IT SHOULD BE SYNCED WITH FIREBASE WHERE THE ADDING HAPPENS
-                // _chessBot.event.add(AddEmptyGambitEvent());
-
-                //   FirestoreBloc()
-                //       .firestoreEvent
-                //       .add(AddEmptyGambitEvent(_chessBot, widget.botRef));
-                //   Navigator.of(context).pop();
-                // }).catchError((e) {
-                //   print(e);
-                //   // need to pop first, since display error has its own context
-                //   Navigator.of(context).pop();
-                //   _displayError(e);
-                // });
               },
             ),
           ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/subjects.dart';
 import './base.bloc.dart';
@@ -6,9 +7,10 @@ import '../models/gambit.dart';
 import 'package:chess/chess.dart' as chess;
 import '../shared/gambits.dart';
 
-abstract class GambitEvent {}
+abstract class ChessBotEvent {}
 
-class ReorderEvent extends GambitEvent {
+/// For when gambits have changed order
+class ReorderEvent extends ChessBotEvent {
   int oldIndex;
   int newIndex;
 
@@ -18,7 +20,8 @@ class ReorderEvent extends GambitEvent {
   );
 }
 
-class DismissedEvent extends GambitEvent {
+/// For when a gambit is emptied
+class DismissedEvent extends ChessBotEvent {
   int index;
 
   DismissedEvent(
@@ -26,14 +29,17 @@ class DismissedEvent extends GambitEvent {
   );
 }
 
-class SelectGambitEvent extends GambitEvent {
+/// For when an empty gambit needs to be filled
+class SelectGambitEvent extends ChessBotEvent {
   int index;
   Gambit selectedGambit;
 
   SelectGambitEvent(this.index, this.selectedGambit);
 }
 
-// class AddEmptyGambitEvent extends GambitEvent {}
+class DeleteBotDocEvent extends ChessBotEvent {}
+
+class AddEmptyGambitEvent extends ChessBotEvent {}
 
 class ChessBot implements BlocBase {
   // firestore fields that can be directly ported
@@ -48,20 +54,20 @@ class ChessBot implements BlocBase {
   List<Gambit> _gambits;
 
   // other firestore data
-  DocumentReference bofRef;
+  DocumentReference botRef;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
       BehaviorSubject<List<Gambit>>();
-  StreamController<GambitEvent> _eventController = StreamController();
+  StreamController<ChessBotEvent> _eventController = StreamController();
   StreamController<Gambit> _lastUsedGambitController =
       StreamController.broadcast();
 
   // external-in
-  StreamSink<GambitEvent> get event => _eventController.sink;
+  StreamSink<ChessBotEvent> get event => _eventController.sink;
 
   //constructors
-  ChessBot({List<Gambit> gambits, this.name = 'Bot'}) {
+  ChessBot({List<Gambit> gambits, this.name = 'Bot', this.uid}) {
     this._gambits = gambits ?? [EmptyGambit(), CheckOpponent()];
 
     // pushing the initial gambits out of the stream
@@ -72,7 +78,7 @@ class ChessBot implements BlocBase {
   }
 
   // internal-out
-  void _handleEvent(GambitEvent event) {
+  void _handleEvent(ChessBotEvent event) async {
     if (event is ReorderEvent) {
       int oldIndex = event.oldIndex;
       int newIndex = event.newIndex;
@@ -98,11 +104,39 @@ class ChessBot implements BlocBase {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
-    }
-    // else if (event is AddEmptyGambitEvent) {
-    //   _gambits.add(EmptyGambit());
-    // }
+    } else if (event is DeleteBotDocEvent) {
+      int _reward = (value / 2).round();
+      if (_reward > 0) {
+        FirestoreBloc().userEvent.add(AwardNerdPointsEvent(_reward));
+      }
+      // remove reference in user doc
+      FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
+      botRef.delete();
+      dispose();
+    } else if (event is AddEmptyGambitEvent) {
+      _gambits.contains(EmptyGambit())
+          ? print("cannot add another empty slot")
+          : _gambits.add(EmptyGambit());
+      //TODO send error message to toaster service
+      //TODO spend nerd points/ update userdoc
+    } else if (event is RepairBotEvent) {
+      //sanity check that it is really broken
+      if (status != "damaged") {
+        return;
+      }
+      int _cost = (value / 2).round();
+      await FirestoreBloc().spendNerdPoints(_cost).then((_) {
+        status = "ready";
+      }).catchError((e) {
+        //TODO push to alert dialog bloc after it is built
+        print("Problem repairing");
+      });
+    } 
+    // after any event
+    syncWithFirestore();
+
     // connect internal-out to internal-in
+    // (let listeners know about the gambits)
     _internalInGambits.add(_gambits);
   }
 
@@ -120,6 +154,11 @@ class ChessBot implements BlocBase {
     _eventController.close();
     _gambitsController.close();
     _lastUsedGambitController.close();
+  }
+
+  // internal methods
+  void syncWithFirestore() async {
+    botRef.setData(serialize(), merge: true);
   }
 
   // external methods
@@ -141,10 +180,10 @@ class ChessBot implements BlocBase {
   }
 
   /// Create a ChessBot using a firestore document reference
-  ChessBot.marshal(this.bofRef) {
+  ChessBot.marshal(this.botRef) {
     // ChessBot.marshal(Map<String, dynamic> _snapshotData) {
     // Map<String, dynamic> _snapshotData =
-    bofRef.snapshots().listen((snap) {
+    botRef.snapshots().listen((snap) {
       final _snapshotData = snap.data;
       this.uid = _snapshotData["uid"];
       this.name = _snapshotData["name"] ?? "Your bot";
