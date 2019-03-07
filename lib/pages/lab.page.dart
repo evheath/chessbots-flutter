@@ -42,7 +42,6 @@ class LabPageState extends State<LabPage> {
 
     return StreamBuilder<ChessBot>(
         stream: marshalChessBot(_selectedBot),
-        initialData: ChessBot(name: "Pending selection"),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(
