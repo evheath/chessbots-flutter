@@ -1,3 +1,5 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
@@ -48,9 +50,12 @@ class LabPageState extends State<LabPage> {
               onCheckMate: (derp) {},
               onDraw: () {},
             ),
-            Status(
-              _chessBot,
-            ),
+            GestureDetector(
+              onTap: selectBotDialog,
+              child: Status(
+                _chessBot,
+              ),
+            )
           ],
         ),
       ),
@@ -92,4 +97,35 @@ class LabPageState extends State<LabPage> {
     );
   } // Build
 
+  void selectBotDialog() async {
+    final _currentUserData = await FirestoreBloc().userDoc$.first;
+    final _botrefs = _currentUserData.bots;
+    showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              title: Text("Select your bot"),
+              children: List.generate(_botrefs.length, (index) {
+                return _buildSelectListTile(_botrefs[index]);
+              }),
+            ));
+  }
+
+  Widget _buildSelectListTile(DocumentReference _ref) {
+    return StreamBuilder<ChessBot>(
+      stream: marshalChessBot(_ref),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return ListTile(
+            leading: CircularProgressIndicator(),
+          );
+        } else {
+          ChessBot _bot = snapshot.data;
+          return ListTile(
+            title: Text("${_bot.name}"),
+            onTap: () => Navigator.pop(context, _ref),
+          );
+        }
+      },
+    );
+  }
 }

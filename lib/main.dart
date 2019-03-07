@@ -22,7 +22,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final FirestoreBloc _firestoreBloc = FirestoreBloc();
   final PrefsBloc _prefsBloc = PrefsBloc();
-  final ChessBot _chessBot = ChessBot(name: "Your bot");
+  final ChessBot _chessBot = ChessBot(name: "Tap to select bot");
   // TODO prebuilt chess bots should not exist in main
   final ChessBot levelonecpu = ChessBot(gambits: [
     CaptureRandomPiece(),
