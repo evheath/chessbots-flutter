@@ -28,7 +28,6 @@ class BotsPageState extends State<BotsPage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          print("Making a new bot!!!!!");
           _showCreationDialog();
         },
       ),
