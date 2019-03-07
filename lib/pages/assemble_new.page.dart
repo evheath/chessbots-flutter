@@ -46,7 +46,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              ChessBot _chessBot = ChessBot.fromFirestore(snapshot.data.data);
+              ChessBot _chessBot = ChessBot.marshal(widget.botRef);
               return Container(
                 padding: EdgeInsets.all(10.0),
                 child: StreamBuilder(
@@ -86,7 +86,7 @@ class NewAssemblePageState extends State<NewAssemblePage> {
                 future: _botDocSnap$.first,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    ChessBot _bot = ChessBot.fromFirestore(snapshot.data.data);
+                    ChessBot _bot = ChessBot.marshal(widget.botRef);
                     return Text("${_bot.name}");
                   } else {
                     return Text("Build your bot");

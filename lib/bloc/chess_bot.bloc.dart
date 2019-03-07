@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/subjects.dart';
 import './base.bloc.dart';
 import '../models/gambit.dart';
@@ -35,10 +36,19 @@ class SelectGambitEvent extends GambitEvent {
 // class AddEmptyGambitEvent extends GambitEvent {}
 
 class ChessBot implements BlocBase {
-  ///Owner of the bot
+  // firestore fields that can be directly ported
   String uid;
   String name;
+  int kills;
+  int level;
+  int value;
+  String status; //TODO enum status some how
+
+  // fields that require conversion
   List<Gambit> _gambits;
+
+  // other firestore data
+  DocumentReference bofRef;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
@@ -130,38 +140,49 @@ class ChessBot implements BlocBase {
     return move;
   }
 
-  // all the firestore buggery
+  /// Create a ChessBot using a firestore document reference
+  ChessBot.marshal(this.bofRef) {
+    // ChessBot.marshal(Map<String, dynamic> _snapshotData) {
+    // Map<String, dynamic> _snapshotData =
+    bofRef.snapshots().listen((snap) {
+      final _snapshotData = snap.data;
+      this.uid = _snapshotData["uid"];
+      this.name = _snapshotData["name"] ?? "Your bot";
+      this.level = _snapshotData["level"];
+      this.kills = _snapshotData["kills"];
+      this.value = _snapshotData["value"];
+      this.status = _snapshotData["status"];
 
-  /// Marshal a ChessBot from a firestore document
-  ChessBot.fromFirestore(Map<String, dynamic> _snapshotData) {
-    // this.uid = _snapshotData["uid"];
-    this.name = _snapshotData["name"] ?? "Super cool bot";
+      List<String> gambitNames = [];
+      if (_snapshotData["gambits"] != null) {
+        _snapshotData["gambits"].forEach((element) {
+          if (element is String) {
+            gambitNames.add(element);
+          }
+        });
+      }
 
-    List<String> gambitNames = [];
-    if (_snapshotData["gambits"] != null) {
-      _snapshotData["gambits"].forEach((element) {
-        if (element is String) {
-          gambitNames.add(element);
-        }
-      });
-    }
+      this._gambits = gambitNames.map((name) => gambitMap[name]).toList() ??
+          [EmptyGambit(), CheckOpponent()];
 
-    this._gambits = gambitNames.map((name) => gambitMap[name]).toList() ??
-        [EmptyGambit(), CheckOpponent()];
+      // pushing the initial gambits out of the stream
+      _internalInGambits.add(_gambits);
 
-    // pushing the initial gambits out of the stream
-    _internalInGambits.add(_gambits);
-
-    // connect external-in to internal-out
-    _eventController.stream.listen(_handleEvent);
+      // connect external-in to internal-out
+      _eventController.stream.listen(_handleEvent);
+    });
   }
 
-  /// Serialize a ChessBot to a firestore document
-  Map<String, dynamic> toMap() {
+  /// Output this ChessBot to firestore-friendly format
+  Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {
       "uid": uid,
-      "gambits": _gambits.map((gambit) => gambit.title),
       "name": name,
+      "level": level,
+      "kills": kills,
+      "value": value,
+      "status": status,
+      "gambits": _gambits.map((gambit) => gambit.title).toList(),
     };
     return _map;
   }

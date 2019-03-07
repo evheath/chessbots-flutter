@@ -3,7 +3,7 @@ import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
-import './pages/assemble.page.dart';
+// import './pages/assemble.page.dart';
 import './pages/settings.page.dart';
 import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
@@ -58,8 +58,8 @@ class MyApp extends StatelessWidget {
                             //     )),
                             '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
-                            '/assemble': (context) =>
-                                RouteGuard(AssemblePage()),
+                            // '/assemble': (context) =>
+                            //     RouteGuard(AssemblePage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),
                             //TODO singleplayer route should probably have a splash page
