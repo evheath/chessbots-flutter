@@ -44,7 +44,10 @@ class BotsPageState extends State<BotsPage> {
             child: ListView.builder(
               itemCount: _bots.length,
               itemBuilder: (context, index) {
-                return ChessBotListTile(_bots[index]);
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: ChessBotListTile(_bots[index]),
+                );
               },
             ),
           );
