@@ -27,7 +27,6 @@ class MatchPageState extends State<MatchPage> {
   bool _gameStarted = false;
 
   MatchPageState() {
-    //TODO can this be moved to _beginMatch()?
     // listening to game status
     _matchBoardController.status.listen((status) {
       if (status == GameStatus.in_checkmate) {
@@ -48,8 +47,6 @@ class MatchPageState extends State<MatchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final FirestoreBloc _firestoreBloc =
-        BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),

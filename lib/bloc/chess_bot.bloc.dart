@@ -216,7 +216,6 @@ class ChessBot implements BlocBase {
   }
 }
 
-//TODO is there a better home for this?
 /// Given a title, returns the matching gambit
 Map<String, Gambit> gambitMap = {
   CaptureBishop().title: CaptureBishop(),

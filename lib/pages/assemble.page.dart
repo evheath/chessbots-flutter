@@ -1,8 +1,6 @@
-import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './assemble.tutorial.dart';
@@ -10,7 +8,6 @@ import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
-import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
@@ -117,7 +114,6 @@ class AssemblePageState extends State<AssemblePage> {
   }
 
   Future<void> _checkIfNeverSeenTutorial() async {
-    //TODO is there a way to do this in bloc?
     final SharedPreferences _prefsInstance =
         await SharedPreferences.getInstance();
     final seenAssembleTutorial =
@@ -182,24 +178,6 @@ class AssemblePageState extends State<AssemblePage> {
     ]);
 
     return _gambitTiles;
-  }
-
-  void _displayError(String e) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            // title: Text("Problem"),
-            content: Text(e),
-            actions: <Widget>[
-              FlatButton(
-                  child: Text("Ah shucks"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  })
-            ],
-          );
-        });
   }
 
   void _levelUpPrompt(ChessBot _chessBot) {

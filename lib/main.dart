@@ -3,7 +3,6 @@ import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
-// import './pages/assemble.page.dart';
 import './pages/settings.page.dart';
 import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
@@ -58,12 +57,10 @@ class MyApp extends StatelessWidget {
                             //     )),
                             '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
-                            // '/assemble': (context) =>
-                            //     RouteGuard(AssemblePage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),
-                            //TODO singleplayer route should probably have a splash page
-                            //I am just using the match page for more direct testing
+                            //TODO singleplayer route should have a splash page
+                            //where player chooses their own bot and an opponent
                             '/singleplayer': (context) => RouteGuard(MatchPage(
                                   whiteBot: _chessBot,
                                   blackBot: levelonecpu,

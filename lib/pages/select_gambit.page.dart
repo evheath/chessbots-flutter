@@ -1,4 +1,3 @@
-import '../bloc/base.bloc.dart';
 import '../bloc/chess_bot.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +6,7 @@ import '../shared/gambits.dart';
 import '../models/gambit.dart';
 
 class SelectGambitPage extends StatelessWidget {
-  ChessBot _chessBot;
+  final ChessBot _chessBot;
   SelectGambitPage(this._chessBot);
   @override
   Widget build(BuildContext context) {
