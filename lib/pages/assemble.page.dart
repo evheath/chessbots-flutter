@@ -141,7 +141,7 @@ class AssemblePageState extends State<AssemblePage> {
                 Navigator.push<Gambit>(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SelectGambitPage()))
+                            builder: (context) => SelectGambitPage(_chessBot)))
                     .then((Gambit selectedGambit) {
                   if (selectedGambit != null) {
                     _chessBot.event

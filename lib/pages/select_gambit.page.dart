@@ -7,9 +7,10 @@ import '../shared/gambits.dart';
 import '../models/gambit.dart';
 
 class SelectGambitPage extends StatelessWidget {
+  ChessBot _chessBot;
+  SelectGambitPage(this._chessBot);
   @override
   Widget build(BuildContext context) {
-    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
