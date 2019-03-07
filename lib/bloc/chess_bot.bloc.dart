@@ -75,9 +75,9 @@ class ChessBot implements BlocBase {
       this.name = 'Bot',
       this.uid,
       this.status,
-      this.value,
+      this.value = 0,
       this.kills,
-      this.level,
+      this.level = 1,
       this.botRef}) {
     this._gambits = gambits ?? [EmptyGambit()];
 
@@ -235,6 +235,9 @@ Map<String, Gambit> gambitMap = {
 
 /// Instaniate an observable ChessBot using only firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
+  if (botRef == null) {
+    return Observable.just(ChessBot(name: "loading")).shareValue();
+  }
   return Observable(botRef.snapshots().map((snap) {
     final _snapshotData = snap.data;
     final uid = _snapshotData["uid"];

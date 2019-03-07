@@ -20,6 +20,8 @@ class LabPage extends StatefulWidget {
 
 class LabPageState extends State<LabPage> {
   GameControllerBloc _labBoardController = GameControllerBloc();
+  // ChessBot _chessBot;
+  DocumentReference _selectedBot;
 
   @override
   void initState() {
@@ -34,70 +36,84 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ChessBot _chessBot = BlocProvider.of<ChessBot>(context);
+    if (_selectedBot == null) {
+      presentSelectBotDialog();
+    }
 
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: <Widget>[
-            ChessBoard(
-              moveAnyPiece: true,
-              size: MediaQuery.of(context).size.width - 20,
-              enableUserMoves: true,
-              chessBoardController: _labBoardController,
-              onMove: (move) {},
-              onCheckMate: (derp) {},
-              onDraw: () {},
-            ),
-            GestureDetector(
-              onTap: selectBotDialog,
-              child: Status(
-                _chessBot,
+    return StreamBuilder<ChessBot>(
+        stream: marshalChessBot(_selectedBot),
+        initialData: ChessBot(name: "Pending selection"),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Scaffold(
+              body: Center(
+                child: CircleAvatar(),
               ),
-            )
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(MyCustomIcons.beaker),
-            SizedBox(width: 10.0),
-            Text("LAB"),
-          ],
-        ),
-      ),
-      drawer: LeftDrawer(),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          FloatingActionButton(
-            onPressed: () {
-              if (!_labBoardController.game.in_checkmate) {
-                String move =
-                    _chessBot.waterfallGambits(_labBoardController.game);
-                _labBoardController.labMove(move);
-              }
-            },
-            tooltip: 'Test gambits',
-            child: Icon(Icons.play_arrow),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              _labBoardController.resetBoard();
-              setState(() {});
-            },
-            tooltip: 'Reset',
-            child: Icon(Icons.repeat),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+            );
+          }
+          ChessBot _chessBot = snapshot.data;
+          return Scaffold(
+            body: Container(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                children: <Widget>[
+                  ChessBoard(
+                    moveAnyPiece: true,
+                    size: MediaQuery.of(context).size.width - 20,
+                    enableUserMoves: true,
+                    chessBoardController: _labBoardController,
+                    onMove: (move) {},
+                    onCheckMate: (derp) {},
+                    onDraw: () {},
+                  ),
+                  GestureDetector(
+                    onTap: presentSelectBotDialog,
+                    child: Status(_chessBot),
+                  )
+                ],
+              ),
+            ),
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  Icon(MyCustomIcons.beaker),
+                  SizedBox(width: 10.0),
+                  Text("LAB"),
+                ],
+              ),
+            ),
+            drawer: LeftDrawer(),
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FloatingActionButton(
+                  onPressed: () {
+                    if (!_labBoardController.game.in_checkmate) {
+                      String move =
+                          _chessBot.waterfallGambits(_labBoardController.game);
+                      _labBoardController.labMove(move);
+                    }
+                  },
+                  tooltip: 'Test gambits',
+                  child: Icon(Icons.play_arrow),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    _labBoardController.resetBoard();
+                    setState(() {});
+                  },
+                  tooltip: 'Reset',
+                  child: Icon(Icons.repeat),
+                ),
+              ],
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        });
   } // Build
 
-  void selectBotDialog() async {
+  void presentSelectBotDialog() async {
     final _currentUserData = await FirestoreBloc().userDoc$.first;
     final _botrefs = _currentUserData.bots;
     showDialog(
@@ -122,7 +138,12 @@ class LabPageState extends State<LabPage> {
           ChessBot _bot = snapshot.data;
           return ListTile(
             title: Text("${_bot.name}"),
-            onTap: () => Navigator.pop(context, _ref),
+            onTap: () {
+              setState(() {
+                _selectedBot = _ref;
+              });
+              Navigator.pop(context);
+            },
           );
         }
       },
