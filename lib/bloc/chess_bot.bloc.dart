@@ -40,6 +40,10 @@ class SelectGambitEvent extends ChessBotEvent {
 
 class DeleteBotDocEvent extends ChessBotEvent {}
 
+//TODO remove bloc implementation
+// probably move it to models
+// many pages (main, lab, singleplayer) are still using it as a bloc
+// search for "BlocProvider.of<ChessBot>" to find the occurances
 class ChessBot implements BlocBase {
   // firestore fields that can be directly ported
   String uid;
