@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -198,8 +199,10 @@ class AssemblePageState extends State<AssemblePage> {
             FlatButton(
               child: Text("Yes"),
               onPressed: () {
-                _chessBot.event.add(AddEmptyGambitEvent());
                 Navigator.of(context).pop();
+                _chessBot
+                    .attemptLevelUp()
+                    .catchError((e) => handleError(e, context));
               },
             ),
           ],

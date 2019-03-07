@@ -1,6 +1,6 @@
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
-import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/pages/assemble.page.dart';
+import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -170,7 +170,9 @@ class ChessBotListTile extends StatelessWidget {
               FlatButton(
                 child: Text("Yes"),
                 onPressed: () {
-                  FirestoreBloc().userEvent.add(RepairBotEvent(_botRef));
+                  _bot
+                      .attemptRepair()
+                      .catchError((e) => handleError(e, context));
                   Navigator.of(context).pop();
                 },
               ),

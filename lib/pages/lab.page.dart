@@ -8,6 +8,8 @@ import '../bloc/chess_bot.bloc.dart';
 import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
+  //TODO this page needs to accept a bot, or let the player choose the bot
+  // Getting a bot through the BlocProvider will be going away
   @override
   LabPageState createState() {
     return LabPageState();
