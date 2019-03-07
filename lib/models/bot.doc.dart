@@ -1,3 +1,4 @@
+//TODO trash this class in favor of always using ChessBot bloc
 class BotDoc {
   String uid;
   String name;

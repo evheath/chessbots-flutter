@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
 import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +34,12 @@ class DeleteBotDocEvent extends FirestoreEvent {
 class RepairBotEvent extends FirestoreEvent {
   final DocumentReference botDocRef;
   const RepairBotEvent(this.botDocRef);
+}
+
+class AddEmptyGambitEvent extends FirestoreEvent {
+  final ChessBot bot;
+  final DocumentReference botDocRef;
+  const AddEmptyGambitEvent(this.bot, this.botDocRef);
 }
 
 /// Singleton used for all things firebase
@@ -176,6 +184,22 @@ class FirestoreBloc extends BlocBase {
         //TODO push to alert dialog bloc after it is built
         print("Problem repairing");
       });
+    } else if (event is AddEmptyGambitEvent) {
+      final _ref = event.botDocRef;
+      final _bot = event.bot;
+      // NOTE: arrayUnion cannot add additional elements of the same kind
+      // so we will do a safety check
+      final _gambits = await _bot.gambits.first;
+      if (_gambits.contains(EmptyGambit())) {
+        print("cannot add another empty slot");
+        //TODO send error message to toaster service
+      } else {
+        _ref.updateData({
+          "gambits": FieldValue.arrayUnion(["Empty"]),
+        }).catchError((e) {
+          //TODO send to toaster service
+        });
+      }
     }
   }
 

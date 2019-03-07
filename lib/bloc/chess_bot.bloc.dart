@@ -32,13 +32,13 @@ class SelectGambitEvent extends GambitEvent {
   SelectGambitEvent(this.index, this.selectedGambit);
 }
 
-class AddEmptyGambitEvent extends GambitEvent {}
+// class AddEmptyGambitEvent extends GambitEvent {}
 
 class ChessBot implements BlocBase {
   ///Owner of the bot
   String uid;
-  List<Gambit> _gambits;
   String name;
+  List<Gambit> _gambits;
 
   // controllers
   StreamController<List<Gambit>> _gambitsController =
@@ -88,9 +88,10 @@ class ChessBot implements BlocBase {
       int index = event.index;
       Gambit selectedGambit = event.selectedGambit;
       _gambits[index] = selectedGambit;
-    } else if (event is AddEmptyGambitEvent) {
-      _gambits.add(EmptyGambit());
     }
+    // else if (event is AddEmptyGambitEvent) {
+    //   _gambits.add(EmptyGambit());
+    // }
     // connect internal-out to internal-in
     _internalInGambits.add(_gambits);
   }
@@ -145,8 +146,6 @@ class ChessBot implements BlocBase {
       });
     }
 
-    print("Gambits are $gambitNames");
-
     this._gambits = gambitNames.map((name) => gambitMap[name]).toList() ??
         [EmptyGambit(), CheckOpponent()];
 
@@ -166,24 +165,25 @@ class ChessBot implements BlocBase {
     };
     return _map;
   }
-
-  /// Given a title, returns the matching gambit
-  Map<String, Gambit> gambitMap = {
-    CaptureBishop().title: CaptureBishop(),
-    CaptureKnight().title: CaptureKnight(),
-    CapturePawn().title: CapturePawn(),
-    CaptureQueen().title: CaptureQueen(),
-    CaptureRook().title: CaptureRook(),
-    CastleKingSide().title: CastleKingSide(),
-    CastleQueenSide().title: CastleQueenSide(),
-    CheckOpponent().title: CheckOpponent(),
-    MoveRandomPawn().title: MoveRandomPawn(),
-    PawnToE4().title: PawnToE4(),
-    PromotePawnToBishop().title: PromotePawnToBishop(),
-    PromotePawnToKnight().title: PromotePawnToKnight(),
-    PromotePawnToQueen().title: PromotePawnToQueen(),
-    PromotePawnToRandom().title: PromotePawnToRandom(),
-    PromotePawnToRook().title: PromotePawnToRook(),
-    EmptyGambit().title: EmptyGambit(),
-  };
 }
+
+//TODO is there a better home for this?
+/// Given a title, returns the matching gambit
+Map<String, Gambit> gambitMap = {
+  CaptureBishop().title: CaptureBishop(),
+  CaptureKnight().title: CaptureKnight(),
+  CapturePawn().title: CapturePawn(),
+  CaptureQueen().title: CaptureQueen(),
+  CaptureRook().title: CaptureRook(),
+  CastleKingSide().title: CastleKingSide(),
+  CastleQueenSide().title: CastleQueenSide(),
+  CheckOpponent().title: CheckOpponent(),
+  MoveRandomPawn().title: MoveRandomPawn(),
+  PawnToE4().title: PawnToE4(),
+  PromotePawnToBishop().title: PromotePawnToBishop(),
+  PromotePawnToKnight().title: PromotePawnToKnight(),
+  PromotePawnToQueen().title: PromotePawnToQueen(),
+  PromotePawnToRandom().title: PromotePawnToRandom(),
+  PromotePawnToRook().title: PromotePawnToRook(),
+  EmptyGambit().title: EmptyGambit(),
+};
