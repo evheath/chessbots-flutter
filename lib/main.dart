@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
@@ -9,7 +10,6 @@ import './bloc/base.bloc.dart';
 import './bloc/chess_bot.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:flutter/services.dart';
-import './shared/gambits.dart';
 
 void main() async {
   await SystemChrome.setPreferredOrientations([
@@ -22,12 +22,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final FirestoreBloc _firestoreBloc = FirestoreBloc();
   final PrefsBloc _prefsBloc = PrefsBloc();
-  final ChessBot _chessBot = ChessBot(name: "Tap to select bot");
-  // TODO prebuilt chess bots should not exist in main
-  final ChessBot levelonecpu = ChessBot(gambits: [
-    CaptureRandomPiece(),
-    MoveRandomPawn(),
-  ], name: "Level 1 CPU");
+  final ChessBot _chessBot = ChessBot(name: "Default Bot");
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +58,7 @@ class MyApp extends StatelessWidget {
                             //where player chooses their own bot and an opponent
                             '/singleplayer': (context) => RouteGuard(MatchPage(
                                   whiteBot: _chessBot,
-                                  blackBot: levelonecpu,
+                                  blackBot: levelTwoCPU,
                                 )),
                             '/bots': (context) => RouteGuard(BotsPage()),
                           })

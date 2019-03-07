@@ -117,6 +117,7 @@ class LabPageState extends State<LabPage> {
               title: Text("Select your bot"),
               children: List.generate(_botrefs.length, (index) {
                 return _buildSelectListTile(_botrefs[index]);
+                //TODO create bot list tile
               }),
             ));
   }

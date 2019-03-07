@@ -156,6 +156,12 @@ class ChessBot implements BlocBase {
     botRef.setData(serialize(), merge: true);
   }
 
+  int _calculateValue() {
+    //TODO reduce gambit values
+    // can be done after gambit model is updated
+    return 1;
+  }
+
   // external methods
   Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {
