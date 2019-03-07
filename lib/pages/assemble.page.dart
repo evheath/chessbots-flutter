@@ -200,8 +200,9 @@ class AssemblePageState extends State<AssemblePage> {
               child: Text("Yes"),
               onPressed: () {
                 Navigator.of(context).pop();
-                _chessBot.attemptLevelUp().catchError(
-                    (e) => ToasterService(context).event.add(ErrorEvent(e)));
+                _chessBot
+                    .attemptLevelUp()
+                    .catchError((e) => handleError(e, context));
               },
             ),
           ],

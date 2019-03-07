@@ -126,19 +126,6 @@ class ChessBot implements BlocBase {
       // remove reference in user doc
       FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
       await botRef.delete();
-    } else if (event is RepairBotEvent) {
-      //sanity check that it is really broken
-      if (status != "damaged") {
-        return;
-      }
-      int _cost = (value / 2).round();
-      await FirestoreBloc().spendNerdPoints(_cost).then((_) {
-        status = "ready";
-        _syncWithFirestore();
-      }).catchError((e) {
-        //TODO push to alert dialog bloc after it is built
-        print("Problem repairing");
-      });
     }
 
     // connect internal-out to internal-in
@@ -201,12 +188,24 @@ class ChessBot implements BlocBase {
   }
 
   // UI dependent methods
+  Future<void> attemptRepair() async {
+    //sanity check that it is really broken
+    if (status != "damaged") {
+      throw ("Bot does not need to be repaired");
+    }
+    int _cost = (value / 2).round();
+    return FirestoreBloc().attemptToSpendNerdPoints(_cost).then((_) {
+      status = "ready";
+      _syncWithFirestore();
+    });
+  }
+
   int costOfUpgrading() {
     return _gambits.length + 1;
   }
 
   Future<void> attemptLevelUp() async {
-    await FirestoreBloc().spendNerdPoints(costOfUpgrading()).then((_) {
+    await FirestoreBloc().attemptToSpendNerdPoints(costOfUpgrading()).then((_) {
       _gambits.add(EmptyGambit());
       level = _gambits.length;
       _syncWithFirestore();

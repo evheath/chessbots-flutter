@@ -31,11 +31,6 @@ class RemoveBotRef extends UserEvent {
   const RemoveBotRef(this.botDocRef);
 }
 
-class RepairBotEvent extends UserEvent {
-  final DocumentReference botDocRef;
-  const RepairBotEvent(this.botDocRef);
-}
-
 /// Singleton used for all things firebase
 ///
 /// E.g. authentication, firestore CRUD etc
@@ -171,14 +166,15 @@ class FirestoreBloc extends BlocBase {
 
   // public methods that the UI depends on
 
-  Future<void> spendNerdPoints(int _nerdPointsToBeSpent) async {
+  Future<void> attemptToSpendNerdPoints(int _nerdPointsToBeSpent) async {
     // this is not in the events because the UI is depending on a promise
     // if so, then we could put this in the event queue
     UserDoc _currentUserData = await userDoc$.first;
     int _currentNerdPoints = _currentUserData.nerdPoints ?? 0;
     int _newNerdPoints = _currentNerdPoints - _nerdPointsToBeSpent;
     if (_newNerdPoints < 0) {
-      throw ("Not enough nerd points");
+      int _abs = _newNerdPoints.abs();
+      throw ("You are short $_abs nerd points");
     } else {
       return _userRef.updateData({"nerdPoints": _newNerdPoints});
     }
