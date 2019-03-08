@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
                             //       whiteBot: _chessBot,
                             //       blackBot: levelonecpu,
                             //     )),
-                            '/': (context) => RouteGuard(LabPage()),
+                            '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),

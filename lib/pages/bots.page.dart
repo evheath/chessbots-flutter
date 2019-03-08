@@ -1,5 +1,7 @@
+import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
+import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/chess_bot_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,6 +40,8 @@ class BotsPageState extends State<BotsPage> {
             return Center(child: CircularProgressIndicator());
           }
           final _bots = snap.data.bots;
+          print("snap in bot page updated");
+          print(_bots);
           return Container(
             padding: EdgeInsets.all(10.0),
             child: ListView.builder(
@@ -84,12 +88,13 @@ class BotsPageState extends State<BotsPage> {
                   ),
                   autofocus: true,
                   onSaved: (String name) {
-                    print("creating $name");
+                    // print("creating $name");
                     _firestoreBloc.createBotDoc(name).then((_) {
-                      print("created bot");
+                      // print("created bot");
                       Navigator.pop(context);
                     }).catchError((e) {
-                      print("could not create bot");
+                      handleError(e, context);
+                      // print("could not create bot");
                     });
                   },
                   validator: (name) {

@@ -85,18 +85,57 @@ class FirestoreBloc extends BlocBase {
 
       if (u == null) {
         _userRef = null;
-        userDoc$ = Observable.just(UserDoc()).shareValue();
+        // userDoc$ = Observable.just(UserDoc()).shareValue();
       } else {
         _userRef = _db.collection('users').document(u.uid);
 
-        // needed otherwise the userdoc will not rebuilt on snap changes
-        ValueObservable<DocumentSnapshot> _snaps =
-            Observable(_userRef.snapshots()).shareValue();
+        // userDoc$ = Observable(_userRef.snapshots()).map((snap) {
+        //   // print("new data in switchmap");
+        //   return UserDoc.fromFirestore(snap.data);
+        //   // return Observable.(UserDoc.fromFirestore(data));
+        // }).shareValue();
 
-        userDoc$ =
-            _snaps.map((snap) => UserDoc.fromFirestore(snap.data)).shareValue();
+        // userDoc$ = Observable(_userRef.snapshots()).switchMap((snap) {
+        //   print("snap changed in firestore bloc");
+        //   print(snap.data);
+        //   return Observable.just(UserDoc.fromFirestore(snap.data));
+        // }).shareValue();
+
+        // _userRef.snapshots();
+
+        // userDoc$ = _userRef.snapshots().map((snap) {
+        //   return Observable.just(UserDoc.fromFirestore(snap.data)).shareValue();
+        // });
+
+        // _userRef.snapshots().listen((snap) {
+        //   print("userRef snapshot changed");
+        //   print(snap.data);
+        //   userDoc$ =
+        //       Observable.just(UserDoc.fromFirestore(snap.data)).shareValue();
+        // });
+
+        // needed otherwise the userdoc will not rebuilt on snap changes
+        // final _snaps = _userRef.snapshots();
+        // _userRef.snapshots().listen((snap) {
+        //   userDoc$ = UserDoc.fromFirestore(snap.data)
+        // });
+
+        // userDoc$ =
+        //     Observable(_snaps.map((snap) => UserDoc.fromFirestore(snap.data)))
+        //         .shareValue();
       }
     });
+
+    userDoc$ = Observable(user).switchMap((fbUser) {
+      return _db
+          .collection('users')
+          .document(fbUser.uid)
+          .snapshots()
+          .map((snap) {
+        print("snap updated from firestore");
+        return UserDoc.fromFirestore(snap.data);
+      });
+    }).shareValue();
 
     // listen for incoming events from the external-in sink
     _authEventController.stream.listen(_handleAuthEvent);
@@ -104,17 +143,14 @@ class FirestoreBloc extends BlocBase {
   }
   void _handleAuthEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
-      // print('sign in event');
       _internalInLoading.add(true);
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      // print('got google user');
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      // print('got google auth');
-      FirebaseUser _fbUser = await _auth.signInWithGoogle(
+      AuthCredential _authCredentail = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      // print('got firebase auth');
+      FirebaseUser _fbUser = await _auth.signInWithCredential(_authCredentail);
       _internalInLoading.add(false);
       _updateUserData(_fbUser);
     } else if (event is SignOutEvent) {
