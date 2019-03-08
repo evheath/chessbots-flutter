@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../shared/chess_board.dart';
@@ -43,7 +44,7 @@ class LabPageState extends State<LabPage> {
           if (!snapshot.hasData) {
             return Scaffold(
               body: Center(
-                child: CircleAvatar(),
+                child: CircularProgressIndicator(),
               ),
             );
           }
@@ -70,13 +71,15 @@ class LabPageState extends State<LabPage> {
               ),
             ),
             appBar: AppBar(
-              title: Row(
-                children: [
-                  Icon(MyCustomIcons.beaker),
-                  SizedBox(width: 10.0),
-                  Text("LAB"),
-                ],
-              ),
+              leading: Builder(builder: (context) {
+                return IconButton(
+                  icon: const Icon(MyCustomIcons.beaker),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                );
+              }),
+              title: Text("Lab"),
+              centerTitle: true,
+              actions: [NerdPointActionDisplay()],
             ),
             drawer: LeftDrawer(),
             floatingActionButton: Row(

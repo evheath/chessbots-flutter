@@ -53,16 +53,15 @@ class SingleplayerPageState extends State<SingleplayerPage> {
         ),
       ),
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(FontAwesomeIcons.robot),
-            SizedBox(width: 10.0),
-            Text("Singleplayer"),
-          ],
-        ),
-        actions: <Widget>[
-          NerdPointActionDisplay(),
-        ],
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(FontAwesomeIcons.userAlt),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        }),
+        centerTitle: true,
+        title: Text("Singleplayer"),
+        actions: [NerdPointActionDisplay()],
       ),
       drawer: LeftDrawer(),
     );
