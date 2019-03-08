@@ -4,7 +4,7 @@ class UserDoc {
   String uid;
   String displayName;
   String email;
-  DateTime lastSeen;
+  // DateTime lastSeen;
   int nerdPoints;
   List<DocumentReference> bots = [];
 
@@ -15,7 +15,7 @@ class UserDoc {
     this.uid,
     this.displayName = "Guest",
     this.email,
-    this.lastSeen,
+    // this.lastSeen,
     this.nerdPoints = 0,
   });
 
@@ -23,7 +23,7 @@ class UserDoc {
     this.uid = _snapshotData["uid"];
     this.displayName = _snapshotData["displayName"] ?? "Guest";
     this.email = _snapshotData["email"];
-    this.lastSeen = _snapshotData["lastSeen"];
+    // this.lastSeen = _snapshotData["lastSeen"];
     this.nerdPoints = _snapshotData["nerdPoints"] ?? 0;
 
     if (_snapshotData["bots"] != null) {
@@ -50,7 +50,7 @@ class UserDoc {
       "uid": uid,
       "displayName": displayName,
       "email": email,
-      "lastSeen": lastSeen,
+      // "lastSeen": lastSeen,
       "nerdPoints": nerdPoints,
     };
     return _map;
