@@ -50,7 +50,7 @@ class ChessBot implements BlocBase {
   String name;
   int kills;
   int level;
-  int value;
+  // int value;
   String status; //TODO enum status some how
 
   // fields that require conversion
@@ -75,7 +75,7 @@ class ChessBot implements BlocBase {
       this.name = 'Bot',
       this.uid,
       this.status,
-      this.value = 0,
+      // this.value = 0,
       this.kills = 0,
       this.level = 1,
       this.botRef}) {
@@ -156,11 +156,14 @@ class ChessBot implements BlocBase {
     botRef.setData(serialize(), merge: true);
   }
 
-  int _calculateValue() {
-    //TODO reduce gambit values
-    // can be done after gambit model is updated
-    return 1;
+  int calculateValue() {
+    final total = _gambits
+        .map((gambit) => gambit.cost)
+        .reduce((int cost, int total) => cost + total);
+    return total;
   }
+
+  int get value => calculateValue();
 
   // external methods
   int get bounty => (value / 2).round();
@@ -171,7 +174,7 @@ class ChessBot implements BlocBase {
       "name": name,
       "level": level,
       "kills": kills,
-      "value": value,
+      // "value": value,
       "status": status,
       "gambits": _gambits.map((gambit) => gambit.title).toList(),
     };
@@ -272,7 +275,7 @@ Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
       name: name,
       level: level,
       kills: kills,
-      value: value,
+      // value: value,
       status: status,
       gambits: gambits,
       botRef: botRef,

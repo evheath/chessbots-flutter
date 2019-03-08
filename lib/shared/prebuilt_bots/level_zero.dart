@@ -5,5 +5,4 @@ final levelZeroCPU = ChessBot(
   gambits: [EmptyGambit()],
   name: "Oscar the oblivious",
   level: 0,
-  value: 2,
 );

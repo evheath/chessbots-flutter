@@ -179,7 +179,7 @@ class FirestoreBloc extends BlocBase {
       uid: _fbUser.uid,
       gambits: [EmptyGambit()],
       level: 1,
-      value: 0,
+      // value: 0,
       kills: 0,
       status: "ready",
     );
