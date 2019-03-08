@@ -222,7 +222,10 @@ class ChessBot implements BlocBase {
 }
 
 /// Given a title, returns the matching gambit
+///
+/// Used for building gambits from titles stored in db
 Map<String, Gambit> gambitMap = {
+  CaptureRandomPiece().title: CaptureRandomPiece(),
   CaptureBishop().title: CaptureBishop(),
   CaptureKnight().title: CaptureKnight(),
   CapturePawn().title: CapturePawn(),
