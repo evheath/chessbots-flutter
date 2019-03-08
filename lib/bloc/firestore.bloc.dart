@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
-// import 'package:chessbotsmobile/models/bot.doc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,11 +42,6 @@ class FirestoreBloc extends BlocBase {
 
   DocumentReference _userRef;
 
-  // provides its own external-out
-  // internal in handled in constructor
-  /// user document in firestore
-  ValueObservable<UserDoc> userDoc$;
-
   // dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -62,17 +56,20 @@ class FirestoreBloc extends BlocBase {
   StreamSink<UserEvent> get userEvent => _firestoreEventController.sink;
 
   /// internal-in/external-out controller
+  StreamController<UserDoc> _userDocController = BehaviorSubject<UserDoc>();
   StreamController<FirebaseUser> _userController =
       BehaviorSubject<FirebaseUser>();
   StreamController<bool> _loadingController =
       BehaviorSubject<bool>(seedValue: false);
 
   /// internal-in (alias)
+  StreamSink<UserDoc> get _internalInUserDoc => _userDocController.sink;
   StreamSink<FirebaseUser> get _internalInUser => _userController.sink;
   StreamSink<bool> get _internalInLoading => _loadingController.sink;
 
   /// external-out (alias)
   /// Mostly used to determine if the user is authenticated
+  Stream<UserDoc> get userDoc$ => _userDocController.stream;
   Stream<FirebaseUser> get user => _userController.stream;
   Stream<bool> get loading => _loadingController.stream;
 
@@ -85,16 +82,13 @@ class FirestoreBloc extends BlocBase {
 
       if (u == null) {
         _userRef = null;
-        userDoc$ = Observable.just(UserDoc()).shareValue();
       } else {
         _userRef = _db.collection('users').document(u.uid);
 
-        // needed otherwise the userdoc will not rebuilt on snap changes
-        ValueObservable<DocumentSnapshot> _snaps =
-            Observable(_userRef.snapshots()).shareValue();
-
-        userDoc$ =
-            _snaps.map((snap) => UserDoc.fromFirestore(snap.data)).shareValue();
+        _userRef.snapshots().listen((snap) {
+          UserDoc _doc = UserDoc.fromFirestore(snap.data);
+          _internalInUserDoc.add(_doc);
+        });
       }
     });
 
@@ -104,17 +98,14 @@ class FirestoreBloc extends BlocBase {
   }
   void _handleAuthEvent(AuthEvent event) async {
     if (event is SignInWithGoogleEvent) {
-      // print('sign in event');
       _internalInLoading.add(true);
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      // print('got google user');
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      // print('got google auth');
-      FirebaseUser _fbUser = await _auth.signInWithGoogle(
+      AuthCredential _authCredentail = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      // print('got firebase auth');
+      FirebaseUser _fbUser = await _auth.signInWithCredential(_authCredentail);
       _internalInLoading.add(false);
       _updateUserData(_fbUser);
     } else if (event is SignOutEvent) {
@@ -158,6 +149,7 @@ class FirestoreBloc extends BlocBase {
   }
 
   void dispose() {
+    _userDocController.close();
     _userController.close();
     _authEventController.close();
     _loadingController.close();

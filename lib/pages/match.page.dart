@@ -114,10 +114,11 @@ class MatchPageState extends State<MatchPage> {
       builder: (BuildContext context) {
         final FirestoreBloc _firestoreBloc =
             BlocProvider.of<FirestoreBloc>(context);
-        _firestoreBloc.userEvent.add(AwardNerdPointsEvent(10));
+        int reward = widget.blackBot.bounty;
+        _firestoreBloc.userEvent.add(AwardNerdPointsEvent(reward));
         return AlertDialog(
           title: Text("You win!"),
-          content: Text("Well played! Enjoy 10 nerd points"),
+          content: Text("Well played! Enjoy $reward nerd points"),
           actions: <Widget>[
             FlatButton(
               child: Text("Again"),
