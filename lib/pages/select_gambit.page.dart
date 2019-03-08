@@ -70,10 +70,9 @@ class SelectGambitPage extends StatelessWidget {
     UserDoc _currentUserData = await FirestoreBloc().userDoc$.first;
     List<String> _ownedGambits = _currentUserData.ownedGambits;
 
-    // check if user owns this gambit
-    // if they do select it
-    // if they don't prompt a purchase
-    if (_ownedGambits.contains(_gambit.title)) {
+    // check if user owns this gambit or it is free
+    // if not, prompt a purchase
+    if (_ownedGambits.contains(_gambit.title) || _gambit.cost == 0) {
       _selectGambit(context, _gambit);
     } else {
       _purchaseGambitPrompt(context, _gambit);

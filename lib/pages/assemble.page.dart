@@ -7,8 +7,6 @@ import 'dart:async';
 import './assemble.tutorial.dart';
 import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
-import '../shared/left.drawer.dart';
-import '../shared/custom.icons.dart';
 import '../bloc/chess_bot.bloc.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
@@ -66,30 +64,8 @@ class AssemblePageState extends State<AssemblePage> {
             }
           }),
       appBar: AppBar(
-        // leading: Builder(
-        //   builder: (context) {
-        //     // TODO implement this button style on other pages
-        //     // instead of relying on default hamburger button
-        //     return IconButton(
-        //       icon: const Icon(MyCustomIcons.cog_alt),
-        //       onPressed: () => Scaffold.of(context).openDrawer(),
-        //     );
-        //   },
-        // ),
         title: Wrap(
-          children: [
-            Text("Assemble gambits")
-            // FutureBuilder<DocumentSnapshot>(
-            //     future: _botDocSnap$.first,
-            //     builder: (context, snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.done) {
-            //         ChessBot _bot = ChessBot.marshal(widget.botRef);
-            //         return Text("${_bot.name}");
-            //       } else {
-            //         return Text("Build your bot");
-            //       }
-            //     }),
-          ],
+          children: [Text("Assemble gambits")],
         ),
         actions: <Widget>[
           NerdPointActionDisplay(),
