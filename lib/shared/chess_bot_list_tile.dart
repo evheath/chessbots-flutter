@@ -7,6 +7,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+//used on the bots.page
 class ChessBotListTile extends StatelessWidget {
   final DocumentReference _botRef;
   const ChessBotListTile(this._botRef);

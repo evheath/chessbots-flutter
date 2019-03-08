@@ -1,11 +1,10 @@
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
-import 'package:chessbotsmobile/shared/prebuilt_bots.dart';
+import 'package:chessbotsmobile/pages/singleplayer.page.dart';
 import 'package:flutter/material.dart';
 import './pages/lab.page.dart';
 import './pages/auth.page.dart';
 import './pages/settings.page.dart';
-import './pages/match.page.dart';
 import './bloc/base.bloc.dart';
 import './bloc/chess_bot.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
@@ -46,20 +45,12 @@ class MyApp extends StatelessWidget {
                               : Brightness.light,
                         ),
                         routes: {
-                            // '/': (context) => RouteGuard(MatchPage(
-                            //       whiteBot: _chessBot,
-                            //       blackBot: levelonecpu,
-                            //     )),
-                            '/': (context) => RouteGuard(BotsPage()),
+                            '/': (context) => RouteGuard(SingleplayerPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),
-                            //TODO singleplayer route should have a splash page
-                            //where player chooses their own bot and an opponent
-                            '/singleplayer': (context) => RouteGuard(MatchPage(
-                                  whiteBot: _chessBot,
-                                  blackBot: levelTwoCPU,
-                                )),
+                            '/singleplayer': (context) =>
+                                RouteGuard(SingleplayerPage()),
                             '/bots': (context) => RouteGuard(BotsPage()),
                           })
                     : Container(

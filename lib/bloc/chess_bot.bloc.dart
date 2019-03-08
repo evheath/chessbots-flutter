@@ -163,6 +163,8 @@ class ChessBot implements BlocBase {
   }
 
   // external methods
+  int get bounty => (value / 2).round();
+
   Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {
       "uid": uid,
