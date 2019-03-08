@@ -12,6 +12,7 @@ class CaptureRook extends Gambit {
 
   CaptureRook._internal()
       : super(
+            cost: 5,
             demoFEN:
                 "rnbqkbn1/ppp1pppp/8/3p1r2/4P3/4N3/PPPP1PPP/RNBQKB1R w KQkq - 0 1",
             vector: WhiteRook(),

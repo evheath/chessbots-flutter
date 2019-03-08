@@ -12,6 +12,7 @@ class PromotePawnToBishop extends Gambit {
 
   PromotePawnToBishop._internal()
       : super(
+            cost: 1,
             demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhiteBishop(),
             title: "Promote to bishop",

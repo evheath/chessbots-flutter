@@ -12,6 +12,7 @@ class CaptureQueen extends Gambit {
 
   CaptureQueen._internal()
       : super(
+            cost: 10,
             demoFEN:
                 "rnb1kbn1/ppppp1pr/8/6N1/4P3/7q/PPPP1P1P/RNBQK2R w KQkq - 0 1",
             vector: WhiteQueen(),

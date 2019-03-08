@@ -26,6 +26,8 @@ abstract class Gambit {
   CustomPaint vector;
   String demoFEN;
 
+  int cost;
+
   /// Function that, given a chess object, will return a move as a string
   ///
   /// If no move is found, null should be returned
@@ -40,6 +42,7 @@ abstract class Gambit {
     @required this.vector,
     this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     @required this.altText,
+    @required this.cost,
   });
 
   /// returns a square when given a legal move

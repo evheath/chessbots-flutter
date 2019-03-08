@@ -12,6 +12,7 @@ class CaptureKnight extends Gambit {
 
   CaptureKnight._internal()
       : super(
+            cost: 3,
             demoFEN:
                 'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
             vector: WhiteKnight(),

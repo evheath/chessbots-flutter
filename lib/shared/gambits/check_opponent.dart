@@ -12,6 +12,7 @@ class CheckOpponent extends Gambit {
 
   CheckOpponent._internal()
       : super(
+            cost: 0,
             demoFEN:
                 "rnbq1b1r/ppp1pkp1/5n1p/8/8/3B4/PPP2PPP/RNBQK2R w KQkq - 0 1",
             vector: WhiteKing(),
