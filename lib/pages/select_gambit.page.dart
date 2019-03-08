@@ -87,8 +87,16 @@ class SelectGambitPage extends StatelessWidget {
         String plural = _gambit.cost > 1 ? 's' : '';
         return AlertDialog(
           title: Text("Purchase gambit"),
-          content: Text(
-              "Buy '${_gambit.title}' for ${_gambit.cost} nerd point$plural?"),
+          content: SingleChildScrollView(
+            child: Column(children: [
+              Text(
+                  "Buy '${_gambit.title}' for ${_gambit.cost} nerd point$plural?"),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Once you buy a gambit, you can use it on any bot!"),
+            ]),
+          ),
           actions: <Widget>[
             FlatButton(
               child: Text("Nah"),
