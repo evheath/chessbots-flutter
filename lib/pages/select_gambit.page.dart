@@ -1,4 +1,7 @@
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
+import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 
 import '../bloc/chess_bot.bloc.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,9 @@ import '../shared/gambit_list_tile.dart';
 import '../shared/gambits.dart';
 import '../models/gambit.dart';
 
+/// This page is always pushed
+///
+/// The underlying page will be expecting a gambit in the pop
 class SelectGambitPage extends StatelessWidget {
   final ChessBot _chessBot;
   SelectGambitPage(this._chessBot);
@@ -16,6 +22,7 @@ class SelectGambitPage extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          actions: [NerdPointActionDisplay()],
           backgroundColor: Colors.grey,
           title: Text("Select a gambit"),
           bottom: TabBar(
@@ -44,7 +51,7 @@ class SelectGambitPage extends StatelessWidget {
                             ? () => handleError(
                                 "Your bot is already using '${_gambit.title}'",
                                 context)
-                            : () => Navigator.pop(context, _gambit),
+                            : () => _handleSelection(context, _gambit),
                         child: GambitListTile(
                           gambit: _gambit,
                           disabled: shouldBeDisabled,
@@ -57,6 +64,58 @@ class SelectGambitPage extends StatelessWidget {
             }),
       ),
     );
+  }
+
+  void _handleSelection(BuildContext context, Gambit _gambit) async {
+    UserDoc _currentUserData = await FirestoreBloc().userDoc$.first;
+    List<String> _ownedGambits = _currentUserData.ownedGambits;
+
+    // check if user owns this gambit
+    // if they do select it
+    // if they don't prompt a purchase
+    if (_ownedGambits.contains(_gambit.title)) {
+      _selectGambit(context, _gambit);
+    } else {
+      _purchaseGambitPrompt(context, _gambit);
+    }
+  }
+
+  void _purchaseGambitPrompt(BuildContext context, Gambit _gambit) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String plural = _gambit.cost > 1 ? 's' : '';
+        return AlertDialog(
+          title: Text("Purchase gambit"),
+          content: Text(
+              "Buy '${_gambit.title}' for ${_gambit.cost} nerd point$plural?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Nah"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Yes"),
+              onPressed: () {
+                FirestoreBloc().attemptToBuyGambit(_gambit).then((_) {
+                  Navigator.pop(context); // leave purchase dialog
+                  _selectGambit(context, _gambit); // select gambit
+                }).catchError((e) {
+                  Navigator.of(context).pop(); // leave purchase
+                  handleError(e, context);
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _selectGambit(BuildContext context, Gambit _gambit) {
+    Navigator.pop(context, _gambit);
   }
 
   final List<Widget> _tabs = [

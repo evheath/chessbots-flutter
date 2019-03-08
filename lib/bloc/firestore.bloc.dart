@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -170,6 +171,19 @@ class FirestoreBloc extends BlocBase {
     } else {
       return _userRef.updateData({"nerdPoints": _newNerdPoints});
     }
+  }
+
+  Future<void> attemptToBuyGambit(Gambit _gambit) async {
+    //sanity check
+    UserDoc _currentUserData = await userDoc$.first;
+    if (_currentUserData.ownedGambits.contains(_gambit.title)) {
+      throw ("You already own' ${_gambit.title}'");
+    }
+
+    await attemptToSpendNerdPoints(_gambit.cost);
+    _userRef.updateData({
+      "ownedGambits": FieldValue.arrayUnion([_gambit.title])
+    });
   }
 
   Future<void> createBotDoc(String name) async {
