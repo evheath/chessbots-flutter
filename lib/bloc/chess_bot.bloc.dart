@@ -156,17 +156,19 @@ class ChessBot implements BlocBase {
     botRef.setData(serialize(), merge: true);
   }
 
-  int calculateValue() {
+  int _calculateValue() {
     final total = _gambits
         .map((gambit) => gambit.cost)
         .reduce((int cost, int total) => cost + total);
     return total;
   }
 
-  int get value => calculateValue();
-
   // external methods
-  int get bounty => (value / 2).round();
+  int get value => _calculateValue();
+  int get bounty {
+    int _bounty = (value / 2).round();
+    return _bounty > 0 ? _bounty : 1;
+  }
 
   Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {
