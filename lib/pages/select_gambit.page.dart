@@ -1,3 +1,5 @@
+import 'package:chessbotsmobile/services/toaster.service.dart';
+
 import '../bloc/chess_bot.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,7 +41,9 @@ class SelectGambitPage extends StatelessWidget {
                           _currentGambits.contains(_gambit) ? true : false;
                       return GestureDetector(
                         onTap: shouldBeDisabled
-                            ? null
+                            ? () => handleError(
+                                "Your bot is already using '${_gambit.title}'",
+                                context)
                             : () => Navigator.pop(context, _gambit),
                         child: GambitListTile(
                           gambit: _gambit,
