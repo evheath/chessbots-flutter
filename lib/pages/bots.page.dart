@@ -40,8 +40,6 @@ class BotsPageState extends State<BotsPage> {
             return Center(child: CircularProgressIndicator());
           }
           final _bots = snap.data.bots;
-          print("snap in bot page updated");
-          print(_bots);
           return Container(
             padding: EdgeInsets.all(10.0),
             child: ListView.builder(
