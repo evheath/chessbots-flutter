@@ -46,11 +46,11 @@ class AssemblePageState extends State<AssemblePage> {
               return Container(
                 padding: EdgeInsets.all(10.0),
                 child: StreamBuilder(
-                  initialData: [
-                    MoveRandomPiece()
-                  ], // needed for error prevention
                   stream: _chessBot.gambits,
                   builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return (Center(child: CircularProgressIndicator()));
+                    }
                     List<Gambit> _gambits = snapshot.data;
                     return ReorderableListView(
                       scrollDirection: Axis.vertical,
