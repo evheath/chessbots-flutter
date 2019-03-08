@@ -12,6 +12,7 @@ class MoveRandomPiece extends Gambit {
 
   MoveRandomPiece._internal()
       : super(
+            cost: 0,
             demoFEN:
                 'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 1',
             vector: BlackKing(),

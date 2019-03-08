@@ -11,6 +11,7 @@ class EmptyGambit extends Gambit {
 
   EmptyGambit._internal()
       : super(
+            cost: 0,
             vector: CustomPaint(),
             title: "Empty",
             color: Colors.white,

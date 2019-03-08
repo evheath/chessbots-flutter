@@ -42,6 +42,7 @@ class ChessBotListTile extends StatelessWidget {
                 Text("${_bot.status}"),
               ],
             ),
+            initiallyExpanded: true,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

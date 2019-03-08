@@ -24,7 +24,7 @@ class MatchPage extends StatefulWidget {
 
 class MatchPageState extends State<MatchPage> {
   GameControllerBloc _matchBoardController = GameControllerBloc();
-  bool _gameStarted = false;
+  // bool _gameStarted = false;
 
   MatchPageState() {
     // listening to game status
@@ -38,6 +38,8 @@ class MatchPageState extends State<MatchPage> {
         _handleDraw();
       } else {}
     });
+
+    _beginMatch();
   }
 
   @override
@@ -76,22 +78,22 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       drawer: LeftDrawer(),
-      floatingActionButton: _gameStarted
-          ? Container()
-          : FloatingActionButton(
-              onPressed: () {
-                _beginMatch();
-              },
-              tooltip: 'Begin',
-              child: Icon(Icons.play_arrow),
-            ),
+      // floatingActionButton: _gameStarted
+      //     ? Container()
+      //     : FloatingActionButton(
+      //         onPressed: () {
+      //           _beginMatch();
+      //         },
+      //         tooltip: 'Begin',
+      //         child: Icon(Icons.play_arrow),
+      //       ),
     );
   } // Build
 
   void _beginMatch() async {
-    setState(() {
-      _gameStarted = true;
-    });
+    // setState(() {
+    //   _gameStarted = true;
+    // });
     chess.Chess game = _matchBoardController.game;
 
     while (!_matchBoardController.gameOver) {
@@ -116,9 +118,10 @@ class MatchPageState extends State<MatchPage> {
             BlocProvider.of<FirestoreBloc>(context);
         int reward = widget.blackBot.bounty;
         _firestoreBloc.userEvent.add(AwardNerdPointsEvent(reward));
+        String plural = reward > 1 ? 's' : '';
         return AlertDialog(
           title: Text("You win!"),
-          content: Text("Well played! Enjoy $reward nerd points"),
+          content: Text("Enjoy $reward nerd point$plural"),
           actions: <Widget>[
             FlatButton(
               child: Text("Again"),
@@ -181,7 +184,7 @@ class MatchPageState extends State<MatchPage> {
         _firestoreBloc.userEvent.add(AwardNerdPointsEvent(1));
         return AlertDialog(
           title: Text("Draw!"),
-          content: Text("Better luck next time. Have a pity point"),
+          content: Text("Have a pity point"),
           actions: <Widget>[
             FlatButton(
               child: Text("Again"),

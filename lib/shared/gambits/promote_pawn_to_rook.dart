@@ -12,6 +12,7 @@ class PromotePawnToRook extends Gambit {
 
   PromotePawnToRook._internal()
       : super(
+            cost: 5,
             demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhiteRook(),
             title: "Promote to rook",

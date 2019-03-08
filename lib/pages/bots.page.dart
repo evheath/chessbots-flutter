@@ -1,4 +1,3 @@
-import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
@@ -28,6 +27,7 @@ class BotsPageState extends State<BotsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        tooltip: "Create a bot",
         child: Icon(Icons.add),
         onPressed: () {
           _showCreationDialog();
@@ -40,6 +40,11 @@ class BotsPageState extends State<BotsPage> {
             return Center(child: CircularProgressIndicator());
           }
           final _bots = snap.data.bots;
+          if (_bots.isEmpty) {
+            return Center(
+              child: Text("Push the button to create a chess bot!"),
+            );
+          }
           return Container(
             padding: EdgeInsets.all(10.0),
             child: ListView.builder(
@@ -55,17 +60,15 @@ class BotsPageState extends State<BotsPage> {
         },
       ),
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(FontAwesomeIcons.robot),
-            SizedBox(width: 10.0),
-            //TODO check this on iphone SE
-            Text("Chess Bots"),
-          ],
-        ),
-        actions: <Widget>[
-          NerdPointActionDisplay(),
-        ],
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(FontAwesomeIcons.robot),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        }),
+        title: Text("Your Bots"),
+        actions: [NerdPointActionDisplay()],
+        centerTitle: true,
       ),
       drawer: LeftDrawer(),
     );

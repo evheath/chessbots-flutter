@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
                               : Brightness.light,
                         ),
                         routes: {
-                            '/': (context) => RouteGuard(SingleplayerPage()),
+                            '/': (context) => RouteGuard(BotsPage()),
                             '/lab': (context) => RouteGuard(LabPage()),
                             '/settings': (context) =>
                                 RouteGuard(SettingsPage()),

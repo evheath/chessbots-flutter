@@ -4,6 +4,4 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 final levelZeroCPU = ChessBot(
   gambits: [EmptyGambit()],
   name: "Oscar the oblivious",
-  level: 0,
-  value: 2,
 );

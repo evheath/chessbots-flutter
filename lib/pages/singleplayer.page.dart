@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:chessbotsmobile/pages/match.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
@@ -53,16 +54,15 @@ class SingleplayerPageState extends State<SingleplayerPage> {
         ),
       ),
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(FontAwesomeIcons.robot),
-            SizedBox(width: 10.0),
-            Text("Singleplayer"),
-          ],
-        ),
-        actions: <Widget>[
-          NerdPointActionDisplay(),
-        ],
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(FontAwesomeIcons.userAlt),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        }),
+        centerTitle: true,
+        title: Text("Singleplayer"),
+        actions: [NerdPointActionDisplay()],
       ),
       drawer: LeftDrawer(),
     );
@@ -78,7 +78,15 @@ class SingleplayerPageState extends State<SingleplayerPage> {
               title: Text("Select your bot"),
               children: List.generate(_botrefs.length, (index) {
                 return _buildSelectListTile(_botrefs[index], _selectedOpponent);
-              }),
+              })
+                ..add(ListTile(
+                    leading: Icon(Icons.add),
+                    title: Text("Create a new bot"),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => BotsPage()));
+                    })),
             ));
   }
 

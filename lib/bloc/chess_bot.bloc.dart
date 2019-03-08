@@ -49,8 +49,6 @@ class ChessBot implements BlocBase {
   String uid;
   String name;
   int kills;
-  int level;
-  int value;
   String status; //TODO enum status some how
 
   // fields that require conversion
@@ -75,9 +73,7 @@ class ChessBot implements BlocBase {
       this.name = 'Bot',
       this.uid,
       this.status,
-      this.value = 0,
       this.kills = 0,
-      this.level = 1,
       this.botRef}) {
     this._gambits = gambits ?? [EmptyGambit()];
 
@@ -150,28 +146,40 @@ class ChessBot implements BlocBase {
   }
 
   // internal methods
-  /// Output this ChessBot to firestore-friendly format
 
   void _syncWithFirestore() async {
     botRef.setData(serialize(), merge: true);
   }
 
   int _calculateValue() {
-    //TODO reduce gambit values
-    // can be done after gambit model is updated
-    return 1;
+    int sumOfAll(int number) => number <= 0 ? 1 : number + sumOfAll(number - 1);
+    final int valueOfLevel = sumOfAll(level);
+
+    final int valueOfGambits = _gambits
+        .map((gambit) => gambit.cost)
+        .reduce((int cost, int total) => cost + total);
+
+    final int total = valueOfLevel + valueOfGambits;
+    return total;
+  }
+
+  int _calculateLevel() {
+    return _gambits.length;
   }
 
   // external methods
-  int get bounty => (value / 2).round();
+  int get value => _calculateValue();
+  int get level => _calculateLevel();
+  int get bounty {
+    int _bounty = (value / 2).round();
+    return _bounty > 0 ? _bounty : 1;
+  }
 
   Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {
       "uid": uid,
       "name": name,
-      "level": level,
       "kills": kills,
-      "value": value,
       "status": status,
       "gambits": _gambits.map((gambit) => gambit.title).toList(),
     };
@@ -209,20 +217,22 @@ class ChessBot implements BlocBase {
   }
 
   int costOfUpgrading() {
-    return _gambits.length + 1;
+    return level + 1;
   }
 
   Future<void> attemptLevelUp() async {
     await FirestoreBloc().attemptToSpendNerdPoints(costOfUpgrading()).then((_) {
       _gambits.add(EmptyGambit());
-      level = _gambits.length;
       _syncWithFirestore();
     });
   }
 }
 
 /// Given a title, returns the matching gambit
+///
+/// Used for building gambits from titles stored in db
 Map<String, Gambit> gambitMap = {
+  CaptureRandomPiece().title: CaptureRandomPiece(),
   CaptureBishop().title: CaptureBishop(),
   CaptureKnight().title: CaptureKnight(),
   CapturePawn().title: CapturePawn(),
@@ -250,9 +260,7 @@ Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
     final _snapshotData = snap.data;
     final uid = _snapshotData["uid"];
     final name = _snapshotData["name"] ?? "Your bot";
-    final level = _snapshotData["level"];
     final kills = _snapshotData["kills"];
-    final value = _snapshotData["value"];
     final status = _snapshotData["status"];
     List<String> _gambitNames = [];
     if (_snapshotData["gambits"] != null) {
@@ -267,9 +275,7 @@ Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
     return ChessBot(
       uid: uid,
       name: name,
-      level: level,
       kills: kills,
-      value: value,
       status: status,
       gambits: gambits,
       botRef: botRef,

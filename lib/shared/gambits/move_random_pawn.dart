@@ -12,6 +12,7 @@ class MoveRandomPawn extends Gambit {
 
   MoveRandomPawn._internal()
       : super(
+            cost: 5,
             vector: WhitePawn(),
             title: "Move a random pawn",
             color: Colors.grey,
