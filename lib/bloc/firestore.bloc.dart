@@ -145,7 +145,7 @@ class FirestoreBloc extends BlocBase {
       'uid': _fbUser.uid,
       'email': _fbUser.email,
       'displayName': _fbUser.displayName ?? "Guest",
-      'lastSeen': DateTime.now()
+      // 'lastSeen': DateTime.now()
     }, merge: true);
   }
 
