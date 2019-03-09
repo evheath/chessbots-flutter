@@ -1,6 +1,7 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
@@ -125,6 +126,20 @@ class MatchPageState extends State<MatchPage> {
           content: Text("Enjoy $reward nerd point$plural"),
           actions: <Widget>[
             FlatButton(
+              child: Text("Edit gambits"),
+              onPressed: () {
+                // Navigator.of(context).pop(); // close dialog
+                // setState
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    //TODO eventually we need to know if the player was black
+                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
+                  ),
+                );
+              },
+            ),
+            FlatButton(
               child: Text("Again"),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -154,6 +169,20 @@ class MatchPageState extends State<MatchPage> {
           title: Text("You lose!"),
           content: Text("You get nothing. Good day sir."),
           actions: [
+            FlatButton(
+              child: Text("Edit gambits"),
+              onPressed: () {
+                // Navigator.of(context).pop(); // close dialog
+                // setState
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    //TODO eventually we need to know if the player was black
+                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
+                  ),
+                );
+              },
+            ),
             FlatButton(
               child: Text("Again"),
               onPressed: () {
@@ -187,6 +216,20 @@ class MatchPageState extends State<MatchPage> {
           title: Text("Draw!"),
           content: Text("Have a pity point"),
           actions: <Widget>[
+            FlatButton(
+              child: Text("Edit gambits"),
+              onPressed: () {
+                // Navigator.of(context).pop(); // close dialog
+                // setState
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    //TODO eventually we need to know if the player was black
+                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
+                  ),
+                );
+              },
+            ),
             FlatButton(
               child: Text("Again"),
               onPressed: () {
