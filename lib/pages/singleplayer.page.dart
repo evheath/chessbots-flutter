@@ -1,14 +1,14 @@
-import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:chessbotsmobile/pages/match.page.dart';
+import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import '../shared/left.drawer.dart';
 
 class SingleplayerPage extends StatefulWidget {
   @override
@@ -25,10 +25,14 @@ class SingleplayerPageState extends State<SingleplayerPage> {
 
   List<Widget> _buildOpponentListTiles(BuildContext context) {
     final List<ChessBot> _opponentBots = [
-      levelZeroCPU,
-      levelOneCPU,
-      levelTwoCPU
+      oscarCPU,
+      garrettCPU,
+      peterCPU,
+      rickCPU,
+      carlosCPU,
     ];
+    //sort by lowest to highest bounty
+    _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
 
     return List.generate(
       _opponentBots.length,
@@ -107,8 +111,8 @@ class SingleplayerPageState extends State<SingleplayerPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => MatchPage(
-                          blackBot: _selectedOpponent,
-                          whiteBot: _playerBot,
+                          opponentBot: _selectedOpponent,
+                          playerBot: _playerBot,
                         ))),
           );
         }

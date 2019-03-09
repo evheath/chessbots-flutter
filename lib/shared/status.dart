@@ -1,11 +1,8 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chessbotsmobile/shared/gambits/empty.dart';
 import 'package:flutter/material.dart';
-import '../models/gambit.dart';
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flare_flutter/flare_actor.dart';
-// import '../bloc/auth.bloc.dart';
-// import '../bloc/base.bloc.dart';
-import '../shared/gambits/empty.dart';
 
 ///New, stream-based status tile
 class Status extends StatelessWidget {
@@ -31,7 +28,7 @@ class Status extends StatelessWidget {
               Text("${bot.name}"),
               Text("Level ${bot.level}"),
               Text("Value: ${bot.value}"),
-              Text("Kills: ${bot.kills}"),
+              // Text("Kills: ${bot.kills}"),
             ],
           ),
           title: SizedBox(

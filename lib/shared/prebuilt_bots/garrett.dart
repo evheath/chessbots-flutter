@@ -1,7 +1,7 @@
-import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 
-final levelOneCPU = ChessBot(
+final garrettCPU = ChessBot(
   gambits: [CaptureRandomPiece()],
   name: "Garrett the greedy",
 );

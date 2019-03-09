@@ -1,9 +1,8 @@
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/shared/chess_board/board_model.dart';
+import 'package:chessbotsmobile/shared/chess_board/board_rank.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import './board_model.dart';
-import './board_rank.dart';
-import '../../bloc/game_controller.bloc.dart';
 
 var whiteSquareList = [
   [

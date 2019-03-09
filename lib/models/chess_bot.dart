@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
-import './base.bloc.dart';
-import '../models/gambit.dart';
 import 'package:chess/chess.dart' as chess;
-import '../shared/gambits.dart';
 
 abstract class ChessBotEvent {}
 
@@ -40,11 +39,7 @@ class SelectGambitEvent extends ChessBotEvent {
 
 class DeleteBotDocEvent extends ChessBotEvent {}
 
-//TODO remove bloc implementation
-// probably move it to models
-// many pages (main, lab, singleplayer) are still using it as a bloc
-// search for "BlocProvider.of<ChessBot>" to find the occurances
-class ChessBot implements BlocBase {
+class ChessBot {
   // firestore fields that can be directly ported
   String uid;
   String name;
@@ -232,6 +227,8 @@ class ChessBot implements BlocBase {
 ///
 /// Used for building gambits from titles stored in db
 Map<String, Gambit> gambitMap = {
+  MovePieceSafely().title: MovePieceSafely(),
+  CaptureUndefendedPiece().title: CaptureUndefendedPiece(),
   CaptureRandomPiece().title: CaptureRandomPiece(),
   CaptureBishop().title: CaptureBishop(),
   CaptureKnight().title: CaptureKnight(),
@@ -254,7 +251,7 @@ Map<String, Gambit> gambitMap = {
 /// Instaniate an observable ChessBot using only firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
   if (botRef == null) {
-    return Observable.just(ChessBot(name: "Pending Selection")).shareValue();
+    return Observable.just(ChessBot(name: "Tap to Select")).shareValue();
   }
   return Observable(botRef.snapshots().map((snap) {
     final _snapshotData = snap.data;

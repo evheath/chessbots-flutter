@@ -39,7 +39,7 @@ abstract class Gambit {
     @required this.title,
     @required this.description,
     @required this.findMove,
-    @required this.vector,
+    this.vector,
     this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     @required this.altText,
     @required this.cost,
@@ -48,11 +48,14 @@ abstract class Gambit {
   /// returns a square when given a legal move
   ///
   /// e.g. exf4 -> f4 or Bxf5=Q+ -> f5
-  static String squareOf(dynamic move) {
-    return move
-        .toString()
-        .replaceAll(RegExp(r"(.*)x"), '') // remove everything before an x
-        .replaceAll(RegExp(r"[NBRQKx=+]"),
-            ''); // remove unnecessary remaining characters
+  static String landingSquareOfMove(dynamic move) {
+    String everythingBeforeAnX =
+        move.toString().replaceAll(RegExp(r"(.*)x"), '');
+
+    String noPieces = everythingBeforeAnX.replaceAll(RegExp(r"[NBRQKx=+]"), '');
+
+    String lastTwoLetters = noPieces.substring(noPieces.length - 2);
+
+    return lastTwoLetters;
   }
 }

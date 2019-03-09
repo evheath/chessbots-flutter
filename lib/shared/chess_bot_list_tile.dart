@@ -1,4 +1,4 @@
-import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
@@ -29,7 +29,7 @@ class ChessBotListTile extends StatelessWidget {
                 Text("${_bot.name}"),
                 Text("Level ${_bot.level}"),
                 Text("Value: ${_bot.value}"),
-                Text("Kills: ${_bot.kills}"),
+                // Text("Kills: ${_bot.kills}"),
               ],
             ),
             trailing: Column(
@@ -122,7 +122,6 @@ class ChessBotListTile extends StatelessWidget {
                   // ),
                   autofocus: true,
                   onSaved: (String name) {
-                    // print("renaming $name");
                     _botRef.updateData({"name": name});
                     Navigator.pop(context);
                   },

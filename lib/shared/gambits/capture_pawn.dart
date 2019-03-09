@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chess/chess.dart' as chess;
@@ -30,7 +30,7 @@ class CapturePawn extends Gambit {
               captures.shuffle();
               String move = captures.firstWhere(
                 (capture) {
-                  String landingSquare = Gambit.squareOf(capture);
+                  String landingSquare = Gambit.landingSquareOfMove(capture);
                   chess.PieceType pieceBeingCaptured =
                       game.get(landingSquare)?.type;
                   return pieceBeingCaptured == chess.PieceType.PAWN;

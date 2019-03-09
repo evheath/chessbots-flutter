@@ -2,10 +2,10 @@ import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/chess_bot_list_tile.dart';
+import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import '../shared/left.drawer.dart';
 
 class BotsPage extends StatefulWidget {
   @override
@@ -89,13 +89,10 @@ class BotsPageState extends State<BotsPage> {
                   ),
                   autofocus: true,
                   onSaved: (String name) {
-                    // print("creating $name");
                     _firestoreBloc.createBotDoc(name).then((_) {
-                      // print("created bot");
                       Navigator.pop(context);
                     }).catchError((e) {
                       handleError(e, context);
-                      // print("could not create bot");
                     });
                   },
                   validator: (name) {

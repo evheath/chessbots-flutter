@@ -1,8 +1,8 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
+import 'package:chessbotsmobile/pages/demo.page.dart';
 import 'package:flutter/material.dart';
-import '../pages/demo.page.dart';
-import '../models/gambit.dart';
 
 class GambitListTile extends StatelessWidget {
   final Gambit gambit;

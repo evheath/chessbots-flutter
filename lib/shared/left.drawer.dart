@@ -1,9 +1,9 @@
+import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
+import 'package:chessbotsmobile/shared/custom.icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../shared/custom.icons.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
-import '../bloc/base.bloc.dart';
 
 class LeftDrawer extends StatelessWidget {
   @override
