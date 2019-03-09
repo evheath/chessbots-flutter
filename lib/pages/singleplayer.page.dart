@@ -31,6 +31,8 @@ class SingleplayerPageState extends State<SingleplayerPage> {
       rickCPU,
       carlosCPU,
     ];
+    //sort by lowest to highest bounty
+    _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
 
     return List.generate(
       _opponentBots.length,

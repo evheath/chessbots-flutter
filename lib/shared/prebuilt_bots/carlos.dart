@@ -6,5 +6,5 @@ final carlosCPU = ChessBot(
     CaptureUndefendedPiece(),
     MovePieceSafely(),
   ],
-  name: "Relatively restrained Rick",
+  name: "Cautious Carlos",
 );
