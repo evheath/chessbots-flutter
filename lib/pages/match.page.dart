@@ -125,36 +125,9 @@ class MatchPageState extends State<MatchPage> {
           title: Text("You win!"),
           content: Text("Enjoy $reward nerd point$plural"),
           actions: <Widget>[
-            FlatButton(
-              child: Text("Edit gambits"),
-              onPressed: () {
-                // Navigator.of(context).pop(); // close dialog
-                // setState
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    //TODO eventually we need to know if the player was black
-                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: Text("Again"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // setState
-                _matchBoardController.loadFEN(
-                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-                _beginMatch();
-              },
-            ),
-            FlatButton(
-              child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            _editGambitsButton(),
+            _playAgainButton(),
+            _closeButton(),
           ],
         );
       },
@@ -169,36 +142,9 @@ class MatchPageState extends State<MatchPage> {
           title: Text("You lose!"),
           content: Text("You get nothing. Good day sir."),
           actions: [
-            FlatButton(
-              child: Text("Edit gambits"),
-              onPressed: () {
-                // Navigator.of(context).pop(); // close dialog
-                // setState
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    //TODO eventually we need to know if the player was black
-                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: Text("Again"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // setState
-                _matchBoardController.loadFEN(
-                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-                _beginMatch();
-              },
-            ),
-            FlatButton(
-              child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            _editGambitsButton(),
+            _playAgainButton(),
+            _closeButton(),
           ],
         );
       },
@@ -216,38 +162,48 @@ class MatchPageState extends State<MatchPage> {
           title: Text("Draw!"),
           content: Text("Have a pity point"),
           actions: <Widget>[
-            FlatButton(
-              child: Text("Edit gambits"),
-              onPressed: () {
-                // Navigator.of(context).pop(); // close dialog
-                // setState
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    //TODO eventually we need to know if the player was black
-                    builder: (context) => AssemblePage(widget.whiteBot.botRef),
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: Text("Again"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // setState
-                _matchBoardController.loadFEN(
-                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-                _beginMatch();
-              },
-            ),
-            FlatButton(
-              child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            _editGambitsButton(),
+            _playAgainButton(),
+            _closeButton(),
           ],
         );
+      },
+    );
+  }
+
+  FlatButton _editGambitsButton() {
+    return FlatButton(
+      child: Text("Edit gambits"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            //TODO eventually we need to know if the player was black
+            builder: (context) => AssemblePage(widget.whiteBot.botRef),
+          ),
+        );
+      },
+    );
+  }
+
+  FlatButton _playAgainButton() {
+    return FlatButton(
+      child: Text("Again"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        // setState
+        _matchBoardController.loadFEN(
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        _beginMatch();
+      },
+    );
+  }
+
+  FlatButton _closeButton() {
+    return FlatButton(
+      child: Text("Close"),
+      onPressed: () {
+        Navigator.of(context).pop();
       },
     );
   }
