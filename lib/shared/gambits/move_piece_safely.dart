@@ -29,7 +29,8 @@ class MovePieceSafely extends Gambit {
 
               String move = moves.firstWhere(
                 (possibleMove) {
-                  String stringOfLandingSquare = Gambit.squareOf(possibleMove);
+                  String stringOfLandingSquare =
+                      Gambit.landingSquareOfMove(possibleMove);
                   if (stringOfLandingSquare == null ||
                       stringOfLandingSquare.isEmpty) {
                     print(

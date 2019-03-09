@@ -29,7 +29,7 @@ class CaptureKnight extends Gambit {
               captures.shuffle();
               String move = captures.firstWhere(
                 (capture) {
-                  String landingSquare = Gambit.squareOf(capture);
+                  String landingSquare = Gambit.landingSquareOfMove(capture);
                   chess.PieceType pieceBeingCaptured =
                       game.get(landingSquare)?.type;
                   return pieceBeingCaptured == chess.PieceType.KNIGHT;

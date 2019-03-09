@@ -32,7 +32,8 @@ class CaptureUndefendedPiece extends Gambit {
               captures.shuffle();
               String move = captures.firstWhere(
                 (capture) {
-                  String stringOfLandingSquare = Gambit.squareOf(capture);
+                  String stringOfLandingSquare =
+                      Gambit.landingSquareOfMove(capture);
                   int landingSquareAsInt =
                       chess.Chess.SQUARES[stringOfLandingSquare];
                   return !game.attacked(enemyColor, landingSquareAsInt);
