@@ -27,7 +27,8 @@ class SingleplayerPageState extends State<SingleplayerPage> {
     final List<ChessBot> _opponentBots = [
       levelZeroCPU,
       levelOneCPU,
-      levelTwoCPU
+      levelTwoCPU,
+      levelFiveCPU,
     ];
 
     return List.generate(
@@ -107,8 +108,8 @@ class SingleplayerPageState extends State<SingleplayerPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => MatchPage(
-                          blackBot: _selectedOpponent,
-                          whiteBot: _playerBot,
+                          opponentBot: _selectedOpponent,
+                          playerBot: _playerBot,
                         ))),
           );
         }
