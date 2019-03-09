@@ -180,6 +180,19 @@ class MatchPageState extends State<MatchPage> {
   }
 
   FlatButton _playAgainButton() {
+    Future<void> _playAgain() async {
+      //rebuild the bot (in case it changed) and refresh the route
+      ChessBot _playerBot =
+          await marshalChessBot(widget.playerBot.botRef).first;
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MatchPage(
+                    opponentBot: widget.opponentBot,
+                    playerBot: _playerBot,
+                  )));
+    }
+
     return FlatButton(
       child: Text("Again"),
       onPressed: () {
@@ -187,9 +200,7 @@ class MatchPageState extends State<MatchPage> {
         // setState
         _matchBoardController.loadFEN(
             "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        //TODO this should repush the route, thus causing the coin flip to occur
-
-        _playMatch();
+        _playAgain();
       },
     );
   }

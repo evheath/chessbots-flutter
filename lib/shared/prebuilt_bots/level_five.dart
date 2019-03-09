@@ -9,5 +9,5 @@ final levelFiveCPU = ChessBot(
     CastleKingSide(),
     CastleQueenSide(),
   ],
-  name: "Rick the restrained",
+  name: "Relatively restrained Rick",
 );
