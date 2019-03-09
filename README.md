@@ -20,3 +20,6 @@ flutter build apk
 
 ## Widget testing
 flutter test
+
+## Keytool (signing)
+/c/Program\ Files/Android/Android\ Studio/jre/bin/keytool.exe -printcert -file ./GOOGPLAY.RSA
