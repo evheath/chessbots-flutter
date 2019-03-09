@@ -29,7 +29,7 @@ class ChessBotListTile extends StatelessWidget {
                 Text("${_bot.name}"),
                 Text("Level ${_bot.level}"),
                 Text("Value: ${_bot.value}"),
-                Text("Kills: ${_bot.kills}"),
+                // Text("Kills: ${_bot.kills}"),
               ],
             ),
             trailing: Column(

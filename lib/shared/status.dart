@@ -31,7 +31,7 @@ class Status extends StatelessWidget {
               Text("${bot.name}"),
               Text("Level ${bot.level}"),
               Text("Value: ${bot.value}"),
-              Text("Kills: ${bot.kills}"),
+              // Text("Kills: ${bot.kills}"),
             ],
           ),
           title: SizedBox(
