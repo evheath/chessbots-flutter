@@ -11,12 +11,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
 import 'package:chess/chess.dart' as chess;
 import 'package:chessbotsmobile/models/chess_bot.dart';
+import 'dart:math';
 
 class MatchPage extends StatefulWidget {
-  final ChessBot whiteBot;
-  final ChessBot blackBot;
+  final ChessBot playerBot;
+  final ChessBot opponentBot;
 
-  MatchPage({@required this.whiteBot, @required this.blackBot});
+  MatchPage({@required this.playerBot, @required this.opponentBot});
   @override
   MatchPageState createState() {
     return MatchPageState();
@@ -24,15 +25,17 @@ class MatchPage extends StatefulWidget {
 }
 
 class MatchPageState extends State<MatchPage> {
+  final bool playerIsWhite = Random().nextInt(2) == 1;
   GameControllerBloc _matchBoardController = GameControllerBloc();
-  // bool _gameStarted = false;
 
   MatchPageState() {
     // listening to game status
     _matchBoardController.status.listen((status) {
       if (status == GameStatus.in_checkmate) {
-        // if game is over and it is white's turn, that means black won
-        _matchBoardController.turn == chess.Color.WHITE
+        // if game is over and it is that player's turn, they have lost
+        chess.Color playersColor =
+            playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
+        _matchBoardController.turn == playersColor
             ? _handleDefeat()
             : _handleVictory();
       } else if (status == GameStatus.in_draw) {
@@ -40,7 +43,7 @@ class MatchPageState extends State<MatchPage> {
       } else {}
     });
 
-    _beginMatch();
+    _playMatch();
   }
 
   @override
@@ -55,15 +58,16 @@ class MatchPageState extends State<MatchPage> {
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Status(widget.blackBot),
+            Status(widget.opponentBot),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: false,
               chessBoardController: _matchBoardController,
               onMove: (move) {},
               onDraw: () {},
+              whiteSideTowardsUser: playerIsWhite,
             ),
-            Status(widget.whiteBot),
+            Status(widget.playerBot),
           ],
         ),
       ),
@@ -80,33 +84,23 @@ class MatchPageState extends State<MatchPage> {
         centerTitle: true,
       ),
       drawer: LeftDrawer(),
-      // floatingActionButton: _gameStarted
-      //     ? Container()
-      //     : FloatingActionButton(
-      //         onPressed: () {
-      //           _beginMatch();
-      //         },
-      //         tooltip: 'Begin',
-      //         child: Icon(Icons.play_arrow),
-      //       ),
     );
   } // Build
 
-  void _beginMatch() async {
-    // setState(() {
-    //   _gameStarted = true;
-    // });
+  void _playMatch() async {
     chess.Chess game = _matchBoardController.game;
 
     while (!_matchBoardController.gameOver) {
       await Future.delayed(Duration(seconds: 1));
       String move;
       if (_matchBoardController.turn == chess.Color.WHITE) {
-        //white's move
-        move = widget.whiteBot.waterfallGambits(game);
+        move = playerIsWhite
+            ? widget.playerBot.waterfallGambits(game)
+            : widget.opponentBot.waterfallGambits(game);
       } else {
-        // black's move
-        move = widget.blackBot.waterfallGambits(game);
+        move = !playerIsWhite
+            ? widget.playerBot.waterfallGambits(game)
+            : widget.opponentBot.waterfallGambits(game);
       }
       _matchBoardController.makeMove(move);
     }
@@ -118,7 +112,7 @@ class MatchPageState extends State<MatchPage> {
       builder: (BuildContext context) {
         final FirestoreBloc _firestoreBloc =
             BlocProvider.of<FirestoreBloc>(context);
-        int reward = widget.blackBot.bounty;
+        int reward = widget.opponentBot.bounty;
         _firestoreBloc.userEvent.add(AwardNerdPointsEvent(reward));
         String plural = reward > 1 ? 's' : '';
         return AlertDialog(
@@ -178,8 +172,7 @@ class MatchPageState extends State<MatchPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            //TODO eventually we need to know if the player was black
-            builder: (context) => AssemblePage(widget.whiteBot.botRef),
+            builder: (context) => AssemblePage(widget.playerBot.botRef),
           ),
         );
       },
@@ -194,7 +187,9 @@ class MatchPageState extends State<MatchPage> {
         // setState
         _matchBoardController.loadFEN(
             "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        _beginMatch();
+        //TODO this should repush the route, thus causing the coin flip to occur
+
+        _playMatch();
       },
     );
   }

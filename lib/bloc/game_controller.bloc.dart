@@ -61,7 +61,7 @@ class GameControllerBloc {
 
   /// Makes move on the board
   void makeMove(String move) {
-    if (_gameOver()) {
+    if (_gameOver() || move == "" || move == null) {
       return;
     }
 
