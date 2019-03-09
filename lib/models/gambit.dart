@@ -39,7 +39,7 @@ abstract class Gambit {
     @required this.title,
     @required this.description,
     @required this.findMove,
-    @required this.vector,
+    this.vector,
     this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     @required this.altText,
     @required this.cost,
