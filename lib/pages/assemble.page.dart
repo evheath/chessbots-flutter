@@ -1,17 +1,17 @@
+import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/pages/assemble.tutorial.dart';
+import 'package:chessbotsmobile/pages/select_gambit.page.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
+import 'package:chessbotsmobile/shared/empty_list_tile.dart';
+import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import './assemble.tutorial.dart';
-import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import '../models/gambit.dart';
-import '../shared/gambits.dart';
-import '../shared/gambit_list_tile.dart';
-import '../pages/select_gambit.page.dart';
 
 class AssemblePage extends StatefulWidget {
   final DocumentReference botRef;

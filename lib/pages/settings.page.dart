@@ -1,10 +1,10 @@
+import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
+import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../shared/left.drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
-import '../bloc/base.bloc.dart';
 
 class SettingsPage extends StatelessWidget {
   @override

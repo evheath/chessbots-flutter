@@ -1,9 +1,9 @@
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:chessbotsmobile/shared/empty_list_tile.dart';
-import '../shared/gambit_list_tile.dart';
-import '../shared/gambits.dart';
+import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:flutter/material.dart';
-import '../shared/chess_board.dart';
-import '../bloc/game_controller.bloc.dart';
 
 class AssembleTutorial extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
+import 'package:chessbotsmobile/shared/gambits/empty.dart';
 import 'package:flutter/material.dart';
-import '../models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import '../shared/gambits/empty.dart';
 
 ///New, stream-based status tile
 class Status extends StatelessWidget {

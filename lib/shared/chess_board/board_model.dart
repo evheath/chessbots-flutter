@@ -1,5 +1,5 @@
 import 'dart:ui';
-import '../../bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:chess/chess.dart' as chess;
 

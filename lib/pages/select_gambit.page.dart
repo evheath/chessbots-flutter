@@ -1,13 +1,13 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
+import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../shared/gambit_list_tile.dart';
-import '../shared/gambits.dart';
-import '../models/gambit.dart';
 
 /// This page is always pushed
 ///

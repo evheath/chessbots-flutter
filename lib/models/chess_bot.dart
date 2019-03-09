@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
-import '../models/gambit.dart';
 import 'package:chess/chess.dart' as chess;
-import '../shared/gambits.dart';
 
 abstract class ChessBotEvent {}
 

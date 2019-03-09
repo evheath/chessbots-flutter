@@ -1,14 +1,14 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
+import 'package:chessbotsmobile/shared/chess_board.dart';
+import 'package:chessbotsmobile/shared/custom.icons.dart';
+import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
+import 'package:chessbotsmobile/shared/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../shared/chess_board.dart';
-import '../shared/left.drawer.dart';
-import '../shared/custom.icons.dart';
-import '../shared/status.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
   @override

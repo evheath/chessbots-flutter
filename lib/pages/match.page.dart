@@ -1,15 +1,15 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/shared/chess_board.dart';
+import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
+import 'package:chessbotsmobile/shared/status.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
-import '../shared/chess_board.dart';
-import '../shared/left.drawer.dart';
-import '../shared/status.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import '../bloc/game_controller.bloc.dart';
 
 class MatchPage extends StatefulWidget {
   final ChessBot whiteBot;
