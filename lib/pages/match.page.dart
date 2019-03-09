@@ -67,15 +67,16 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       appBar: AppBar(
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(FontAwesomeIcons.dice),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        }),
         actions: <Widget>[NerdPointActionDisplay()],
         backgroundColor: Colors.blueGrey,
-        title: Row(
-          children: [
-            Icon(FontAwesomeIcons.dice),
-            SizedBox(width: 10.0),
-            Text("Match"),
-          ],
-        ),
+        title: Text("Match"),
+        centerTitle: true,
       ),
       drawer: LeftDrawer(),
       // floatingActionButton: _gameStarted
