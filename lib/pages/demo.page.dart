@@ -118,7 +118,6 @@ class DemoPageState extends State<DemoPage> {
                 _buildPlayButton(),
               ],
             )
-            //TODO buy button if gambit is not owned
           ],
         ),
       ),
