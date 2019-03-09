@@ -25,10 +25,11 @@ class SingleplayerPageState extends State<SingleplayerPage> {
 
   List<Widget> _buildOpponentListTiles(BuildContext context) {
     final List<ChessBot> _opponentBots = [
-      levelZeroCPU,
-      levelOneCPU,
-      levelTwoCPU,
-      levelFiveCPU,
+      oscarCPU,
+      garrettCPU,
+      peterCPU,
+      rickCPU,
+      carlosCPU,
     ];
 
     return List.generate(
