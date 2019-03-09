@@ -140,6 +140,7 @@ class SelectGambitPage extends StatelessWidget {
   ];
 
   static final List<Gambit> _offensiveGambits = [
+    CaptureUndefendedPiece(),
     CaptureQueen(),
     CaptureRook(),
     CaptureBishop(),

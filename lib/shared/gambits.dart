@@ -1,3 +1,10 @@
+// anytime a gambit gets created here is what needs to happen
+// 1) export the gambit file here
+// 2) add it to the appropriate category in select_gambit.page.dart
+// 3) add it to gambitMap, currently in chess_bot.dart
+
+//TODO figure out how to automate the above
+
 library gambits;
 
 export './gambits/capture_random_piece.dart';
@@ -6,6 +13,7 @@ export './gambits/capture_rook.dart';
 export './gambits/capture_bishop.dart';
 export './gambits/capture_knight.dart';
 export './gambits/capture_pawn.dart';
+export './gambits/capture_undefended_piece.dart';
 export './gambits/pawn_to_e4.dart';
 export './gambits/move_random_piece.dart';
 export './gambits/castle_king_side.dart';
