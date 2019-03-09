@@ -122,7 +122,6 @@ class ChessBotListTile extends StatelessWidget {
                   // ),
                   autofocus: true,
                   onSaved: (String name) {
-                    // print("renaming $name");
                     _botRef.updateData({"name": name});
                     Navigator.pop(context);
                   },

@@ -33,15 +33,11 @@ class MovePieceSafely extends Gambit {
                       Gambit.landingSquareOfMove(possibleMove);
                   if (stringOfLandingSquare == null ||
                       stringOfLandingSquare.isEmpty) {
-                    // print(
-                    //     "stringOfLandingSquare is $stringOfLandingSquare but the possible move was $possibleMove");
                     return false;
                   }
                   int landingSquareAsInt =
                       chess.Chess.SQUARES[stringOfLandingSquare];
                   if (landingSquareAsInt == null) {
-                    // print(
-                    //     'landingSquareAsInt null but the possible move was $possibleMove and the stringOfLandingSquare was $stringOfLandingSquare');
                     return false;
                   }
                   return !game.attacked(enemyColor, landingSquareAsInt);

@@ -89,13 +89,10 @@ class BotsPageState extends State<BotsPage> {
                   ),
                   autofocus: true,
                   onSaved: (String name) {
-                    // print("creating $name");
                     _firestoreBloc.createBotDoc(name).then((_) {
-                      // print("created bot");
                       Navigator.pop(context);
                     }).catchError((e) {
                       handleError(e, context);
-                      // print("could not create bot");
                     });
                   },
                   validator: (name) {
