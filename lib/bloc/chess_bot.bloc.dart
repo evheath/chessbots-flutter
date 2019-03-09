@@ -40,11 +40,7 @@ class SelectGambitEvent extends ChessBotEvent {
 
 class DeleteBotDocEvent extends ChessBotEvent {}
 
-//TODO remove bloc implementation
-// probably move it to models
-// many pages (main, lab, singleplayer) are still using it as a bloc
-// search for "BlocProvider.of<ChessBot>" to find the occurances
-class ChessBot implements BlocBase {
+class ChessBot {
   // firestore fields that can be directly ported
   String uid;
   String name;
@@ -254,7 +250,7 @@ Map<String, Gambit> gambitMap = {
 /// Instaniate an observable ChessBot using only firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
   if (botRef == null) {
-    return Observable.just(ChessBot(name: "Pending Selection")).shareValue();
+    return Observable.just(ChessBot(name: "Tap to Select")).shareValue();
   }
   return Observable(botRef.snapshots().map((snap) {
     final _snapshotData = snap.data;
