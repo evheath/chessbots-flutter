@@ -8,7 +8,7 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/status.dart';
 import 'package:chess/chess.dart' as chess;
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import '../bloc/game_controller.bloc.dart';
 
 class MatchPage extends StatefulWidget {

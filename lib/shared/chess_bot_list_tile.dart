@@ -1,4 +1,4 @@
-import 'package:chessbotsmobile/bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';

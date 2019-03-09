@@ -7,7 +7,7 @@ import 'dart:async';
 import './assemble.tutorial.dart';
 import '../shared/empty_list_tile.dart';
 import 'package:flutter/material.dart';
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import '../models/gambit.dart';
 import '../shared/gambits.dart';
 import '../shared/gambit_list_tile.dart';

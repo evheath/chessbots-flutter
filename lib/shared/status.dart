@@ -1,10 +1,7 @@
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/gambit.dart';
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flare_flutter/flare_actor.dart';
-// import '../bloc/auth.bloc.dart';
-// import '../bloc/base.bloc.dart';
 import '../shared/gambits/empty.dart';
 
 ///New, stream-based status tile

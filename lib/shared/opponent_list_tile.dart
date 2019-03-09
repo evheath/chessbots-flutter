@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 ///New, stream-based status tile

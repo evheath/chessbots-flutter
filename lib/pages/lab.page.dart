@@ -7,7 +7,7 @@ import '../shared/chess_board.dart';
 import '../shared/left.drawer.dart';
 import '../shared/custom.icons.dart';
 import '../shared/status.dart';
-import '../bloc/chess_bot.bloc.dart';
+import 'package:chessbotsmobile/models/chess_bot.dart';
 import '../bloc/game_controller.bloc.dart';
 
 class LabPage extends StatefulWidget {
