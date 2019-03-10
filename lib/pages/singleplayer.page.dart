@@ -10,53 +10,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
-class SingleplayerPage extends StatefulWidget {
-  @override
-  SingleplayerPageState createState() {
-    return SingleplayerPageState();
-  }
-}
-
-class SingleplayerPageState extends State<SingleplayerPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  List<Widget> _buildOpponentListTiles(BuildContext context) {
-    final List<ChessBot> _opponentBots = [
-      oscarCPU,
-      garrettCPU,
-      peterCPU,
-      rickCPU,
-      carlosCPU,
-    ];
-    //sort by lowest to highest bounty
-    _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
-
-    return List.generate(
-      _opponentBots.length,
-      (index) {
-        return GestureDetector(
-          onTap: () => presentSelectBotDialog(context, _opponentBots[index]),
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: OpponentListTile(_opponentBots[index]),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
+class SingleplayerPage extends StatelessWidget {
+  final DocumentReference botRef;
+  const SingleplayerPage(this.botRef);
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: ListView(
-          children: _buildOpponentListTiles(context),
-        ),
-      ),
+      body: StreamBuilder<ChessBot>(
+          stream: marshalChessBot(botRef),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              ChessBot _chessBot = snapshot.data;
+              return Container(
+                padding: EdgeInsets.all(10.0),
+                child: ListView(
+                    children: _buildOpponentListTiles(context, _chessBot)),
+              );
+            }
+          }),
       appBar: AppBar(
         leading: Builder(builder: (context) {
           return IconButton(
@@ -72,50 +44,35 @@ class SingleplayerPageState extends State<SingleplayerPage> {
     );
   }
 
-  void presentSelectBotDialog(
-      BuildContext context, ChessBot _selectedOpponent) async {
-    final _currentUserData = await FirestoreBloc().userDoc$.first;
-    final _botrefs = _currentUserData.bots;
-    showDialog(
-        context: context,
-        builder: (context) => SimpleDialog(
-              title: Text("Select your bot"),
-              children: List.generate(_botrefs.length, (index) {
-                return _buildSelectListTile(_botrefs[index], _selectedOpponent);
-              })
-                ..add(ListTile(
-                    leading: Icon(Icons.add),
-                    title: Text("Create a new bot"),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => BotsPage()));
-                    })),
-            ));
-  }
+  List<Widget> _buildOpponentListTiles(
+      BuildContext context, ChessBot _playerBot) {
+    final List<ChessBot> _opponentBots = [
+      oscarCPU,
+      garrettCPU,
+      peterCPU,
+      rickCPU,
+      carlosCPU,
+    ];
+    //sort by lowest to highest bounty
+    _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
 
-  Widget _buildSelectListTile(
-      DocumentReference _ref, ChessBot _selectedOpponent) {
-    return StreamBuilder<ChessBot>(
-      stream: marshalChessBot(_ref),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return ListTile(
-            leading: CircularProgressIndicator(),
-          );
-        } else {
-          ChessBot _playerBot = snapshot.data;
-          return ListTile(
-            title: Text("${_playerBot.name}"),
-            onTap: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MatchPage(
-                          opponentBot: _selectedOpponent,
-                          playerBot: _playerBot,
-                        ))),
-          );
-        }
+    return List.generate(
+      _opponentBots.length,
+      (index) {
+        return GestureDetector(
+          onTap: () => Navigator.push(
+              //TODO a different way to route?
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MatchPage(
+                        opponentBot: _opponentBots[index],
+                        playerBot: _playerBot,
+                      ))),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: OpponentListTile(_opponentBots[index]),
+          ),
+        );
       },
     );
   }

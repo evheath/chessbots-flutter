@@ -75,7 +75,8 @@ class _BotDetailPageState extends State<BotDetailPage> {
                     onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleplayerPage(),
+                            builder: (context) =>
+                                SingleplayerPage(widget.botRef),
                           ),
                         ),
                   ),
