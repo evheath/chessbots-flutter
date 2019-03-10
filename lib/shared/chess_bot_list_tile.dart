@@ -21,7 +21,7 @@ class ChessBotListTile extends StatelessWidget {
           ChessBot _bot = snapshot.data;
           return ListTile(
             onTap: () {
-              print("You tapped ${_bot.name}");
+              // print("You tapped ${_bot.name}");
               Navigator.push(
                 context,
                 MaterialPageRoute(
