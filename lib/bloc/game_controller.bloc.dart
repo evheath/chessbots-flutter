@@ -82,6 +82,8 @@ class GameControllerBloc {
   /// Makes move on the board then sets the turn back to white
   void labMove(String move) {
     game.move(move);
+    // prevent en passant
+    game.ep_square = -1;
     if (!game.in_checkmate && !game.in_check) {
       game?.turn = chess.Color.WHITE;
     }

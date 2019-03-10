@@ -1,11 +1,8 @@
-// import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
-// import 'package:chessbotsmobile/pages/bots.page.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
-// import 'package:chessbotsmobile/shared/custom.icons.dart';
-// import 'package:chessbotsmobile/shared/left.drawer.dart';
+import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-import 'package:chessbotsmobile/shared/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
@@ -66,7 +63,19 @@ class LabPageState extends State<LabPage> {
                     onCheckMate: (derp) {},
                     onDraw: () {},
                   ),
-                  Status(_chessBot),
+                  // Status(_chessBot),
+                  StreamBuilder<Gambit>(
+                    stream: _chessBot.lastUsedGambit,
+                    // initialData: MoveRandomPiece(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return GambitListTile(
+                        gambit: snapshot.data,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -92,6 +101,10 @@ class LabPageState extends State<LabPage> {
                       String move =
                           _chessBot.waterfallGambits(_labBoardController.game);
                       _labBoardController.labMove(move);
+                      // if (!_labBoardController.gameOver) {
+                      //   print(_labBoardController.game.fen);
+                      //   _labBoardController.game.turn = chess.Color.WHITE;
+                      // }
                     }
                   },
                   tooltip: 'Test gambits',

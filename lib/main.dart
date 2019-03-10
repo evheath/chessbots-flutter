@@ -2,7 +2,6 @@ import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:chessbotsmobile/pages/singleplayer.page.dart';
 import 'package:flutter/material.dart';
-import './pages/lab.page.dart';
 import './pages/auth.page.dart';
 import './pages/settings.page.dart';
 import './bloc/base.bloc.dart';
@@ -44,7 +43,6 @@ class MyApp extends StatelessWidget {
                           '/': (context) => RouteGuard(BotsPage()),
                           '/home': (context) => RouteGuard(BotsPage()),
                           '/bots': (context) => RouteGuard(BotsPage()),
-                          // '/lab': (context) => RouteGuard(LabPage()),
                           '/settings': (context) => RouteGuard(SettingsPage()),
                           '/singleplayer': (context) =>
                               RouteGuard(SingleplayerPage()),
