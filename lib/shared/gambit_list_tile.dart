@@ -38,7 +38,15 @@ class GambitListTile extends StatelessWidget {
                 stream: FirestoreBloc().userDoc$,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DemoPage(gambit)));
+                      },
+                      icon: Icon(Icons.help),
+                    );
                   }
                   List<String> _ownedGambits = snapshot.data.ownedGambits;
                   if (_ownedGambits.contains(gambit.title) ||
