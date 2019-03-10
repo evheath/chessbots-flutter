@@ -1,6 +1,4 @@
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
-import 'package:chessbotsmobile/pages/bots.page.dart';
 import 'package:chessbotsmobile/pages/match.page.dart';
 import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
@@ -30,17 +28,18 @@ class SingleplayerPage extends StatelessWidget {
             }
           }),
       appBar: AppBar(
-        leading: Builder(builder: (context) {
-          return IconButton(
-            icon: const Icon(FontAwesomeIcons.userAlt),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          );
-        }),
+        backgroundColor: Colors.teal,
+        // leading: Builder(builder: (context) {
+        //   return IconButton(
+        //     icon: const Icon(FontAwesomeIcons.userAlt),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   );
+        // }),
         centerTitle: true,
         title: Text("Singleplayer"),
         actions: [NerdPointActionDisplay()],
       ),
-      drawer: LeftDrawer(),
+      // drawer: LeftDrawer(),
     );
   }
 

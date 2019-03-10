@@ -71,7 +71,7 @@ class _BotDetailPageState extends State<BotDetailPage> {
                   _buildGridTile(
                     label: "Singleplayer",
                     iconData: FontAwesomeIcons.userAlt,
-                    color: Colors.lightBlueAccent,
+                    color: Colors.teal,
                     onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
