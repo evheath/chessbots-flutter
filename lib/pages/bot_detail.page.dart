@@ -1,18 +1,11 @@
-import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/pages/assemble.page.dart';
-import 'package:chessbotsmobile/pages/assemble.tutorial.dart';
-import 'package:chessbotsmobile/pages/select_gambit.page.dart';
+import 'package:chessbotsmobile/pages/lab.page.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
-import 'package:chessbotsmobile/shared/empty_list_tile.dart';
-import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
-import 'package:chessbotsmobile/shared/gambits.dart';
-import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
@@ -75,6 +68,17 @@ class _BotDetailPageState extends State<BotDetailPage> {
                         ),
                   ),
                   _buildGridTile(
+                    label: "Test ${_chessBot.name}'s gambit in the Lab",
+                    iconData: MyCustomIcons.beaker,
+                    color: Colors.purple,
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LabPage(),
+                          ),
+                        ),
+                  ),
+                  _buildGridTile(
                     label: "Rename ${_chessBot.name}",
                     iconData: FontAwesomeIcons.pencilAlt,
                     color: Colors.orange,
@@ -83,7 +87,7 @@ class _BotDetailPageState extends State<BotDetailPage> {
                   _buildGridTile(
                     label: "Repair ${_chessBot.name}",
                     iconData: FontAwesomeIcons.wrench,
-                    color: Colors.teal,
+                    color: Colors.redAccent,
                     onPressed: () => _repairDialog(context, _chessBot),
                     disabled: _chessBot.status != "damaged",
                   ),
@@ -104,7 +108,6 @@ class _BotDetailPageState extends State<BotDetailPage> {
                   NerdPointActionDisplay(),
                 ],
               ),
-              // drawer: LeftDrawer(),
             );
           }
         });
@@ -128,6 +131,7 @@ class _BotDetailPageState extends State<BotDetailPage> {
           ),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: disabled ? Colors.black : Colors.white,
             ),
