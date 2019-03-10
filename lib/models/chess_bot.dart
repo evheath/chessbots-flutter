@@ -165,6 +165,7 @@ class ChessBot {
   int get value => _calculateValue();
   int get level => _calculateLevel();
   int get sellValue => (value / 2).floor() - 1;
+  int get repairCost => (value / 2).floor() - 1;
   int get bounty {
     int _bounty = (value / 2).round();
     return _bounty > 0 ? _bounty : 1;
@@ -204,8 +205,7 @@ class ChessBot {
     if (status != "damaged") {
       throw ("Bot does not need to be repaired");
     }
-    int _cost = (value / 2).round();
-    return FirestoreBloc().attemptToSpendNerdPoints(_cost).then((_) {
+    return FirestoreBloc().attemptToSpendNerdPoints(repairCost).then((_) {
       status = "ready";
       _syncWithFirestore();
     });

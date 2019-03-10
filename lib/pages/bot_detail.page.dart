@@ -81,11 +81,18 @@ class _BotDetailPageState extends State<BotDetailPage> {
                     onPressed: () => _editDialog(context, _chessBot),
                   ),
                   _buildGridTile(
+                    label: "Repair ${_chessBot.name}",
+                    iconData: FontAwesomeIcons.wrench,
+                    color: Colors.teal,
+                    onPressed: () => _repairDialog(context, _chessBot),
+                    disabled: _chessBot.status != "damaged",
+                  ),
+                  _buildGridTile(
                     label: "Sell ${_chessBot.name}",
                     iconData: FontAwesomeIcons.dollarSign,
                     color: Colors.green,
                     onPressed: () => _sellDialog(context, _chessBot),
-                  ),
+                  )
                 ],
               ),
               appBar: AppBar(
@@ -108,19 +115,22 @@ class _BotDetailPageState extends State<BotDetailPage> {
     @required String label,
     @required Color color,
     @required Function onPressed,
+    bool disabled = false,
   }) {
     return FlatButton(
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
             iconData,
-            color: Colors.white,
+            color: disabled ? Colors.black : Colors.white,
           ),
           Text(
             label,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: disabled ? Colors.black : Colors.white,
+            ),
           ),
         ],
       ),
@@ -196,6 +206,35 @@ class _BotDetailPageState extends State<BotDetailPage> {
                   Navigator.of(context).pop(); // close dialog
                   _bot.event.add(DeleteBotDocEvent());
                   Navigator.pushReplacementNamed(context, '/');
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void _repairDialog(BuildContext context, ChessBot _bot) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Repair"),
+            content:
+                Text("Repair ${_bot.name} for ${_bot.repairCost} nerd points?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  _bot
+                      .attemptRepair()
+                      .catchError((e) => handleError(e, context));
+                  Navigator.of(context).pop();
                 },
               ),
             ],
