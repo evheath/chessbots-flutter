@@ -110,9 +110,8 @@ class ChessBot {
       _gambits[index] = selectedGambit;
       _syncWithFirestore();
     } else if (event is DeleteBotDocEvent) {
-      int _reward = (value / 2).round();
-      if (_reward > 0) {
-        FirestoreBloc().userEvent.add(AwardNerdPointsEvent(_reward));
+      if (sellValue > 0) {
+        FirestoreBloc().userEvent.add(AwardNerdPointsEvent(sellValue));
       }
       // remove reference in user doc
       FirestoreBloc().userEvent.add(RemoveBotRef(botRef));
@@ -165,6 +164,7 @@ class ChessBot {
   // external methods
   int get value => _calculateValue();
   int get level => _calculateLevel();
+  int get sellValue => (value / 2).floor() - 1;
   int get bounty {
     int _bounty = (value / 2).round();
     return _bounty > 0 ? _bounty : 1;

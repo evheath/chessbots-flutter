@@ -64,12 +64,6 @@ class _BotDetailPageState extends State<BotDetailPage> {
                     ),
                   ),
                   _buildGridTile(
-                    label: "Rename ${_chessBot.name}",
-                    iconData: FontAwesomeIcons.pencilAlt,
-                    color: Colors.orange,
-                    onPressed: () => _editDialog(context, _chessBot),
-                  ),
-                  _buildGridTile(
                     label: "Edit ${_chessBot.name}'s gambits",
                     iconData: MyCustomIcons.cog_alt,
                     color: Colors.grey,
@@ -79,6 +73,18 @@ class _BotDetailPageState extends State<BotDetailPage> {
                             builder: (context) => AssemblePage(widget.botRef),
                           ),
                         ),
+                  ),
+                  _buildGridTile(
+                    label: "Rename ${_chessBot.name}",
+                    iconData: FontAwesomeIcons.pencilAlt,
+                    color: Colors.orange,
+                    onPressed: () => _editDialog(context, _chessBot),
+                  ),
+                  _buildGridTile(
+                    label: "Sell ${_chessBot.name}",
+                    iconData: FontAwesomeIcons.dollarSign,
+                    color: Colors.green,
+                    onPressed: () => _sellDialog(context, _chessBot),
                   ),
                 ],
               ),
@@ -166,6 +172,34 @@ class _BotDetailPageState extends State<BotDetailPage> {
                   ),
                 ],
               ));
+        });
+  }
+
+  void _sellDialog(BuildContext context, ChessBot _bot) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Sell"),
+            content:
+                Text("Scrap ${_bot.name} for ${_bot.sellValue} nerd points?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Noooo!"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Delete"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // close dialog
+                  _bot.event.add(DeleteBotDocEvent());
+                  Navigator.pushReplacementNamed(context, '/');
+                },
+              ),
+            ],
+          );
         });
   }
 }
