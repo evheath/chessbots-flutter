@@ -10,6 +10,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:chessbotsmobile/shared/level_up_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -25,6 +26,7 @@ class BotDetailPage extends StatefulWidget {
 }
 
 class _BotDetailPageState extends State<BotDetailPage> {
+  String animationToPlay = 'idle';
   Widget build(BuildContext context) {
     //TODO if i return to bloc pattern
     // here is where i could store the bot for all sub routes
@@ -44,6 +46,23 @@ class _BotDetailPageState extends State<BotDetailPage> {
               body: GridView.count(
                 crossAxisCount: 2,
                 children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        animationToPlay = 'mad';
+                      });
+                      Future.delayed(Duration(seconds: 2), () {
+                        setState(() {
+                          animationToPlay = 'idle';
+                        });
+                      });
+                    },
+                    child: FlareActor(
+                      'animations/chessbot.flr',
+                      animation: animationToPlay,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   _buildGridTile(
                     label: "Rename ${_chessBot.name}",
                     iconData: FontAwesomeIcons.pencilAlt,
