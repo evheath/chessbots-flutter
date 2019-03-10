@@ -41,10 +41,11 @@ class SettingsPage extends StatelessWidget {
                   title: Text("Signed in as ${_user?.displayName ?? 'Guest'}"),
                   subtitle: Text("${_user?.email ?? ''}"),
                   trailing: RaisedButton(
-                    child: Text("Signout"),
-                    onPressed: () =>
-                        _firestoreBloc.authEvent.add(SignOutEvent()),
-                  ),
+                      child: Text("Signout"),
+                      onPressed: () {
+                        _firestoreBloc.authEvent.add(SignOutEvent());
+                        Navigator.pushReplacementNamed(context, '/');
+                      }),
                 );
               }),
           Divider(),
