@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
-      drawer: LeftDrawer(),
+      // drawer: LeftDrawer(),
       body: ListView(
         children: <Widget>[
           ListTile(
@@ -41,10 +41,11 @@ class SettingsPage extends StatelessWidget {
                   title: Text("Signed in as ${_user?.displayName ?? 'Guest'}"),
                   subtitle: Text("${_user?.email ?? ''}"),
                   trailing: RaisedButton(
-                    child: Text("Signout"),
-                    onPressed: () =>
-                        _firestoreBloc.authEvent.add(SignOutEvent()),
-                  ),
+                      child: Text("Signout"),
+                      onPressed: () {
+                        _firestoreBloc.authEvent.add(SignOutEvent());
+                        Navigator.pushReplacementNamed(context, '/');
+                      }),
                 );
               }),
           Divider(),

@@ -9,7 +9,7 @@ void handleError(dynamic error, BuildContext context) {
           content: Text(error.toString()),
           actions: <Widget>[
             FlatButton(
-              child: Text("Ah Shucks"),
+              child: Text("Dismiss"),
               onPressed: () => Navigator.pop(context),
             )
           ],

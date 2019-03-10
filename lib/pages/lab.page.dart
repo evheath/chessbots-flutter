@@ -1,16 +1,15 @@
-import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
-import 'package:chessbotsmobile/pages/bots.page.dart';
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
-import 'package:chessbotsmobile/shared/custom.icons.dart';
-import 'package:chessbotsmobile/shared/left.drawer.dart';
+import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-import 'package:chessbotsmobile/shared/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 
 class LabPage extends StatefulWidget {
+  final DocumentReference botRef;
+  const LabPage(this.botRef);
   @override
   LabPageState createState() {
     return LabPageState();
@@ -20,7 +19,7 @@ class LabPage extends StatefulWidget {
 class LabPageState extends State<LabPage> {
   GameControllerBloc _labBoardController = GameControllerBloc();
   // ChessBot _chessBot;
-  DocumentReference _selectedBot;
+  // DocumentReference _selectedBot;
 
   @override
   void initState() {
@@ -35,12 +34,12 @@ class LabPageState extends State<LabPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedBot == null) {
-      presentSelectBotDialog();
-    }
+    // if (_selectedBot == null) {
+    //   presentSelectBotDialog();
+    // }
 
     return StreamBuilder<ChessBot>(
-        stream: marshalChessBot(_selectedBot),
+        stream: marshalChessBot(widget.botRef),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(
@@ -64,38 +63,50 @@ class LabPageState extends State<LabPage> {
                     onCheckMate: (derp) {},
                     onDraw: () {},
                   ),
-                  GestureDetector(
-                    onTap: presentSelectBotDialog,
-                    child: Status(_chessBot),
-                  )
+                  // Status(_chessBot),
+                  StreamBuilder<Gambit>(
+                    stream: _chessBot.lastUsedGambit,
+                    // initialData: MoveRandomPiece(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return GambitListTile(
+                        gambit: snapshot.data,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
             appBar: AppBar(
-              leading: Builder(builder: (context) {
-                return IconButton(
-                  icon: const Icon(MyCustomIcons.beaker),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                );
-              }),
+              // leading: Builder(builder: (context) {
+              //   return IconButton(
+              //     icon: const Icon(MyCustomIcons.beaker),
+              //     onPressed: () => Scaffold.of(context).openDrawer(),
+              //   );
+              // }),
               title: Text("Lab"),
               centerTitle: true,
               actions: [NerdPointActionDisplay()],
+              backgroundColor: Colors.purple,
             ),
-            drawer: LeftDrawer(),
+            // drawer: LeftDrawer(),
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: _selectedBot == null
-                      ? null
-                      : () {
-                          if (!_labBoardController.game.in_checkmate) {
-                            String move = _chessBot
-                                .waterfallGambits(_labBoardController.game);
-                            _labBoardController.labMove(move);
-                          }
-                        },
+                  onPressed: () {
+                    if (!_labBoardController.game.in_checkmate) {
+                      String move =
+                          _chessBot.waterfallGambits(_labBoardController.game);
+                      _labBoardController.labMove(move);
+                      // if (!_labBoardController.gameOver) {
+                      //   print(_labBoardController.game.fen);
+                      //   _labBoardController.game.turn = chess.Color.WHITE;
+                      // }
+                    }
+                  },
                   tooltip: 'Test gambits',
                   child: Icon(Icons.play_arrow),
                 ),
@@ -111,49 +122,4 @@ class LabPageState extends State<LabPage> {
           );
         });
   } // Build
-
-  void presentSelectBotDialog() async {
-    final _currentUserData = await FirestoreBloc().userDoc$.first;
-    final _botrefs = _currentUserData.bots;
-    showDialog(
-        context: context,
-        builder: (context) => SimpleDialog(
-              title: Text("Select your bot"),
-              children: List.generate(_botrefs.length, (index) {
-                return _buildSelectListTile(_botrefs[index]);
-              })
-                ..add(ListTile(
-                    leading: Icon(Icons.add),
-                    title: Text("Create a new bot"),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => BotsPage()));
-                    })),
-            ));
-  }
-
-  Widget _buildSelectListTile(DocumentReference _ref) {
-    return StreamBuilder<ChessBot>(
-      stream: marshalChessBot(_ref),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return ListTile(
-            leading: CircularProgressIndicator(),
-          );
-        } else {
-          ChessBot _bot = snapshot.data;
-          return ListTile(
-            title: Text("${_bot.name}"),
-            onTap: () {
-              setState(() {
-                _selectedBot = _ref;
-              });
-              Navigator.pop(context);
-            },
-          );
-        }
-      },
-    );
-  }
 }

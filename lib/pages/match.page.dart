@@ -72,18 +72,18 @@ class MatchPageState extends State<MatchPage> {
         ),
       ),
       appBar: AppBar(
-        leading: Builder(builder: (context) {
-          return IconButton(
-            icon: const Icon(FontAwesomeIcons.dice),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          );
-        }),
+        // leading: Builder(builder: (context) {
+        //   return IconButton(
+        //     icon: const Icon(FontAwesomeIcons.dice),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   );
+        // }),
         actions: <Widget>[NerdPointActionDisplay()],
         backgroundColor: Colors.blueGrey,
         title: Text("Match"),
         centerTitle: true,
       ),
-      drawer: LeftDrawer(),
+      // drawer: LeftDrawer(),
     );
   } // Build
 
