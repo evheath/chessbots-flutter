@@ -60,12 +60,12 @@ class BotsPageState extends State<BotsPage> {
         },
       ),
       appBar: AppBar(
-        leading: Builder(builder: (context) {
-          return IconButton(
-            icon: const Icon(FontAwesomeIcons.robot),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          );
-        }),
+        // leading: Builder(builder: (context) {
+        //   return IconButton(
+        //     icon: const Icon(FontAwesomeIcons.robot),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   );
+        // }),
         title: Text("Your Bots"),
         actions: [NerdPointActionDisplay()],
         centerTitle: true,

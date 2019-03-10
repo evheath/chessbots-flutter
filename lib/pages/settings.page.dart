@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
     final PrefsBloc _prefsBloc = BlocProvider.of<PrefsBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
-      drawer: LeftDrawer(),
+      // drawer: LeftDrawer(),
       body: ListView(
         children: <Widget>[
           ListTile(

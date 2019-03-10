@@ -26,27 +26,27 @@ class LeftDrawer extends StatelessWidget {
                   }
                 }),
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.userAlt),
-            title: Text('Singleplayer'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/singleplayer');
-            },
-          ),
-          ListTile(
-            leading: Icon(MyCustomIcons.beaker),
-            title: Text('Lab'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/lab');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.robot),
-            title: Text('Bots'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/bots');
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.userAlt),
+          //   title: Text('Singleplayer'),
+          //   onTap: () {
+          //     Navigator.pushReplacementNamed(context, '/singleplayer');
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(MyCustomIcons.beaker),
+          //   title: Text('Lab'),
+          //   onTap: () {
+          //     Navigator.pushReplacementNamed(context, '/lab');
+          //   },
+          // ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.robot),
+          //   title: Text('Bots'),
+          //   onTap: () {
+          //     Navigator.pushReplacementNamed(context, '/bots');
+          //   },
+          // ),
           // ListTile(
           //   leading: Icon(MyCustomIcons.cog_alt),
           //   title: Text('Gambits'),
@@ -58,10 +58,11 @@ class LeftDrawer extends StatelessWidget {
             leading: Icon(FontAwesomeIcons.cog),
             title: Text('Settings'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/settings');
+              Navigator.pop(context); // close the drawer
+              Navigator.pushNamed(context, '/settings');
             },
           ),
-          //TODO: figure out a better place for discord invite
+          //TODO: help page for tutorials and discord links
           // ListTile(
           //   leading: Icon(FontAwesomeIcons.discord),
           //   title: Text('Discord'),
