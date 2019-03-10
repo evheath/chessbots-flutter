@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
                           '/home': (context) => RouteGuard(BotsPage()),
                           '/bots': (context) => RouteGuard(BotsPage()),
                           '/settings': (context) => RouteGuard(SettingsPage()),
-                          '/singleplayer': (context) =>
-                              RouteGuard(SingleplayerPage()),
+                          // '/singleplayer': (context) =>
+                          //     RouteGuard(SingleplayerPage()),
                         })
                   : Container(
                       child: Center(

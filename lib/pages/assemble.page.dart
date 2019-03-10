@@ -64,6 +64,7 @@ class AssemblePageState extends State<AssemblePage> {
             }
           }),
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Wrap(
           children: [Text("Assemble gambits")],
         ),
