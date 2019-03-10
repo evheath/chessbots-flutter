@@ -68,13 +68,13 @@ class _BotDetailPageState extends State<BotDetailPage> {
                         ),
                   ),
                   _buildGridTile(
-                    label: "Test ${_chessBot.name}'s gambit in the Lab",
+                    label: "Test ${_chessBot.name}'s gambits in the Lab",
                     iconData: MyCustomIcons.beaker,
                     color: Colors.purple,
                     onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LabPage(),
+                            builder: (context) => LabPage(widget.botRef),
                           ),
                         ),
                   ),
