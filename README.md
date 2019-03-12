@@ -15,8 +15,12 @@ https://testflight.apple.com/join/9Q3CwqpZ
 flutter run
 
 ## Building
-flutter run --release
-flutter build apk
+flutter build apk --release
+flutter build ios --release --no-codesign
+
+# Deploying via FastLane
+first build (as above) then cd into andriod or ios folder
+```fastlane beta```
 
 ## Widget testing
 flutter test
