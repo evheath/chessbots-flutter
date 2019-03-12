@@ -1,0 +1,3 @@
+I am building this game using Dart/Flutter. 
+
+This is the super mega early alpha edition. More features to come as I learn mobile development!

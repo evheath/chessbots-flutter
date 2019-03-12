@@ -1,0 +1,9 @@
+Create, manage, and save multiple Chess Bots
+-new database integration gives your bots persistence
+-access your bots from any devices using your same account
+
+Nerd Points!
+-earn nerd points by beating opponents in singleplayer mode
+-spend nerd points on gambits and leveling up your bots
+
+Multiple bug fixes

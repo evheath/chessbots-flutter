@@ -1,0 +1,4 @@
+- Dark theme
+- Tutorial automatically launcher for first-timers
+- memory leak fixes
+- updated login page

@@ -1,0 +1,5 @@
+0.4.3
+
+Changed page navigation scheme. 
+
+Bug fixes for the lab page

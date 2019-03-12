@@ -1,0 +1,15 @@
+0.4.2
+
+New gambits!
+- Capture Undefended Piece
+- Move Piece Safely
+
+New singleplayer opponents to show off the new gambits: 
+-Cautious Carlos
+-Relatively restrained Rick
+
+Players can now edit their bot's gambits immediately following a match.
+
+Players now have a chance to play as black in their matches
+
+General bug fixes and UI tweaks

@@ -1,0 +1,5 @@
+- Dark theme
+- Tutorial automatically launched for first-timers
+- memory leak fixes
+- updated login page
+- google sign in bug fix
