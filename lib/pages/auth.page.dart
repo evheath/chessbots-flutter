@@ -52,7 +52,7 @@ class _AuthPageState extends State<AuthPage> {
                   color: Colors.red,
                   textColor: Colors.black,
                   child: Text(
-                    'Login with Google',
+                    'Sign in With Google',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
