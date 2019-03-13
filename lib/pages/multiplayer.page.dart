@@ -1,4 +1,4 @@
-import 'dart:async';
+// import 'dart:async';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/matchmaking.bloc.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
@@ -19,7 +19,6 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
   final Firestore _db = Firestore.instance;
 
   Widget build(BuildContext context) {
-    //TODO implement or ditch matchmaking bloc
     return BlocProvider<MatchmakingBloc>(
         bloc: _matchmakingBloc,
         child: Scaffold(
@@ -33,7 +32,7 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                       children: [
                         FlatButton(
                           child: Text("Create a lobby"),
-                          onPressed: () => _createLobby(),
+                          onPressed: _createLobby,
                         ),
                         FlatButton.icon(
                           label: Text("Search"),
@@ -87,6 +86,16 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
   }
 
   void _createLobby() async {
-    await Future.delayed(Duration(seconds: 1), () => print("creating lobby"));
+    DocumentReference newLobbyRef = _db.collection('lobbies').document();
+
+    var snap = await widget.botRef.get();
+    String name = snap['name'];
+
+    await newLobbyRef.setData({
+      "host": name,
+      "hostBot": widget.botRef,
+    });
+
+    print("created lobby");
   }
 }
