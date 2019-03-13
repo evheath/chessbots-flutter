@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/pages/lab.page.dart';
+import 'package:chessbotsmobile/pages/multiplayer.page.dart';
 import 'package:chessbotsmobile/pages/singleplayer.page.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/custom.icons.dart';
@@ -77,6 +78,18 @@ class _BotDetailPageState extends State<BotDetailPage> {
                           MaterialPageRoute(
                             builder: (context) =>
                                 SingleplayerPage(widget.botRef),
+                          ),
+                        ),
+                  ),
+                  _buildGridTile(
+                    label: "Multiplayer",
+                    iconData: FontAwesomeIcons.users,
+                    color: Colors.amber,
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MultiplayerPage(widget.botRef),
                           ),
                         ),
                   ),
