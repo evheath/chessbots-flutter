@@ -1,6 +1,7 @@
 // import 'dart:async';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/matchmaking.bloc.dart';
+import 'package:chessbotsmobile/pages/lobby.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,15 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                             DocumentSnapshot _doc =
                                 snapshot.data.documents[index];
                             return ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        LobbyPage(_doc.reference),
+                                  ),
+                                );
+                              },
                               title: Text(_doc['host']),
                               trailing: _doc['createdAt'] == null
                                   ? Text("Just now")
@@ -96,6 +106,14 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
       "hostBot": widget.botRef,
     });
 
-    print("created lobby");
+    // print("created lobby");
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LobbyPage(newLobbyRef),
+        // fullscreenDialog: true,
+      ),
+    );
   }
 }
