@@ -1,7 +1,6 @@
-// import 'dart:async';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
-import 'package:chessbotsmobile/bloc/matchmaking.bloc.dart';
-import 'package:chessbotsmobile/pages/lobby.page.dart';
+import 'package:chessbotsmobile/pages/lobby_challenger.page.dart';
+import 'package:chessbotsmobile/pages/lobby_host.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,83 +15,78 @@ class MultiplayerPage extends StatefulWidget {
 }
 
 class _MultiplayerPageState extends State<MultiplayerPage> {
-  final MatchmakingBloc _matchmakingBloc = MatchmakingBloc();
   final Firestore _db = Firestore.instance;
 
   Widget build(BuildContext context) {
-    return BlocProvider<MatchmakingBloc>(
-        bloc: _matchmakingBloc,
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FlatButton(
-                          child: Text("Create a lobby"),
-                          onPressed: _createLobby,
-                        ),
-                        FlatButton.icon(
-                          label: Text("Search"),
-                          icon: Icon(FontAwesomeIcons.search),
-                          onPressed: () {
-                            //TODO
-                          },
-                        ),
-                      ]),
-                ),
-                SliverToBoxAdapter(child: Text("Lobbies:")),
-                StreamBuilder<QuerySnapshot>(
-                  // stream: _matchmakingBloc.lobbiesSnapshots,
-                  stream: _db.collection('lobbies').snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError)
-                      return SliverToBoxAdapter(
-                          child: Text('Error: ${snapshot.error}'));
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return SliverToBoxAdapter(
-                            child: CircularProgressIndicator());
-                      default:
-                        return SliverList(
-                          delegate: SliverChildListDelegate(List.generate(
-                              snapshot.data.documents.length, (index) {
-                            DocumentSnapshot _doc =
-                                snapshot.data.documents[index];
-                            return ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        LobbyPage(_doc.reference),
-                                  ),
-                                );
-                              },
-                              title: Text(_doc['host']),
-                              trailing: _doc['createdAt'] == null
-                                  ? Text("Just now")
-                                  : Text(
-                                      "${DateTime.now().difference(_doc['createdAt']).inMinutes} minutes ago"),
-                            );
-                          })),
-                        );
-                    }
-                  },
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        centerTitle: true,
+        title: Text("Multiplayer"),
+        actions: [NerdPointActionDisplay()],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FlatButton(
+                      child: Text("Create a lobby"),
+                      onPressed: _createLobby,
+                    ),
+                    FlatButton.icon(
+                      label: Text("Search"),
+                      icon: Icon(FontAwesomeIcons.search),
+                      onPressed: () {
+                        //TODO
+                      },
+                    ),
+                  ]),
             ),
-          ),
-          appBar: AppBar(
-            backgroundColor: Colors.amber,
-            centerTitle: true,
-            title: Text("Multiplayer"),
-            actions: [NerdPointActionDisplay()],
-          ),
-        ));
+            SliverToBoxAdapter(child: Text("Lobbies:")),
+            StreamBuilder<QuerySnapshot>(
+              stream: _db
+                  .collection('lobbies')
+                  // .where("challengerBot", isNull: true) // doesn't seem to filter properly
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SliverToBoxAdapter(child: CircularProgressIndicator());
+                }
+                List<DocumentSnapshot> filteredLobbies = snapshot.data.documents
+                    .where((snap) => snap["challengerBot"] == null)
+                    .toList();
+                return SliverList(
+                  delegate: SliverChildListDelegate(
+                      List.generate(filteredLobbies.length, (index) {
+                    DocumentSnapshot _doc = filteredLobbies[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                LobbyChallengerPage(_doc.reference),
+                          ),
+                        );
+                      },
+                      title: Text(_doc['host']),
+                      trailing: _doc['createdAt'] == null
+                          ? Text("Just now")
+                          : Text(
+                              "${DateTime.now().difference(_doc['createdAt']).inMinutes} minutes ago"),
+                    );
+                  })),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   void _createLobby() async {
@@ -111,7 +105,7 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LobbyPage(newLobbyRef),
+        builder: (context) => LobbyHostPage(newLobbyRef),
         // fullscreenDialog: true,
       ),
     );
