@@ -1,5 +1,5 @@
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
-import 'package:chessbotsmobile/pages/lobby_challenger.page.dart';
+// import 'package:chessbotsmobile/pages/lobby_challenger.page.dart';
 import 'package:chessbotsmobile/pages/lobby_host.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -65,13 +65,14 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                     DocumentSnapshot _doc = filteredLobbies[index];
                     return ListTile(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                LobbyChallengerPage(_doc.reference),
-                          ),
-                        );
+                        //TODO challenger page
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         LobbyChallengerPage(_doc.reference),
+                        //   ),
+                        // );
                       },
                       title: Text(_doc['host']),
                       trailing: _doc['createdAt'] == null
