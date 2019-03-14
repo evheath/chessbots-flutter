@@ -20,8 +20,11 @@ class MoveRandomPiece extends Gambit {
             description: "Randomly selects a legal move.",
             altText: "Hope for the best, plan for the worst",
             icon: FontAwesomeIcons.question,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
+              if (moves == null || moves.length == 0) {
+                return null;
+              }
               moves.shuffle();
               String move = moves[0];
               return move;

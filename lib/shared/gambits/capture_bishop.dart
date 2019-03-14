@@ -21,7 +21,7 @@ class CaptureBishop extends Gambit {
             description: "Take one of opponent's bishops.",
             altText: "Now we're talking.",
             icon: FontAwesomeIcons.chessBishop,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
                   .where((move) => move.toString().contains('x'))

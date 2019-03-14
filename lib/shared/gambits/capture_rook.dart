@@ -21,7 +21,7 @@ class CaptureRook extends Gambit {
             description: "Take one of opponent's rooks.",
             altText: "How will they recover??",
             icon: FontAwesomeIcons.chessRook,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
                   .where((move) => move.toString().contains('x'))

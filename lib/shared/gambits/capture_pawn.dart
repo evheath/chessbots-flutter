@@ -22,7 +22,7 @@ class CapturePawn extends Gambit {
             description: "Take one of your opponent's pawns.",
             altText: "Small victories add up quickly.",
             icon: FontAwesomeIcons.chessPawn,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
                   .where((move) => move.toString().contains('x'))

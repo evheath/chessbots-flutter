@@ -21,7 +21,7 @@ class CaptureKnight extends Gambit {
             description: "Take one of opponent's knights.",
             altText: "Heyo!",
             icon: FontAwesomeIcons.chessKnight,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
                   .where((move) => move.toString().contains('x'))

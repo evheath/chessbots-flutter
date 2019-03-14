@@ -20,7 +20,7 @@ class CastleQueenSide extends Gambit {
             description: "Move your king to safety and activate a rook!",
             altText: "Proper defense will win the day",
             icon: FontAwesomeIcons.chess,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

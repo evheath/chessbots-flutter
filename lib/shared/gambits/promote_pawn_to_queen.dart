@@ -20,7 +20,7 @@ class PromotePawnToQueen extends Gambit {
                 "If a pawn can reach the back rank, it will promote to a queen",
             altText: "They are finished now!",
             icon: FontAwesomeIcons.chessQueen,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

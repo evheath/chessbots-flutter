@@ -21,7 +21,7 @@ class CaptureQueen extends Gambit {
             description: "Take your opponent's most valuable piece!",
             altText: "gg ez",
             icon: FontAwesomeIcons.chessQueen,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
                   .where((move) => move.toString().contains('x'))

@@ -20,7 +20,7 @@ class PromotePawnToBishop extends Gambit {
                 "If a pawn can reach the back rank, it will promote to a bishop",
             altText: "Not bad!",
             icon: FontAwesomeIcons.chessBishop,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

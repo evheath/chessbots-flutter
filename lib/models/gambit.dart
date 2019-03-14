@@ -1,18 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:chess/chess.dart' as chess;
-
-/// this class is used to create a pseudofunction
-///
-/// that function will act as the logic for find a move for a particular gambit
-class FindMove {
-  Function _func;
-
-  FindMove(this._func);
-
-  String call(chess.Chess game) => _func(game);
-}
-
 /// singletons should be extended off of this class
 /// and stored in the /shared/gambits folder
 abstract class Gambit {
@@ -31,7 +18,7 @@ abstract class Gambit {
   /// Function that, given a chess object, will return a move as a string
   ///
   /// If no move is found, null should be returned
-  FindMove findMove;
+  Function findMove;
 
   Gambit({
     @required this.icon,

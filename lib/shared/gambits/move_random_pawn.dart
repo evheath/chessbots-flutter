@@ -18,7 +18,7 @@ class MoveRandomPawn extends Gambit {
             description: "Make a random pawn move, including captures!",
             altText: "March, march, march!",
             icon: FontAwesomeIcons.chessPawn,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

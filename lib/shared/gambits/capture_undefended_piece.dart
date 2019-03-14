@@ -20,7 +20,7 @@ class CaptureUndefendedPiece extends Gambit {
             description: "Take a piece that has no defenders.",
             altText: "No take backs = low risk",
             icon: FontAwesomeIcons.question,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               final enemyColor = game.turn == chess.Color.WHITE
                   ? chess.Color.BLACK
                   : chess.Color.WHITE;
