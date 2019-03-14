@@ -195,7 +195,7 @@ class ChessBot {
     );
     _internalInLastUsedGambit.add(_gambitToBeUsed);
 
-    String move = _gambitToBeUsed.findMove(game);
+    String move = _gambitToBeUsed.findMove.call(game);
     return move;
   }
 

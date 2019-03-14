@@ -20,7 +20,7 @@ class PromotePawnToRook extends Gambit {
                 "If a pawn can reach the back rank, it will promote to a rook",
             altText: "Could make the difference",
             icon: FontAwesomeIcons.chessRook,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

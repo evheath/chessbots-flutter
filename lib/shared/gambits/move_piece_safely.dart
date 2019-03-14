@@ -19,7 +19,7 @@ class MovePieceSafely extends Gambit {
             description: "Move a random piece to an unattacked square.",
             altText: "Includes captures!",
             icon: FontAwesomeIcons.question,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               final enemyColor = game.turn == chess.Color.WHITE
                   ? chess.Color.BLACK
                   : chess.Color.WHITE;

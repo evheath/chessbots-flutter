@@ -18,7 +18,7 @@ class PawnToE4 extends Gambit {
             description: "If a pawn can move to e4, it will!",
             altText: "Control the center!",
             icon: FontAwesomeIcons.chessPawn,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               // moves.shuffle();
               String move = moves.firstWhere(

@@ -21,7 +21,7 @@ class CheckmateOpponent extends Gambit {
                 "Win the game by ensuring the capture of the opponent's King",
             altText: "Cha-ching",
             icon: FontAwesomeIcons.chessKing,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(
