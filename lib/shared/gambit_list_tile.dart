@@ -27,12 +27,16 @@ class GambitListTile extends StatelessWidget {
               gambit.title,
               softWrap: false,
             ),
-            leading: Hero(
-              tag: gambit.title,
-              child: CircleAvatar(
-                child: Icon(gambit.icon, color: Colors.white),
-                backgroundColor: gambit.color,
-              ),
+            // leading: Hero(
+            //   tag: gambit.title,
+            //   child: CircleAvatar(
+            //     child: Icon(gambit.icon, color: Colors.white),
+            //     backgroundColor: gambit.color,
+            //   ),
+            // ),
+            leading: CircleAvatar(
+              child: Icon(gambit.icon, color: Colors.white),
+              backgroundColor: gambit.color,
             ),
             trailing: StreamBuilder<UserDoc>(
                 stream: FirestoreBloc().userDoc$,
