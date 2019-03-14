@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
-import 'package:chessbotsmobile/pages/singleplayer.page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import './pages/auth.page.dart';
 import './pages/settings.page.dart';
 import './bloc/base.bloc.dart';
@@ -13,7 +15,29 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(MyApp());
+  // runApp(MyApp());
+  bool isInDebugMode = false;
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (isInDebugMode) {
+      // In development mode simply print to console.
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      // In production mode report to the application zone to report to
+      // Crashlytics.
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
+  };
+
+  await FlutterCrashlytics().initialize();
+
+  runZoned<Future<Null>>(() async {
+    runApp(MyApp());
+  }, onError: (error, stackTrace) async {
+    // Whenever an error occurs, call the `reportCrash` function. This will send
+    // Dart errors to our dev console or Crashlytics depending on the environment.
+    await FlutterCrashlytics().reportCrash(error, stackTrace, forceCrash: true);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -44,8 +68,6 @@ class MyApp extends StatelessWidget {
                           '/home': (context) => RouteGuard(BotsPage()),
                           '/bots': (context) => RouteGuard(BotsPage()),
                           '/settings': (context) => RouteGuard(SettingsPage()),
-                          // '/singleplayer': (context) =>
-                          //     RouteGuard(SingleplayerPage()),
                         })
                   : Container(
                       child: Center(
