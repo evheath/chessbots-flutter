@@ -4,6 +4,8 @@ class LobbyDoc {
   // DateTime createdAt;
   String host;
   DocumentReference hostBot;
+  bool hostReady;
+
   String challenger;
   DocumentReference challengerBot;
 
@@ -12,6 +14,7 @@ class LobbyDoc {
     this.hostBot = _snapshotData["hostBot"];
     this.challenger = _snapshotData["challenger"];
     this.challengerBot = _snapshotData["challengerBot"];
+    this.hostReady = _snapshotData["hostReady"] ?? false;
   }
 
   Map<String, dynamic> serialize() {
@@ -20,6 +23,7 @@ class LobbyDoc {
       "hostBot": hostBot,
       "challenger": challenger,
       "challengerBot": challengerBot,
+      "hostReady": hostReady,
     };
     return _map;
   }

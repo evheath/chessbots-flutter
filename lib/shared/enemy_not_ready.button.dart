@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NotReadyButton extends StatelessWidget {
+class EnemyNotReadyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -9,7 +9,7 @@ class NotReadyButton extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: Text(
-          "Press to ready up",
+          "Not Ready",
           textAlign: TextAlign.center,
         ),
       ),

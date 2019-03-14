@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:chessbotsmobile/models/lobby.doc.dart';
+import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-import 'package:chessbotsmobile/shared/not_ready.button.dart';
+// import 'package:chessbotsmobile/shared/not_ready.button.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
+import 'package:chessbotsmobile/shared/player_not_ready.button.dart';
+import 'package:chessbotsmobile/shared/ready.button.dart';
 import 'package:chessbotsmobile/shared/waiting.button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +78,7 @@ class LobbyHostPageState extends State<LobbyHostPage> {
                 children: <Widget>[
                   _lobbyDoc.challengerBot == null
                       ? WaitingButton()
-                      : NotReadyButton(),
+                      : EnemyNotReadyButton(),
                   _lobbyDoc.challengerBot == null
                       ? Container()
                       : StreamBuilder<ChessBot>(
@@ -91,7 +94,9 @@ class LobbyHostPageState extends State<LobbyHostPage> {
                   OpponentListTile(ourBot ?? ChessBot(name: "Loading")),
                   _lobbyDoc.challengerBot == null
                       ? WaitingButton()
-                      : NotReadyButton(),
+                      : _lobbyDoc.hostReady
+                          ? ReadyButton()
+                          : PlayerNotReadyButton(widget.lobbyRef),
                 ],
               ),
             ),
