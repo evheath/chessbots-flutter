@@ -21,15 +21,15 @@ class CheckOpponent extends Gambit {
             altText: "Where do you think you're going?",
             icon: FontAwesomeIcons.chessKing,
             findMove: ((chess.Chess game) {
-              print("inside check oppenent.findmove");
+              // print("inside check oppenent.findmove");
               List<dynamic> moves = game.moves();
-              print("moves are $moves");
+              // print("moves are $moves");
               moves.shuffle();
               String move = moves.firstWhere(
                 (move) => move.toString().contains("+"),
                 orElse: () => null,
               );
-              print("returning $move");
+              // print("returning $move");
               return move;
             }));
 }
