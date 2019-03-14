@@ -36,7 +36,7 @@ void main() async {
   }, onError: (error, stackTrace) async {
     // Whenever an error occurs, call the `reportCrash` function. This will send
     // Dart errors to our dev console or Crashlytics depending on the environment.
-    await FlutterCrashlytics().reportCrash(error, stackTrace, forceCrash: true);
+    await FlutterCrashlytics().reportCrash(error, stackTrace);
   });
 }
 

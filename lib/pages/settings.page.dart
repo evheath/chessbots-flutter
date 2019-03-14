@@ -1,10 +1,9 @@
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
-import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -49,6 +48,16 @@ class SettingsPage extends StatelessWidget {
                 );
               }),
           Divider(),
+          ListTile(
+            title: Text("Force a crash"),
+            trailing: RaisedButton(
+                child: Text("Crash"),
+                onPressed: () {
+                  FlutterCrashlytics().reportCrash(
+                      "Force crash", StackTrace.fromString("Force crash"),
+                      forceCrash: true);
+                }),
+          ),
         ],
       ),
     );
