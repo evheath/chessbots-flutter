@@ -15,6 +15,9 @@ enum GameStatus { in_checkmate, in_progress, in_draw, pending }
 class GameControllerBloc {
   String initialPosition;
   bool playRandom;
+
+  ///Used for forcing a gameover, e.g. to break a while loop
+  bool _executiveOverride = false;
   GameStatus _status;
   // controllers
   StreamController<GameStatus> _statusController =
@@ -54,7 +57,9 @@ class GameControllerBloc {
   chess.Color get turn => _turn();
 
   bool _gameOver() {
-    return _status == GameStatus.in_checkmate || _status == GameStatus.in_draw;
+    return _status == GameStatus.in_checkmate ||
+        _status == GameStatus.in_draw ||
+        _executiveOverride;
   }
 
   bool get gameOver => _gameOver();
@@ -76,7 +81,11 @@ class GameControllerBloc {
       _status = GameStatus.in_draw;
     }
 
+    // try {
     _internalInStatus.add(_status);
+    // } catch (e) {
+    // print('catch an error trying to update status');
+    // }
   }
 
   /// Makes move on the board then sets the turn back to white
@@ -136,17 +145,18 @@ class GameControllerBloc {
   }
 
   void _playRandomGame() async {
-    try {
-      while (!_gameOver()) {
-        List<dynamic> moves = game.moves();
-        moves.shuffle();
-        var move = moves[1];
-        await Future.delayed(Duration(milliseconds: 500));
-        makeMove(move.toString());
-      }
-    } catch (e) {
-      // trying to continue a game after tear down results in errors we do not care about
+    // try {
+    while (!_gameOver()) {
+      List<dynamic> moves = game.moves();
+      moves.shuffle();
+      var move = moves[0];
+      await Future.delayed(Duration(milliseconds: 500));
+      makeMove(move.toString());
     }
+    // } catch (e) {
+    //   // print("caught an error in playRandomGame");
+    //   // trying to continue a game after tear down results in errors we do not care about
+    // }
   }
 
   /// Gets respective piece
@@ -175,6 +185,7 @@ class GameControllerBloc {
 
   // tear down
   void dispose() {
+    _executiveOverride = true;
     _statusController.close();
   }
 }
