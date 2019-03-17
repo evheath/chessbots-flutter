@@ -72,8 +72,9 @@ class GameControllerBloc {
 
     _status = GameStatus.in_progress;
 
-    game?.move(move);
-    refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+    if (game.move(move)) {
+      refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
+    }
 
     if (game.in_checkmate) {
       _status = GameStatus.in_checkmate;
@@ -111,6 +112,7 @@ class GameControllerBloc {
     game?.reset();
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
     _status = GameStatus.pending;
+    _internalInStatus.add(_status);
   }
 
   /// Clears board
@@ -134,9 +136,9 @@ class GameControllerBloc {
   /// Loads a FEN
   void loadFEN(String fen) {
     _status = GameStatus.pending;
+    _internalInStatus.add(_status);
     game.load(fen);
-    // refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
-    refreshBoard?.call();
+    refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
   }
 
   /// Exception when a controller is not attached to a board
