@@ -1,11 +1,9 @@
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/pages/match.page.dart';
-import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
 class SingleplayerPage extends StatelessWidget {

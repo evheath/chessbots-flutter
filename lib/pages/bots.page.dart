@@ -4,7 +4,6 @@ import 'package:chessbotsmobile/services/toaster.service.dart';
 import 'package:chessbotsmobile/shared/chess_bot_list_tile.dart';
 import 'package:chessbotsmobile/shared/left.drawer.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
 class BotsPage extends StatefulWidget {

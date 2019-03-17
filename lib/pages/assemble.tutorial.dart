@@ -54,19 +54,21 @@ class _AssembleTutorialState extends State<AssembleTutorial>
         title: Text("How to assemble gambits"),
         backgroundColor: Colors.purple,
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: TabBarView(
-              controller: _tutorialTabController,
-              children: _tabs,
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: TabBarView(
+                controller: _tutorialTabController,
+                children: _tabs,
+              ),
             ),
-          ),
-          TabPageSelector(
-            controller: _tutorialTabController,
-            selectedColor: Colors.grey,
-          ),
-        ],
+            TabPageSelector(
+              controller: _tutorialTabController,
+              selectedColor: Colors.grey,
+            ),
+          ],
+        ),
       ),
     );
   }
