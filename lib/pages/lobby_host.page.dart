@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
-// import 'package:chessbotsmobile/shared/not_ready.button.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
 import 'package:chessbotsmobile/shared/player_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/ready.button.dart';
@@ -11,7 +9,6 @@ import 'package:chessbotsmobile/shared/waiting.button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import 'package:rxdart/rxdart.dart';
 
 class LobbyHostPage extends StatefulWidget {
   final DocumentReference lobbyRef;

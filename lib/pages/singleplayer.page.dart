@@ -58,7 +58,6 @@ class SingleplayerPage extends StatelessWidget {
       (index) {
         return GestureDetector(
           onTap: () => Navigator.push(
-              //TODO a different way to route?
               context,
               MaterialPageRoute(
                   builder: (context) => MatchPage(

@@ -1,20 +1,18 @@
-import 'package:chessbotsmobile/bloc/base.bloc.dart';
-// import 'package:chessbotsmobile/pages/lobby_challenger.page.dart';
 import 'package:chessbotsmobile/pages/lobby_host.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MultiplayerPage extends StatefulWidget {
+class LobbiesPage extends StatefulWidget {
   final DocumentReference botRef;
-  const MultiplayerPage(this.botRef);
+  const LobbiesPage(this.botRef);
 
   @override
-  _MultiplayerPageState createState() => _MultiplayerPageState();
+  _LobbiesPageState createState() => _LobbiesPageState();
 }
 
-class _MultiplayerPageState extends State<MultiplayerPage> {
+class _LobbiesPageState extends State<LobbiesPage> {
   final Firestore _db = Firestore.instance;
 
   Widget build(BuildContext context) {
@@ -46,7 +44,7 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                     ),
                   ]),
             ),
-            SliverToBoxAdapter(child: Text("Lobbies:")),
+            SliverToBoxAdapter(child: Text("Lobbiezzzz:")),
             StreamBuilder<QuerySnapshot>(
               stream: _db
                   .collection('lobbies')
@@ -63,6 +61,8 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                   delegate: SliverChildListDelegate(
                       List.generate(filteredLobbies.length, (index) {
                     DocumentSnapshot _doc = filteredLobbies[index];
+                    // _doc.data
+                    Timestamp _createdAt = _doc['createdAt'];
                     return ListTile(
                       onTap: () {
                         //TODO challenger page
@@ -78,7 +78,7 @@ class _MultiplayerPageState extends State<MultiplayerPage> {
                       trailing: _doc['createdAt'] == null
                           ? Text("Just now")
                           : Text(
-                              "${DateTime.now().difference(_doc['createdAt']).inMinutes} minutes ago"),
+                              "${DateTime.now().difference(_createdAt.toDate()).inMinutes} minutes ago"),
                     );
                   })),
                 );
