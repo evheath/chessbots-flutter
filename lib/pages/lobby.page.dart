@@ -10,23 +10,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 
-class LobbyHostPage extends StatefulWidget {
+class LobbyPage extends StatefulWidget {
   final DocumentReference lobbyRef;
 
-  LobbyHostPage(this.lobbyRef);
+  LobbyPage(this.lobbyRef);
   @override
-  LobbyHostPageState createState() {
-    return LobbyHostPageState();
+  LobbyPageState createState() {
+    return LobbyPageState();
   }
 }
 
-class LobbyHostPageState extends State<LobbyHostPage> {
+class LobbyPageState extends State<LobbyPage> {
   ChessBot ourBot;
   ChessBot opponentBot;
   // ValueObservable<LobbyDoc> lobbyDoc$;
   Stream<LobbyDoc> lobbyDoc$;
 
-  LobbyHostPageState() {
+  LobbyPageState() {
     // lobbyDoc$ = Observable(widget.lobbyRef
     //     .snapshots()
     //     .map((snap) => LobbyDoc.fromFirestore(snap.data))).shareValue();

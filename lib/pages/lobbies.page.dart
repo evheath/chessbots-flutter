@@ -1,4 +1,4 @@
-import 'package:chessbotsmobile/pages/lobby_host.page.dart';
+import 'package:chessbotsmobile/pages/lobby.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -105,10 +105,7 @@ class _LobbiesPageState extends State<LobbiesPage> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => LobbyHostPage(newLobbyRef),
-        // fullscreenDialog: true,
-      ),
+      MaterialPageRoute(builder: (context) => LobbyPage(newLobbyRef)),
     );
   }
 }
