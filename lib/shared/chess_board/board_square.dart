@@ -158,38 +158,43 @@ class BoardSquare extends StatelessWidget {
     chess.Piece piece = model.chessBoardController.game.get(squareName);
 
     if (piece != null) {
+      IconData _iconData;
+
       switch (piece.type) {
         case chess.PieceType.PAWN:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessPawn, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessPawn, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessPawn;
           break;
         case chess.PieceType.ROOK:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessRook, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessRook, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessRook;
           break;
         case chess.PieceType.KNIGHT:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessKnight, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessKnight, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessKnight;
           break;
         case chess.PieceType.BISHOP:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessBishop, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessBishop, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessBishop;
           break;
         case chess.PieceType.QUEEN:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessQueen, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessQueen, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessQueen;
           break;
         case chess.PieceType.KING:
-          imageToDisplay = piece.color == chess.Color.WHITE
-              ? Icon(FontAwesomeIcons.chessKing, color: Colors.white)
-              : Icon(FontAwesomeIcons.chessKing, color: Colors.black);
+          _iconData = FontAwesomeIcons.chessKing;
           break;
       }
+
+      Color _iconColor =
+          piece.color == chess.Color.WHITE ? Colors.white : Colors.black;
+
+      Color _bgColor = piece.color == chess.Color.WHITE
+          ? Colors.black12
+          : Colors.transparent;
+
+      imageToDisplay = CircleAvatar(
+        child: Icon(
+          _iconData,
+          color: _iconColor,
+        ),
+        backgroundColor: _bgColor,
+      );
     }
 
     return imageToDisplay;
