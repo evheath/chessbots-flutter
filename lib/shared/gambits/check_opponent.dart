@@ -20,13 +20,16 @@ class CheckOpponent extends Gambit {
             description: "Attack your opponent's king!",
             altText: "Where do you think you're going?",
             icon: FontAwesomeIcons.chessKing,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
+              // print("inside check oppenent.findmove");
               List<dynamic> moves = game.moves();
+              // print("moves are $moves");
               moves.shuffle();
               String move = moves.firstWhere(
                 (move) => move.toString().contains("+"),
                 orElse: () => null,
               );
+              // print("returning $move");
               return move;
             }));
 }

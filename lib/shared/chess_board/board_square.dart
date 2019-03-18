@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './board_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:async';
@@ -154,57 +155,46 @@ class BoardSquare extends StatelessWidget {
   Widget _getImageToDisplay({double size, BoardModel model}) {
     Widget imageToDisplay = Container();
 
-    if (model.chessBoardController.game.get(squareName) == null) {
-      return Container();
-    }
+    chess.Piece piece = model.chessBoardController.game.get(squareName);
 
-    String piece = model.chessBoardController.game
-            .get(squareName)
-            .color
-            .toString()
-            .substring(0, 1)
-            .toUpperCase() +
-        model.chessBoardController.game.get(squareName).type.toUpperCase();
+    if (piece != null) {
+      IconData _iconData;
 
-    switch (piece) {
-      case "WP":
-        imageToDisplay = WhitePawn(size: size);
-        break;
-      case "WR":
-        imageToDisplay = WhiteRook(size: size);
-        break;
-      case "WN":
-        imageToDisplay = WhiteKnight(size: size);
-        break;
-      case "WB":
-        imageToDisplay = WhiteBishop(size: size);
-        break;
-      case "WQ":
-        imageToDisplay = WhiteQueen(size: size);
-        break;
-      case "WK":
-        imageToDisplay = WhiteKing(size: size);
-        break;
-      case "BP":
-        imageToDisplay = BlackPawn(size: size);
-        break;
-      case "BR":
-        imageToDisplay = BlackRook(size: size);
-        break;
-      case "BN":
-        imageToDisplay = BlackKnight(size: size);
-        break;
-      case "BB":
-        imageToDisplay = BlackBishop(size: size);
-        break;
-      case "BQ":
-        imageToDisplay = BlackQueen(size: size);
-        break;
-      case "BK":
-        imageToDisplay = BlackKing(size: size);
-        break;
-      default:
-        imageToDisplay = Container();
+      switch (piece.type) {
+        case chess.PieceType.PAWN:
+          _iconData = FontAwesomeIcons.chessPawn;
+          break;
+        case chess.PieceType.ROOK:
+          _iconData = FontAwesomeIcons.chessRook;
+          break;
+        case chess.PieceType.KNIGHT:
+          _iconData = FontAwesomeIcons.chessKnight;
+          break;
+        case chess.PieceType.BISHOP:
+          _iconData = FontAwesomeIcons.chessBishop;
+          break;
+        case chess.PieceType.QUEEN:
+          _iconData = FontAwesomeIcons.chessQueen;
+          break;
+        case chess.PieceType.KING:
+          _iconData = FontAwesomeIcons.chessKing;
+          break;
+      }
+
+      Color _iconColor =
+          piece.color == chess.Color.WHITE ? Colors.white : Colors.black;
+
+      Color _bgColor = piece.color == chess.Color.WHITE
+          ? Colors.black12
+          : Colors.transparent;
+
+      imageToDisplay = CircleAvatar(
+        child: Icon(
+          _iconData,
+          color: _iconColor,
+        ),
+        backgroundColor: _bgColor,
+      );
     }
 
     return imageToDisplay;

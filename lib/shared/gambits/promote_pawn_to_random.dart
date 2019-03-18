@@ -20,7 +20,7 @@ class PromotePawnToRandom extends Gambit {
                 "If a pawn reaches the back rank, it will promote to a knight, bishop, rook or queen!",
             altText: "Feeling lucky?",
             icon: FontAwesomeIcons.question,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

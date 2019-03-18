@@ -21,7 +21,7 @@ class CaptureRandomPiece extends Gambit {
             description: "Capture a piece at random.",
             altText: "Different results given the same position.",
             icon: FontAwesomeIcons.question,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();
               String move = moves.firstWhere(

@@ -17,7 +17,7 @@ class EmptyGambit extends Gambit {
             description: "Assign a gambit!",
             altText: "Waste not",
             icon: FontAwesomeIcons.square,
-            findMove: FindMove((chess.Chess game) {
+            findMove: ((chess.Chess game) {
               return null;
             }));
 }

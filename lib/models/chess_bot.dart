@@ -190,11 +190,12 @@ class ChessBot {
     List<Gambit> _gambitsToBeTested = [CheckmateOpponent()];
     _gambitsToBeTested.addAll(_gambits);
     Gambit _gambitToBeUsed = _gambitsToBeTested.firstWhere(
-      (_gambit) => _gambit.findMove.call(game) != null,
+      (_gambit) => _gambit.findMove(game) != null,
       orElse: () => MoveRandomPiece(),
     );
     _internalInLastUsedGambit.add(_gambitToBeUsed);
 
+    // String move = _gambitToBeUsed.findMove.call(game);
     String move = _gambitToBeUsed.findMove(game);
     return move;
   }
