@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chessbotsmobile/bloc/prefs.bloc.dart';
 import 'package:chessbotsmobile/pages/bots.page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 import './pages/auth.page.dart';
@@ -11,6 +12,7 @@ import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
+  await Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
