@@ -79,6 +79,31 @@ class ChessBot {
     _eventController.stream.listen(_handleEvent);
   }
 
+  ChessBot.fromSnapshot(DocumentSnapshot _documentSnapshot) {
+    this.botRef = _documentSnapshot.reference;
+    final _snapshotData = _documentSnapshot.data;
+    this.uid = _snapshotData["uid"];
+    this.name = _snapshotData["name"] ?? "Your bot";
+    this.kills = _snapshotData["kills"];
+    this.status = _snapshotData["status"];
+    List<String> _gambitNames = [];
+    if (_snapshotData["gambits"] != null) {
+      _snapshotData["gambits"].forEach((element) {
+        if (element is String) {
+          _gambitNames.add(element);
+        }
+      });
+    }
+    this._gambits =
+        _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
+
+    // pushing the initial gambits out of the stream
+    _internalInGambits.add(_gambits);
+
+    // connect external-in to internal-out
+    _eventController.stream.listen(_handleEvent);
+  }
+
   // internal-out
   void _handleEvent(ChessBotEvent event) async {
     if (event is ReorderEvent) {
@@ -249,34 +274,12 @@ Map<String, Gambit> gambitMap = {
   EmptyGambit().title: EmptyGambit(),
 };
 
-/// Instaniate an observable ChessBot using only firestore document reference
+/// Instaniate an observable ChessBot using a firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
   if (botRef == null) {
     return Observable.just(ChessBot(name: "Tap to Select")).shareValue();
   }
-  return Observable(botRef.snapshots().map((snap) {
-    final _snapshotData = snap.data;
-    final uid = _snapshotData["uid"];
-    final name = _snapshotData["name"] ?? "Your bot";
-    final kills = _snapshotData["kills"];
-    final status = _snapshotData["status"];
-    List<String> _gambitNames = [];
-    if (_snapshotData["gambits"] != null) {
-      _snapshotData["gambits"].forEach((element) {
-        if (element is String) {
-          _gambitNames.add(element);
-        }
-      });
-    }
-    final gambits =
-        _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
-    return ChessBot(
-      uid: uid,
-      name: name,
-      kills: kills,
-      status: status,
-      gambits: gambits,
-      botRef: botRef,
-    );
-  })).shareValue();
+  return Observable(
+          botRef.snapshots().map((snap) => ChessBot.fromSnapshot(snap)))
+      .shareValue();
 }
