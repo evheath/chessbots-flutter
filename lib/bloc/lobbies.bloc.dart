@@ -43,10 +43,17 @@ class LobbiesBloc extends BlocBase {
   }
 
   // public methods that the UI depends on
-  Future<void> attemptToChallenge(LobbyDoc _lobby) async {
-    // DocumentSnapshot _upToDateSnap = await _lobby.ref.get();
-    // _upToDateSnap.data
-    print("attempting to challenge ${_lobby.host}");
-    return;
+  Future<void> attemptToChallenge(
+      LobbyDoc _lobby, DocumentReference bofRef) async {
+    // re-fetch to document in case it is out of date
+    DocumentSnapshot _upToDateSnap = await _lobby.ref.get();
+    LobbyDoc _upToDateLobby = LobbyDoc.fromSnapshot(_upToDateSnap);
+    if (_upToDateLobby.challenger != null ||
+        _upToDateLobby.challengerBot != null) {
+      throw ("Lobby already has a challenger");
+    }
+    _upToDateLobby.challengerBot = bofRef;
+    _upToDateLobby.challenger = "DERPname";
+    await _upToDateLobby.syncWithFirestore();
   }
 }

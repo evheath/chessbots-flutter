@@ -57,26 +57,29 @@ class _LobbiesPageState extends State<LobbiesPage> {
                 return SliverList(
                   delegate: SliverChildListDelegate(
                       List.generate(filteredLobbies.length, (index) {
-                    LobbyDoc _doc = filteredLobbies[index];
+                    LobbyDoc _lobby = filteredLobbies[index];
                     return ListTile(
                       onTap: () {
                         //TODO challenge logic
-                        _lobbiesBloc.attemptToChallenge(_doc).then((_) {
+                        _lobbiesBloc
+                            .attemptToChallenge(_lobby, widget.botRef)
+                            .then((_) {
                           print('UI got a successful challenge');
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => LobbyPage(_doc.ref),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LobbyPage(_lobby.ref),
+                            ),
+                          );
                         }).catchError((e) {
                           print("UI got an error trying to challenge");
+                          print(e);
                         });
                       },
-                      title: Text(_doc.host),
-                      trailing: _doc.createdAt == null
+                      title: Text(_lobby.host),
+                      trailing: _lobby.createdAt == null
                           ? Text("Just now")
-                          : Text(_doc.minutesAgo),
+                          : Text(_lobby.minutesAgo),
                     );
                   })),
                 );

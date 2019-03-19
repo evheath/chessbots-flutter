@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LobbyDoc {
@@ -31,17 +32,12 @@ class LobbyDoc {
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
   }
-  // LobbyDoc.fromFirestore(Map<String, dynamic> _snapshotData) {
-  //   this.ref = _snapshotData["ref"];
-  //   this.createdAt = _snapshotData["createdAt"];
-  //   this.host = _snapshotData["host"];
-  //   this.hostBot = _snapshotData["hostBot"];
-  //   this.challenger = _snapshotData["challenger"];
-  //   this.challengerBot = _snapshotData["challengerBot"];
-  //   this.hostReady = _snapshotData["hostReady"] ?? false;
-  // }
 
-  Map<String, dynamic> serialize() {
+  Future<void> syncWithFirestore() async {
+    return ref.updateData(_serialize());
+  }
+
+  Map<String, dynamic> _serialize() {
     Map<String, dynamic> _map = {
       "createdAt": createdAt,
       "host": host,
