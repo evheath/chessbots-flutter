@@ -81,17 +81,17 @@ class _BotDetailPageState extends State<BotDetailPage> {
                           ),
                         ),
                   ),
-                  _buildGridTile(
-                    label: "Multiplayer",
-                    iconData: FontAwesomeIcons.users,
-                    color: Colors.amber,
-                    onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LobbiesPage(widget.botRef),
-                          ),
-                        ),
-                  ),
+                  // _buildGridTile(
+                  //   label: "Multiplayer",
+                  //   iconData: FontAwesomeIcons.users,
+                  //   color: Colors.amber,
+                  //   onPressed: () => Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => LobbiesPage(widget.botRef),
+                  //         ),
+                  //       ),
+                  // ),
                   _buildGridTile(
                     label: "Test ${_chessBot.name}'s gambits in the Lab",
                     iconData: MyCustomIcons.beaker,
