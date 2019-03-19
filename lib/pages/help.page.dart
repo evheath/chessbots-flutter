@@ -1,5 +1,7 @@
+import 'package:chessbotsmobile/pages/assemble.tutorial.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpPage extends StatelessWidget {
@@ -9,6 +11,27 @@ class HelpPage extends StatelessWidget {
       appBar: AppBar(title: Text("Help")),
       body: ListView(
         children: <Widget>[
+          ListTile(
+            title: Text("Gambits Tutorial"),
+            trailing: RaisedButton(
+                child: Icon(FontAwesomeIcons.cogs),
+                // label: Text("Open"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AssembleTutorial(),
+                      fullscreenDialog: true,
+                    ),
+                  ).then((_) async {
+                    // marking the tutorial as seen
+                    final SharedPreferences _prefsInstance =
+                        await SharedPreferences.getInstance();
+                    _prefsInstance.setBool("seenAssembleTutorial", true);
+                  });
+                }),
+          ),
+          Divider(),
           ListTile(
             title: Text("Terms and Conditions"),
             trailing: RaisedButton.icon(
