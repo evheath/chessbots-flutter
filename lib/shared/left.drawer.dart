@@ -26,34 +26,6 @@ class LeftDrawer extends StatelessWidget {
                   }
                 }),
           ),
-          // ListTile(
-          //   leading: Icon(FontAwesomeIcons.userAlt),
-          //   title: Text('Singleplayer'),
-          //   onTap: () {
-          //     Navigator.pushReplacementNamed(context, '/singleplayer');
-          //   },
-          // ),
-          // ListTile(
-          //   leading: Icon(MyCustomIcons.beaker),
-          //   title: Text('Lab'),
-          //   onTap: () {
-          //     Navigator.pushReplacementNamed(context, '/lab');
-          //   },
-          // ),
-          // ListTile(
-          //   leading: Icon(FontAwesomeIcons.robot),
-          //   title: Text('Bots'),
-          //   onTap: () {
-          //     Navigator.pushReplacementNamed(context, '/bots');
-          //   },
-          // ),
-          // ListTile(
-          //   leading: Icon(MyCustomIcons.cog_alt),
-          //   title: Text('Gambits'),
-          //   onTap: () {
-          //     Navigator.pushReplacementNamed(context, '/assemble');
-          //   },
-          // ),
           ListTile(
             leading: Icon(FontAwesomeIcons.cog),
             title: Text('Settings'),
@@ -62,21 +34,16 @@ class LeftDrawer extends StatelessWidget {
               Navigator.pushNamed(context, '/settings');
             },
           ),
-          //TODO: help page for tutorials and discord links
-          // ListTile(
-          //   leading: Icon(FontAwesomeIcons.discord),
-          //   title: Text('Discord'),
-          //   onTap: _launchDiscordURL,
-          // ),
+          ListTile(
+            leading: Icon(Icons.help),
+            title: Text('Help'),
+            onTap: () {
+              Navigator.pop(context); // close the drawer
+              Navigator.pushNamed(context, '/help');
+            },
+          ),
         ],
       ),
     );
   }
-
-  // _launchDiscordURL() async {
-  //   const url = 'https://discord.gg/eC2WHe6';
-  //   if (await canLaunch(url)) {
-  //     await launch(url);
-  //   }
-  // }
 }
