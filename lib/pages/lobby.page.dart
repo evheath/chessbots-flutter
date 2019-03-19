@@ -40,9 +40,8 @@ class LobbyPageState extends State<LobbyPage> {
 
   @override
   void initState() {
-    lobbyDoc$ = widget.lobbyRef
-        .snapshots()
-        .map((snap) => LobbyDoc.fromFirestore(snap.data));
+    lobbyDoc$ =
+        widget.lobbyRef.snapshots().map((snap) => LobbyDoc.fromSnapshot(snap));
 
     lobbyDoc$.first.then((lobbyDoc) {
       marshalChessBot(lobbyDoc.hostBot).first.then((bot) => ourBot = bot);

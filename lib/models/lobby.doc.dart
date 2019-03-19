@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LobbyDoc {
+  /// A reference to this document in firestore
+  /// Think of it as 'self' or 'this'
+  /// Does not get serialized
+  DocumentReference ref;
   Timestamp createdAt;
 
   /// name of the bot hosting, consider changing
@@ -17,7 +21,9 @@ class LobbyDoc {
     return "$_time\m ago";
   }
 
-  LobbyDoc.fromFirestore(Map<String, dynamic> _snapshotData) {
+  LobbyDoc.fromSnapshot(DocumentSnapshot _documentSnapshot) {
+    this.ref = _documentSnapshot.reference;
+    Map<String, dynamic> _snapshotData = _documentSnapshot.data;
     this.createdAt = _snapshotData["createdAt"];
     this.host = _snapshotData["host"];
     this.hostBot = _snapshotData["hostBot"];
@@ -25,6 +31,15 @@ class LobbyDoc {
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
   }
+  // LobbyDoc.fromFirestore(Map<String, dynamic> _snapshotData) {
+  //   this.ref = _snapshotData["ref"];
+  //   this.createdAt = _snapshotData["createdAt"];
+  //   this.host = _snapshotData["host"];
+  //   this.hostBot = _snapshotData["hostBot"];
+  //   this.challenger = _snapshotData["challenger"];
+  //   this.challengerBot = _snapshotData["challengerBot"];
+  //   this.hostReady = _snapshotData["hostReady"] ?? false;
+  // }
 
   Map<String, dynamic> serialize() {
     Map<String, dynamic> _map = {

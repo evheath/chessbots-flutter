@@ -60,14 +60,18 @@ class _LobbiesPageState extends State<LobbiesPage> {
                     LobbyDoc _doc = filteredLobbies[index];
                     return ListTile(
                       onTap: () {
-                        //TODO challenger page
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) =>
-                        //         LobbyChallengerPage(_doc.reference),
-                        //   ),
-                        // );
+                        //TODO challenge logic
+                        _lobbiesBloc.attemptToChallenge(_doc).then((_) {
+                          print('UI got a successful challenge');
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => LobbyPage(_doc.ref),
+                          //   ),
+                          // );
+                        }).catchError((e) {
+                          print("UI got an error trying to challenge");
+                        });
                       },
                       title: Text(_doc.host),
                       trailing: _doc.createdAt == null

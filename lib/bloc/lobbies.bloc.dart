@@ -33,7 +33,7 @@ class LobbiesBloc extends BlocBase {
     _db.collection('lobbies').snapshots().listen((qSnap) {
       List<LobbyDoc> _lobbies = qSnap.documents
           .where((snap) => snap["challengerBot"] == null)
-          .map((snap) => LobbyDoc.fromFirestore(snap.data))
+          .map((snap) => LobbyDoc.fromSnapshot(snap))
           .toList();
       _internalInLobbies.add(_lobbies);
     });
@@ -43,5 +43,10 @@ class LobbiesBloc extends BlocBase {
   }
 
   // public methods that the UI depends on
-
+  Future<void> attemptToChallenge(LobbyDoc _lobby) async {
+    // DocumentSnapshot _upToDateSnap = await _lobby.ref.get();
+    // _upToDateSnap.data
+    print("attempting to challenge ${_lobby.host}");
+    return;
+  }
 }
