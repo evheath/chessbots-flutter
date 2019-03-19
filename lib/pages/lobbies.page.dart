@@ -1,3 +1,5 @@
+import 'package:chessbotsmobile/bloc/lobbies.bloc.dart';
+import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:chessbotsmobile/pages/lobby.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +15,7 @@ class LobbiesPage extends StatefulWidget {
 }
 
 class _LobbiesPageState extends State<LobbiesPage> {
-  final Firestore _db = Firestore.instance;
+  final LobbiesBloc _lobbiesBloc = LobbiesBloc();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,25 +46,18 @@ class _LobbiesPageState extends State<LobbiesPage> {
                     ),
                   ]),
             ),
-            SliverToBoxAdapter(child: Text("Lobbiezzzz:")),
-            StreamBuilder<QuerySnapshot>(
-              stream: _db
-                  .collection('lobbies')
-                  // .where("challengerBot", isNull: true) // doesn't seem to filter properly
-                  .snapshots(),
+            SliverToBoxAdapter(child: Text("Lobbies:")),
+            StreamBuilder<List<LobbyDoc>>(
+              stream: _lobbiesBloc.lobbies$,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return SliverToBoxAdapter(child: CircularProgressIndicator());
                 }
-                List<DocumentSnapshot> filteredLobbies = snapshot.data.documents
-                    .where((snap) => snap["challengerBot"] == null)
-                    .toList();
+                var filteredLobbies = snapshot.data;
                 return SliverList(
                   delegate: SliverChildListDelegate(
                       List.generate(filteredLobbies.length, (index) {
-                    DocumentSnapshot _doc = filteredLobbies[index];
-                    // _doc.data
-                    Timestamp _createdAt = _doc['createdAt'];
+                    LobbyDoc _doc = filteredLobbies[index];
                     return ListTile(
                       onTap: () {
                         //TODO challenger page
@@ -74,11 +69,10 @@ class _LobbiesPageState extends State<LobbiesPage> {
                         //   ),
                         // );
                       },
-                      title: Text(_doc['host']),
-                      trailing: _doc['createdAt'] == null
+                      title: Text(_doc.host),
+                      trailing: _doc.createdAt == null
                           ? Text("Just now")
-                          : Text(
-                              "${DateTime.now().difference(_createdAt.toDate()).inMinutes} minutes ago"),
+                          : Text(_doc.minutesAgo),
                     );
                   })),
                 );
@@ -91,7 +85,9 @@ class _LobbiesPageState extends State<LobbiesPage> {
   }
 
   void _createLobby() async {
-    DocumentReference newLobbyRef = _db.collection('lobbies').document();
+    //TODO move this into lobbiesBloc
+    DocumentReference newLobbyRef =
+        Firestore.instance.collection('lobbies').document();
 
     var snap = await widget.botRef.get();
     String name = snap['name'];
