@@ -23,11 +23,6 @@ class BotDetailPage extends StatefulWidget {
 class _BotDetailPageState extends State<BotDetailPage> {
   String animationToPlay = 'idle';
   Widget build(BuildContext context) {
-    //TODO if i return to bloc pattern
-    // here is where i could store the bot for all sub routes
-    // that way I wouldn't have to do a read at each page
-    // I am not sure how sub routes would get affected by a bot changing, and everything below gets rebuilt by a stream buidler
-
     return StreamBuilder<ChessBot>(
         stream: marshalChessBot(widget.botRef),
         builder: (context, snapshot) {
@@ -81,17 +76,17 @@ class _BotDetailPageState extends State<BotDetailPage> {
                           ),
                         ),
                   ),
-                  // _buildGridTile(
-                  //   label: "Multiplayer",
-                  //   iconData: FontAwesomeIcons.users,
-                  //   color: Colors.amber,
-                  //   onPressed: () => Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (context) => LobbiesPage(widget.botRef),
-                  //         ),
-                  //       ),
-                  // ),
+                  _buildGridTile(
+                    label: "Multiplayer",
+                    iconData: FontAwesomeIcons.users,
+                    color: Colors.amber,
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LobbiesPage(widget.botRef),
+                          ),
+                        ),
+                  ),
                   _buildGridTile(
                     label: "Test ${_chessBot.name}'s gambits in the Lab",
                     iconData: MyCustomIcons.beaker,
