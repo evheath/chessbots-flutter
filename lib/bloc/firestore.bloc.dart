@@ -31,6 +31,7 @@ class RemoveBotRef extends UserEvent {
   const RemoveBotRef(this.botDocRef);
 }
 
+//TODO rename to user/auth bloc
 /// Singleton used for all things firebase
 ///
 /// E.g. authentication, firestore CRUD etc
