@@ -5,6 +5,7 @@ import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:chessbotsmobile/services/toaster.service.dart';
 
 class LobbiesPage extends StatefulWidget {
   final DocumentReference botRef;
@@ -35,7 +36,19 @@ class _LobbiesPageState extends State<LobbiesPage> {
                   children: [
                     FlatButton(
                       child: Text("Create a lobby"),
-                      onPressed: _createLobby,
+                      onPressed: () {
+                        _lobbiesBloc
+                            .attemptCreateLobby(widget.botRef)
+                            .then((DocumentReference newLobbyRef) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LobbyPage(newLobbyRef)),
+                          );
+                        }).catchError((e) {
+                          handleError(e, context);
+                        });
+                      },
                     ),
                     FlatButton.icon(
                       label: Text("Search"),
@@ -60,11 +73,9 @@ class _LobbiesPageState extends State<LobbiesPage> {
                     LobbyDoc _lobby = filteredLobbies[index];
                     return ListTile(
                       onTap: () {
-                        //TODO challenge logic
                         _lobbiesBloc
                             .attemptToChallenge(_lobby, widget.botRef)
                             .then((_) {
-                          print('UI got a successful challenge');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -72,8 +83,7 @@ class _LobbiesPageState extends State<LobbiesPage> {
                             ),
                           );
                         }).catchError((e) {
-                          print("UI got an error trying to challenge");
-                          print(e);
+                          handleError(e, context);
                         });
                       },
                       title: Text(_lobby.host),
@@ -88,27 +98,6 @@ class _LobbiesPageState extends State<LobbiesPage> {
           ],
         ),
       ),
-    );
-  }
-
-  void _createLobby() async {
-    //TODO move this into lobbiesBloc
-    DocumentReference newLobbyRef =
-        Firestore.instance.collection('lobbies').document();
-
-    var snap = await widget.botRef.get();
-    String name = snap['name'];
-
-    await newLobbyRef.setData({
-      "host": name,
-      "hostBot": widget.botRef,
-    });
-
-    // print("created lobby");
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LobbyPage(newLobbyRef)),
     );
   }
 }

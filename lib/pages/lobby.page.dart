@@ -23,26 +23,18 @@ class LobbyPage extends StatefulWidget {
 class LobbyPageState extends State<LobbyPage> {
   ChessBot ourBot;
   ChessBot opponentBot;
-  // ValueObservable<LobbyDoc> lobbyDoc$;
   Stream<LobbyDoc> lobbyDoc$;
+  bool playerIsHost;
 
-  LobbyPageState() {
-    // lobbyDoc$ = Observable(widget.lobbyRef
-    //     .snapshots()
-    //     .map((snap) => LobbyDoc.fromFirestore(snap.data))).shareValue();
-
-    // lobbyDoc$.first.then((lobby) {
-    //   marshalChessBot(lobby.hostBot).first.then((bot) {
-    //     ourBot = bot;
-    //   });
-    // });
-  }
+  LobbyPageState();
 
   @override
   void initState() {
+    // marshalling a realtime document
     lobbyDoc$ =
         widget.lobbyRef.snapshots().map((snap) => LobbyDoc.fromSnapshot(snap));
 
+    // grabbing the host bot
     lobbyDoc$.first.then((lobbyDoc) {
       marshalChessBot(lobbyDoc.hostBot).first.then((bot) => ourBot = bot);
     });
@@ -61,11 +53,6 @@ class LobbyPageState extends State<LobbyPage> {
             );
           }
           LobbyDoc _lobbyDoc = snapshot.data;
-          // if (_lobbyDoc.challengerBot != null) {
-          //   marshalChessBot(_lobbyDoc.challengerBot)
-          //       .first
-          //       .then((bot) => opponentBot = bot);
-          // }
           return Scaffold(
             body: Container(
               padding: EdgeInsets.all(10.0),
@@ -97,13 +84,8 @@ class LobbyPageState extends State<LobbyPage> {
               ),
             ),
             appBar: AppBar(
-              //TODO going back deletes lobby since we are host
-              // leading: Builder(builder: (context) {
-              //   return IconButton(
-              //     icon: const Icon(FontAwesomeIcons.dice),
-              //     onPressed: () => Scaffold.of(context).openDrawer(),
-              //   );
-              // }),
+              //TODO going back should delete lobby if you are host
+              // or scrub yourself from the lobby if you are the challenger
               actions: <Widget>[NerdPointActionDisplay()],
               backgroundColor: Colors.amber,
               title: Text("Lobby"),

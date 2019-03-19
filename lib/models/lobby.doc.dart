@@ -13,6 +13,10 @@ class LobbyDoc {
   DocumentReference hostBot;
   bool hostReady;
 
+  /// Firebase User ID of the host
+  /// used for determining who is host and deletion checking
+  String uid;
+
   String challenger;
   DocumentReference challengerBot;
 
@@ -31,6 +35,7 @@ class LobbyDoc {
     this.challenger = _snapshotData["challenger"];
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
+    this.uid = _snapshotData["uid"];
   }
 
   Future<void> syncWithFirestore() async {
@@ -45,6 +50,7 @@ class LobbyDoc {
       "challenger": challenger,
       "challengerBot": challengerBot,
       "hostReady": hostReady,
+      "uid": uid,
     };
     return _map;
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
 
@@ -43,6 +44,28 @@ class LobbiesBloc extends BlocBase {
   }
 
   // public methods that the UI depends on
+  Future<DocumentReference> attemptCreateLobby(
+      DocumentReference _bofRef) async {
+    //TODO checking for a lobby we already created
+
+    DocumentReference newLobbyRef =
+        Firestore.instance.collection('lobbies').document();
+
+    var snap = await _bofRef.get();
+    //TODO perhaps dump this, mostly used for UI quick checking
+    String nameofBot = snap['name'];
+
+    FirebaseUser fbUser = await FirebaseAuth.instance.currentUser();
+
+    await newLobbyRef.setData({
+      "host": nameofBot,
+      "hostBot": _bofRef,
+      "uid": fbUser.uid,
+    });
+
+    return newLobbyRef;
+  }
+
   Future<void> attemptToChallenge(
       LobbyDoc _lobby, DocumentReference bofRef) async {
     // re-fetch to document in case it is out of date
