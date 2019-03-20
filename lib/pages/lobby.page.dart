@@ -96,7 +96,13 @@ class LobbyPageState extends State<LobbyPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          EnemyNotReadyButton(), //TODO ready logic
+                          playerIsHost
+                              ? _lobbyDoc.challengerReady
+                                  ? ReadyButton()
+                                  : EnemyNotReadyButton()
+                              : _lobbyDoc.hostReady
+                                  ? ReadyButton()
+                                  : EnemyNotReadyButton(),
                           OpponentListTile(
                               playerIsHost ? challengerBot : hostBot),
                           OpponentListTile(

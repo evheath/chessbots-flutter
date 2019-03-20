@@ -19,6 +19,7 @@ class LobbyDoc {
 
   String challenger;
   DocumentReference challengerBot;
+  bool challengerReady;
 
   String get minutesAgo {
     int _time = DateTime.now().difference(createdAt.toDate()).inMinutes;
@@ -35,6 +36,7 @@ class LobbyDoc {
     this.challenger = _snapshotData["challenger"];
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
+    this.challengerReady = _snapshotData["challengerReady"] ?? false;
     this.uid = _snapshotData["uid"];
   }
 
@@ -50,6 +52,7 @@ class LobbyDoc {
       "challenger": challenger,
       "challengerBot": challengerBot,
       "hostReady": hostReady,
+      "challengerReady": challengerReady,
       "uid": uid,
     };
     return _map;
