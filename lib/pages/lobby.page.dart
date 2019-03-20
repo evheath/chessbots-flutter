@@ -22,8 +22,8 @@ class LobbyPage extends StatefulWidget {
 }
 
 class LobbyPageState extends State<LobbyPage> {
-  ChessBot hostBot;
-  ChessBot opponentBot;
+  ChessBot hostBot = ChessBot(name: "Host loading...");
+  ChessBot challengerBot = ChessBot(name: "Challenger loading...");
   Stream<LobbyDoc> lobbyDoc$;
   bool playerIsHost = false;
 
@@ -44,7 +44,6 @@ class LobbyPageState extends State<LobbyPage> {
                 .first
                 .then((bot) => hostBot = bot);
           });
-
     super.initState();
   }
 
@@ -59,45 +58,66 @@ class LobbyPageState extends State<LobbyPage> {
             );
           }
           LobbyDoc _lobbyDoc = snapshot.data;
-          return Scaffold(
-            body: Container(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _lobbyDoc.challengerBot == null
-                      ? WaitingButton()
-                      : EnemyNotReadyButton(),
-                  _lobbyDoc.challengerBot == null
-                      ? Container()
-                      : StreamBuilder<ChessBot>(
-                          stream: marshalChessBot(_lobbyDoc.challengerBot),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return OpponentListTile(
-                                  ChessBot(name: "Loading"));
-                            }
-                            ChessBot _opponentBot = snapshot.data;
-                            return OpponentListTile(_opponentBot);
-                          }),
-                  OpponentListTile(hostBot ?? ChessBot(name: "Loading")),
-                  _lobbyDoc.challengerBot == null
-                      ? WaitingButton()
-                      : _lobbyDoc.hostReady
-                          ? ReadyButton()
-                          : PlayerNotReadyButton(widget.lobbyRef),
-                ],
+          if (_lobbyDoc.challengerBot == null) {
+            // lobby does not have a challenger
+            return Scaffold(
+              body: Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    WaitingButton(),
+                    Container(),
+                    OpponentListTile(hostBot),
+                    WaitingButton(),
+                  ],
+                ),
               ),
-            ),
-            appBar: AppBar(
-              //TODO going back should delete lobby if you are host
-              // or scrub yourself from the lobby if you are the challenger
-              actions: <Widget>[NerdPointActionDisplay()],
-              backgroundColor: Colors.amber,
-              title: Text("Lobby"),
-              centerTitle: true,
-            ),
-          );
+              appBar: AppBar(
+                //TODO going back should delete lobby if you are host
+                // or scrub yourself from the lobby if you are the challenger
+                actions: <Widget>[NerdPointActionDisplay()],
+                backgroundColor: Colors.amber,
+                title: Text("Lobby"),
+                centerTitle: true,
+              ),
+            );
+          } else {
+            // lobby has a challenger
+            return StreamBuilder<ChessBot>(
+                stream: marshalChessBot(_lobbyDoc.challengerBot),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    challengerBot = snapshot.data;
+                  }
+                  return Scaffold(
+                    body: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          EnemyNotReadyButton(), //TODO ready logic
+                          OpponentListTile(
+                              playerIsHost ? challengerBot : hostBot),
+                          OpponentListTile(
+                              playerIsHost ? hostBot : challengerBot),
+                          _lobbyDoc.hostReady // TODO ready logic
+                              ? ReadyButton()
+                              : PlayerNotReadyButton(widget.lobbyRef),
+                        ],
+                      ),
+                    ),
+                    appBar: AppBar(
+                      //TODO going back should delete lobby if you are host
+                      // or scrub yourself from the lobby if you are the challenger
+                      actions: <Widget>[NerdPointActionDisplay()],
+                      backgroundColor: Colors.amber,
+                      title: Text("Lobby"),
+                      centerTitle: true,
+                    ),
+                  );
+                });
+          }
         });
   } // Build
 }
