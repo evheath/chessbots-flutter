@@ -107,9 +107,19 @@ class LobbyPageState extends State<LobbyPage> {
                               playerIsHost ? challengerBot : hostBot),
                           OpponentListTile(
                               playerIsHost ? hostBot : challengerBot),
-                          _lobbyDoc.hostReady // TODO ready logic
-                              ? ReadyButton()
-                              : PlayerNotReadyButton(widget.lobbyRef),
+                          playerIsHost
+                              ? _lobbyDoc.hostReady
+                                  ? ReadyButton(
+                                      playerIsHost: playerIsHost,
+                                      lobbyRef: widget.lobbyRef)
+                                  : PlayerNotReadyButton(
+                                      widget.lobbyRef, playerIsHost)
+                              : _lobbyDoc.challengerReady
+                                  ? ReadyButton(
+                                      playerIsHost: playerIsHost,
+                                      lobbyRef: widget.lobbyRef)
+                                  : PlayerNotReadyButton(
+                                      widget.lobbyRef, playerIsHost),
                         ],
                       ),
                     ),

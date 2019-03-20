@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class PlayerNotReadyButton extends StatefulWidget {
   final DocumentReference lobbyRef;
-  PlayerNotReadyButton(this.lobbyRef);
+  final bool playerIsHost;
+  PlayerNotReadyButton(this.lobbyRef, this.playerIsHost);
   @override
   _PlayerNotReadyButtonState createState() => _PlayerNotReadyButtonState();
 }
@@ -13,7 +14,7 @@ class _PlayerNotReadyButtonState extends State<PlayerNotReadyButton> {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: _loading ? () {} : toggleReady,
+      onPressed: _loading ? () {} : setReadyToTrue,
       color: Colors.grey,
       child: SizedBox(
         width: double.infinity,
@@ -27,9 +28,10 @@ class _PlayerNotReadyButtonState extends State<PlayerNotReadyButton> {
     );
   }
 
-  toggleReady() async {
+  setReadyToTrue() async {
     _loading = true;
-    await widget.lobbyRef.updateData({"hostReady": true});
+    String field = widget.playerIsHost ? "hostReady" : "challengerReady";
+    await widget.lobbyRef.updateData({field: true});
     _loading = false;
   }
 }
