@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
@@ -21,10 +22,10 @@ class LobbyPage extends StatefulWidget {
 }
 
 class LobbyPageState extends State<LobbyPage> {
-  ChessBot ourBot;
+  ChessBot hostBot;
   ChessBot opponentBot;
   Stream<LobbyDoc> lobbyDoc$;
-  bool playerIsHost;
+  bool playerIsHost = false;
 
   LobbyPageState();
 
@@ -32,12 +33,17 @@ class LobbyPageState extends State<LobbyPage> {
   void initState() {
     // marshalling a realtime document
     lobbyDoc$ =
-        widget.lobbyRef.snapshots().map((snap) => LobbyDoc.fromSnapshot(snap));
-
-    // grabbing the host bot
-    lobbyDoc$.first.then((lobbyDoc) {
-      marshalChessBot(lobbyDoc.hostBot).first.then((bot) => ourBot = bot);
-    });
+        widget.lobbyRef.snapshots().map((snap) => LobbyDoc.fromSnapshot(snap))
+          ..first.then((lobbyDoc) {
+            // things that only need to be done once
+            // (not every time the lobby doc changes)
+            FirestoreBloc().user.first.then((playerAsFbUser) {
+              playerIsHost = playerAsFbUser?.uid == lobbyDoc.uid ? true : false;
+            });
+            marshalChessBot(lobbyDoc.hostBot)
+                .first
+                .then((bot) => hostBot = bot);
+          });
 
     super.initState();
   }
@@ -74,7 +80,7 @@ class LobbyPageState extends State<LobbyPage> {
                             ChessBot _opponentBot = snapshot.data;
                             return OpponentListTile(_opponentBot);
                           }),
-                  OpponentListTile(ourBot ?? ChessBot(name: "Loading")),
+                  OpponentListTile(hostBot ?? ChessBot(name: "Loading")),
                   _lobbyDoc.challengerBot == null
                       ? WaitingButton()
                       : _lobbyDoc.hostReady
