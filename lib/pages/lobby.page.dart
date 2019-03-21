@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/lobby.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
+import 'package:chessbotsmobile/pages/match.page.dart';
 import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
@@ -19,7 +22,9 @@ class LobbyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LobbyBloc _lobbyBloc = LobbyBloc(lobbyRef);
-    return StreamBuilder<LobbyDoc>(
+    return BlocProvider<LobbyBloc>(
+      bloc: _lobbyBloc,
+      child: StreamBuilder<LobbyDoc>(
         stream: _lobbyBloc.lobby$,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -29,136 +34,162 @@ class LobbyPage extends StatelessWidget {
           }
           LobbyDoc _lobbyDoc = snapshot.data;
           return StreamBuilder<bool>(
-              stream: _lobbyBloc.playerIsHost$,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                bool playerIsHost = snapshot.data;
-
-                return Scaffold(
-                  body: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        // Top ready/waiting status indicator (for opponent)
-                        StreamBuilder<ChessBot>(
-                          stream: _lobbyBloc.challengerBot$,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return WaitingButton();
-                            } else if (playerIsHost &&
-                                _lobbyDoc.challengerReady) {
-                              return ReadyButton();
-                            } else if (!playerIsHost && _lobbyDoc.hostReady) {
-                              return ReadyButton();
-                            } else {
-                              return EnemyNotReadyButton();
-                            }
-                          },
-                        ),
-                        // ListTile containing opponent chess bot
-                        playerIsHost
-                            ? StreamBuilder<ChessBot>(
-                                stream: _lobbyBloc.challengerBot$,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    // don't show anything if we are host and there is no challenger
-                                    return Container();
-                                  } else {
-                                    ChessBot _challengerBot = snapshot.data;
-                                    return OpponentListTile(_challengerBot);
-                                  }
-                                },
-                              )
-                            : StreamBuilder<ChessBot>(
-                                stream: _lobbyBloc.hostBot$,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    // show loading since there should be a host, probably just not done marshalling
-                                    return ListTile(
-                                        title: CircularProgressIndicator());
-                                  } else {
-                                    ChessBot _hostBot = snapshot.data;
-                                    return OpponentListTile(_hostBot);
-                                  }
-                                },
-                              ),
-                        // ListTile containing player's chess bot
-                        playerIsHost
-                            ? StreamBuilder<ChessBot>(
-                                stream: _lobbyBloc.hostBot$,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    // show loading since there should be a host, probably just not done marshalling
-                                    return ListTile(
-                                        title: CircularProgressIndicator());
-                                  } else {
-                                    ChessBot _hostBot = snapshot.data;
-                                    return OpponentListTile(_hostBot);
-                                  }
-                                },
-                              )
-                            : StreamBuilder<ChessBot>(
-                                stream: _lobbyBloc.challengerBot$,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    // show loading since we are the challenger, probably just not done marshalling
-                                    return ListTile(
-                                        title: CircularProgressIndicator());
-                                  } else {
-                                    ChessBot _challengerBot = snapshot.data;
-                                    return OpponentListTile(_challengerBot);
-                                  }
-                                },
-                              ),
-                        // Bottom ready/waiting status indicator (for player)
-                        // WaitingButton(),
-                        StreamBuilder<ChessBot>(
-                          stream: _lobbyBloc.challengerBot$,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return WaitingButton();
-                            } else if (playerIsHost && _lobbyDoc.hostReady) {
-                              return ReadyButton(
-                                  onPressed: () =>
-                                      _lobbyBloc.lobbyEvent.add(ToggleReady()));
-                            } else if (!playerIsHost &&
-                                _lobbyDoc.challengerReady) {
-                              return ReadyButton(
-                                  onPressed: () =>
-                                      _lobbyBloc.lobbyEvent.add(ToggleReady()));
-                            } else {
-                              return PlayerNotReadyButton(
-                                  onPressed: () =>
-                                      _lobbyBloc.lobbyEvent.add(ToggleReady()));
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  appBar: AppBar(
-                    leading: IconButton(
-                      icon: Icon(FontAwesomeIcons.doorOpen),
-                      tooltip: "Leave lobby",
-                      onPressed: () {
-                        playerIsHost
-                            ? _lobbyBloc.lobbyEvent.add(DeleteLobby())
-                            : _lobbyBloc.lobbyEvent.add(RemoveChallenger());
-                        Navigator.pop(context);
-                      },
-                    ),
-                    actions: <Widget>[NerdPointActionDisplay()],
-                    backgroundColor: Colors.amber,
-                    title: Text("Lobby"),
-                    centerTitle: true,
-                  ),
+            stream: _lobbyBloc.playerIsHost$,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
-              });
-        });
+              }
+              bool playerIsHost = snapshot.data;
+              // checking if game is ready to start
+              if (_lobbyDoc.challengerReady && _lobbyDoc.hostReady) {
+                jumpIntoMatch(context, playerIsHost);
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              //otherwise display the lobby page
+              return Scaffold(
+                body: Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      // Top ready/waiting status indicator (for opponent)
+                      StreamBuilder<ChessBot>(
+                        stream: _lobbyBloc.challengerBot$,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return WaitingButton();
+                          } else if (playerIsHost &&
+                              _lobbyDoc.challengerReady) {
+                            return ReadyButton();
+                          } else if (!playerIsHost && _lobbyDoc.hostReady) {
+                            return ReadyButton();
+                          } else {
+                            return EnemyNotReadyButton();
+                          }
+                        },
+                      ),
+                      // ListTile containing opponent chess bot
+                      playerIsHost
+                          ? StreamBuilder<ChessBot>(
+                              stream: _lobbyBloc.challengerBot$,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  // don't show anything if we are host and there is no challenger
+                                  return Container();
+                                } else {
+                                  ChessBot _challengerBot = snapshot.data;
+                                  return OpponentListTile(_challengerBot);
+                                }
+                              },
+                            )
+                          : StreamBuilder<ChessBot>(
+                              stream: _lobbyBloc.hostBot$,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  // show loading since there should be a host, probably just not done marshalling
+                                  return ListTile(
+                                      title: CircularProgressIndicator());
+                                } else {
+                                  ChessBot _hostBot = snapshot.data;
+                                  return OpponentListTile(_hostBot);
+                                }
+                              },
+                            ),
+                      // ListTile containing player's chess bot
+                      playerIsHost
+                          ? StreamBuilder<ChessBot>(
+                              stream: _lobbyBloc.hostBot$,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  // show loading since there should be a host, probably just not done marshalling
+                                  return ListTile(
+                                      title: CircularProgressIndicator());
+                                } else {
+                                  ChessBot _hostBot = snapshot.data;
+                                  return OpponentListTile(_hostBot);
+                                }
+                              },
+                            )
+                          : StreamBuilder<ChessBot>(
+                              stream: _lobbyBloc.challengerBot$,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  // show loading since we are the challenger, probably just not done marshalling
+                                  return ListTile(
+                                      title: CircularProgressIndicator());
+                                } else {
+                                  ChessBot _challengerBot = snapshot.data;
+                                  return OpponentListTile(_challengerBot);
+                                }
+                              },
+                            ),
+                      // Bottom ready/waiting status indicator (for player)
+                      // WaitingButton(),
+                      StreamBuilder<ChessBot>(
+                        stream: _lobbyBloc.challengerBot$,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return WaitingButton();
+                          } else if (playerIsHost && _lobbyDoc.hostReady) {
+                            return ReadyButton(
+                                onPressed: () =>
+                                    _lobbyBloc.lobbyEvent.add(ToggleReady()));
+                          } else if (!playerIsHost &&
+                              _lobbyDoc.challengerReady) {
+                            return ReadyButton(
+                                onPressed: () =>
+                                    _lobbyBloc.lobbyEvent.add(ToggleReady()));
+                          } else {
+                            return PlayerNotReadyButton(
+                                onPressed: () =>
+                                    _lobbyBloc.lobbyEvent.add(ToggleReady()));
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                appBar: AppBar(
+                  leading: IconButton(
+                    icon: Icon(FontAwesomeIcons.doorOpen),
+                    tooltip: "Leave lobby",
+                    onPressed: () {
+                      playerIsHost
+                          ? _lobbyBloc.lobbyEvent.add(DeleteLobby())
+                          : _lobbyBloc.lobbyEvent.add(RemoveChallenger());
+                      Navigator.pop(context);
+                    },
+                  ),
+                  actions: <Widget>[NerdPointActionDisplay()],
+                  backgroundColor: Colors.amber,
+                  title: Text("Lobby"),
+                  centerTitle: true,
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   } // Build
+
+  Future<void> jumpIntoMatch(BuildContext context, bool playerIsHost) async {
+    LobbyBloc _lobbyBloc = BlocProvider.of<LobbyBloc>(context);
+    ChessBot _challengerBot = await _lobbyBloc.challengerBot$.first;
+    ChessBot _hostBot = await _lobbyBloc.hostBot$.first;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MatchPage(
+              opponentBot: playerIsHost ? _challengerBot : _hostBot,
+              playerBot: playerIsHost ? _hostBot : _challengerBot,
+            ),
+      ),
+    );
+  }
 }
