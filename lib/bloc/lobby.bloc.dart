@@ -71,12 +71,18 @@ class LobbyBloc extends BlocBase {
         });
       }
 
-      // get the _challengerBot (should only need to happen once)
+      // get the challenger bot (if need be)
       if (_challengerBot == null && _lobbyDoc.challengerBot != null) {
         marshalChessBot(_lobbyDoc.challengerBot).first.then((bot) {
           _challengerBot = bot;
           _internalInChallengerBot.add(_challengerBot);
         });
+      }
+
+      // remove the challenger bot (if challenger left)
+      if (_challengerBot != null && _lobbyDoc.challengerBot == null) {
+        _challengerBot = null;
+        _internalInChallengerBot.add(_challengerBot);
       }
     });
   }
@@ -93,6 +99,15 @@ class LobbyBloc extends BlocBase {
           //TODO consider loading stream
           await lobbyRef.updateData({_field: !_currentStatus});
         }
+        break;
+      case RemoveChallenger:
+        await lobbyRef.updateData({
+          "challengerBot": null,
+          "challengerReady": false,
+        });
+        break;
+      case DeleteLobby:
+        await lobbyRef.delete();
         break;
       default:
     }

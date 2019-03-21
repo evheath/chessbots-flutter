@@ -68,6 +68,9 @@ class LobbiesBloc extends BlocBase {
 
   Future<void> attemptToChallenge(
       LobbyDoc _lobby, DocumentReference bofRef) async {
+    //TODO make sure players dont challenger thier own lobby some how
+    // or perhaps it joins but without updating any fields
+
     // re-fetch to document in case it is out of date
     DocumentSnapshot _upToDateSnap = await _lobby.ref.get();
     LobbyDoc _upToDateLobby = LobbyDoc.fromSnapshot(_upToDateSnap);

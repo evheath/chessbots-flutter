@@ -9,6 +9,7 @@ import 'package:chessbotsmobile/shared/waiting.button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LobbyPage extends StatelessWidget {
   final DocumentReference lobbyRef;
@@ -141,8 +142,16 @@ class LobbyPage extends StatelessWidget {
                     ),
                   ),
                   appBar: AppBar(
-                    //TODO going back should delete lobby if you are host
-                    // or scrub yourself from the lobby if you are the challenger
+                    leading: IconButton(
+                      icon: Icon(FontAwesomeIcons.doorOpen),
+                      tooltip: "Leave lobby",
+                      onPressed: () {
+                        playerIsHost
+                            ? _lobbyBloc.lobbyEvent.add(DeleteLobby())
+                            : _lobbyBloc.lobbyEvent.add(RemoveChallenger());
+                        Navigator.pop(context);
+                      },
+                    ),
                     actions: <Widget>[NerdPointActionDisplay()],
                     backgroundColor: Colors.amber,
                     title: Text("Lobby"),
