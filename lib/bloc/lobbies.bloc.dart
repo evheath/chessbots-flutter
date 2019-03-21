@@ -71,12 +71,10 @@ class LobbiesBloc extends BlocBase {
     // re-fetch to document in case it is out of date
     DocumentSnapshot _upToDateSnap = await _lobby.ref.get();
     LobbyDoc _upToDateLobby = LobbyDoc.fromSnapshot(_upToDateSnap);
-    if (_upToDateLobby.challenger != null ||
-        _upToDateLobby.challengerBot != null) {
+    if (_upToDateLobby.challengerBot != null) {
       throw ("Lobby already has a challenger");
     }
     _upToDateLobby.challengerBot = bofRef;
-    _upToDateLobby.challenger = "DERPname";
     await _upToDateLobby.syncWithFirestore();
   }
 }

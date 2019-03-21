@@ -17,7 +17,7 @@ class LobbyDoc {
   /// used for determining who is host and deletion checking
   String uid;
 
-  String challenger;
+  // String challenger;
   DocumentReference challengerBot;
   bool challengerReady;
 
@@ -33,7 +33,7 @@ class LobbyDoc {
     this.createdAt = _snapshotData["createdAt"];
     this.host = _snapshotData["host"];
     this.hostBot = _snapshotData["hostBot"];
-    this.challenger = _snapshotData["challenger"];
+    // this.challenger = _snapshotData["challenger"];
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
     this.challengerReady = _snapshotData["challengerReady"] ?? false;
@@ -49,7 +49,7 @@ class LobbyDoc {
       "createdAt": createdAt,
       "host": host,
       "hostBot": hostBot,
-      "challenger": challenger,
+      // "challenger": challenger,
       "challengerBot": challengerBot,
       "hostReady": hostReady,
       "challengerReady": challengerReady,
