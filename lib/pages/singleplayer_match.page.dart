@@ -11,22 +11,22 @@ import 'package:chess/chess.dart' as chess;
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'dart:math';
 
-class MatchPage extends StatefulWidget {
+class SingleplayerMatchPage extends StatefulWidget {
   final ChessBot playerBot;
   final ChessBot opponentBot;
 
-  MatchPage({@required this.playerBot, @required this.opponentBot});
+  SingleplayerMatchPage({@required this.playerBot, @required this.opponentBot});
   @override
-  MatchPageState createState() {
-    return MatchPageState();
+  SingleplayerMatchPageState createState() {
+    return SingleplayerMatchPageState();
   }
 }
 
-class MatchPageState extends State<MatchPage> {
+class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
   final bool playerIsWhite = Random().nextInt(2) == 1;
   GameControllerBloc _matchBoardController = GameControllerBloc();
 
-  MatchPageState() {
+  SingleplayerMatchPageState() {
     // listening to game status
     _matchBoardController.status.listen((status) {
       if (status == GameStatus.in_checkmate) {
@@ -185,7 +185,7 @@ class MatchPageState extends State<MatchPage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => MatchPage(
+              builder: (context) => SingleplayerMatchPage(
                     opponentBot: widget.opponentBot,
                     playerBot: _playerBot,
                   )));

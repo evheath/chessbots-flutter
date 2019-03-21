@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/lobby.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
-import 'package:chessbotsmobile/pages/match.page.dart';
+import 'package:chessbotsmobile/pages/multiplayer_match.page.dart';
 import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
@@ -185,7 +185,7 @@ class LobbyPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MatchPage(
+        builder: (context) => MultiplayerMatchPage(
               opponentBot: playerIsHost ? _challengerBot : _hostBot,
               playerBot: playerIsHost ? _hostBot : _challengerBot,
             ),

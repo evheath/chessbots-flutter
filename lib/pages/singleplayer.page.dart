@@ -1,5 +1,5 @@
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import 'package:chessbotsmobile/pages/match.page.dart';
+import 'package:chessbotsmobile/pages/singleplayer_match.page.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots.dart';
@@ -60,7 +60,7 @@ class SingleplayerPage extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MatchPage(
+                  builder: (context) => SingleplayerMatchPage(
                         opponentBot: _opponentBots[index],
                         playerBot: _playerBot,
                       ))),
