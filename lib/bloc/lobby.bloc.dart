@@ -16,9 +16,6 @@ class LobbyBloc extends BlocBase {
   ChessBot _hostBot;
   ChessBot _challengerBot;
 
-  // dependencies
-  final Firestore _db = Firestore.instance;
-
   /// external-in/internal-out controller
   StreamController<LobbyEvent> _lobbyEventController = StreamController();
 
@@ -96,7 +93,6 @@ class LobbyBloc extends BlocBase {
           String _field = _playerIsHost ? "hostReady" : "challengerReady";
           bool _currentStatus =
               _playerIsHost ? _lobbyDoc.hostReady : _lobbyDoc.challengerReady;
-          //TODO consider loading stream
           await lobbyRef.updateData({_field: !_currentStatus});
         }
         break;

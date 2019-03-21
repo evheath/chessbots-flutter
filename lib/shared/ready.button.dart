@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ReadyButton extends StatelessWidget {
-  //TODO consider loading stream on lobby blob
-  // since the bloc will be passed down via context to this button
   final Function onPressed;
   ReadyButton({this.onPressed});
   @override
