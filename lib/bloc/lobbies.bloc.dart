@@ -64,7 +64,7 @@ class LobbiesBloc extends BlocBase {
       "host": nameofBot,
       "hostBot": _bofRef,
       "uid": fbUser.uid,
-    });
+    }, merge: true);
 
     return lobbyRef;
   }
