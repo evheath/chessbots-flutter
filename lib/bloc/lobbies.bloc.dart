@@ -47,23 +47,26 @@ class LobbiesBloc extends BlocBase {
   // public methods that the UI depends on
   Future<DocumentReference> attemptCreateLobby(
       DocumentReference _bofRef) async {
-    //TODO checking for a lobby we already created
+    List<LobbyDoc> _currentLobbies = await lobbies$.first;
+    FirebaseUser fbUser = await FirestoreBloc().user.first;
 
-    DocumentReference newLobbyRef =
-        Firestore.instance.collection('lobbies').document();
+    // checking if player already has a lobby, otherwise we create a new one
+    LobbyDoc _oldLobby = _currentLobbies
+        .firstWhere((_lobby) => _lobby.uid == fbUser.uid, orElse: () => null);
+    DocumentReference lobbyRef = _oldLobby != null
+        ? _oldLobby.ref
+        : Firestore.instance.collection('lobbies').document();
 
     var snap = await _bofRef.get();
     String nameofBot = snap['name'];
 
-    FirebaseUser fbUser = await FirebaseAuth.instance.currentUser();
-
-    await newLobbyRef.setData({
+    await lobbyRef.setData({
       "host": nameofBot,
       "hostBot": _bofRef,
       "uid": fbUser.uid,
     });
 
-    return newLobbyRef;
+    return lobbyRef;
   }
 
   Future<void> attemptToChallenge(
