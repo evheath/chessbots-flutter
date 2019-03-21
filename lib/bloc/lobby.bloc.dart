@@ -6,19 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
 
-abstract class LobbyEvent {}
-
-class ToggleReady extends LobbyEvent {}
-
-class RemoveChallenger extends LobbyEvent {}
-
-class DeleteLobby extends LobbyEvent {}
-
 class LobbyBloc extends BlocBase {
   /// the document reference this bloc revolves around
   final DocumentReference lobbyRef;
 
   // state
+  LobbyDoc _lobbyDoc;
   bool _playerIsHost;
   ChessBot _hostBot;
   ChessBot _challengerBot;
@@ -59,8 +52,9 @@ class LobbyBloc extends BlocBase {
     lobbyRef
         .snapshots()
         .map((snap) => LobbyDoc.fromSnapshot(snap))
-        .listen((_lobbyDoc) {
+        .listen((snap) {
       // add lobbyDoc to lobby$
+      _lobbyDoc = snap;
       _internalInLobbyDoc.add(_lobbyDoc);
 
       // determine if player is host
@@ -89,7 +83,16 @@ class LobbyBloc extends BlocBase {
   void _handleLobbyEvent(LobbyEvent event) async {
     switch (event.runtimeType) {
       case ToggleReady:
-        //TODO
+        if (_playerIsHost == null) {
+          // the lobby dock has not loaded, so do nothing
+          return;
+        } else {
+          String _field = _playerIsHost ? "hostReady" : "challengerReady";
+          bool _currentStatus =
+              _playerIsHost ? _lobbyDoc.hostReady : _lobbyDoc.challengerReady;
+          //TODO consider loading stream
+          await lobbyRef.updateData({_field: !_currentStatus});
+        }
         break;
       default:
     }
@@ -103,3 +106,11 @@ class LobbyBloc extends BlocBase {
     _challengerBotController.close();
   }
 }
+
+abstract class LobbyEvent {}
+
+class ToggleReady extends LobbyEvent {}
+
+class RemoveChallenger extends LobbyEvent {}
+
+class DeleteLobby extends LobbyEvent {}
