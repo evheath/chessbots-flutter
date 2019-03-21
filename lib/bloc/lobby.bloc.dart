@@ -10,12 +10,16 @@ abstract class LobbyEvent {}
 
 class ToggleReady extends LobbyEvent {}
 
+class RemoveChallenger extends LobbyEvent {}
+
+class DeleteLobby extends LobbyEvent {}
+
 class LobbyBloc extends BlocBase {
   /// the document reference this bloc revolves around
   final DocumentReference lobbyRef;
 
   // state
-  bool _playerIsHost = false;
+  bool _playerIsHost;
   ChessBot _hostBot;
   ChessBot _challengerBot;
 
@@ -30,13 +34,10 @@ class LobbyBloc extends BlocBase {
 
   /// internal-in/external-out controller
   StreamController<LobbyDoc> _lobbyDocController = BehaviorSubject<LobbyDoc>();
-  StreamController<bool> _playerIsHostController =
-      BehaviorSubject<bool>(seedValue: false);
-  StreamController<ChessBot> _hostBotController =
-      BehaviorSubject<ChessBot>(seedValue: ChessBot(name: "Host loading..."));
+  StreamController<bool> _playerIsHostController = BehaviorSubject<bool>();
+  StreamController<ChessBot> _hostBotController = BehaviorSubject<ChessBot>();
   StreamController<ChessBot> _challengerBotController =
-      BehaviorSubject<ChessBot>(
-          seedValue: ChessBot(name: "Challenger loading..."));
+      BehaviorSubject<ChessBot>();
 
   /// internal-in (alias)
   StreamSink<LobbyDoc> get _internalInLobbyDoc => _lobbyDocController.sink;
