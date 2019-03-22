@@ -106,17 +106,14 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
   } // Build
 
   Future<void> _handleMove() async {
-    // check if onus to move is on us
     if (_matchBoardController.gameOver) {
-      print("game is over son");
+      _multiplayerMatchBloc.event.add(GameOver());
     } else {
       bool playerIsWhite = await _multiplayerMatchBloc.playerIsWhite$.first;
       chess.Color _onusToMove = _matchBoardController.turn;
       chess.Color _playerColor =
           playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
       if (_onusToMove == _playerColor) {
-        // our turn to move
-        // game is not over
         ChessBot _bot = playerIsWhite
             ? await _multiplayerMatchBloc.whiteBot$.first
             : await _multiplayerMatchBloc.blackBot$.first;

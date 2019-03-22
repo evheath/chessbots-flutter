@@ -75,10 +75,14 @@ class MultiplayerMatchBloc extends BlocBase {
   }
   void _handleEvent(MultiplayerMatchEvent event) async {
     if (event is MoveMade) {
+      //TODO last used gambit?
       String _newFen = event.game.fen;
       matchRef.updateData({
         "fen": _newFen,
       });
+    } else if (event is GameOver) {
+      //TODO handle game over logic?
+      FirestoreBloc().userEvent.add(FinishedMatch());
     }
   }
 
@@ -97,3 +101,5 @@ class MoveMade extends MultiplayerMatchEvent {
   chess.Chess game;
   MoveMade(this.game);
 }
+
+class GameOver extends MultiplayerMatchEvent {}

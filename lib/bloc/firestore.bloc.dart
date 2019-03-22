@@ -117,6 +117,10 @@ class FirestoreBloc extends BlocBase {
       _userRef.updateData({
         "currentMatch": event.matchRef,
       });
+    } else if (event is FinishedMatch) {
+      _userRef.updateData({
+        "currentMatch": null,
+      });
     }
   }
 
@@ -215,3 +219,5 @@ class JoinedMatch extends UserEvent {
   final DocumentReference matchRef;
   const JoinedMatch(this.matchRef);
 }
+
+class FinishedMatch extends UserEvent {}
