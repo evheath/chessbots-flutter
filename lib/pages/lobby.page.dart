@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/lobby.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
@@ -179,17 +180,56 @@ class LobbyPage extends StatelessWidget {
 
   Future<void> jumpIntoMatch(BuildContext context, bool playerIsHost) async {
     LobbyBloc _lobbyBloc = BlocProvider.of<LobbyBloc>(context);
+    LobbyDoc _lobbyDoc = await _lobbyBloc.lobby$.first;
     ChessBot _challengerBot = await _lobbyBloc.challengerBot$.first;
     ChessBot _hostBot = await _lobbyBloc.hostBot$.first;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MultiplayerMatchPage(
-              opponentBot: playerIsHost ? _challengerBot : _hostBot,
-              playerBot: playerIsHost ? _hostBot : _challengerBot,
-            ),
-      ),
-    );
+    if (playerIsHost) {
+      // creating the match document is the host's responsibility
+
+      // quick sanity-check to make sure there hasn't already been a match created
+      if (_lobbyDoc.matchRef != null) {
+        return;
+      }
+
+      DocumentReference matchRef =
+          Firestore.instance.collection('matches').document();
+      final bool hostIsWhite = Random().nextInt(2) == 1;
+
+      await matchRef.setData({
+        "whiteUID": hostIsWhite ? _hostBot.uid : _challengerBot.uid,
+        "blackUID": !hostIsWhite ? _hostBot.uid : _challengerBot.uid,
+        "whiteBot": hostIsWhite ? _hostBot.botRef : _challengerBot.botRef,
+        "blackBot": !hostIsWhite ? _hostBot.botRef : _challengerBot.botRef,
+      });
+      await lobbyRef.updateData({
+        "matchRef": matchRef,
+      });
+      //TODO consider saving matchRef to userDoc
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MultiplayerMatchPage(
+                opponentBot: playerIsHost ? _challengerBot : _hostBot,
+                playerBot: playerIsHost ? _hostBot : _challengerBot,
+                matchRef: matchRef,
+              ),
+        ),
+      );
+    } else {
+      // player is the challenger, the lobby is ready, but the match may not yet be created
+      if (_lobbyDoc.matchRef != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MultiplayerMatchPage(
+                  opponentBot: playerIsHost ? _challengerBot : _hostBot,
+                  playerBot: playerIsHost ? _hostBot : _challengerBot,
+                  matchRef: _lobbyDoc.matchRef,
+                ),
+          ),
+        );
+      }
+    }
   }
 }

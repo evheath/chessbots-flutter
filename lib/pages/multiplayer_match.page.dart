@@ -5,6 +5,7 @@ import 'package:chessbotsmobile/pages/assemble.page.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/status.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:chess/chess.dart' as chess;
@@ -14,8 +15,13 @@ import 'dart:math';
 class MultiplayerMatchPage extends StatefulWidget {
   final ChessBot playerBot;
   final ChessBot opponentBot;
+  final DocumentReference matchRef;
 
-  MultiplayerMatchPage({@required this.playerBot, @required this.opponentBot});
+  MultiplayerMatchPage({
+    @required this.playerBot,
+    @required this.opponentBot,
+    @required this.matchRef,
+  });
   @override
   MultiplayerMatchPageState createState() {
     return MultiplayerMatchPageState();
@@ -179,16 +185,18 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
 
   FlatButton _playAgainButton() {
     Future<void> _playAgain() async {
+      //TODO determine rematch system
+
       //rebuild the bot (in case it changed) and refresh the route
-      ChessBot _playerBot =
-          await marshalChessBot(widget.playerBot.botRef).first;
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MultiplayerMatchPage(
-                    opponentBot: widget.opponentBot,
-                    playerBot: _playerBot,
-                  )));
+      // ChessBot _playerBot =
+      //     await marshalChessBot(widget.playerBot.botRef).first;
+      // Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => MultiplayerMatchPage(
+      //               opponentBot: widget.opponentBot,
+      //               playerBot: _playerBot,
+      //             )));
     }
 
     return FlatButton(

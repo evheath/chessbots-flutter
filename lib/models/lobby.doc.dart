@@ -21,6 +21,9 @@ class LobbyDoc {
   DocumentReference challengerBot;
   bool challengerReady;
 
+  /// link to match that is created when the players are ready
+  DocumentReference matchRef;
+
   String get minutesAgo {
     int _time = DateTime.now().difference(createdAt.toDate()).inMinutes;
     // String _plural = _time > 1 ? 's' : '';
@@ -33,11 +36,11 @@ class LobbyDoc {
     this.createdAt = _snapshotData["createdAt"];
     this.host = _snapshotData["host"];
     this.hostBot = _snapshotData["hostBot"];
-    // this.challenger = _snapshotData["challenger"];
     this.challengerBot = _snapshotData["challengerBot"];
     this.hostReady = _snapshotData["hostReady"] ?? false;
     this.challengerReady = _snapshotData["challengerReady"] ?? false;
     this.uid = _snapshotData["uid"];
+    this.matchRef = _snapshotData["matchRef"];
   }
 
   Future<void> syncWithFirestore() async {
@@ -49,11 +52,11 @@ class LobbyDoc {
       "createdAt": createdAt,
       "host": host,
       "hostBot": hostBot,
-      // "challenger": challenger,
       "challengerBot": challengerBot,
       "hostReady": hostReady,
       "challengerReady": challengerReady,
       "uid": uid,
+      "matchRef": matchRef,
     };
     return _map;
   }
