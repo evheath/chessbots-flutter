@@ -13,6 +13,7 @@ class MultiplayerMatchBloc extends BlocBase {
   bool _playerIsWhite;
   ChessBot _whiteBot;
   ChessBot _blackBot;
+  String _fen;
 
   /// external-in/internal-out controller
 
@@ -22,17 +23,20 @@ class MultiplayerMatchBloc extends BlocBase {
   StreamController<bool> _playerIsWhiteController = BehaviorSubject<bool>();
   StreamController<ChessBot> _whiteBotController = BehaviorSubject<ChessBot>();
   StreamController<ChessBot> _blackBotController = BehaviorSubject<ChessBot>();
+  StreamController<String> _fenController = BehaviorSubject<String>();
 
   /// internal-in (alias)
   StreamSink<bool> get _internalInPlayerIsWhite =>
       _playerIsWhiteController.sink;
   StreamSink<ChessBot> get _internalInWhiteBot => _whiteBotController.sink;
   StreamSink<ChessBot> get _internalInBlackBot => _blackBotController.sink;
+  StreamSink<String> get _internalInFen => _fenController.sink;
 
   /// external-out (alias)
   Stream<bool> get playerIsWhite$ => _playerIsWhiteController.stream;
   Stream<ChessBot> get whiteBot$ => _whiteBotController.stream;
   Stream<ChessBot> get blackBot$ => _blackBotController.stream;
+  Stream<String> get fen$ => _fenController.stream;
 
   // constructor
   MultiplayerMatchBloc(this.matchRef) {
@@ -59,11 +63,15 @@ class MultiplayerMatchBloc extends BlocBase {
     });
 
     // things that need to happen on every update
-    // matchRef.snapshots().map((snap) => snap.data).listen((_snapData) {});
+    matchRef.snapshots().map((snap) => snap.data).listen((_snapData) {
+      _fen = _snapData['fen'];
+      _internalInFen.add(_fen);
+    });
   }
   void dispose() {
     _playerIsWhiteController.close();
     _whiteBotController.close();
     _blackBotController.close();
+    _fenController.close();
   }
 }

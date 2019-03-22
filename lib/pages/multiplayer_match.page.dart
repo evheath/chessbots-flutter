@@ -64,14 +64,22 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                   },
                 ),
                 //chessboard
-                ChessBoard(
-                  size: MediaQuery.of(context).size.width - 20,
-                  enableUserMoves: false,
-                  chessBoardController: _matchBoardController,
-                  onMove: (move) {},
-                  onDraw: () {},
-                  whiteSideTowardsUser: playerIsWhite,
-                ),
+                StreamBuilder<String>(
+                    stream: _multiplayerMatchBloc.fen$,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        String _currentFen = snapshot.data;
+                        _matchBoardController.loadFEN(_currentFen);
+                      }
+                      return ChessBoard(
+                        size: MediaQuery.of(context).size.width - 20,
+                        enableUserMoves: false,
+                        chessBoardController: _matchBoardController,
+                        onMove: (move) {},
+                        onDraw: () {},
+                        whiteSideTowardsUser: playerIsWhite,
+                      );
+                    }),
                 // player tile
                 StreamBuilder<ChessBot>(
                   stream: !playerIsWhite
