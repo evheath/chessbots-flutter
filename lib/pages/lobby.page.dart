@@ -210,8 +210,6 @@ class LobbyPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => MultiplayerMatchPage(
-                opponentBot: playerIsHost ? _challengerBot : _hostBot,
-                playerBot: playerIsHost ? _hostBot : _challengerBot,
                 matchRef: matchRef,
               ),
         ),
@@ -223,8 +221,6 @@ class LobbyPage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => MultiplayerMatchPage(
-                  opponentBot: playerIsHost ? _challengerBot : _hostBot,
-                  playerBot: playerIsHost ? _hostBot : _challengerBot,
                   matchRef: _lobbyDoc.matchRef,
                 ),
           ),
