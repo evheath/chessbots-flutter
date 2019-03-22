@@ -4,6 +4,7 @@ import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
+import 'package:chess/chess.dart' as chess;
 
 class MultiplayerMatchBloc extends BlocBase {
   /// the document reference this bloc revolves around
@@ -16,8 +17,11 @@ class MultiplayerMatchBloc extends BlocBase {
   String _fen;
 
   /// external-in/internal-out controller
+  ///
+  StreamController<MultiplayerMatchEvent> _eventController = StreamController();
 
   /// external-in (alias)
+  StreamSink<MultiplayerMatchEvent> get event => _eventController.sink;
 
   /// internal-in/external-out controller
   StreamController<bool> _playerIsWhiteController = BehaviorSubject<bool>();
@@ -40,6 +44,7 @@ class MultiplayerMatchBloc extends BlocBase {
 
   // constructor
   MultiplayerMatchBloc(this.matchRef) {
+    _eventController.stream.listen(_handleEvent);
     // things that only need to happen once
     matchRef.get().then((snap) {
       Map<String, dynamic> _snapData = snap.data;
@@ -68,10 +73,27 @@ class MultiplayerMatchBloc extends BlocBase {
       _internalInFen.add(_fen);
     });
   }
+  void _handleEvent(MultiplayerMatchEvent event) async {
+    if (event is MoveMade) {
+      String _newFen = event.game.fen;
+      matchRef.updateData({
+        "fen": _newFen,
+      });
+    }
+  }
+
   void dispose() {
     _playerIsWhiteController.close();
     _whiteBotController.close();
     _blackBotController.close();
     _fenController.close();
+    _eventController.close();
   }
+}
+
+abstract class MultiplayerMatchEvent {}
+
+class MoveMade extends MultiplayerMatchEvent {
+  chess.Chess game;
+  MoveMade(this.game);
 }

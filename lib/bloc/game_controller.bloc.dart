@@ -135,9 +135,15 @@ class GameControllerBloc {
 
   /// Loads a FEN
   void loadFEN(String fen) {
-    _status = GameStatus.pending;
-    _internalInStatus.add(_status);
     game.load(fen);
+    if (game.in_checkmate) {
+      _status = GameStatus.in_checkmate;
+    } else if (game.in_draw) {
+      _status = GameStatus.in_draw;
+    } else {
+      _status = GameStatus.pending;
+    }
+    _internalInStatus.add(_status);
     refreshBoard == null ? this._throwNotAttachedException() : refreshBoard();
   }
 
