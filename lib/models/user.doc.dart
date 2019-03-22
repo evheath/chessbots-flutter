@@ -11,6 +11,8 @@ class UserDoc {
   /// Titles of gambits the user has purchased
   List<String> ownedGambits = [];
 
+  DocumentReference currentMatch;
+
   UserDoc({
     this.uid,
     this.displayName = "Guest",
@@ -23,7 +25,7 @@ class UserDoc {
     this.uid = _snapshotData["uid"];
     this.displayName = _snapshotData["displayName"] ?? "Guest";
     this.email = _snapshotData["email"];
-    // this.lastSeen = _snapshotData["lastSeen"];
+    this.currentMatch = _snapshotData["currentMatch"];
     this.nerdPoints = _snapshotData["nerdPoints"] ?? 0;
 
     if (_snapshotData["bots"] != null) {
@@ -50,7 +52,7 @@ class UserDoc {
       "uid": uid,
       "displayName": displayName,
       "email": email,
-      // "lastSeen": lastSeen,
+      "currentMatch": currentMatch,
       "nerdPoints": nerdPoints,
     };
     return _map;

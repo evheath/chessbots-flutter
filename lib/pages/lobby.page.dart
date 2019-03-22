@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
+import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/lobby.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:chessbotsmobile/pages/multiplayer_match.page.dart';
@@ -201,11 +202,12 @@ class LobbyPage extends StatelessWidget {
         "blackUID": !hostIsWhite ? _hostBot.uid : _challengerBot.uid,
         "whiteBot": hostIsWhite ? _hostBot.botRef : _challengerBot.botRef,
         "blackBot": !hostIsWhite ? _hostBot.botRef : _challengerBot.botRef,
+        "fen": 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
       });
       await lobbyRef.updateData({
         "matchRef": matchRef,
       });
-      //TODO consider saving matchRef to userDoc
+      FirestoreBloc().userEvent.add(JoinedMatch(matchRef));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -215,8 +217,10 @@ class LobbyPage extends StatelessWidget {
         ),
       );
     } else {
-      // player is the challenger, the lobby is ready, but the match may not yet be created
+      // player is the challenger and the lobby is ready
+      // however the match may not yet be created
       if (_lobbyDoc.matchRef != null) {
+        FirestoreBloc().userEvent.add(JoinedMatch(_lobbyDoc.matchRef));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
