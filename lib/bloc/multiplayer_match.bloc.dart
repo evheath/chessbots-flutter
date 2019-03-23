@@ -92,13 +92,19 @@ class MultiplayerMatchBloc extends BlocBase {
         chess.Color _playerColor =
             playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
         if (_onusToMove == _playerColor) {
-          ChessBot _bot =
+          ChessBot _playerBot =
               playerIsWhite ? await whiteBot$.first : await blackBot$.first;
           await Future.delayed(Duration(seconds: 1));
-          String move = _bot.waterfallGambits(_gameController.game);
+          String move = _playerBot.waterfallGambits(_gameController.game);
           _gameController.makeMove(move);
           event.add(MoveMade(_gameController.game, move));
-        } //TODO find what gambit the opponent would use
+        } else {
+          // not our turn to move, but we can still see which gambit the opponent will use
+          ChessBot _opponentBot =
+              !playerIsWhite ? await whiteBot$.first : await blackBot$.first;
+          await Future.delayed(Duration(milliseconds: 1500));
+          _opponentBot.waterfallGambits(_gameController.game);
+        }
       }
     });
   }
