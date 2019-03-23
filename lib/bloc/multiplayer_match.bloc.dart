@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
+import 'package:chessbotsmobile/models/match.doc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
@@ -47,29 +48,32 @@ class MultiplayerMatchBloc extends BlocBase {
     _eventController.stream.listen(_handleEvent);
     // things that only need to happen once
     matchRef.get().then((snap) {
-      Map<String, dynamic> _snapData = snap.data;
+      MatchDoc _matchDoc = MatchDoc.fromSnapshot(snap);
       // determine if player is white
       FirestoreBloc().user.first.then((playerAsFbUser) {
         _playerIsWhite =
-            playerAsFbUser.uid == _snapData["whiteUID"] ? true : false;
+            playerAsFbUser.uid == _matchDoc.whiteUID ? true : false;
         _internalInPlayerIsWhite.add(_playerIsWhite);
       });
 
       // get white bot
-      marshalChessBot(_snapData["whiteBot"]).first.then((bot) {
+      marshalChessBot(_matchDoc.whiteBot).first.then((bot) {
         _whiteBot = bot;
         _internalInWhiteBot.add(_whiteBot);
       });
       // get black bot
-      marshalChessBot(_snapData["blackBot"]).first.then((bot) {
+      marshalChessBot(_matchDoc.blackBot).first.then((bot) {
         _blackBot = bot;
         _internalInBlackBot.add(_blackBot);
       });
     });
 
     // things that need to happen on every update
-    matchRef.snapshots().map((snap) => snap.data).listen((_snapData) {
-      _fen = _snapData['fen'];
+    matchRef
+        .snapshots()
+        .map((snap) => MatchDoc.fromSnapshot(snap))
+        .listen((_matchDoc) {
+      _fen = _matchDoc.fen;
       _internalInFen.add(_fen);
     });
   }
