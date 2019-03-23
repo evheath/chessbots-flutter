@@ -16,6 +16,7 @@ class MultiplayerMatchBloc extends BlocBase {
   ChessBot _whiteBot;
   ChessBot _blackBot;
   String _fen;
+  MatchDoc _matchDoc;
 
   /// external-in/internal-out controller
   ///
@@ -48,44 +49,38 @@ class MultiplayerMatchBloc extends BlocBase {
     _eventController.stream.listen(_handleEvent);
     // things that only need to happen once
     matchRef.get().then((snap) {
-      MatchDoc _matchDoc = MatchDoc.fromSnapshot(snap);
+      MatchDoc _firstMatchDoc = MatchDoc.fromSnapshot(snap);
       // determine if player is white
       FirestoreBloc().user.first.then((playerAsFbUser) {
         _playerIsWhite =
-            playerAsFbUser.uid == _matchDoc.whiteUID ? true : false;
+            playerAsFbUser.uid == _firstMatchDoc.whiteUID ? true : false;
         _internalInPlayerIsWhite.add(_playerIsWhite);
       });
 
       // get white bot
-      marshalChessBot(_matchDoc.whiteBot).first.then((bot) {
+      marshalChessBot(_firstMatchDoc.whiteBot).first.then((bot) {
         _whiteBot = bot;
         _internalInWhiteBot.add(_whiteBot);
       });
       // get black bot
-      marshalChessBot(_matchDoc.blackBot).first.then((bot) {
+      marshalChessBot(_firstMatchDoc.blackBot).first.then((bot) {
         _blackBot = bot;
         _internalInBlackBot.add(_blackBot);
       });
     });
 
     // things that need to happen on every update
-    matchRef
-        .snapshots()
-        .map((snap) => MatchDoc.fromSnapshot(snap))
-        .listen((_matchDoc) {
+    matchRef.snapshots().listen((snap) {
+      _matchDoc = MatchDoc.fromSnapshot(snap);
       _fen = _matchDoc.fen;
       _internalInFen.add(_fen);
     });
   }
   void _handleEvent(MultiplayerMatchEvent event) async {
     if (event is MoveMade) {
-      //TODO last used gambit?
-      String _newFen = event.game.fen;
-      matchRef.updateData({
-        "fen": _newFen,
-      });
+      _matchDoc.fen = event.game.fen;
+      await _matchDoc.syncWithFirestore();
     } else if (event is GameOver) {
-      //TODO handle game over logic?
       FirestoreBloc().userEvent.add(FinishedMatch());
     }
   }
