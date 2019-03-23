@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
-import 'package:chessbotsmobile/models/match.doc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
@@ -16,7 +15,6 @@ class MultiplayerMatchBloc extends BlocBase {
   ChessBot _whiteBot;
   ChessBot _blackBot;
   String _fen;
-  MatchDoc _matchDoc;
 
   /// external-in/internal-out controller
   ///
@@ -49,21 +47,20 @@ class MultiplayerMatchBloc extends BlocBase {
     _eventController.stream.listen(_handleEvent);
     // things that only need to happen once
     matchRef.get().then((snap) {
-      MatchDoc _firstMatchDoc = MatchDoc.fromSnapshot(snap);
       // determine if player is white
       FirestoreBloc().user.first.then((playerAsFbUser) {
         _playerIsWhite =
-            playerAsFbUser.uid == _firstMatchDoc.whiteUID ? true : false;
+            playerAsFbUser.uid == snap.data["whiteUID"] ? true : false;
         _internalInPlayerIsWhite.add(_playerIsWhite);
       });
 
       // get white bot
-      marshalChessBot(_firstMatchDoc.whiteBot).first.then((bot) {
+      marshalChessBot(snap.data["whiteBot"]).first.then((bot) {
         _whiteBot = bot;
         _internalInWhiteBot.add(_whiteBot);
       });
       // get black bot
-      marshalChessBot(_firstMatchDoc.blackBot).first.then((bot) {
+      marshalChessBot(snap.data["blackBot"]).first.then((bot) {
         _blackBot = bot;
         _internalInBlackBot.add(_blackBot);
       });
@@ -71,15 +68,16 @@ class MultiplayerMatchBloc extends BlocBase {
 
     // things that need to happen on every update
     matchRef.snapshots().listen((snap) {
-      _matchDoc = MatchDoc.fromSnapshot(snap);
-      _fen = _matchDoc.fen;
+      _fen = snap.data["fen"];
       _internalInFen.add(_fen);
     });
   }
   void _handleEvent(MultiplayerMatchEvent event) async {
     if (event is MoveMade) {
-      _matchDoc.fen = event.game.fen;
-      await _matchDoc.syncWithFirestore();
+      await matchRef.updateData({
+        "fen": event.game.fen,
+        "pgn": FieldValue.arrayUnion([event.move]),
+      });
     } else if (event is GameOver) {
       FirestoreBloc().userEvent.add(FinishedMatch());
     }
@@ -98,7 +96,8 @@ abstract class MultiplayerMatchEvent {}
 
 class MoveMade extends MultiplayerMatchEvent {
   chess.Chess game;
-  MoveMade(this.game);
+  String move;
+  MoveMade(this.game, this.move);
 }
 
 class GameOver extends MultiplayerMatchEvent {}

@@ -120,7 +120,8 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
         await Future.delayed(Duration(seconds: 1));
         String move = _bot.waterfallGambits(_matchBoardController.game);
         _matchBoardController.makeMove(move);
-        _multiplayerMatchBloc.event.add(MoveMade(_matchBoardController.game));
+        _multiplayerMatchBloc.event
+            .add(MoveMade(_matchBoardController.game, move));
       }
     }
   }
