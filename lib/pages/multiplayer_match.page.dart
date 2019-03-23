@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
 import 'package:chessbotsmobile/bloc/multiplayer_match.bloc.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
@@ -6,7 +5,6 @@ import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:chess/chess.dart' as chess;
 import 'package:chessbotsmobile/models/chess_bot.dart';
 
 class MultiplayerMatchPage extends StatefulWidget {
@@ -65,10 +63,8 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                     stream: _multiplayerMatchBloc.fen$,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        String _currentFen = snapshot.data;
-                        _matchBoardController.loadFEN(_currentFen);
+                        _matchBoardController.loadFEN(snapshot.data);
                       }
-                      _handleMove();
                       return ChessBoard(
                         size: MediaQuery.of(context).size.width - 20,
                         enableUserMoves: false,
@@ -105,30 +101,10 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
     );
   } // Build
 
-  Future<void> _handleMove() async {
-    if (_matchBoardController.gameOver) {
-      _multiplayerMatchBloc.event.add(GameOver());
-    } else {
-      bool playerIsWhite = await _multiplayerMatchBloc.playerIsWhite$.first;
-      chess.Color _onusToMove = _matchBoardController.turn;
-      chess.Color _playerColor =
-          playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
-      if (_onusToMove == _playerColor) {
-        ChessBot _bot = playerIsWhite
-            ? await _multiplayerMatchBloc.whiteBot$.first
-            : await _multiplayerMatchBloc.blackBot$.first;
-        await Future.delayed(Duration(seconds: 1));
-        String move = _bot.waterfallGambits(_matchBoardController.game);
-        _matchBoardController.makeMove(move);
-        _multiplayerMatchBloc.event
-            .add(MoveMade(_matchBoardController.game, move));
-      }
-    }
-  }
-
   @override
   void dispose() {
     _matchBoardController.dispose();
+    _multiplayerMatchBloc.dispose();
     super.dispose();
   }
 }

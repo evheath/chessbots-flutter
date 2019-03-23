@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
+import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
@@ -15,6 +16,10 @@ class MultiplayerMatchBloc extends BlocBase {
   ChessBot _whiteBot;
   ChessBot _blackBot;
   String _fen;
+  String _pgn;
+
+  // dependency
+  GameControllerBloc _gameController = GameControllerBloc();
 
   /// external-in/internal-out controller
   ///
@@ -28,6 +33,7 @@ class MultiplayerMatchBloc extends BlocBase {
   StreamController<ChessBot> _whiteBotController = BehaviorSubject<ChessBot>();
   StreamController<ChessBot> _blackBotController = BehaviorSubject<ChessBot>();
   StreamController<String> _fenController = BehaviorSubject<String>();
+  StreamController<String> _pgnController = BehaviorSubject<String>();
 
   /// internal-in (alias)
   StreamSink<bool> get _internalInPlayerIsWhite =>
@@ -35,12 +41,14 @@ class MultiplayerMatchBloc extends BlocBase {
   StreamSink<ChessBot> get _internalInWhiteBot => _whiteBotController.sink;
   StreamSink<ChessBot> get _internalInBlackBot => _blackBotController.sink;
   StreamSink<String> get _internalInFen => _fenController.sink;
+  StreamSink<String> get _internalInPgn => _pgnController.sink;
 
   /// external-out (alias)
   Stream<bool> get playerIsWhite$ => _playerIsWhiteController.stream;
   Stream<ChessBot> get whiteBot$ => _whiteBotController.stream;
   Stream<ChessBot> get blackBot$ => _blackBotController.stream;
   Stream<String> get fen$ => _fenController.stream;
+  Stream<String> get pgn$ => _pgnController.stream;
 
   // constructor
   MultiplayerMatchBloc(this.matchRef) {
@@ -67,16 +75,39 @@ class MultiplayerMatchBloc extends BlocBase {
     });
 
     // things that need to happen on every update
-    matchRef.snapshots().listen((snap) {
-      _fen = snap.data["fen"];
+    matchRef.snapshots().listen((snap) async {
+      _fen = snap.data["fen"] ??
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
       _internalInFen.add(_fen);
+      _pgn = snap.data["pgn"] ?? "";
+      _internalInPgn.add(_pgn);
+
+      // handle (potential) move
+      _gameController.loadFEN(_fen);
+      if (_gameController.gameOver) {
+        event.add(GameOver());
+      } else {
+        bool playerIsWhite = await playerIsWhite$.first;
+        chess.Color _onusToMove = _gameController.turn;
+        chess.Color _playerColor =
+            playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
+        if (_onusToMove == _playerColor) {
+          ChessBot _bot =
+              playerIsWhite ? await whiteBot$.first : await blackBot$.first;
+          await Future.delayed(Duration(seconds: 1));
+          String move = _bot.waterfallGambits(_gameController.game);
+          _gameController.makeMove(move);
+          event.add(MoveMade(_gameController.game, move));
+        } //TODO find what gambit the opponent would use
+      }
     });
   }
+
   void _handleEvent(MultiplayerMatchEvent event) async {
     if (event is MoveMade) {
       await matchRef.updateData({
         "fen": event.game.fen,
-        "pgn": FieldValue.arrayUnion([event.move]),
+        "pgn": "$_pgn ${event.move}",
       });
     } else if (event is GameOver) {
       FirestoreBloc().userEvent.add(FinishedMatch());
@@ -88,7 +119,9 @@ class MultiplayerMatchBloc extends BlocBase {
     _whiteBotController.close();
     _blackBotController.close();
     _fenController.close();
+    _pgnController.close();
     _eventController.close();
+    _gameController.dispose();
   }
 }
 
