@@ -54,7 +54,7 @@ class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Status(widget.opponentBot),
             ChessBoard(
@@ -165,7 +165,7 @@ class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
 
   FlatButton _editGambitsButton() {
     return FlatButton(
-      child: Text("Edit gambits"),
+      child: Text("Gambits"),
       onPressed: () {
         Navigator.push(
           context,

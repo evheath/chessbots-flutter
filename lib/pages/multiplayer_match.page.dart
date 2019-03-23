@@ -45,7 +45,7 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
         return Scaffold(
           body: Container(
             padding: EdgeInsets.all(10.0),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 //opponent tile
                 StreamBuilder<ChessBot>(
