@@ -34,7 +34,7 @@ class _LobbiesPageState extends State<LobbiesPage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FlatButton(
+                    RaisedButton(
                       child: Text("Create a lobby"),
                       onPressed: () {
                         _lobbiesBloc
@@ -50,13 +50,13 @@ class _LobbiesPageState extends State<LobbiesPage> {
                         });
                       },
                     ),
-                    FlatButton.icon(
-                      label: Text("Search"),
-                      icon: Icon(FontAwesomeIcons.search),
-                      onPressed: () {
-                        //TODO
-                      },
-                    ),
+                    // FlatButton.icon(
+                    //   label: Text("Search"),
+                    //   icon: Icon(FontAwesomeIcons.search),
+                    //   onPressed: () {
+                    //     //TODO
+                    //   },
+                    // ),
                   ]),
             ),
             SliverToBoxAdapter(child: Text("Lobbies:")),

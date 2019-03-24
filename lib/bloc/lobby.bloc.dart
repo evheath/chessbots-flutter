@@ -100,6 +100,7 @@ class LobbyBloc extends BlocBase {
         await lobbyRef.updateData({
           "challengerBot": null,
           "challengerReady": false,
+          "hostReady": false,
         });
         break;
       case DeleteLobby:
