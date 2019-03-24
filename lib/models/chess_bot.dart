@@ -44,7 +44,7 @@ class ChessBot {
   String uid;
   String name;
   int kills;
-  String status; //TODO enum status some how
+  String status;
 
   // fields that require conversion
   List<Gambit> _gambits;

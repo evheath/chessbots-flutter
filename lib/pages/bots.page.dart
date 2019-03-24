@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
@@ -19,6 +20,7 @@ class BotsPageState extends State<BotsPage> {
 
   @override
   void initState() {
+    _checkIfInMatch();
     super.initState();
   }
 
@@ -71,6 +73,13 @@ class BotsPageState extends State<BotsPage> {
       ),
       drawer: LeftDrawer(),
     );
+  }
+
+  Future<void> _checkIfInMatch() async {
+    UserDoc _userDoc = await FirestoreBloc().userDoc$.first;
+    if (_userDoc.currentMatch != null) {
+      handleRejoinMatch(_userDoc.currentMatch, context);
+    }
   }
 
   void _showCreationDialog() {

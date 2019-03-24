@@ -80,7 +80,7 @@ class GambitListTile extends StatelessWidget {
                           icon: Icon(Icons.help),
                         ),
                         Text(
-                          "${gambit.cost}",
+                          "${gambit.cost}np",
                           textAlign: TextAlign.center,
                         ),
                       ],

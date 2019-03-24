@@ -13,10 +13,9 @@ class NerdPointActionDisplay extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             int _nerdPoints = snapshot.data.nerdPoints ?? 0;
-            return FlatButton.icon(
+            return FlatButton(
               onPressed: () {},
-              icon: Icon(Icons.attach_money),
-              label: Text("$_nerdPoints"),
+              child: Text("${_nerdPoints}np"),
               textColor: Colors.white,
             );
           } else {

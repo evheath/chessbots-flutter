@@ -34,7 +34,7 @@ class ChessBotListTile extends StatelessWidget {
               children: [
                 Text("${_bot.name}"),
                 Text("Level ${_bot.level}"),
-                Text("Value: ${_bot.value}"),
+                Text("Bounty: ${_bot.bounty}np"),
                 // Text("Kills: ${_bot.kills}"),
               ],
             ),

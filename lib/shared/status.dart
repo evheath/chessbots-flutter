@@ -27,7 +27,7 @@ class Status extends StatelessWidget {
             children: [
               Text("${bot.name}"),
               Text("Level ${bot.level}"),
-              Text("Value: ${bot.value}"),
+              Text("Bounty: ${bot.bounty}np"),
               // Text("Kills: ${bot.kills}"),
             ],
           ),

@@ -9,29 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import './base.bloc.dart';
 
-abstract class AuthEvent {}
-
-class SignInWithGoogleEvent extends AuthEvent {}
-
-class SignOutEvent extends AuthEvent {}
-
-class SignInAnonymouslyEvent extends AuthEvent {}
-
-abstract class UserEvent {
-  const UserEvent();
-}
-
-class AwardNerdPointsEvent extends UserEvent {
-  final int nerdPoints;
-  const AwardNerdPointsEvent(this.nerdPoints);
-}
-
-class RemoveBotRef extends UserEvent {
-  final DocumentReference botDocRef;
-  const RemoveBotRef(this.botDocRef);
-}
-
-//TODO rename to user/auth bloc
 /// Singleton used for all things firebase
 ///
 /// E.g. authentication, firestore CRUD etc
@@ -136,6 +113,14 @@ class FirestoreBloc extends BlocBase {
       _userRef.updateData({
         "bots": FieldValue.arrayRemove([event.botDocRef])
       });
+    } else if (event is JoinedMatch) {
+      _userRef.updateData({
+        "currentMatch": event.matchRef,
+      });
+    } else if (event is FinishedMatch) {
+      _userRef.updateData({
+        "currentMatch": null,
+      });
     }
   }
 
@@ -207,3 +192,32 @@ class FirestoreBloc extends BlocBase {
     });
   }
 }
+
+abstract class AuthEvent {}
+
+class SignInWithGoogleEvent extends AuthEvent {}
+
+class SignOutEvent extends AuthEvent {}
+
+class SignInAnonymouslyEvent extends AuthEvent {}
+
+abstract class UserEvent {
+  const UserEvent();
+}
+
+class AwardNerdPointsEvent extends UserEvent {
+  final int nerdPoints;
+  const AwardNerdPointsEvent(this.nerdPoints);
+}
+
+class RemoveBotRef extends UserEvent {
+  final DocumentReference botDocRef;
+  const RemoveBotRef(this.botDocRef);
+}
+
+class JoinedMatch extends UserEvent {
+  final DocumentReference matchRef;
+  const JoinedMatch(this.matchRef);
+}
+
+class FinishedMatch extends UserEvent {}
