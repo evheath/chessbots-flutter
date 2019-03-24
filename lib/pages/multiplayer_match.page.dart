@@ -28,6 +28,20 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
   @override
   void initState() {
     _multiplayerMatchBloc = MultiplayerMatchBloc(widget.matchRef);
+    _multiplayerMatchBloc.outcome$.listen((outcome) {
+      switch (outcome) {
+        case GameOutcome.victory:
+          _handleVictory();
+          break;
+        case GameOutcome.defeat:
+          _handleDefeat();
+          break;
+        case GameOutcome.draw:
+          _handleDraw();
+          break;
+        default:
+      }
+    });
     super.initState();
   }
 
@@ -106,5 +120,67 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
     _matchBoardController.dispose();
     _multiplayerMatchBloc.dispose();
     super.dispose();
+  }
+
+  void _handleVictory() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        int reward = _multiplayerMatchBloc.opponentBot.bounty;
+        String plural = reward > 1 ? 's' : '';
+        return AlertDialog(
+          title: Text("You win!"),
+          content: Text("Enjoy $reward nerd point$plural"),
+          actions: <Widget>[
+            // _editGambitsButton(),
+            // _playAgainButton(),
+            _closeButton(),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDraw() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Draw!"),
+          content: Text("Have a pity point"),
+          actions: <Widget>[
+            // _editGambitsButton(),
+            // _playAgainButton(),
+            _closeButton(),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDefeat() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("You lose!"),
+          content: Text("You get nothing. Good day sir."),
+          actions: [
+            // _editGambitsButton(),
+            // _playAgainButton(),
+            _closeButton(),
+          ],
+        );
+      },
+    );
+  }
+
+  FlatButton _closeButton() {
+    return FlatButton(
+      child: Text("Close"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
   }
 }

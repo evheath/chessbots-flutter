@@ -34,6 +34,8 @@ class MultiplayerMatchBloc extends BlocBase {
   StreamController<ChessBot> _blackBotController = BehaviorSubject<ChessBot>();
   StreamController<String> _fenController = BehaviorSubject<String>();
   StreamController<String> _pgnController = BehaviorSubject<String>();
+  StreamController<GameOutcome> _outcomeController =
+      BehaviorSubject<GameOutcome>();
 
   /// internal-in (alias)
   StreamSink<bool> get _internalInPlayerIsWhite =>
@@ -42,6 +44,7 @@ class MultiplayerMatchBloc extends BlocBase {
   StreamSink<ChessBot> get _internalInBlackBot => _blackBotController.sink;
   StreamSink<String> get _internalInFen => _fenController.sink;
   StreamSink<String> get _internalInPgn => _pgnController.sink;
+  StreamSink<GameOutcome> get _internalInOutcome => _outcomeController.sink;
 
   /// external-out (alias)
   Stream<bool> get playerIsWhite$ => _playerIsWhiteController.stream;
@@ -49,6 +52,7 @@ class MultiplayerMatchBloc extends BlocBase {
   Stream<ChessBot> get blackBot$ => _blackBotController.stream;
   Stream<String> get fen$ => _fenController.stream;
   Stream<String> get pgn$ => _pgnController.stream;
+  Stream<GameOutcome> get outcome$ => _outcomeController.stream;
 
   // constructor
   MultiplayerMatchBloc(this.matchRef) {
@@ -116,11 +120,34 @@ class MultiplayerMatchBloc extends BlocBase {
         "pgn": "$_pgn ${event.move}",
       });
     } else if (event is GameOver) {
+      // remove current match from user
       FirestoreBloc().userEvent.add(FinishedMatch());
+
+      GameStatus status = await _gameController.status.first;
+      if (status == GameStatus.in_checkmate) {
+        // determine if we won or lost
+        chess.Color playersColor =
+            _playerIsWhite ? chess.Color.WHITE : chess.Color.BLACK;
+        chess.Color losersColor = _gameController.turn;
+        if (playersColor == losersColor) {
+          // player lost
+          _internalInOutcome.add(GameOutcome.defeat);
+        } else {
+          // player won
+          _internalInOutcome.add(GameOutcome.victory);
+          int reward = opponentBot.bounty;
+          FirestoreBloc().userEvent.add(AwardNerdPointsEvent(reward));
+        }
+      } else if (status == GameStatus.in_draw) {
+        // pity point for drawing
+        _internalInOutcome.add(GameOutcome.draw);
+        FirestoreBloc().userEvent.add(AwardNerdPointsEvent(1));
+      } else {}
     }
   }
 
   void dispose() {
+    _outcomeController.close();
     _playerIsWhiteController.close();
     _whiteBotController.close();
     _blackBotController.close();
@@ -128,6 +155,10 @@ class MultiplayerMatchBloc extends BlocBase {
     _pgnController.close();
     _eventController.close();
     _gameController.dispose();
+  }
+
+  ChessBot get opponentBot {
+    return _playerIsWhite ? _blackBot : _whiteBot;
   }
 }
 
@@ -140,3 +171,5 @@ class MoveMade extends MultiplayerMatchEvent {
 }
 
 class GameOver extends MultiplayerMatchEvent {}
+
+enum GameOutcome { victory, defeat, draw }
