@@ -28,7 +28,7 @@ class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
 
   SingleplayerMatchPageState() {
     // listening to game status
-    _matchBoardController.status.listen((status) {
+    _matchBoardController.status$.listen((status) {
       if (status == GameStatus.in_checkmate) {
         // if game is over and it is that player's turn, they have lost
         chess.Color playersColor =

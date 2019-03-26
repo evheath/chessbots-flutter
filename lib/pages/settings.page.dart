@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             title: Text("Dark Mode"),
             trailing: StreamBuilder<PrefsState>(
-                stream: _prefsBloc.prefs,
+                stream: _prefsBloc.prefs$,
                 initialData: PrefsState(),
                 builder: (context, snapshot) {
                   final bool darkTheme = snapshot.data.darkTheme;
@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
           ),
           Divider(),
           StreamBuilder<FirebaseUser>(
-              stream: _firestoreBloc.user,
+              stream: _firestoreBloc.user$,
               builder: (context, snapshot) {
                 FirebaseUser _user = snapshot.data;
                 return ListTile(

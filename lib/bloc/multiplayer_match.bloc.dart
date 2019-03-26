@@ -60,7 +60,7 @@ class MultiplayerMatchBloc extends BlocBase {
     // things that only need to happen once
     matchRef.get().then((snap) {
       // determine if player is white
-      FirestoreBloc().user.first.then((playerAsFbUser) {
+      FirestoreBloc().user$.first.then((playerAsFbUser) {
         _playerIsWhite =
             playerAsFbUser.uid == snap.data["whiteUID"] ? true : false;
         _internalInPlayerIsWhite.add(_playerIsWhite);
@@ -123,7 +123,7 @@ class MultiplayerMatchBloc extends BlocBase {
       // remove current match from user
       FirestoreBloc().userEvent.add(FinishedMatch());
 
-      GameStatus status = await _gameController.status.first;
+      GameStatus status = await _gameController.status$.first;
       if (status == GameStatus.in_checkmate) {
         // determine if we won or lost
         chess.Color playersColor =

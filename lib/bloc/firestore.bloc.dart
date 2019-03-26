@@ -49,8 +49,8 @@ class FirestoreBloc extends BlocBase {
   /// external-out (alias)
   /// Mostly used to determine if the user is authenticated
   Stream<UserDoc> get userDoc$ => _userDocController.stream;
-  Stream<FirebaseUser> get user => _userController.stream;
-  Stream<bool> get loading => _loadingController.stream;
+  Stream<FirebaseUser> get user$ => _userController.stream;
+  Stream<bool> get loading$ => _loadingController.stream;
 
   // constructor
   FirestoreBloc._internal() {
@@ -173,7 +173,7 @@ class FirestoreBloc extends BlocBase {
   }
 
   Future<void> createBotDoc(String name) async {
-    final _fbUser = await user.first;
+    final _fbUser = await user$.first;
     ChessBot _newBotDocObject = ChessBot(
       name: name,
       uid: _fbUser.uid,

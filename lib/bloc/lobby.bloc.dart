@@ -55,7 +55,7 @@ class LobbyBloc extends BlocBase {
       _internalInLobbyDoc.add(_lobbyDoc);
 
       // determine if player is host
-      FirestoreBloc().user.first.then((playerAsFbUser) {
+      FirestoreBloc().user$.first.then((playerAsFbUser) {
         _playerIsHost = playerAsFbUser?.uid == _lobbyDoc.uid ? true : false;
         _internalInPlayerIsHost.add(_playerIsHost);
       });
