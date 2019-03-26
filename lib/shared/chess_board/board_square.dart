@@ -46,9 +46,9 @@ class BoardSquare extends StatelessWidget {
           return model.enableUserMoves ? true : false;
         }, onAccept: (List moveInfo) {
           // moveInfo is the incoming data of the dropped piece
-          // eg [c1, B, w]
+          // e.g. [c1, B, w]
           // the square being landed on is accessed via squareName
-          // c4
+          // e.g. c4
 
           chess.Color moveColor = model.chessBoardController.turn;
           String source = moveInfo[0].toString();
@@ -62,9 +62,8 @@ class BoardSquare extends StatelessWidget {
               // dont let a king disappear from the board
               return;
             }
-
-            model.chessBoardController.game.put(piece, squareName);
             model.chessBoardController.game.remove(source);
+            model.chessBoardController.game.put(piece, squareName);
             // normally we do not want to reference a child of an object
             // but this time, we don't want to create a setter method
             model.chessBoardController.game.turn = chess.Color.WHITE;
@@ -93,13 +92,7 @@ class BoardSquare extends StatelessWidget {
               model.onMove(
                   moveInfo[1] == "P" ? squareName : moveInfo[1] + squareName);
             }
-            // checkmate logic here does not make much sense
-            // as it is the controller that should know about a game over
-            // since it does not always require user input
-            // if (model.chessBoardController.game.in_checkmate) {
-            //   String color = model.chessBoardController.turn.toString();
-            //   model.onCheckMate(color);
-            // }
+
             model.refreshBoard();
           }
         }),
