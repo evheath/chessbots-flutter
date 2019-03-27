@@ -79,6 +79,11 @@ class FirestoreBloc extends BlocBase {
     if (event is SignInWithGoogleEvent) {
       _internalInLoading.add(true);
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // the user cancelled sign in
+        _internalInLoading.add(false);
+        return;
+      }
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       AuthCredential _authCredentail = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
