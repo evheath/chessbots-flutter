@@ -27,7 +27,7 @@ class PrefsBloc extends BlocBase {
   StreamSink<PrefsState> get _internalInPrefs => _prefsController.sink;
 
   /// external-out (alias)
-  Stream<PrefsState> get prefs => _prefsController.stream;
+  Stream<PrefsState> get prefs$ => _prefsController.stream;
 
   // constructor
   PrefsBloc() {

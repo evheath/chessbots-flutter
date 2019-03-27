@@ -12,11 +12,12 @@ https://testflight.apple.com/join/9Q3CwqpZ
 # Useful commands
 
 ## Debugging
-flutter run
+```flutter run```
 
 ## Building
-flutter build apk --release
-flutter build ios --release --no-codesign
+```flutter build apk --release```
+
+```flutter build ios --release --no-codesign```
 
 # Deploying via FastLane
 first build (as above) then cd into andriod or ios folder
@@ -26,4 +27,4 @@ first build (as above) then cd into andriod or ios folder
 flutter test
 
 ## Keytool (signing)
-/c/Program\ Files/Android/Android\ Studio/jre/bin/keytool.exe -printcert -file ./GOOGPLAY.RSA
+/c/Program\ Files/Android/Android\ Studio/jre/bin/keytool.exe -printcert -file ./GOOGPLAY.RSAd

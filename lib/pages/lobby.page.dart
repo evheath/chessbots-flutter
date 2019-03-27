@@ -6,6 +6,7 @@ import 'package:chessbotsmobile/bloc/lobby.bloc.dart';
 import 'package:chessbotsmobile/models/lobby.doc.dart';
 import 'package:chessbotsmobile/pages/multiplayer_match.page.dart';
 import 'package:chessbotsmobile/shared/enemy_not_ready.button.dart';
+import 'package:chessbotsmobile/shared/loading_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/opponent_list_tile.dart';
 import 'package:chessbotsmobile/shared/player_not_ready.button.dart';
@@ -92,9 +93,7 @@ class LobbyPage extends StatelessWidget {
                               stream: _lobbyBloc.hostBot$,
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
-                                  // show loading since there should be a host, probably just not done marshalling
-                                  return ListTile(
-                                      title: CircularProgressIndicator());
+                                  return LoadingListTile();
                                 } else {
                                   ChessBot _hostBot = snapshot.data;
                                   return OpponentListTile(_hostBot);
@@ -107,9 +106,7 @@ class LobbyPage extends StatelessWidget {
                               stream: _lobbyBloc.hostBot$,
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
-                                  // show loading since there should be a host, probably just not done marshalling
-                                  return ListTile(
-                                      title: CircularProgressIndicator());
+                                  return LoadingListTile();
                                 } else {
                                   ChessBot _hostBot = snapshot.data;
                                   return OpponentListTile(_hostBot);
@@ -120,9 +117,7 @@ class LobbyPage extends StatelessWidget {
                               stream: _lobbyBloc.challengerBot$,
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
-                                  // show loading since we are the challenger, probably just not done marshalling
-                                  return ListTile(
-                                      title: CircularProgressIndicator());
+                                  return LoadingListTile();
                                 } else {
                                   ChessBot _challengerBot = snapshot.data;
                                   return OpponentListTile(_challengerBot);

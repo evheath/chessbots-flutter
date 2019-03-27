@@ -46,7 +46,7 @@ class GameControllerBloc {
   StreamSink<GameStatus> get _internalInStatus => _statusController.sink;
 
   // external-out (inherently connected to internal-in via controller)
-  Stream<GameStatus> get status => _statusController.stream;
+  Stream<GameStatus> get status$ => _statusController.stream;
 
   // public methods
 

@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider<PrefsBloc>(
         bloc: _prefsBloc,
         child: StreamBuilder<PrefsState>(
-            stream: _prefsBloc.prefs,
+            stream: _prefsBloc.prefs$,
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? MaterialApp(
@@ -94,7 +94,7 @@ class RouteGuard extends StatelessWidget {
     final FirestoreBloc _firestoreBloc =
         BlocProvider.of<FirestoreBloc>(context);
     return StreamBuilder(
-      stream: _firestoreBloc.user,
+      stream: _firestoreBloc.user$,
       builder: (context, snapshot) {
         return snapshot.hasData ? _page : AuthPage();
       },

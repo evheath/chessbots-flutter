@@ -21,7 +21,7 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             StreamBuilder<bool>(
-                stream: _firestoreBloc.loading,
+                stream: _firestoreBloc.loading$,
                 initialData: false,
                 builder: (context, snapshot) {
                   return snapshot.data

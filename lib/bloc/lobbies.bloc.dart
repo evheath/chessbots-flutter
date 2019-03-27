@@ -48,7 +48,7 @@ class LobbiesBloc extends BlocBase {
   Future<DocumentReference> attemptCreateLobby(
       DocumentReference _bofRef) async {
     List<LobbyDoc> _currentLobbies = await lobbies$.first;
-    FirebaseUser fbUser = await FirestoreBloc().user.first;
+    FirebaseUser fbUser = await FirestoreBloc().user$.first;
 
     // checking if player already has a lobby, otherwise we create a new one
     LobbyDoc _oldLobby = _currentLobbies
@@ -79,7 +79,7 @@ class LobbiesBloc extends BlocBase {
     if (_upToDateLobby.challengerBot != null) {
       throw ("Lobby already has a challenger");
     }
-    FirebaseUser playerfbUser = await FirestoreBloc().user.first;
+    FirebaseUser playerfbUser = await FirestoreBloc().user$.first;
     if (_upToDateLobby.uid == playerfbUser.uid) {
       // this is the player's lobby so we aren't the challenger (rare circumstance)
       // we are replacing the host bot in case the player went back and selected a new one
