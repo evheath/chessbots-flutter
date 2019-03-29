@@ -16,10 +16,18 @@ class _AuthPageState extends State<AuthPage> {
     final FirestoreBloc _firestoreBloc =
         BlocProvider.of<FirestoreBloc>(context);
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text("Chess Bots",
+                    style: TextStyle(fontFamily: 'Graduate')),
+              ),
+            ),
             StreamBuilder<bool>(
                 stream: _firestoreBloc.loading$,
                 initialData: false,
