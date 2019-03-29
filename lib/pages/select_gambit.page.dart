@@ -161,6 +161,7 @@ class SelectGambitPage extends StatelessWidget {
     PromotePawnToBishop(),
     PromotePawnToKnight(),
     PromotePawnToRandom(),
+    PromoteWithCapture(),
   ];
 
   static final List<Gambit> _movementGambits = [

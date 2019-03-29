@@ -3,8 +3,6 @@
 // 2) add it to the appropriate category in select_gambit.page.dart
 // 3) add it to gambitMap, currently in chess_bot.dart
 
-//TODO figure out how to automate the above
-
 library gambits;
 
 export './gambits/move_piece_safely.dart';
@@ -27,6 +25,7 @@ export './gambits/promote_pawn_to_queen.dart';
 export './gambits/promote_pawn_to_rook.dart';
 export './gambits/promote_pawn_to_bishop.dart';
 export './gambits/promote_pawn_to_knight.dart';
+export './gambits/promote_with_capture.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
