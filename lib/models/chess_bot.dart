@@ -253,6 +253,7 @@ class ChessBot {
 ///
 /// Used for building gambits from titles stored in db
 Map<String, Gambit> gambitMap = {
+  PromoteWithCapture().title: PromoteWithCapture(),
   MovePieceSafely().title: MovePieceSafely(),
   CaptureUndefendedPiece().title: CaptureUndefendedPiece(),
   CaptureRandomPiece().title: CaptureRandomPiece(),
