@@ -1,11 +1,12 @@
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 
-final teresaCPU = ChessBot(
+final delilahCPU = ChessBot(
   gambits: [
+    CastleKingSide(),
+    CastleQueenSide(),
     CaptureUndefendedPiece(),
-    PromotePawnToRook(),
-    MoveRandomPawn(),
+    MovePieceSafely(),
   ],
-  name: "Motherless Teresa",
+  name: "Delilah the Defensive",
 );

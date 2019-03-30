@@ -50,6 +50,7 @@ class SingleplayerPage extends StatelessWidget {
       rickCPU,
       carlosCPU,
       teresaCPU,
+      delilahCPU,
     ];
     //sort by lowest to highest bounty
     _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
