@@ -56,7 +56,7 @@ class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
         padding: EdgeInsets.all(10.0),
         child: ListView(
           children: <Widget>[
-            Status(widget.opponentBot),
+            Status(widget.opponentBot, white: !playerIsWhite),
             ChessBoard(
               size: MediaQuery.of(context).size.width - 20,
               enableUserMoves: false,
@@ -65,7 +65,7 @@ class SingleplayerMatchPageState extends State<SingleplayerMatchPage> {
               onDraw: () {},
               whiteSideTowardsUser: playerIsWhite,
             ),
-            Status(widget.playerBot),
+            Status(widget.playerBot, white: playerIsWhite),
           ],
         ),
       ),

@@ -69,7 +69,7 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                       //TODO is there a better way to put in indicator in a tile/status?
                       return CircularProgressIndicator();
                     }
-                    return Status(snapshot.data);
+                    return Status(snapshot.data, white: !playerIsWhite);
                   },
                 ),
                 //chessboard
@@ -98,7 +98,7 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                       //TODO is there a better way to put in indicator in a tile/status?
                       return CircularProgressIndicator();
                     }
-                    return Status(snapshot.data);
+                    return Status(snapshot.data, white: playerIsWhite);
                   },
                 ),
               ],
