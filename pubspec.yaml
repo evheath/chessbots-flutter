@@ -56,3 +56,6 @@ flutter:
     - family: Graduate
       fonts:
       - asset: fonts/Graduate-Regular.ttf
+    - family: Shojumaru
+      fonts:
+      - asset: fonts/Shojumaru-Regular.ttf

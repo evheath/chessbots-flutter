@@ -1,6 +1,7 @@
 import 'package:chessbotsmobile/bloc/base.bloc.dart';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
+import 'package:chessbotsmobile/components/build_battle_upgrade.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,10 @@ class _AuthPageState extends State<AuthPage> {
                 child: Text("Chess Bots",
                     style: TextStyle(fontFamily: 'Graduate')),
               ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width - 50,
+              child: BuildBattleUpgrade(),
             ),
             StreamBuilder<bool>(
                 stream: _firestoreBloc.loading$,
