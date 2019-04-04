@@ -1,6 +1,6 @@
 name: chessbotsmobile
 description: Create and battle chess bots!
-version: 0.5.3+27
+version: 0.5.3+28
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 dependencies:
@@ -56,3 +56,6 @@ flutter:
     - family: Graduate
       fonts:
       - asset: fonts/Graduate-Regular.ttf
+    - family: Shojumaru
+      fonts:
+      - asset: fonts/Shojumaru-Regular.ttf
