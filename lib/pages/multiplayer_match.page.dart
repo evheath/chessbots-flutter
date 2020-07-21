@@ -1,6 +1,7 @@
 import 'package:chessbotsmobile/bloc/game_controller.bloc.dart';
 import 'package:chessbotsmobile/bloc/multiplayer_match.bloc.dart';
 import 'package:chessbotsmobile/shared/chess_board.dart';
+import 'package:chessbotsmobile/shared/loading_list_tile.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/shared/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -66,8 +67,7 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                       : _multiplayerMatchBloc.whiteBot$,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      //TODO is there a better way to put in indicator in a tile/status?
-                      return CircularProgressIndicator();
+                      return LoadingListTile();
                     }
                     return Status(snapshot.data, white: !playerIsWhite);
                   },
@@ -95,8 +95,7 @@ class MultiplayerMatchPageState extends State<MultiplayerMatchPage> {
                       : _multiplayerMatchBloc.whiteBot$,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      //TODO is there a better way to put in indicator in a tile/status?
-                      return CircularProgressIndicator();
+                      return LoadingListTile();
                     }
                     return Status(snapshot.data, white: playerIsWhite);
                   },

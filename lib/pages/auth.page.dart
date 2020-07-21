@@ -38,7 +38,13 @@ class _AuthPageState extends State<AuthPage> {
                 initialData: false,
                 builder: (context, snapshot) {
                   return snapshot.data
-                      ? CircularProgressIndicator()
+                      // ? CircularProgressIndicator()
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.width / 2 - 20),
+                          child: CircularProgressIndicator(),
+                        )
                       : ChessBoard(
                           enableUserMoves: false,
                           onDraw: () {},
