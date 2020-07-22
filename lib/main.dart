@@ -13,6 +13,7 @@ import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
