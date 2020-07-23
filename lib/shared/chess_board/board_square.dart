@@ -151,43 +151,76 @@ class BoardSquare extends StatelessWidget {
     chess.Piece piece = model.chessBoardController.game.get(squareName);
 
     if (piece != null) {
-      IconData _iconData;
-
+      // code for vector-based pieces:
       switch (piece.type) {
         case chess.PieceType.PAWN:
-          _iconData = FontAwesomeIcons.chessPawn;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhitePawn(size: size)
+              : BlackPawn(size: size);
           break;
         case chess.PieceType.ROOK:
-          _iconData = FontAwesomeIcons.chessRook;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhiteRook(size: size)
+              : BlackRook(size: size);
           break;
         case chess.PieceType.KNIGHT:
-          _iconData = FontAwesomeIcons.chessKnight;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhiteKnight(size: size)
+              : BlackKnight(size: size);
           break;
         case chess.PieceType.BISHOP:
-          _iconData = FontAwesomeIcons.chessBishop;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhiteBishop(size: size)
+              : BlackBishop(size: size);
           break;
         case chess.PieceType.QUEEN:
-          _iconData = FontAwesomeIcons.chessQueen;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhiteQueen(size: size)
+              : BlackQueen(size: size);
           break;
         case chess.PieceType.KING:
-          _iconData = FontAwesomeIcons.chessKing;
+          imageToDisplay = piece.color == chess.Color.WHITE
+              ? WhiteKing(size: size)
+              : BlackKing(size: size);
           break;
       }
+      // end of code for vector-based pieces
 
-      Color _iconColor =
-          piece.color == chess.Color.WHITE ? Colors.white : Colors.black;
-
-      Color _bgColor = piece.color == chess.Color.WHITE
-          ? Colors.black12
-          : Colors.transparent;
-
-      imageToDisplay = CircleAvatar(
-        child: Icon(
-          _iconData,
-          color: _iconColor,
-        ),
-        backgroundColor: _bgColor,
-      );
+      // code for icon-based pieces:
+      // IconData _iconData;
+      // switch (piece.type) {
+      //   case chess.PieceType.PAWN:
+      //     _iconData = FontAwesomeIcons.chessPawn;
+      //     break;
+      //   case chess.PieceType.ROOK:
+      //     _iconData = FontAwesomeIcons.chessRook;
+      //     break;
+      //   case chess.PieceType.KNIGHT:
+      //     _iconData = FontAwesomeIcons.chessKnight;
+      //     break;
+      //   case chess.PieceType.BISHOP:
+      //     _iconData = FontAwesomeIcons.chessBishop;
+      //     break;
+      //   case chess.PieceType.QUEEN:
+      //     _iconData = FontAwesomeIcons.chessQueen;
+      //     break;
+      //   case chess.PieceType.KING:
+      //     _iconData = FontAwesomeIcons.chessKing;
+      //     break;
+      // }
+      // Color _iconColor =
+      //     piece.color == chess.Color.WHITE ? Colors.white : Colors.black;
+      // Color _bgColor = piece.color == chess.Color.WHITE
+      //     ? Colors.black12
+      //     : Colors.transparent;
+      // imageToDisplay = CircleAvatar(
+      //   child: Icon(
+      //     _iconData,
+      //     color: _iconColor,
+      //   ),
+      //   backgroundColor: _bgColor,
+      // );
+      // end of code for icon-based pieces
     }
 
     return imageToDisplay;
