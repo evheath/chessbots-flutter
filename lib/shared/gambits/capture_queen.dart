@@ -14,11 +14,11 @@ class CaptureQueen extends Gambit {
       : super(
             cost: 10,
             demoFEN:
-                "rnb1kbn1/ppppp1pr/8/6N1/4P3/7q/PPPP1P1P/RNBQK2R w KQkq - 0 1",
+                "1nb1kbn1/pppppp1p/2r3r1/8/4B3/3q1p2/PPPPPPPP/RNBQK1NR w KQ - 0 1",
             vector: WhiteQueen(),
             title: "Capture queen",
             color: Colors.red,
-            description: "Take your opponent's most valuable piece!",
+            description: "Take the enemy queen using any available piece",
             altText: "gg ez",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
