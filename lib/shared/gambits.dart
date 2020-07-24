@@ -26,6 +26,7 @@ export './gambits/promote_pawn_to_rook.dart';
 export './gambits/promote_pawn_to_bishop.dart';
 export './gambits/promote_pawn_to_knight.dart';
 export './gambits/promote_with_capture.dart';
+export './gambits/capture_random_using_bishop.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
