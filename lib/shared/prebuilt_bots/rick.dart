@@ -9,5 +9,5 @@ final rickCPU = ChessBot(
     CastleKingSide(),
     CastleQueenSide(),
   ],
-  name: "Relatively restrained Rick",
+  name: "Restrained Rick",
 );

@@ -23,7 +23,7 @@ class OpponentListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("${bot.name}"),
-              Text("Level ${bot.level}"),
+              Text("Gambits: ${bot.level}"),
               Text("Bounty: ${bot.bounty}"),
             ],
           ),

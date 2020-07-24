@@ -28,3 +28,11 @@ flutter test
 
 ## Keytool (signing)
 /c/Program\ Files/Android/Android\ Studio/jre/bin/keytool.exe -printcert -file ./GOOGPLAY.RSAd
+
+# Standard Operation Procedures 
+
+## Adding a singleplayer bot
+
+1. Create the bot in /lib/shared/prebuilt_bots/new_bot.dart
+1. Export the bot in /lib/shared/prebuilt_bots.dart
+1. Add the bot to the _opponentBots List in /lib/pages/singleplayer.plage.dart

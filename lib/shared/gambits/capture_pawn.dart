@@ -20,7 +20,7 @@ class CapturePawn extends Gambit {
             title: "Capture pawn",
             color: Colors.red,
             description: "Take one of your opponent's pawns.",
-            altText: "Small victories add up quickly.",
+            altText: "Small victories.",
             icon: FontAwesomeIcons.chessPawn,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game

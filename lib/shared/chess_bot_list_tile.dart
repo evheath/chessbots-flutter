@@ -33,7 +33,7 @@ class ChessBotListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("${_bot.name}"),
-                Text("Level ${_bot.level}"),
+                Text("Gambits: ${_bot.level}"),
                 Text("Bounty: ${_bot.bounty}np"),
                 // Text("Kills: ${_bot.kills}"),
               ],
