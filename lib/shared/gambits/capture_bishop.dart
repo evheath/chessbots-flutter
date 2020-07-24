@@ -18,8 +18,9 @@ class CaptureBishop extends Gambit {
             vector: WhiteBishop(),
             title: "Capture bishop",
             color: Colors.red,
-            description: "Take one of opponent's bishops.",
-            altText: "Now we're talking.",
+            description:
+                "Take one of opponent's bishops using any available piece.",
+            altText: "I wonder what you will preach about in heaven.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game

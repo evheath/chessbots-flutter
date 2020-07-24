@@ -19,7 +19,7 @@ class CheckmateOpponent extends Gambit {
             color: Colors.orange,
             description:
                 "Win the game by ensuring the capture of the opponent's King",
-            altText: "Cha-ching",
+            altText: "Victory is ours!",
             icon: FontAwesomeIcons.chessKing,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();

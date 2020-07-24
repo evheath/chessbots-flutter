@@ -19,7 +19,7 @@ class CaptureQueen extends Gambit {
             title: "Capture queen",
             color: Colors.red,
             description: "Take the enemy queen using any available piece",
-            altText: "gg ez",
+            altText: "Even monarchs can die like commoners",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game

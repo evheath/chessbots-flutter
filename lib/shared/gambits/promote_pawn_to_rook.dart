@@ -11,14 +11,14 @@ class PromotePawnToRook extends Gambit {
 
   PromotePawnToRook._internal()
       : super(
-            cost: 5,
+            cost: 10,
             demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhiteRook(),
             title: "Promote to rook",
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a rook",
-            altText: "Could make the difference",
+            altText: "Better to lay the bricks than die for them.",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();

@@ -18,7 +18,7 @@ class CastleQueenSide extends Gambit {
             title: "Castle Queen Side",
             color: Colors.blue,
             description: "Move your king to safety and activate a rook!",
-            altText: "Proper defense will win the day",
+            altText: "A little defense goes a long way.",
             icon: FontAwesomeIcons.chess,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();

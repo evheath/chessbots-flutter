@@ -19,7 +19,7 @@ class CaptureRandomPiece extends Gambit {
             title: "Capture a random piece",
             color: Colors.red,
             description: "Capture a piece at random.",
-            altText: "Different results given the same position.",
+            altText: "Hell is empty and all the devils are here.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();

@@ -19,7 +19,8 @@ class CaptureKnight extends Gambit {
             title: "Capture knight",
             color: Colors.red,
             description: "Take one of opponent's knights.",
-            altText: "Heyo!",
+            altText:
+                "The object of war is not to die for your country but to make the other bastard die for his.",
             icon: FontAwesomeIcons.chessKnight,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game

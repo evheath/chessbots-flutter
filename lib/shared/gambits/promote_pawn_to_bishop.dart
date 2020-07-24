@@ -18,7 +18,7 @@ class PromotePawnToBishop extends Gambit {
             color: Colors.yellow,
             description:
                 "If a pawn can reach the back rank, it will promote to a bishop",
-            altText: "Not bad!",
+            altText: "Eternal God, please bless our priests...",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
