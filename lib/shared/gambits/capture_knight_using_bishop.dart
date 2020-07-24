@@ -4,21 +4,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureBishopUsingBishop extends Gambit {
-  // singleton logic so that CaptureBishopUsingBishop is only created once
-  static final CaptureBishopUsingBishop _singleton =
-      CaptureBishopUsingBishop._internal();
-  factory CaptureBishopUsingBishop() => _singleton;
+class CaptureKnightUsingBishop extends Gambit {
+  // singleton logic so that CaptureKnightUsingBishop is only created once
+  static final CaptureKnightUsingBishop _singleton =
+      CaptureKnightUsingBishop._internal();
+  factory CaptureKnightUsingBishop() => _singleton;
 
-  CaptureBishopUsingBishop._internal()
+  CaptureKnightUsingBishop._internal()
       : super(
             cost: 2,
             demoFEN:
                 'rn2k2r/pQpppppp/b2bq2n/8/2B2BN1/8/PPPPPPPP/RN2K2R w KQkq - 0 1',
-            title: "Capture bishop with bishop",
+            title: "Capture knight with bishop",
             color: Colors.red,
-            description: "Capture an enemy bishop with your own.",
-            altText: "Converted...into a dead man",
+            description: "Capture an enemy knight with a bishop.",
+            altText: "A heretic can be tolerated; heresy cannot.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game
@@ -31,7 +31,7 @@ class CaptureBishopUsingBishop extends Gambit {
                   String landingSquare = Gambit.landingSquareOfMove(capture);
                   chess.PieceType pieceBeingCaptured =
                       game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.BISHOP;
+                  return pieceBeingCaptured == chess.PieceType.KNIGHT;
                 },
                 orElse: () => null,
               );
