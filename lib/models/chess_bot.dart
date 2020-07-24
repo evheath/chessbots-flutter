@@ -260,6 +260,7 @@ Map<String, Gambit> gambitMap = {
   CaptureRandomPiece().title: CaptureRandomPiece(),
   CaptureBishop().title: CaptureBishop(),
   CaptureRandomUsingBishop().title: CaptureRandomUsingBishop(),
+  CaptureBishopUsingBishop().title: CaptureBishopUsingBishop(),
   CaptureRandomUsingKnight().title: CaptureRandomUsingKnight(),
   CaptureKnight().title: CaptureKnight(),
   CapturePawn().title: CapturePawn(),
