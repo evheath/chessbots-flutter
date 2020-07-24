@@ -35,11 +35,11 @@ flutter test
 
 1. Create the bot in /lib/shared/prebuilt_bots/new_bot.dart
 1. Export the bot in /lib/shared/prebuilt_bots.dart
-1. Add the bot to the _opponentBots List in /lib/pages/singleplayer.plage.dart
+1. Add the bot to the _opponentBots List in /lib/pages/singleplayer.page.dart
 
 ## Adding a gambit
 
 1. Create the gambit in /lib/shared/gambits/new_gambit.dart
 1. Export the gambit in /lib/shared/gambits.dart
-1. Add the gambit to the appropriate List in /lib/pages/select_gambit.plage.dart
+1. Add the gambit to the appropriate List in /lib/pages/select_gambit.page.dart
 1. Update gambitMap inside /lib/models/chess_bot.dart with new gambit

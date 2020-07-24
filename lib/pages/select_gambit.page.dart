@@ -34,6 +34,14 @@ class SelectGambitPage extends StatelessWidget {
             stream: _chessBot.gambits,
             builder: (context, snapshot) {
               List<Gambit> _currentGambits = snapshot.data;
+
+              // sort each list of gambits by cost
+              _listOfLists.forEach((listOfGambits) {
+                // lowest cost will appear at top
+                listOfGambits.sort((a, b) => a.cost.compareTo(b.cost));
+              });
+
+              // render each list of gambits as a list of tiles inside a tab
               return TabBarView(
                 // tab pages
                 children: List.generate(_listOfLists.length, (outerIndex) {
