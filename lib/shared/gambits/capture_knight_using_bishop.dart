@@ -18,7 +18,7 @@ class CaptureKnightUsingBishop extends Gambit {
             title: "Capture knight with bishop",
             color: Colors.red,
             description: "Capture an enemy knight with a bishop.",
-            altText: "A heretic can be tolerated; heresy cannot.",
+            altText: "A heretic can be tolerated. Heresy cannot.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game

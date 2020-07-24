@@ -18,7 +18,7 @@ class CaptureQueenUsingBishop extends Gambit {
             title: "Capture queen with bishop",
             color: Colors.red,
             description: "Capture an enemy queen with a bishop.",
-            altText: "God save the queen.",
+            altText: "God save the queen, for I will not.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game

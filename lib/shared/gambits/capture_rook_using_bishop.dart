@@ -18,7 +18,7 @@ class CaptureRookUsingBishop extends Gambit {
             title: "Capture rook with bishop",
             color: Colors.red,
             description: "Capture an enemy rook with a bishop.",
-            altText: "Fixed fortifications are monuments to stupidity.",
+            altText: "The word of God can penetrate any stone.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game

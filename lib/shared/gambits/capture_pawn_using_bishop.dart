@@ -19,7 +19,7 @@ class CapturePawnUsingBishop extends Gambit {
             color: Colors.red,
             description: "Capture an enemy pawn with a bishop.",
             altText:
-                "Evangelize? As if these savages weren't dangerous enough already",
+                "Evangelize them? As if these savages weren't dangerous enough already",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game
