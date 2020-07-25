@@ -46,6 +46,7 @@ export './gambits/capture_bishop_using_pawn.dart';
 export './gambits/capture_knight_using_pawn.dart';
 export './gambits/capture_pawn_using_pawn.dart';
 export './gambits/capture_queen_using_pawn.dart';
+export './gambits/capture_rook_using_pawn.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
