@@ -14,7 +14,7 @@ class CaptureRandomPiece extends Gambit {
   CaptureRandomPiece._internal()
       : super(
             cost: 5,
-            demoFEN: "3k1n2/8/8/q4R1b/8/8/5p2/1K6 w - - 0 1",
+            demoFEN: "3k1n2/8/8/q4R1b/1B6/8/5p2/1K6 w - - 0 1",
             vector: BlackKing(),
             title: "Random takes Random",
             color: Colors.red,
