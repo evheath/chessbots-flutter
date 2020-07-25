@@ -16,9 +16,10 @@ class CaptureRook extends Gambit {
             demoFEN:
                 "rnbqkbn1/ppp1pppp/8/3p1r2/4P3/4N3/PPPP1PPP/RNBQKB1R w KQkq - 0 1",
             vector: WhiteRook(),
-            title: "Capture rook",
+            title: "Random takes Rook",
             color: Colors.red,
-            description: "Take one of opponent's rooks.",
+            description:
+                "Capture one of opponent's rooks using any available piece.",
             altText: "It didn't even take twenty men...",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {

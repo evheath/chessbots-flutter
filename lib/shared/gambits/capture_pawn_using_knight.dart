@@ -15,7 +15,7 @@ class CapturePawnUsingKnight extends Gambit {
             cost: 1,
             demoFEN:
                 'rn2k3/ppp1ppp1/8/8/8/b1q2b1n/PPprpPPP/RNBQKBNR w KQq - 0 1',
-            title: "Capture pawn with knight",
+            title: "Knight takes Pawn",
             color: Colors.red,
             description: "Capture an enemy pawn with a knight.",
             altText: "Consider it mercy",

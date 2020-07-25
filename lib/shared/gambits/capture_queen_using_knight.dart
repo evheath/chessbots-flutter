@@ -15,7 +15,7 @@ class CaptureQueenUsingKnight extends Gambit {
             cost: 4,
             demoFEN:
                 'rn2k3/ppp1ppp1/8/8/8/b1q2b1n/PPprpPPP/RNBQKBNR w KQq - 0 1',
-            title: "Capture queen with knight",
+            title: "Knight takes Queen",
             color: Colors.red,
             description: "Capture an enemy queen with a knight.",
             altText: "You're no queen of mine.",

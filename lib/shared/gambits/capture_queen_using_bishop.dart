@@ -15,7 +15,7 @@ class CaptureQueenUsingBishop extends Gambit {
             cost: 4,
             demoFEN:
                 '1nb1kbn1/pppppp1p/2r3r1/8/4B3/3q1p2/PPPPPPPP/RNBQK1NR w KQ - 0 1',
-            title: "Capture queen with bishop",
+            title: "Bishop takes queen",
             color: Colors.red,
             description: "Capture an enemy queen with a bishop.",
             altText: "God save the queen, for I will not.",

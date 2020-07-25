@@ -14,7 +14,7 @@ class MovePieceSafely extends Gambit {
             cost: 5,
             demoFEN:
                 'r2qk1r1/1pp1bp2/p1npbnpp/4p1B1/3PP3/N1P2N2/PPQ2PPP/R3KB1R w KQkq - 0 1',
-            title: "Move piece safely",
+            title: "Move Random, safely",
             color: Colors.grey,
             description: "Move a random piece to an unattacked square.",
             altText: "Discretion is the better part of valor",

@@ -15,13 +15,13 @@ class CapturePawn extends Gambit {
       : super(
             cost: 2,
             demoFEN:
-                "rnbqkb1r/ppp1pppp/5n2/8/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 0 1",
+                "rnbqkbnr/pppp1ppp/8/6N1/4p3/2P3P1/PPQPPPBP/RNB1K2R w KQkq - 0 1",
             vector: WhitePawn(),
-            title: "Capture pawn",
+            title: "Random takes Pawn",
             color: Colors.red,
-            description: "Take one of your opponent's pawns.",
+            description: "Take a pawn using any available piece.",
             altText: "Small victories.",
-            icon: FontAwesomeIcons.chessPawn,
+            icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()

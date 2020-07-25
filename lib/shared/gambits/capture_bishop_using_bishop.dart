@@ -15,7 +15,7 @@ class CaptureBishopUsingBishop extends Gambit {
             cost: 1,
             demoFEN:
                 'rn2k2r/pQpppppp/b2bq2n/8/2B2BN1/8/PPPPPPPP/RN2K2R w KQkq - 0 1',
-            title: "Capture bishop with bishop",
+            title: "Bishop takes Bishop",
             color: Colors.red,
             description: "Capture an enemy bishop with your own.",
             altText: "Converted...into a dead man",

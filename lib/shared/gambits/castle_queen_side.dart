@@ -15,7 +15,7 @@ class CastleQueenSide extends Gambit {
             demoFEN:
                 "r2qk2r/pbppbppp/1pn1pn2/8/2BPP3/2N1BN2/PPPQ1PPP/R3K2R w KQkq - 0 1",
             vector: WhiteRook(),
-            title: "Castle Queen Side",
+            title: "Castle, Queen-side",
             color: Colors.blue,
             description: "Move your king to safety and activate a rook!",
             altText: "A little defense goes a long way.",

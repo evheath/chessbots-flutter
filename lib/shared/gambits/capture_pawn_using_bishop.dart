@@ -15,7 +15,7 @@ class CapturePawnUsingBishop extends Gambit {
             cost: 1,
             demoFEN:
                 'r1b1kbnr/ppppppp1/1q6/8/3B4/2n1p3/PPPPPPPP/RNBQK1NR w KQkq - 0 1',
-            title: "Capture pawn with bishop",
+            title: "Bishop takes Pawn",
             color: Colors.red,
             description: "Capture an enemy pawn with a bishop.",
             altText:

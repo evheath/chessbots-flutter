@@ -15,7 +15,7 @@ class CaptureUndefendedPiece extends Gambit {
             cost: 10,
             demoFEN:
                 'rnb1k2r/1p1p1ppp/pqp4n/2b1p1N1/1PB5/8/PBPPPPPP/RN1QK2R w KQkq - 0 1',
-            title: "Capture undefended piece",
+            title: "Random takes Random, undefended",
             color: Colors.red,
             description:
                 "Take a piece that has no defenders, using any piece of your own.",

@@ -15,7 +15,7 @@ class CaptureRookUsingKnight extends Gambit {
             cost: 3,
             demoFEN:
                 'rn2k3/ppppppp1/8/8/8/b1q2b1n/PPprPPPP/RNBQKBNR w KQq - 0 1',
-            title: "Capture Rook with knight",
+            title: "Knight takes Rook",
             color: Colors.red,
             description: "Capture an enemy Rook with a knight.",
             altText: "Fixed fortifications are monuments to stupidity.",

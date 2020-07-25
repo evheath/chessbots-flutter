@@ -16,7 +16,7 @@ class CaptureBishop extends Gambit {
             demoFEN:
                 'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
             vector: WhiteBishop(),
-            title: "Capture bishop",
+            title: "Random takes Bishop",
             color: Colors.red,
             description:
                 "Take one of opponent's bishops using any available piece.",

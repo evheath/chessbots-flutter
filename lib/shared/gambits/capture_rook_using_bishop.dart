@@ -15,7 +15,7 @@ class CaptureRookUsingBishop extends Gambit {
             cost: 3,
             demoFEN:
                 '1nb1kbn1/pppppp1p/2r3r1/8/4B3/3q1p2/PPPPPPPP/RNBQK1NR w KQ - 0 1',
-            title: "Capture rook with bishop",
+            title: "Bishop takes Rook",
             color: Colors.red,
             description: "Capture an enemy rook with a bishop.",
             altText: "The word of God can penetrate any stone wall.",

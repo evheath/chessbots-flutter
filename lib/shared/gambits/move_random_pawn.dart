@@ -13,7 +13,7 @@ class MoveRandomPawn extends Gambit {
       : super(
             cost: 5,
             vector: WhitePawn(),
-            title: "Move a random pawn",
+            title: "Random pawn move",
             color: Colors.grey,
             description: "Make a random pawn move, including captures!",
             altText: "March, march, march!",

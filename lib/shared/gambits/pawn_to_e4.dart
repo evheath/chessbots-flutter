@@ -13,7 +13,7 @@ class PawnToE4 extends Gambit {
       : super(
             cost: 1,
             vector: WhitePawn(),
-            title: "Move a pawn to e4",
+            title: "Pawn to e4",
             color: Colors.grey,
             description: "If a pawn can move to e4, it will!",
             altText: "Control the center!",
