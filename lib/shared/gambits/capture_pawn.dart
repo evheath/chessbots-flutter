@@ -13,7 +13,7 @@ class CapturePawn extends Gambit {
 
   CapturePawn._internal()
       : super(
-            cost: 1,
+            cost: 2,
             demoFEN:
                 "rnbqkb1r/ppp1pppp/5n2/8/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhitePawn(),

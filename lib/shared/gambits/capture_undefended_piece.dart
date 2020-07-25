@@ -17,8 +17,9 @@ class CaptureUndefendedPiece extends Gambit {
                 'rnb1k2r/1p1p1ppp/pqp4n/2b1p1N1/1PB5/8/PBPPPPPP/RN1QK2R w KQkq - 0 1',
             title: "Capture undefended piece",
             color: Colors.red,
-            description: "Take a piece that has no defenders.",
-            altText: "There is no such thing as an undefended border.",
+            description:
+                "Take a piece that has no defenders, using any piece of your own.",
+            altText: "Defend your border, lest it turn into my border.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               final enemyColor = game.turn == chess.Color.WHITE

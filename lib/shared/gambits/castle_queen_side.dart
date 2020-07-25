@@ -11,7 +11,7 @@ class CastleQueenSide extends Gambit {
 
   CastleQueenSide._internal()
       : super(
-            cost: 2,
+            cost: 1,
             demoFEN:
                 "r2qk2r/pbppbppp/1pn1pn2/8/2BPP3/2N1BN2/PPPQ1PPP/R3K2R w KQkq - 0 1",
             vector: WhiteRook(),

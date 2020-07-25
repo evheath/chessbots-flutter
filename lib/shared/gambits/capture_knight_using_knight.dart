@@ -12,7 +12,7 @@ class CaptureKnightUsingKnight extends Gambit {
 
   CaptureKnightUsingKnight._internal()
       : super(
-            cost: 2,
+            cost: 1,
             demoFEN:
                 'rn2k3/ppp1ppp1/8/8/8/b1q2b1n/PPprpPPP/RNBQKBNR w KQq - 0 1',
             title: "Capture knight with knight",

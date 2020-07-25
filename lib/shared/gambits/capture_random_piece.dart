@@ -18,7 +18,7 @@ class CaptureRandomPiece extends Gambit {
             vector: BlackKing(),
             title: "Capture a random piece",
             color: Colors.red,
-            description: "Capture a piece at random.",
+            description: "Capture any piece using any piece.",
             altText: "Hell is empty and all the devils are here.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
