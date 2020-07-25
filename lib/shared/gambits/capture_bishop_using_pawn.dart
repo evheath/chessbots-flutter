@@ -21,13 +21,12 @@ class CaptureBishopUsingPawn extends Gambit {
             altText: "You've been doing WHAT with my tithes?",
             icon: FontAwesomeIcons.chessPawn,
             findMove: ((chess.Chess game) {
-              List<dynamic> movesWithPawns = game
+              List<dynamic> capturesWithPawn = game
                   .moves()
                   .where((move) =>
-                      move.toString()[0] != move.toString()[0].toUpperCase())
-                  .toList();
-              List<dynamic> capturesWithPawn = movesWithPawns
-                  .where((move) => move.toString().contains('x'))
+                      move.toString()[0] !=
+                          move.toString()[0].toUpperCase() && // its a pawn move
+                      move.toString().contains('x')) // it is a capture
                   .toList();
               capturesWithPawn.shuffle();
               String move = capturesWithPawn.firstWhere(
