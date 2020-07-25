@@ -20,24 +20,29 @@ export './gambits/checkmate_opponent.dart';
 export './gambits/castle_queen_side.dart';
 export './gambits/check_opponent.dart';
 export './gambits/move_random_pawn.dart';
+
 export './gambits/promote_pawn_to_random.dart';
 export './gambits/promote_pawn_to_queen.dart';
 export './gambits/promote_pawn_to_rook.dart';
 export './gambits/promote_pawn_to_bishop.dart';
 export './gambits/promote_pawn_to_knight.dart';
 export './gambits/promote_with_capture.dart';
+
 export './gambits/capture_random_using_bishop.dart';
 export './gambits/capture_bishop_using_bishop.dart';
 export './gambits/capture_knight_using_bishop.dart';
 export './gambits/capture_pawn_using_bishop.dart';
 export './gambits/capture_rook_using_bishop.dart';
 export './gambits/capture_queen_using_bishop.dart';
+
 export './gambits/capture_random_using_knight.dart';
 export './gambits/capture_bishop_using_knight.dart';
 export './gambits/capture_knight_using_knight.dart';
 export './gambits/capture_pawn_using_knight.dart';
 export './gambits/capture_rook_using_knight.dart';
 export './gambits/capture_queen_using_knight.dart';
+
+export './gambits/capture_bishop_using_pawn.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
