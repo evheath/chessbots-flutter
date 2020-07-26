@@ -183,6 +183,7 @@ class SelectGambitPage extends StatelessWidget {
     CaptureQueenUsingKing(),
     CaptureRandomUsingKing(),
     CaptureRandomUsingRook(),
+    CapturePawnUsingRook(),
     CaptureKnight(),
     CapturePawn(),
     CaptureRandomPiece(),
