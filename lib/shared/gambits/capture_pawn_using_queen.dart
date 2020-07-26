@@ -23,7 +23,9 @@ class CapturePawnUsingQueen extends Gambit {
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithQueen = game
                   .moves()
-                  .where((move) => move.toString().contains('Qx'))
+                  .where((move) =>
+                      move.toString().contains('Q') &&
+                      move.toString().contains('x'))
                   .toList();
               capturesWithQueen.shuffle();
               String move = capturesWithQueen.firstWhere(

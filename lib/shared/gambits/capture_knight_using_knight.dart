@@ -23,7 +23,9 @@ class CaptureKnightUsingKnight extends Gambit {
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithKnight = game
                   .moves()
-                  .where((move) => move.toString().contains('Nx'))
+                  .where((move) =>
+                      move.toString().contains('N') &&
+                      move.toString().contains('x'))
                   .toList();
               capturesWithKnight.shuffle();
               String move = capturesWithKnight.firstWhere(

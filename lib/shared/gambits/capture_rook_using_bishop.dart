@@ -23,7 +23,9 @@ class CaptureRookUsingBishop extends Gambit {
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithBishop = game
                   .moves()
-                  .where((move) => move.toString().contains('Bx'))
+                  .where((move) =>
+                      move.toString().contains('B') &&
+                      move.toString().contains('x'))
                   .toList();
               capturesWithBishop.shuffle();
               String move = capturesWithBishop.firstWhere(
