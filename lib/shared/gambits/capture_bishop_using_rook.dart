@@ -1,0 +1,41 @@
+import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:flutter/material.dart';
+import 'package:chess/chess.dart' as chess;
+
+class CaptureBishopUsingRook extends Gambit {
+  // singleton logic so that CaptureBishopUsingRook is only created once
+  static final CaptureBishopUsingRook _singleton =
+      CaptureBishopUsingRook._internal();
+  factory CaptureBishopUsingRook() => _singleton;
+
+  CaptureBishopUsingRook._internal()
+      : super(
+            cost: 1,
+            demoFEN: '4k3/2qpppp1/8/8/pbR1r2r/nRn5/PPPPPPPP/1NBQKBN1 w - - 0 1',
+            title: "Rook takes Bishop",
+            color: Colors.red,
+            description: "Capture an enemy bishop with a rook.",
+            altText: "Throw him from the battlements!",
+            icon: FontAwesomeIcons.chessRook,
+            findMove: ((chess.Chess game) {
+              List<dynamic> capturesWithRook = game
+                  .moves()
+                  .where((move) =>
+                      move.toString().contains('R') &&
+                      move.toString().contains('x'))
+                  .toList();
+              capturesWithRook.shuffle();
+              String move = capturesWithRook.firstWhere(
+                (capture) {
+                  String landingSquare = Gambit.landingSquareOfMove(capture);
+                  chess.PieceType pieceBeingCaptured =
+                      game.get(landingSquare)?.type;
+                  return pieceBeingCaptured == chess.PieceType.BISHOP;
+                },
+                orElse: () => null,
+              );
+              return move;
+            }));
+}
