@@ -286,6 +286,7 @@ Map<String, Gambit> gambitMap = {
   CaptureBishopUsingKing().title: CaptureBishopUsingKing(),
   CaptureKnightUsingKing().title: CaptureKnightUsingKing(),
   CapturePawnUsingKing().title: CapturePawnUsingKing(),
+  CaptureRookUsingKing().title: CaptureRookUsingKing(),
   CaptureKnight().title: CaptureKnight(),
   CapturePawn().title: CapturePawn(),
   CaptureQueen().title: CaptureQueen(),
