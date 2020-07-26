@@ -56,5 +56,7 @@ export './gambits/capture_knight_using_queen.dart';
 export './gambits/capture_pawn_using_queen.dart';
 export './gambits/capture_random_using_queen.dart';
 
+export './gambits/capture_bishop_using_king.dart';
+
 //non configurable gambits
 export './gambits/empty.dart';
