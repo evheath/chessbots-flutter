@@ -16,7 +16,7 @@ class CaptureKnight extends Gambit {
             demoFEN:
                 'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
             vector: WhiteKnight(),
-            title: "Capture knight",
+            title: "Random takes Knight",
             color: Colors.red,
             description:
                 "Take one of opponent's knights using any available piece.",
