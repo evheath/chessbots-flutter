@@ -49,5 +49,7 @@ export './gambits/capture_queen_using_pawn.dart';
 export './gambits/capture_rook_using_pawn.dart';
 export './gambits/capture_random_using_pawn.dart';
 
+export './gambits/capture_queen_using_queen.dart';
+
 //non configurable gambits
 export './gambits/empty.dart';
