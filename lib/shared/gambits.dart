@@ -61,6 +61,7 @@ export './gambits/capture_knight_using_king.dart';
 export './gambits/capture_pawn_using_king.dart';
 export './gambits/capture_rook_using_king.dart';
 export './gambits/capture_queen_using_king.dart';
+export './gambits/capture_random_using_king.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
