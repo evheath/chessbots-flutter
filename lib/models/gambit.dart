@@ -34,7 +34,7 @@ abstract class Gambit {
 
   /// returns a square when given a legal move
   ///
-  /// e.g. exf4 -> f4 or Bxf5=Q+ -> f5
+  /// e.g. exf4 -> f4 or gxf8=Q+ -> f8
   static String landingSquareOfMove(dynamic move) {
     String everythingBeforeAnX =
         move.toString().replaceAll(RegExp(r"(.*)x"), '');

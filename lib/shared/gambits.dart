@@ -70,5 +70,7 @@ export './gambits/capture_queen_using_rook.dart';
 export './gambits/capture_knight_using_rook.dart';
 export './gambits/capture_bishop_using_rook.dart';
 
+export './gambits/develop_knight.dart';
+
 //non configurable gambits
 export './gambits/empty.dart';
