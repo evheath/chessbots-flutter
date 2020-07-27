@@ -308,6 +308,7 @@ Map<String, Gambit> gambitMap = {
   CastleQueenSide().title: CastleQueenSide(),
   CheckOpponent().title: CheckOpponent(),
   MovePawn().title: MovePawn(),
+  MoveKnight().title: MoveKnight(),
   PawnToE4().title: PawnToE4(),
   PromotePawnToBishop().title: PromotePawnToBishop(),
   PromotePawnToKnight().title: PromotePawnToKnight(),
