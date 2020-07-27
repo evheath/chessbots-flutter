@@ -216,6 +216,7 @@ class SelectGambitPage extends StatelessWidget {
     DevelopBishop(),
     DevelopQueen(),
     DevelopRook(),
+    DevelopPawn(),
   ];
 
   static final List<List<Gambit>> _listOfLists = [

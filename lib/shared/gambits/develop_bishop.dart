@@ -16,7 +16,7 @@ class DevelopBishop extends Gambit {
                 'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 1',
             title: "Develop Bishop",
             color: Colors.grey,
-            description: "Move a Bishop from its starting position.",
+            description: "Move a bishop from its starting position.",
             altText: "God works in mysterious ways. We do not.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
@@ -28,7 +28,6 @@ class DevelopBishop extends Gambit {
 
               chess.Move move = bishopMoves.firstWhere((bishopMove) {
                 // find the first Bishop move that starts in a proper starting square
-                // e.g. a black Bishop that doesn't come from b8 or g8 would be invalid
                 List<String> acceptableStartingSquares =
                     game.turn == chess.Color.WHITE
                         ? ['c1', 'f1']

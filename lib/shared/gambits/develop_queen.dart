@@ -16,7 +16,7 @@ class DevelopQueen extends Gambit {
                 'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/2P1B3/PP3PPP/RN1QKBNR w KQkq - 0 1',
             title: "Develop Queen",
             color: Colors.grey,
-            description: "Move your Queen from her starting position.",
+            description: "Move your queen from her starting position.",
             altText: "So it begins.",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
@@ -28,7 +28,6 @@ class DevelopQueen extends Gambit {
 
               chess.Move move = queenMoves.firstWhere((queenMove) {
                 // find the first Queen move that starts in a proper starting square
-                // e.g. a black Queen that doesn't come from b8 or g8 would be invalid
                 List<String> acceptableStartingSquares =
                     game.turn == chess.Color.WHITE ? ['d1'] : ['d8'];
                 return acceptableStartingSquares

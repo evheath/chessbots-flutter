@@ -16,7 +16,7 @@ class DevelopRook extends Gambit {
                 'rnbqkbnr/ppp2ppp/4p3/3p4/7P/2N5/PPPPPPP1/R1BQKBNR w KQkq - 0 1',
             title: "Develop Rook",
             color: Colors.grey,
-            description: "Move a Rook from its starting position.",
+            description: "Move a rook from its starting position.",
             altText: "Why even call us the garrison if we're always on patrol?",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
@@ -28,7 +28,6 @@ class DevelopRook extends Gambit {
 
               chess.Move move = rookMoves.firstWhere((rookMove) {
                 // find the first Rook move that starts in a proper starting square
-                // e.g. a black Rook that doesn't come from b8 or g8 would be invalid
                 List<String> acceptableStartingSquares =
                     game.turn == chess.Color.WHITE
                         ? ['a1', 'h1']

@@ -28,7 +28,6 @@ class DevelopKnight extends Gambit {
 
               chess.Move move = knightMoves.firstWhere((knightMove) {
                 // find the first knight move that starts in a proper starting square
-                // e.g. a black knight that doesn't come from b8 or g8 would be invalid
                 List<String> acceptableStartingSquares =
                     game.turn == chess.Color.WHITE
                         ? ['b1', 'g1']
