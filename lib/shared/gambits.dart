@@ -77,6 +77,7 @@ export './gambits/develop_pawn.dart';
 
 export 'gambits/move_pawn.dart';
 export 'gambits/move_knight.dart';
+export 'gambits/move_bishop.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
