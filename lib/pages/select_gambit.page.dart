@@ -213,6 +213,7 @@ class SelectGambitPage extends StatelessWidget {
     MoveRandomPawn(),
     PawnToE4(),
     DevelopKnight(),
+    DevelopBishop(),
   ];
 
   static final List<List<Gambit>> _listOfLists = [
