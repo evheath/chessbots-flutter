@@ -21,7 +21,7 @@ class CaptureBishop extends Gambit {
             description:
                 "Take one of opponent's bishops using any available piece.",
             altText: "I wonder what you will preach about in heaven.",
-            icon: FontAwesomeIcons.chessBishop,
+            icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()

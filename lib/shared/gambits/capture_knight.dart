@@ -22,7 +22,7 @@ class CaptureKnight extends Gambit {
                 "Take one of opponent's knights using any available piece.",
             altText:
                 "The object of war is not to die for your country but to make the other bastard die for his.",
-            icon: FontAwesomeIcons.chessKnight,
+            icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game
                   .moves()
