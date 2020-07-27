@@ -17,7 +17,7 @@ class DevelopBishop extends Gambit {
             title: "Develop Bishop",
             color: Colors.grey,
             description: "Move a Bishop from its starting position.",
-            altText: "Activate the reserves!",
+            altText: "God works in mysterious ways. We do not.",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<chess.Move> bishopMoves = game
