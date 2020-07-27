@@ -5,7 +5,7 @@ final teresaCPU = ChessBot(
   gambits: [
     CaptureUndefendedPiece(),
     PromotePawnToRook(),
-    MoveRandomPawn(),
+    MovePawn(),
   ],
   name: "Motherless Teresa",
 );

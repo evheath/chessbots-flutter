@@ -5,7 +5,7 @@ final michaelCPU = ChessBot(
   gambits: [
     PromotePawnToRook(),
     CapturePawn(),
-    MoveRandomPawn(),
+    MovePawn(),
   ],
   name: "Merciless Michael",
 );
