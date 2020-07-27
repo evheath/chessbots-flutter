@@ -17,7 +17,7 @@ class DevelopQueen extends Gambit {
             title: "Develop Queen",
             color: Colors.grey,
             description: "Move your Queen from her starting position.",
-            altText: "God works in mysterious ways. We do not.",
+            altText: "So it begins.",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
               List<chess.Move> queenMoves = game
