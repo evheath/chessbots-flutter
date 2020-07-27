@@ -79,6 +79,7 @@ export 'gambits/move_pawn.dart';
 export 'gambits/move_knight.dart';
 export 'gambits/move_bishop.dart';
 export 'gambits/move_rook.dart';
+export 'gambits/move_queen.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
