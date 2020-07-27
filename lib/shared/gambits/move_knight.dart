@@ -11,7 +11,7 @@ class MoveKnight extends Gambit {
 
   MoveKnight._internal()
       : super(
-            cost: 2,
+            cost: 1,
             demoFEN:
                 'r1bqkb1r/ppp2ppp/2n5/3np1N1/2B5/8/PPPP1PPP/RNBQK2R w KQkq - 0 1',
             vector: WhiteKnight(),

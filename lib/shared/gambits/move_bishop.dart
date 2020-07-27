@@ -11,7 +11,7 @@ class MoveBishop extends Gambit {
 
   MoveBishop._internal()
       : super(
-            cost: 2,
+            cost: 1,
             demoFEN:
                 'r1bqkb1r/ppp2ppp/8/3np1N1/2Bn4/8/PPP2PPP/RNBQK2R w KQkq - 0 1',
             vector: WhiteBishop(),
