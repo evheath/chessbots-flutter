@@ -216,6 +216,7 @@ class SelectGambitPage extends StatelessWidget {
     MoveRook(),
     MoveQueen(),
     MoveKing(),
+    MoveQueenSafely(),
     PawnToE4(),
     DevelopKnight(),
     DevelopBishop(),
