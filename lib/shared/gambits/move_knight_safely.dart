@@ -18,7 +18,8 @@ class MoveKnightSafely extends Gambit {
             color: Colors.grey,
             description:
                 "Move a knight to an undefended square--this can include captures.",
-            altText: "The Lord will deliver the righteous.",
+            altText:
+                "No need to add the terrian to our growing list of adversaries",
             icon: FontAwesomeIcons.chessKnight,
             findMove: ((chess.Chess game) {
               List<chess.Move> knightMoves = game
