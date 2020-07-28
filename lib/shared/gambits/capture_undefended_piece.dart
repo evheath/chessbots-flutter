@@ -22,25 +22,17 @@ class CaptureUndefendedPiece extends Gambit {
             altText: "Defend your border, lest it turn into my border.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              final enemyColor = game.turn == chess.Color.WHITE
-                  ? chess.Color.BLACK
-                  : chess.Color.WHITE;
-
-              List<dynamic> captures = game
-                  .moves()
-                  .where((move) => move.toString().contains('x'))
+              List<chess.Move> captures = game
+                  .generate_moves()
+                  .where((move) => move.captured != null)
                   .toList();
               captures.shuffle();
-              String move = captures.firstWhere(
-                (capture) {
-                  String stringOfLandingSquare =
-                      Gambit.landingSquareOfMove(capture);
-                  int landingSquareAsInt =
-                      chess.Chess.SQUARES[stringOfLandingSquare];
-                  return !game.attacked(enemyColor, landingSquareAsInt);
-                },
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => Gambit.safeMove(possibleMove, game),
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

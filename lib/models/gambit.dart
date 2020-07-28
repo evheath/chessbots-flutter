@@ -16,7 +16,7 @@ abstract class Gambit {
 
   int cost;
 
-  /// Function that, given a chess object, will return a move as a string
+  /// Function that, given a chess object, will return a move as a string (in SAN; standard algebraic notation)
   ///
   /// If no move is found, null should be returned
   Function findMove;

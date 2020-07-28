@@ -18,7 +18,7 @@ class MoveQueenSafely extends Gambit {
             color: Colors.grey,
             description:
                 "Move your queen to an undefended square--this can include captures.",
-            altText: "I go where I please",
+            altText: "I go where I please, but obviously not just anywhere",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
               List<chess.Move> queenMoves = game
@@ -27,9 +27,9 @@ class MoveQueenSafely extends Gambit {
                   .toList()
                     ..shuffle();
 
-              chess.Move move = queenMoves.firstWhere((queenMove) {
-                return Gambit.safeMove(queenMove, game);
-              }, orElse: () => null);
+              chess.Move move = queenMoves.firstWhere(
+                  (queenMove) => Gambit.safeMove(queenMove, game),
+                  orElse: () => null);
 
               return move == null ? null : game.move_to_san(move);
             }));

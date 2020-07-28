@@ -20,31 +20,14 @@ class MovePieceSafely extends Gambit {
             altText: "Discretion is the better part of valor",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              final enemyColor = game.turn == chess.Color.WHITE
-                  ? chess.Color.BLACK
-                  : chess.Color.WHITE;
+              List<chess.Move> moves = game.generate_moves().toList()
+                ..shuffle();
 
-              List<dynamic> moves = game.moves();
-              moves.shuffle();
-
-              String move = moves.firstWhere(
-                (possibleMove) {
-                  String stringOfLandingSquare =
-                      Gambit.landingSquareOfMove(possibleMove);
-                  if (stringOfLandingSquare == null ||
-                      stringOfLandingSquare.isEmpty) {
-                    return false;
-                  }
-                  int landingSquareAsInt =
-                      chess.Chess.SQUARES[stringOfLandingSquare];
-                  if (landingSquareAsInt == null) {
-                    return false;
-                  }
-                  return !game.attacked(enemyColor, landingSquareAsInt);
-                },
+              chess.Move move = moves.firstWhere(
+                (possibleMove) => Gambit.safeMove(possibleMove, game),
                 orElse: () => null,
               );
 
-              return move;
+              return move == null ? null : game.move_to_san(move);
             }));
 }
