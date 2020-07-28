@@ -4,18 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureBishopUsingBishop extends Gambit {
-  // singleton logic so that CaptureBishopUsingBishop is only created once
-  static final CaptureBishopUsingBishop _singleton =
-      CaptureBishopUsingBishop._internal();
-  factory CaptureBishopUsingBishop() => _singleton;
+class CaptureBishopUsingBishopSafely extends Gambit {
+  // singleton logic so that CaptureBishopUsingBishopSafely is only created once
+  static final CaptureBishopUsingBishopSafely _singleton =
+      CaptureBishopUsingBishopSafely._internal();
+  factory CaptureBishopUsingBishopSafely() => _singleton;
 
-  CaptureBishopUsingBishop._internal()
+  CaptureBishopUsingBishopSafely._internal()
       : super(
-            cost: 1,
+            cost: 2,
             demoFEN:
                 'rn2k2r/pQpppppp/3bq2n/1b6/2B2BN1/8/PPPPPPPP/RN2K2R w KQkq - 0 1',
-            title: "Bishop takes Bishop",
+            title: "Bishop takes Bishop, safely",
             color: Colors.red,
             description: "Capture an enemy bishop with your own.",
             altText: "Converted...into a dead man",
@@ -29,7 +29,7 @@ class CaptureBishopUsingBishop extends Gambit {
                   .toList()
                     ..shuffle();
               chess.Move move = bTakesBMoves.firstWhere(
-                (bTakesBMove) => true,
+                (bTakesBMove) => Gambit.safeMove(bTakesBMove, game),
                 orElse: () => null,
               );
 
