@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
@@ -21,13 +22,16 @@ abstract class Gambit {
   /// If no move is found, null should be returned
   Function findMove;
 
+  List<GambitTag> tags;
+
   Gambit({
-    @required this.icon,
+    this.icon,
     @required this.color,
     @required this.title,
     @required this.description,
     @required this.findMove,
     this.vector,
+    this.tags,
     this.demoFEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     @required this.altText,
     @required this.cost,

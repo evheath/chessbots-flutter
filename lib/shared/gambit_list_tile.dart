@@ -1,5 +1,6 @@
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/pages/demo.page.dart';
 import 'package:flutter/material.dart';
@@ -23,21 +24,7 @@ class GambitListTile extends StatelessWidget {
         ),
         child: ListTile(
             enabled: !disabled,
-            title: Text(
-              gambit.title,
-              softWrap: false,
-            ),
-            // leading: Hero(
-            //   tag: gambit.title,
-            //   child: CircleAvatar(
-            //     child: Icon(gambit.icon, color: Colors.white),
-            //     backgroundColor: gambit.color,
-            //   ),
-            // ),
-            leading: CircleAvatar(
-              child: Icon(gambit.icon, color: Colors.white),
-              backgroundColor: gambit.color,
-            ),
+            title: Row(children: _buildIconAvatars(gambit.tags)),
             trailing: StreamBuilder<UserDoc>(
                 stream: FirestoreBloc().userDoc$,
                 builder: (context, snapshot) {
@@ -89,5 +76,25 @@ class GambitListTile extends StatelessWidget {
                 })),
       ),
     );
+  }
+
+  List<Widget> _buildIconAvatars(List<GambitTag> tags) {
+    if (tags == null || tags.length == 0) {
+      return [];
+    }
+
+    int length = tags.length > 4 ? 4 : tags.length; // max of 4 icons
+
+    List<Widget> _avatarIcons = List.generate(length, (index) {
+      GambitTag tag = tags[index];
+      return CircleAvatar(
+        child: Icon(
+          tag.icon,
+          color: tag.secondaryColor != null ? tag.secondaryColor : Colors.white,
+        ),
+        backgroundColor: tag.color,
+      );
+    });
+    return _avatarIcons;
   }
 }
