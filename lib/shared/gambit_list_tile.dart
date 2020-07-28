@@ -24,7 +24,7 @@ class GambitListTile extends StatelessWidget {
         ),
         child: ListTile(
             enabled: !disabled,
-            title: Row(children: _buildIconAvatars(gambit.tags)),
+            title: Row(children: _buildIconAvatars()),
             trailing: StreamBuilder<UserDoc>(
                 stream: FirestoreBloc().userDoc$,
                 builder: (context, snapshot) {
@@ -78,15 +78,16 @@ class GambitListTile extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildIconAvatars(List<GambitTag> tags) {
-    if (tags == null || tags.length == 0) {
-      return [];
+  List<Widget> _buildIconAvatars() {
+    if (gambit.tags == null || gambit.tags.length == 0) {
+      return [Text(gambit.title)];
     }
 
-    int length = tags.length > 4 ? 4 : tags.length; // max of 4 icons
+    int length =
+        gambit.tags.length > 4 ? 4 : gambit.tags.length; // max of 4 icons
 
     List<Widget> _avatarIcons = List.generate(length, (index) {
-      GambitTag tag = tags[index];
+      GambitTag tag = gambit.tags[index];
       return CircleAvatar(
         child: Icon(
           tag.icon,

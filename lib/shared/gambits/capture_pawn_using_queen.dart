@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class CapturePawnUsingQueen extends Gambit {
   CapturePawnUsingQueen._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessQueen),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessPawn)
+            ],
             demoFEN:
                 'rn2k2r/ppppppp1/8/8/8/bQq2b1n/PPpBPPPP/RN2KBNR w KQq - 0 1',
             title: "Queen takes Pawn",

@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ class MoveRookSafely extends Gambit {
   MoveRookSafely._internal()
       : super(
             cost: 4,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
+            ],
             demoFEN: '8/5k2/5n1r/1q6/4p2b/pR4Q1/8/3K1b1r w - - 0 1',
             vector: WhiteRook(),
             title: "Move Rook, safely",

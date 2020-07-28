@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class MoveBishop extends Gambit {
   MoveBishop._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+            ],
             demoFEN:
                 'r1bqkb1r/ppp2ppp/8/3np1N1/2Bn4/8/PPP2PPP/RNBQK2R w KQkq - 0 1',
             vector: WhiteBishop(),

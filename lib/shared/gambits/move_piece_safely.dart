@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ class MovePieceSafely extends Gambit {
   MovePieceSafely._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
+            ],
             demoFEN:
                 'r2qk1r1/1pp1bp2/p1npbnpp/4p1B1/3PP3/N1P2N2/PPQ2PPP/R3KB1R w KQkq - 0 1',
             title: "Move Random, safely",

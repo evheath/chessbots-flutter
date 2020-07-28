@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class CaptureBishopUsingPawn extends Gambit {
   CaptureBishopUsingPawn._internal()
       : super(
             cost: 2,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessBishop),
+            ],
             demoFEN:
                 'rnb1k2r/pppppppp/8/3Q4/2q1bRn1/3P1P2/PPP1PNPP/1NB1KB1R w Kkq - 0 1',
             title: "Pawn takes Bishop",

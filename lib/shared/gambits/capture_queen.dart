@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -13,6 +14,11 @@ class CaptureQueen extends Gambit {
   CaptureQueen._internal()
       : super(
             cost: 10,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessQueen)
+            ],
             demoFEN:
                 "1nb1kbn1/pppppp1p/2r3r1/8/4B3/3q1p2/PPPPPPPP/RNBQK1NR w KQ - 0 1",
             vector: WhiteQueen(),

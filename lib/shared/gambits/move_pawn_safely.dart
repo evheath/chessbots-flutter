@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ class MovePawnSafely extends Gambit {
   MovePawnSafely._internal()
       : super(
             cost: 2,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
+            ],
             demoFEN: '1q6/P4k2/7r/2P5/4p2b/p2P2Q1/4P3/3K1b2 w - - 0 1',
             vector: WhitePawn(),
             title: "Move Pawn, safely",

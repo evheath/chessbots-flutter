@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class MovePawn extends Gambit {
   MovePawn._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+            ],
             demoFEN:
                 "r4r2/1bn1Np1k/4p1pp/pPpn4/P1N5/6P1/1Q2PPBP/R4RK1 w - - 0 21",
             vector: WhitePawn(),

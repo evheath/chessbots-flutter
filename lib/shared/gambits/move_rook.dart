@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class MoveRook extends Gambit {
   MoveRook._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+            ],
             demoFEN: '4k3/8/8/1q5R/7b/pR6/8/3K4 w - - 0 1',
             vector: WhiteRook(),
             title: "Move Rook",

@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class CapturePawnUsingRook extends Gambit {
   CapturePawnUsingRook._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessPawn)
+            ],
             demoFEN:
                 'r3k3/2qppp1p/8/8/p1R1b1Rr/2n5/PPPPPPPP/1NBQKBN1 w q - 0 1',
             title: "Rook takes Pawn",

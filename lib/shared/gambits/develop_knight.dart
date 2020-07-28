@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class DevelopKnight extends Gambit {
   DevelopKnight._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessKnight),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chartLine),
+            ],
             demoFEN:
                 'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 1',
             title: "Develop Knight",

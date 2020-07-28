@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ class MoveBishopSafely extends Gambit {
   MoveBishopSafely._internal()
       : super(
             cost: 3,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.arrowRight),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
+            ],
             demoFEN: '8/5k2/7r/1q6/4p2b/p3B1Q1/6B1/3K1b2 w - - 0 1',
             vector: WhiteBishop(),
             title: "Move Bishop, safely",

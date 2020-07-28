@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class CaptureRandomUsingQueen extends Gambit {
   CaptureRandomUsingQueen._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessQueen),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.question)
+            ],
             demoFEN:
                 'r3k2r/ppppppp1/7n/1n6/8/bQq2b2/PPpBPPPP/RN2KBNR w KQq - 0 1',
             title: "Queen takes Random",
@@ -23,7 +29,9 @@ class CaptureRandomUsingQueen extends Gambit {
             findMove: ((chess.Chess game) {
               List<dynamic> capturesWithQueen = game
                   .moves()
-                  .where((move) => move.toString().contains('Q') && move.toString().contains('x'))
+                  .where((move) =>
+                      move.toString().contains('Q') &&
+                      move.toString().contains('x'))
                   .toList();
               capturesWithQueen.shuffle();
               String move = capturesWithQueen.firstWhere(

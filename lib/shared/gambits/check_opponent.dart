@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,18 @@ class CheckOpponent extends Gambit {
   CheckOpponent._internal()
       : super(
             cost: 0,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.plus),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessKing),
+            ],
             demoFEN:
-                "rnbq1b1r/ppp1pkp1/5n1p/8/8/3B4/PPP2PPP/RNBQK2R w KQkq - 0 1",
+                "rnbq1b1r/ppp1pkp1/5n1p/8/8/3B1N2/PPP2PPP/R1BQK2R w KQ - 0 1",
             vector: WhiteKing(),
             title: "Check Opponent",
             color: Colors.red,
-            description: "Attack your opponent's king!",
+            description:
+                "Attack your opponent's king using any means necessary",
             altText: "Where do you think you're going?",
             icon: FontAwesomeIcons.chessKing,
             findMove: ((chess.Chess game) {

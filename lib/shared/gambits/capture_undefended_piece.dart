@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,12 @@ class CaptureUndefendedPiece extends Gambit {
   CaptureUndefendedPiece._internal()
       : super(
             cost: 10,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
+            ],
             demoFEN:
                 'rnb1k2r/1p1p1ppp/pqp4n/2b1p1N1/1PB5/8/PBPPPPPP/RN1QK2R w KQkq - 0 1',
             title: "Random takes Random, undefended",

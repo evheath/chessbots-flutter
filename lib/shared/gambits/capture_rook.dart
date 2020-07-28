@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -13,6 +14,11 @@ class CaptureRook extends Gambit {
   CaptureRook._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessRook)
+            ],
             demoFEN:
                 "rnbqkbn1/ppp1pppp/8/3p1r2/4P3/4N3/PPPP1PPP/RNBQKB1R w KQkq - 0 1",
             vector: WhiteRook(),

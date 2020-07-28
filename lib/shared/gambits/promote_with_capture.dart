@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -12,6 +13,12 @@ class PromoteWithCapture extends Gambit {
   PromoteWithCapture._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.medal),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.question),
+            ],
             demoFEN:
                 "2bqkbnr/PPpppppp/1rn5/8/8/8/PP2PPPP/RNBQKBNR w KQkq - 0 1",
             title: "Promote with capture",

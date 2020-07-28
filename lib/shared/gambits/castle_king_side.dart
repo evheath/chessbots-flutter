@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -13,6 +14,12 @@ class CastleKingSide extends Gambit {
   CastleKingSide._internal()
       : super(
             cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessKing),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.chessKing),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.chess),
+            ],
             demoFEN:
                 "r1bqkb1r/pppp1ppp/2n2n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
             vector: WhiteRook(),

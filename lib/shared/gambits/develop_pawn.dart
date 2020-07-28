@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class DevelopPawn extends Gambit {
   DevelopPawn._internal()
       : super(
             cost: 2,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chartLine),
+            ],
             demoFEN:
                 'rnbqkbnr/ppp2ppp/4p3/3p4/7P/2N5/PPPPPPP1/R1BQKBNR w KQkq - 0 1',
             title: "Develop Pawn",

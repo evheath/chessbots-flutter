@@ -1,4 +1,5 @@
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
@@ -21,6 +22,11 @@ class CheckmateOpponent extends Gambit {
                 "Win the game by ensuring the capture of the opponent's King",
             altText: "Victory is ours!",
             icon: FontAwesomeIcons.chessKing,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.orange, icon: FontAwesomeIcons.chessKing),
+              GambitTag(color: Colors.orange, icon: FontAwesomeIcons.coins),
+            ],
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
               moves.shuffle();

@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ class PromotePawnToRandom extends Gambit {
   PromotePawnToRandom._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.medal),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.question),
+            ],
             demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: BlackKing(),
             title: "Promote to random",

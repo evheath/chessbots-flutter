@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -14,6 +15,11 @@ class CaptureRandomPiece extends Gambit {
   CaptureRandomPiece._internal()
       : super(
             cost: 5,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.question)
+            ],
             demoFEN: "3k1n2/8/8/q4R1b/1B6/8/5p2/1K6 w - - 0 1",
             vector: BlackKing(),
             title: "Random takes Random",
