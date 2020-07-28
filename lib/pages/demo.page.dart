@@ -79,7 +79,11 @@ class DemoPageState extends State<DemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.gambit.title),
+        title: SingleChildScrollView(
+          child: Text(widget.gambit.title),
+          scrollDirection: Axis.horizontal,
+        ),
+        // title: Text(widget.gambit.title),
         backgroundColor: widget.gambit.color,
         centerTitle: true,
       ),

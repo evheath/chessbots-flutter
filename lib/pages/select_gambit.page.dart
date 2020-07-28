@@ -23,7 +23,11 @@ class SelectGambitPage extends StatelessWidget {
         appBar: AppBar(
           actions: [NerdPointActionDisplay()],
           backgroundColor: Colors.grey,
-          title: Text("Select a gambit"),
+          title: SingleChildScrollView(
+            child: Text("Select a gambit"),
+            scrollDirection: Axis.horizontal,
+          ),
+          // title: Text("Select a gambit"),
           bottom: TabBar(
             indicatorColor: Colors.white,
             tabs: _tabs,

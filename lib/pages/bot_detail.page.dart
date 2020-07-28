@@ -58,45 +58,44 @@ class _BotDetailPageState extends State<BotDetailPage> {
                     iconData: MyCustomIcons.cog_alt,
                     color: Colors.grey,
                     onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AssemblePage(widget.botRef),
-                          ),
-                        ),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AssemblePage(widget.botRef),
+                      ),
+                    ),
                   ),
                   _buildGridTile(
                     label: "Singleplayer",
                     iconData: FontAwesomeIcons.userAlt,
                     color: Colors.teal,
                     onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SingleplayerPage(widget.botRef),
-                          ),
-                        ),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SingleplayerPage(widget.botRef),
+                      ),
+                    ),
                   ),
                   _buildGridTile(
                     label: "Multiplayer",
                     iconData: FontAwesomeIcons.users,
                     color: Colors.amber,
                     onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LobbiesPage(widget.botRef),
-                          ),
-                        ),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LobbiesPage(widget.botRef),
+                      ),
+                    ),
                   ),
                   _buildGridTile(
                     label: "Test ${_chessBot.name}'s gambits in the Lab",
                     iconData: MyCustomIcons.beaker,
                     color: Colors.purple,
                     onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LabPage(widget.botRef),
-                          ),
-                        ),
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LabPage(widget.botRef),
+                      ),
+                    ),
                   ),
                   _buildGridTile(
                     label: "Rename ${_chessBot.name}",
@@ -121,9 +120,13 @@ class _BotDetailPageState extends State<BotDetailPage> {
               ),
               appBar: AppBar(
                 centerTitle: true,
-                title: Wrap(
-                  children: [Text("${_chessBot.name}")],
+                title: SingleChildScrollView(
+                  child: Text("${_chessBot.name}"),
+                  scrollDirection: Axis.horizontal,
                 ),
+                // title: Wrap(
+                //   children: [Text("${_chessBot.name}")],
+                // ),
                 actions: <Widget>[
                   NerdPointActionDisplay(),
                 ],
