@@ -32,12 +32,12 @@ class DemoPageState extends State<DemoPage> {
 
   Widget _buildText() {
     if (_hasNotMoved) {
-      return Text(
-        widget.gambit.description,
+      return SingleChildScrollView(
+        child: Text(widget.gambit.description),
       );
     } else {
-      return Text(
-        widget.gambit.altText,
+      return SingleChildScrollView(
+        child: Text(widget.gambit.altText),
       );
     }
   }
