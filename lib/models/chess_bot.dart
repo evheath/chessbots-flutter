@@ -317,7 +317,7 @@ Map<String, Gambit> gambitMap = {
   MoveRookSafely().title: MoveRookSafely(),
   // MovePawnSafely().title: MovePawnSafely(),
   // MoveKnightSafely().title: MoveKnightSafely(),
-  // MoveBishopSafely().title: MoveBishopSafely(),
+  MoveBishopSafely().title: MoveBishopSafely(),
   PawnToE4().title: PawnToE4(),
   PromotePawnToBishop().title: PromotePawnToBishop(),
   PromotePawnToKnight().title: PromotePawnToKnight(),

@@ -86,7 +86,7 @@ export 'gambits/move_queen_safely.dart';
 export 'gambits/move_rook_safely.dart';
 // export 'gambits/move_pawn_safely.dart';
 // export 'gambits/move_knight_safely.dart';
-// export 'gambits/move_bishop_safely.dart';
+export 'gambits/move_bishop_safely.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';
