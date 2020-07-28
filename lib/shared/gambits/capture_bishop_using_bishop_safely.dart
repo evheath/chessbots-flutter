@@ -17,8 +17,8 @@ class CaptureBishopUsingBishopSafely extends Gambit {
                 'rn2k2r/pQpppppp/3bq2n/1b6/2B2BN1/8/PPPPPPPP/RN2K2R w KQkq - 0 1',
             title: "Bishop takes Bishop, safely",
             color: Colors.red,
-            description: "Capture an enemy bishop with your own.",
-            altText: "Converted...into a dead man",
+            description: "Capture an undefended enemy bishop with your own.",
+            altText: "The false prophet has false support",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<chess.Move> bTakesBMoves = game
