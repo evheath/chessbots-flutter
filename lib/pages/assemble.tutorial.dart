@@ -171,7 +171,7 @@ class SwipingAnimation extends StatelessWidget {
             builder: (context, widget) {
               return Transform.translate(
                 offset: Offset(translation.value, 0),
-                child: GambitListTile(gambit: CheckOpponent()),
+                child: GambitListTile(gambit: CheckOpponentUsingRandom()),
               );
             }),
       ],

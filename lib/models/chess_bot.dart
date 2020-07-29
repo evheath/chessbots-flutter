@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
-import 'package:chessbotsmobile/shared/gambits/capture_random_using_bishop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -307,7 +306,7 @@ Map<String, Gambit> gambitMap = {
   CaptureRook().title: CaptureRook(),
   CastleKingSide().title: CastleKingSide(),
   CastleQueenSide().title: CastleQueenSide(),
-  CheckOpponent().title: CheckOpponent(),
+  CheckOpponentUsingRandom().title: CheckOpponentUsingRandom(),
   MovePawn().title: MovePawn(),
   MoveKnight().title: MoveKnight(),
   MoveBishop().title: MoveBishop(),

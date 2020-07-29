@@ -18,7 +18,6 @@ export './gambits/move_random_piece.dart';
 export './gambits/castle_king_side.dart';
 export './gambits/checkmate_opponent.dart';
 export './gambits/castle_queen_side.dart';
-export './gambits/check_opponent.dart';
 
 export './gambits/promote_pawn_to_random.dart';
 export './gambits/promote_pawn_to_queen.dart';
@@ -88,6 +87,19 @@ export 'gambits/move_rook_safely.dart';
 export 'gambits/move_pawn_safely.dart';
 export 'gambits/move_knight_safely.dart';
 export 'gambits/move_bishop_safely.dart';
+
+export './gambits/check_opponent_using_random.dart';
+// export './gambits/check_opponent_using_pawn.dart';
+// export './gambits/check_opponent_using_knight.dart';
+// export './gambits/check_opponent_using_bishop.dart';
+// export './gambits/check_opponent_using_rook.dart';
+// export './gambits/check_opponent_using_queen.dart';
+// export './gambits/check_opponent_using_random_safely.dart';
+// export './gambits/check_opponent_using_pawn_safely.dart';
+// export './gambits/check_opponent_using_knight_safely.dart';
+// export './gambits/check_opponent_using_bishop_safely.dart';
+// export './gambits/check_opponent_using_rook_safely.dart';
+// export './gambits/check_opponent_using_queen_safely.dart';
 
 //non configurable gambits
 export './gambits/empty.dart';

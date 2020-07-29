@@ -196,7 +196,7 @@ class SelectGambitPage extends StatelessWidget {
     CaptureKnight(),
     CapturePawn(),
     CaptureRandomPiece(),
-    CheckOpponent(),
+    CheckOpponentUsingRandom(),
   ];
 
   static final List<Gambit> _defensiveGambits = [
