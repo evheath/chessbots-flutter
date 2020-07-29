@@ -12,7 +12,7 @@ class CheckOpponentUsingQueen extends Gambit {
 
   CheckOpponentUsingQueen._internal()
       : super(
-          cost: 0,
+          cost: 1,
           tags: [
             GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessQueen),
             GambitTag(color: Colors.red, icon: FontAwesomeIcons.plus),
