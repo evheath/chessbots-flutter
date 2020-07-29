@@ -51,7 +51,7 @@ final List<Gambit> allGambits = [
   CheckOpponentUsingRandom(),
   CheckOpponentUsingPawn(),
   CheckOpponentUsingKnight(),
-  // CheckOpponentUsingBishop(),
+  CheckOpponentUsingBishop(),
   // CheckOpponentUsingRook(),
   // CheckOpponentUsingQueen(),
   // CheckOpponentUsingRandomSafely(),
