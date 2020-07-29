@@ -21,7 +21,7 @@ class CheckOpponentUsingRandom extends Gambit {
           ],
           demoFEN: "rnbq1b1r/ppp1pkp1/5n1p/8/8/B2BRN2/PP3PPP/3QK2R w - - 0 1",
           vector: WhiteKing(),
-          title: "Check Opponent",
+          title: "Random Check",
           color: Colors.red,
           description: "Attack your opponent's king using any means necessary",
           altText: "That's him!",
