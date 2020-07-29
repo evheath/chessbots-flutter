@@ -10,15 +10,26 @@ final List<Gambit> allGambits = [
   CapturePawnUsingPawn(),
   CaptureQueenUsingPawn(),
   CaptureRookUsingPawn(),
+  // CaptureRandomUsingPawnSafely(),
+  // CaptureBishopUsingPawnSafely(),
+  // CaptureKnightUsingPawnSafely(),
+  // CapturePawnUsingPawnSafely(),
+  // CaptureQueenUsingPawnSafely(),
+  // CaptureRookUsingPawnSafely(),
 
   // bishop takes...
   CaptureRandomUsingBishop(),
   CaptureBishopUsingBishop(),
-  CaptureBishopUsingBishopSafely(),
   CaptureKnightUsingBishop(),
   CapturePawnUsingBishop(),
   CaptureRookUsingBishop(),
   CaptureQueenUsingBishop(),
+  CaptureBishopUsingBishopSafely(),
+  CaptureRandomUsingBishopSafely(),
+  // CaptureKnightUsingBishopSafely(),
+  // CapturePawnUsingBishopSafely(),
+  // CaptureRookUsingBishopSafely(),
+  // CaptureQueenUsingBishopSafely(),
 
   // knight takes...
   CaptureRandomUsingKnight(),
@@ -27,6 +38,12 @@ final List<Gambit> allGambits = [
   CapturePawnUsingKnight(),
   CaptureRookUsingKnight(),
   CaptureQueenUsingKnight(),
+  // CaptureRandomUsingKnightSafely(),
+  // CaptureBishopUsingKnightSafely(),
+  // CaptureKnightUsingKnightSafely(),
+  // CapturePawnUsingKnightSafely(),
+  // CaptureRookUsingKnightSafely(),
+  // CaptureQueenUsingKnightSafely(),
 
   // queen takes...
   CaptureRandomUsingQueen(),
@@ -35,6 +52,12 @@ final List<Gambit> allGambits = [
   CaptureBishopUsingQueen(),
   CaptureKnightUsingQueen(),
   CapturePawnUsingQueen(),
+  // CaptureRandomUsingQueenSafely(),
+  // CaptureQueenUsingQueenSafely(),
+  // CaptureRookUsingQueenSafely(),
+  // CaptureBishopUsingQueenSafely(),
+  // CaptureKnightUsingQueenSafely(),
+  // CapturePawnUsingQueenSafely(),
 
   // king takes...
   CaptureBishopUsingKing(),
@@ -51,15 +74,26 @@ final List<Gambit> allGambits = [
   CaptureKnightUsingRook(),
   CaptureBishopUsingRook(),
   CaptureRandomUsingRook(),
+  // CapturePawnUsingRookSafely(),
+  // CaptureRookUsingRookSafely(),
+  // CaptureQueenUsingRookSafely(),
+  // CaptureKnightUsingRookSafely(),
+  // CaptureBishopUsingRookSafely(),
+  // CaptureRandomUsingRookSafely(),
 
   // random takes...
   CaptureRandomUsingRandom(),
-  CaptureRandomUsingRandomSafely(),
   CaptureKnightUsingRandom(),
   CapturePawnUsingRandom(),
   CaptureQueenUsingRandom(),
   CaptureRookUsingRandom(),
   CaptureBishopUsingRandom(),
+  CaptureRandomUsingRandomSafely(),
+  // CaptureKnightUsingRandomSafely(),
+  // CapturePawnUsingRandomSafely(),
+  // CaptureQueenUsingRandomSafely(),
+  // CaptureRookUsingRandomSafely(),
+  // CaptureBishopUsingRandomSafely(),
 
   // checks
   CheckOpponentUsingRandom(),
@@ -88,13 +122,13 @@ final List<Gambit> allGambits = [
   PromoteWithCapture(),
 
   // movement
-  MovePieceSafely(),
   MovePawn(),
   MoveKnight(),
   MoveBishop(),
   MoveRook(),
   MoveQueen(),
   MoveKing(),
+  MoveRandomSafely(),
   MoveQueenSafely(),
   MoveRookSafely(),
   MovePawnSafely(),

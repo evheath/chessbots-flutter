@@ -5,12 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class MovePieceSafely extends Gambit {
+class MoveRandomSafely extends Gambit {
   // singleton logic so that MovePieceSafely is only created once
-  static final MovePieceSafely _singleton = MovePieceSafely._internal();
-  factory MovePieceSafely() => _singleton;
+  static final MoveRandomSafely _singleton = MoveRandomSafely._internal();
+  factory MoveRandomSafely() => _singleton;
 
-  MovePieceSafely._internal()
+  MoveRandomSafely._internal()
       : super(
             cost: 5,
             tags: [

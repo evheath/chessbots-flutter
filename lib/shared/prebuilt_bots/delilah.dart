@@ -6,7 +6,7 @@ final delilahCPU = ChessBot(
     CastleKingSide(),
     CastleQueenSide(),
     CaptureRandomUsingRandomSafely(),
-    MovePieceSafely(),
+    MoveRandomSafely(),
   ],
   name: "Delilah the Defensive",
 );
