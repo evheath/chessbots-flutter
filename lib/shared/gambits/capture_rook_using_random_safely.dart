@@ -27,7 +27,7 @@ class CaptureRookUsingRandomSafely extends Gambit {
             title: "Random Takes Rook, safely",
             color: Colors.red,
             description:
-                "Take the enemy rook using any available piece--only if there is no threat of recapture",
+                "Take an enemy rook using any available piece--only if there is no threat of recapture",
             altText: "Anyone can start a fire",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {

@@ -11,7 +11,7 @@ export 'gambits/capture_knight_using_random_safely.dart';
 export 'gambits/capture_queen_using_random_safely.dart';
 export 'gambits/capture_rook_using_random_safely.dart';
 export 'gambits/capture_pawn_using_random_safely.dart';
-// export 'gambits/capture_bishop_using_random_safely.dart';
+export 'gambits/capture_bishop_using_random_safely.dart';
 
 export './gambits/capture_random_using_bishop.dart';
 export './gambits/capture_bishop_using_bishop.dart';
