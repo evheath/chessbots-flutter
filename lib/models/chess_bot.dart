@@ -96,8 +96,6 @@ class ChessBot {
       });
     }
 
-    print("building map");
-
     this._gambits =
         _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
 

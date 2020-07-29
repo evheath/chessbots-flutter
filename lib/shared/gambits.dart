@@ -1,8 +1,3 @@
-// anytime a gambit gets created here is what needs to happen
-// 1) export the gambit file here
-// 2) add it to the appropriate category in select_gambit.page.dart
-// 3) add it to gambitMap, currently in chess_bot.dart
-
 library gambits;
 
 export './gambits/move_piece_safely.dart';
@@ -89,7 +84,7 @@ export 'gambits/move_knight_safely.dart';
 export 'gambits/move_bishop_safely.dart';
 
 export './gambits/check_opponent_using_random.dart';
-// export './gambits/check_opponent_using_pawn.dart';
+export './gambits/check_opponent_using_pawn.dart';
 // export './gambits/check_opponent_using_knight.dart';
 // export './gambits/check_opponent_using_bishop.dart';
 // export './gambits/check_opponent_using_rook.dart';

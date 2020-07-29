@@ -49,7 +49,7 @@ final List<Gambit> allGambits = [
   CapturePawn(),
   CaptureRandomPiece(),
   CheckOpponentUsingRandom(),
-  // CheckOpponentUsingPawn(),
+  CheckOpponentUsingPawn(),
   // CheckOpponentUsingKnight(),
   // CheckOpponentUsingBishop(),
   // CheckOpponentUsingRook(),
