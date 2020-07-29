@@ -185,36 +185,38 @@ class UndesirableTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Column(children: [
-          GambitListTile(gambit: CapturePawnUsingRandom()),
-          GambitListTile(gambit: CaptureKnightUsingRandom())
-        ]),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text.rich(
-            TextSpan(
-              style: TextStyle(fontSize: 25),
-              text: "Your bot will make moves based on the ",
-              children: [
-                TextSpan(
-                    text: "order",
-                    style: TextStyle(decoration: TextDecoration.underline)),
-                TextSpan(text: " of your gambits"),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(children: [
+            GambitListTile(gambit: CapturePawnUsingRandom()),
+            GambitListTile(gambit: CaptureKnightUsingRandom())
+          ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text.rich(
+              TextSpan(
+                style: TextStyle(fontSize: 25),
+                text: "Your bot will make moves based on the ",
+                children: [
+                  TextSpan(
+                      text: "order",
+                      style: TextStyle(decoration: TextDecoration.underline)),
+                  TextSpan(text: " of your gambits"),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
+          ),
+          UndesirableBoard(controller: _animationController),
+          Text(
+            "Notice how the knight isn't captured?",
+            style: TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           ),
-        ),
-        UndesirableBoard(controller: _animationController),
-        Text(
-          "Notice how the knight isn't captured?",
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

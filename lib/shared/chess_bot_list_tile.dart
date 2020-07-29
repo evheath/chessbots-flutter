@@ -38,15 +38,17 @@ class ChessBotListTile extends StatelessWidget {
                 // Text("Kills: ${_bot.kills}"),
               ],
             ),
-            trailing: Column(
-              children: [
-                CircleAvatar(
-                  child:
-                      FlareActor('animations/chessbot.flr', animation: 'idle'),
-                  backgroundColor: Colors.transparent,
-                ),
-                Text("${_bot.status}"),
-              ],
+            trailing: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    child: FlareActor('animations/chessbot.flr',
+                        animation: 'idle'),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  Text("${_bot.status}"),
+                ],
+              ),
             ),
           );
         });
