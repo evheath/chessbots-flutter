@@ -24,7 +24,7 @@ class CaptureBishopUsingBishop extends Gambit {
             title: "Bishop takes Bishop",
             color: Colors.red,
             description: "Capture an enemy bishop with your own.",
-            altText: "Converted...into a dead man",
+            altText: "A successful conversion--of sorts",
             icon: FontAwesomeIcons.chessBishop,
             findMove: ((chess.Chess game) {
               List<chess.Move> bTakesBMoves = game
