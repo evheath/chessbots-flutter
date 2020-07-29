@@ -3,7 +3,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 
 final carlosCPU = ChessBot(
   gambits: [
-    CaptureUndefendedPiece(),
+    CaptureRandomUsingRandomSafely(),
     MovePieceSafely(),
   ],
   name: "Cautious Carlos",

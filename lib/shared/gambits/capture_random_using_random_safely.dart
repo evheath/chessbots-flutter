@@ -5,13 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureUndefendedPiece extends Gambit {
+class CaptureRandomUsingRandomSafely extends Gambit {
   // singleton logic so that CaptureUndefendedPiece is only created once
-  static final CaptureUndefendedPiece _singleton =
-      CaptureUndefendedPiece._internal();
-  factory CaptureUndefendedPiece() => _singleton;
+  static final CaptureRandomUsingRandomSafely _singleton =
+      CaptureRandomUsingRandomSafely._internal();
+  factory CaptureRandomUsingRandomSafely() => _singleton;
 
-  CaptureUndefendedPiece._internal()
+  CaptureRandomUsingRandomSafely._internal()
       : super(
             cost: 10,
             tags: [
@@ -21,12 +21,13 @@ class CaptureUndefendedPiece extends Gambit {
               GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
             ],
             demoFEN:
-                'rnb1k2r/1p1p1ppp/pqp4n/2b1p1N1/1PB5/8/PBPPPPPP/RN1QK2R w KQkq - 0 1',
-            title: "Random takes Random, undefended",
+                'rnb1k3/1p1p1ppp/pqp5/2b1p1N1/1PB5/8/PBPPPPPP/RN1QK2R w KQq - 0 1',
+            title: "Random takes Random, safely",
             color: Colors.red,
             description:
-                "Take a piece that has no defenders, using any piece of your own.",
-            altText: "Defend your border, lest it turn into my border.",
+                "Take any enemy piece using any piece of your own--only if there is no threat of recapture",
+            altText:
+                "Defend our border, lest it turn into someone else's border.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game

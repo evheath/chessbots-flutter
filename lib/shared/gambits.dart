@@ -7,7 +7,7 @@ export './gambits/capture_rook.dart';
 export './gambits/capture_bishop.dart';
 export './gambits/capture_knight.dart';
 export './gambits/capture_pawn.dart';
-export './gambits/capture_undefended_piece.dart';
+export 'gambits/capture_random_using_random_safely.dart';
 export './gambits/pawn_to_e4.dart';
 export './gambits/move_random_piece.dart';
 export './gambits/castle_king_side.dart';

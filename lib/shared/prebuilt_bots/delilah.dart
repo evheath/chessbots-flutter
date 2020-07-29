@@ -5,7 +5,7 @@ final delilahCPU = ChessBot(
   gambits: [
     CastleKingSide(),
     CastleQueenSide(),
-    CaptureUndefendedPiece(),
+    CaptureRandomUsingRandomSafely(),
     MovePieceSafely(),
   ],
   name: "Delilah the Defensive",

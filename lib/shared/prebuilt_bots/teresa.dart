@@ -3,7 +3,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 
 final teresaCPU = ChessBot(
   gambits: [
-    CaptureUndefendedPiece(),
+    CaptureRandomUsingRandomSafely(),
     PromotePawnToRook(),
     MovePawn(),
   ],

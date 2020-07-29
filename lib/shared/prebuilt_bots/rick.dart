@@ -5,7 +5,7 @@ final rickCPU = ChessBot(
   gambits: [
     PromotePawnToQueen(),
     CaptureQueen(),
-    CaptureUndefendedPiece(),
+    CaptureRandomUsingRandomSafely(),
     CastleKingSide(),
     CastleQueenSide(),
   ],

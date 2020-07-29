@@ -4,7 +4,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 /// A list of all the gambit singletons
 final List<Gambit> allGambits = [
   // offense
-  CaptureUndefendedPiece(),
+  CaptureRandomUsingRandomSafely(),
   CaptureQueen(),
   CaptureRook(),
   CaptureBishop(),
