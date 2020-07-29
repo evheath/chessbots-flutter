@@ -14,8 +14,8 @@ class DevelopQueen extends Gambit {
       : super(
             cost: 1,
             tags: [
-              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
               GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessQueen),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chartLine),
             ],
             demoFEN:
                 'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/2P1B3/PP3PPP/RN1QKBNR w KQkq - 0 1',
