@@ -26,12 +26,14 @@ class CheckOpponentUsingPawn extends Gambit {
           altText: "Swarm 'em lads!",
           icon: FontAwesomeIcons.chessKing,
           findMove: ((chess.Chess game) {
-            List<chess.Move> moves = game.generate_moves().toList()..shuffle();
+            List<chess.Move> pawnMoves = game
+                .generate_moves()
+                .where((move) => move.piece == chess.PieceType.PAWN)
+                .toList()
+                  ..shuffle();
 
-            chess.Move check = moves.firstWhere(
-              (oneMove) =>
-                  oneMove.piece == chess.PieceType.PAWN &&
-                  game.move_to_san(oneMove).contains("+"),
+            chess.Move check = pawnMoves.firstWhere(
+              (pawnMove) => game.move_to_san(pawnMove).contains("+"),
               orElse: () => null,
             );
 

@@ -87,7 +87,7 @@ export './gambits/check_opponent_using_random.dart';
 export './gambits/check_opponent_using_pawn.dart';
 export './gambits/check_opponent_using_knight.dart';
 export './gambits/check_opponent_using_bishop.dart';
-// export './gambits/check_opponent_using_rook.dart';
+export './gambits/check_opponent_using_rook.dart';
 // export './gambits/check_opponent_using_queen.dart';
 // export './gambits/check_opponent_using_random_safely.dart';
 // export './gambits/check_opponent_using_pawn_safely.dart';

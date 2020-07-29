@@ -26,12 +26,14 @@ class CheckOpponentUsingKnight extends Gambit {
           altText: "Press the attack!",
           icon: FontAwesomeIcons.chessKing,
           findMove: ((chess.Chess game) {
-            List<chess.Move> moves = game.generate_moves().toList()..shuffle();
+            List<chess.Move> knightMoves = game
+                .generate_moves()
+                .where((move) => move.piece == chess.PieceType.KNIGHT)
+                .toList()
+                  ..shuffle();
 
-            chess.Move check = moves.firstWhere(
-              (oneMove) =>
-                  oneMove.piece == chess.PieceType.KNIGHT &&
-                  game.move_to_san(oneMove).contains("+"),
+            chess.Move check = knightMoves.firstWhere(
+              (knightMove) => game.move_to_san(knightMove).contains("+"),
               orElse: () => null,
             );
 
