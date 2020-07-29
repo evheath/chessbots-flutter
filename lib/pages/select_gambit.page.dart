@@ -2,12 +2,12 @@ import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/user.doc.dart';
 import 'package:chessbotsmobile/services/toaster.service.dart';
+import 'package:chessbotsmobile/shared/all_gambits.dart';
 import 'package:chessbotsmobile/shared/gambit_list_tile.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:chessbotsmobile/shared/nerd_point_action_display.dart';
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// This page is always pushed
 ///
@@ -17,63 +17,44 @@ class SelectGambitPage extends StatelessWidget {
   SelectGambitPage(this._chessBot);
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [NerdPointActionDisplay()],
-          backgroundColor: Colors.grey,
-          title: SingleChildScrollView(
-            child: Text("Select a gambit"),
-            scrollDirection: Axis.horizontal,
-          ),
-          // title: Text("Select a gambit"),
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: _tabs,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        actions: [NerdPointActionDisplay()],
+        backgroundColor: Colors.grey,
+        title: SingleChildScrollView(
+          child: Text("Select a gambit"),
+          scrollDirection: Axis.horizontal,
         ),
-        body: StreamBuilder(
-            initialData: [MoveRandomPiece()], // need for error prevention
-            stream: _chessBot.gambits,
-            builder: (context, snapshot) {
-              List<Gambit> _currentGambits = snapshot.data;
-
-              // sort each list of gambits by cost
-              _listOfLists.forEach((listOfGambits) {
-                // lowest cost will appear at top
-                listOfGambits.sort((a, b) => a.cost.compareTo(b.cost));
-              });
-
-              // render each list of gambits as a list of tiles inside a tab
-              return TabBarView(
-                // tab pages
-                children: List.generate(_listOfLists.length, (outerIndex) {
-                  // listOfGambits will be _offensiveGambits, _defensiveGambits etc
-                  List<Gambit> listOfGambits = _listOfLists[outerIndex];
-                  return ListView(
-                    // gambit tiles
-                    children: List.generate(listOfGambits.length, (innerIndex) {
-                      Gambit _gambit = listOfGambits[innerIndex];
-                      bool shouldBeDisabled =
-                          _currentGambits.contains(_gambit) ? true : false;
-                      return GestureDetector(
-                        onTap: shouldBeDisabled
-                            ? () => handleError(
-                                "Your bot is already using '${_gambit.title}'",
-                                context)
-                            : () => _handleSelection(context, _gambit),
-                        child: GambitListTile(
-                          gambit: _gambit,
-                          disabled: shouldBeDisabled,
-                        ),
-                      );
-                    }),
-                  );
-                }),
-              );
-            }),
       ),
+      body: StreamBuilder(
+          initialData: [MoveRandomPiece()], // need for error prevention
+          stream: _chessBot.gambits,
+          builder: (context, snapshot) {
+            List<Gambit> _currentGambits = snapshot.data;
+
+            List<Gambit> allGambitsSorted = allGambits
+              ..sort((a, b) => a.cost.compareTo(b.cost));
+
+            return ListView(
+              // gambit tiles
+              children: List.generate(allGambitsSorted.length, (innerIndex) {
+                Gambit _gambit = allGambitsSorted[innerIndex];
+                bool shouldBeDisabled =
+                    _currentGambits.contains(_gambit) ? true : false;
+                return GestureDetector(
+                  onTap: shouldBeDisabled
+                      ? () => handleError(
+                          "Your bot is already using '${_gambit.title}'",
+                          context)
+                      : () => _handleSelection(context, _gambit),
+                  child: GambitListTile(
+                    gambit: _gambit,
+                    disabled: shouldBeDisabled,
+                  ),
+                );
+              }),
+            );
+          }),
     );
   }
 
@@ -135,109 +116,4 @@ class SelectGambitPage extends StatelessWidget {
   void _selectGambit(BuildContext context, Gambit _gambit) {
     Navigator.pop(context, _gambit);
   }
-
-  final List<Widget> _tabs = [
-    Tab(
-      icon: Icon(FontAwesomeIcons.bomb, color: Colors.red),
-    ),
-    Tab(
-      icon: Icon(FontAwesomeIcons.shieldAlt, color: Colors.blue),
-    ),
-    Tab(
-      icon: Icon(FontAwesomeIcons.medal, color: Colors.yellow),
-    ),
-    Tab(
-      icon: Icon(FontAwesomeIcons.shoePrints, color: Colors.white),
-    ),
-  ];
-
-  static final List<Gambit> _offensiveGambits = [
-    CaptureUndefendedPiece(),
-    CaptureQueen(),
-    CaptureRook(),
-    CaptureBishop(),
-    CaptureBishopUsingPawn(),
-    CaptureKnightUsingPawn(),
-    CapturePawnUsingPawn(),
-    CaptureQueenUsingPawn(),
-    CaptureRookUsingPawn(),
-    CaptureRandomUsingPawn(),
-    CaptureRandomUsingBishop(),
-    CaptureBishopUsingBishop(),
-    CaptureBishopUsingBishopSafely(),
-    CaptureKnightUsingBishop(),
-    CapturePawnUsingBishop(),
-    CaptureRookUsingBishop(),
-    CaptureQueenUsingBishop(),
-    CaptureRandomUsingKnight(),
-    CaptureBishopUsingKnight(),
-    CaptureKnightUsingKnight(),
-    CapturePawnUsingKnight(),
-    CaptureRookUsingKnight(),
-    CaptureQueenUsingKnight(),
-    CaptureQueenUsingQueen(),
-    CaptureRookUsingQueen(),
-    CaptureBishopUsingQueen(),
-    CaptureKnightUsingQueen(),
-    CapturePawnUsingQueen(),
-    CaptureRandomUsingQueen(),
-    CaptureBishopUsingKing(),
-    CaptureKnightUsingKing(),
-    CapturePawnUsingKing(),
-    CaptureRookUsingKing(),
-    CaptureQueenUsingKing(),
-    CaptureRandomUsingKing(),
-    CaptureRandomUsingRook(),
-    CapturePawnUsingRook(),
-    CaptureRookUsingRook(),
-    CaptureQueenUsingRook(),
-    CaptureKnightUsingRook(),
-    CaptureBishopUsingRook(),
-    CaptureKnight(),
-    CapturePawn(),
-    CaptureRandomPiece(),
-    CheckOpponentUsingRandom(),
-  ];
-
-  static final List<Gambit> _defensiveGambits = [
-    CastleKingSide(),
-    CastleQueenSide(),
-  ];
-
-  static final List<Gambit> _promotionGambits = [
-    PromotePawnToQueen(),
-    PromotePawnToRook(),
-    PromotePawnToBishop(),
-    PromotePawnToKnight(),
-    PromotePawnToRandom(),
-    PromoteWithCapture(),
-  ];
-
-  static final List<Gambit> _movementGambits = [
-    MovePieceSafely(),
-    MovePawn(),
-    MoveKnight(),
-    MoveBishop(),
-    MoveRook(),
-    MoveQueen(),
-    MoveKing(),
-    MoveQueenSafely(),
-    MoveRookSafely(),
-    MovePawnSafely(),
-    MoveKnightSafely(),
-    MoveBishopSafely(),
-    PawnToE4(),
-    DevelopKnight(),
-    DevelopBishop(),
-    DevelopQueen(),
-    DevelopRook(),
-    DevelopPawn(),
-  ];
-
-  static final List<List<Gambit>> _listOfLists = [
-    _offensiveGambits,
-    _defensiveGambits,
-    _promotionGambits,
-    _movementGambits,
-  ];
 }
