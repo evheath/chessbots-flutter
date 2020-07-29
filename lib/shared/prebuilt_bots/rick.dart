@@ -4,7 +4,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 final rickCPU = ChessBot(
   gambits: [
     PromotePawnToQueen(),
-    CaptureQueen(),
+    CaptureQueenUsingRandom(),
     CaptureRandomUsingRandomSafely(),
     CastleKingSide(),
     CastleQueenSide(),

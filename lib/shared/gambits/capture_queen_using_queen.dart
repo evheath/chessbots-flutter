@@ -27,22 +27,19 @@ class CaptureQueenUsingQueen extends Gambit {
             altText: "I grew tired of waiting for your husband to do it.",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithQueen = game
-                  .moves()
+              List<chess.Move> qxQCaptures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('Q') &&
-                      move.toString().contains('x'))
-                  .toList();
-              capturesWithQueen.shuffle();
-              String move = capturesWithQueen.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.QUEEN;
-                },
+                      move.captured == chess.PieceType.QUEEN &&
+                      move.piece == chess.PieceType.QUEEN)
+                  .toList()
+                    ..shuffle();
+
+              chess.Move capture = qxQCaptures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

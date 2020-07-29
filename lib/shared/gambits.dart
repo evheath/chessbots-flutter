@@ -2,7 +2,7 @@ library gambits;
 
 export './gambits/move_piece_safely.dart';
 export './gambits/capture_random_piece.dart';
-export './gambits/capture_queen.dart';
+export 'gambits/capture_queen_using_random.dart';
 export './gambits/capture_rook.dart';
 export './gambits/capture_bishop.dart';
 export './gambits/capture_knight.dart';

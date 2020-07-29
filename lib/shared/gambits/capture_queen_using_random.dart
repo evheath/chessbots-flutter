@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
-class CaptureQueen extends Gambit {
+class CaptureQueenUsingRandom extends Gambit {
   // singleton logic so that CaptureQueen is only created once
-  static final CaptureQueen _singleton = CaptureQueen._internal();
-  factory CaptureQueen() => _singleton;
+  static final CaptureQueenUsingRandom _singleton =
+      CaptureQueenUsingRandom._internal();
+  factory CaptureQueenUsingRandom() => _singleton;
 
-  CaptureQueen._internal()
+  CaptureQueenUsingRandom._internal()
       : super(
             cost: 10,
             tags: [
@@ -28,20 +29,17 @@ class CaptureQueen extends Gambit {
             altText: "Even monarchs can die like commoners",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              List<dynamic> captures = game
-                  .moves()
-                  .where((move) => move.toString().contains('x'))
-                  .toList();
-              captures.shuffle();
-              String move = captures.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.QUEEN;
-                },
+              List<chess.Move> queenCaptures = game
+                  .generate_moves()
+                  .where((move) => move.captured == chess.PieceType.QUEEN)
+                  .toList()
+                    ..shuffle();
+
+              chess.Move capture = queenCaptures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }
