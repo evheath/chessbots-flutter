@@ -1,13 +1,13 @@
 library gambits;
 
 export './gambits/move_piece_safely.dart';
-export './gambits/capture_random_piece.dart';
-export 'gambits/capture_queen_using_random.dart';
-export './gambits/capture_rook.dart';
-export './gambits/capture_bishop.dart';
-export './gambits/capture_knight.dart';
-export './gambits/capture_pawn.dart';
+export 'gambits/capture_random_using_random.dart';
 export 'gambits/capture_random_using_random_safely.dart';
+export 'gambits/capture_queen_using_random.dart';
+export 'gambits/capture_rook_using_random.dart';
+export 'gambits/capture_bishop_using_random.dart';
+export 'gambits/capture_knight_using_random.dart';
+export 'gambits/capture_pawn_using_random.dart';
 export './gambits/move_random_piece.dart';
 export './gambits/castle_king_side.dart';
 export './gambits/checkmate_opponent.dart';
@@ -22,11 +22,12 @@ export './gambits/promote_with_capture.dart';
 
 export './gambits/capture_random_using_bishop.dart';
 export './gambits/capture_bishop_using_bishop.dart';
-export './gambits/capture_bishop_using_bishop_safely.dart';
 export './gambits/capture_knight_using_bishop.dart';
 export './gambits/capture_pawn_using_bishop.dart';
 export './gambits/capture_rook_using_bishop.dart';
 export './gambits/capture_queen_using_bishop.dart';
+
+export './gambits/capture_bishop_using_bishop_safely.dart';
 
 export './gambits/capture_random_using_knight.dart';
 export './gambits/capture_bishop_using_knight.dart';

@@ -1,33 +1,33 @@
-import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
+
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
-class CaptureKnight extends Gambit {
-  // singleton logic so that CaptureKnight is only created once
-  static final CaptureKnight _singleton = CaptureKnight._internal();
-  factory CaptureKnight() => _singleton;
+class CapturePawnUsingRandom extends Gambit {
+  // singleton logic so that CapturePawn is only created once
+  static final CapturePawnUsingRandom _singleton =
+      CapturePawnUsingRandom._internal();
+  factory CapturePawnUsingRandom() => _singleton;
 
-  CaptureKnight._internal()
+  CapturePawnUsingRandom._internal()
       : super(
-            cost: 3,
+            cost: 2,
             tags: [
               GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
-              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessKnight),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessPawn)
             ],
             demoFEN:
-                'r1bqk1nr/pppppppp/8/3n1b2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1',
-            vector: WhiteKnight(),
-            title: "Random takes Knight",
+                "rnbqkbnr/pppp1ppp/8/6N1/4p3/2P3P1/PPQPPPBP/RNB1K2R w KQkq - 0 1",
+            vector: WhitePawn(),
+            title: "Random takes Pawn",
             color: Colors.red,
-            description:
-                "Take one of opponent's knights using any available piece.",
-            altText:
-                "The object of war is not to die for your country but to make the other bastard die for his.",
+            description: "Take a pawn using any available piece.",
+            altText: "Small victories.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<dynamic> captures = game
@@ -40,7 +40,7 @@ class CaptureKnight extends Gambit {
                   String landingSquare = Gambit.landingSquareOfMove(capture);
                   chess.PieceType pieceBeingCaptured =
                       game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.KNIGHT;
+                  return pieceBeingCaptured == chess.PieceType.PAWN;
                 },
                 orElse: () => null,
               );

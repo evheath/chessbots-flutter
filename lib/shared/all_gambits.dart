@@ -3,17 +3,15 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 
 /// A list of all the gambit singletons
 final List<Gambit> allGambits = [
-  // offense
-  CaptureRandomUsingRandomSafely(),
-  CaptureQueenUsingRandom(),
-  CaptureRook(),
-  CaptureBishop(),
+  // pawn takes...
+  CaptureRandomUsingPawn(),
   CaptureBishopUsingPawn(),
   CaptureKnightUsingPawn(),
   CapturePawnUsingPawn(),
   CaptureQueenUsingPawn(),
   CaptureRookUsingPawn(),
-  CaptureRandomUsingPawn(),
+
+  // bishop takes...
   CaptureRandomUsingBishop(),
   CaptureBishopUsingBishop(),
   CaptureBishopUsingBishopSafely(),
@@ -21,33 +19,49 @@ final List<Gambit> allGambits = [
   CapturePawnUsingBishop(),
   CaptureRookUsingBishop(),
   CaptureQueenUsingBishop(),
+
+  // knight takes...
   CaptureRandomUsingKnight(),
   CaptureBishopUsingKnight(),
   CaptureKnightUsingKnight(),
   CapturePawnUsingKnight(),
   CaptureRookUsingKnight(),
   CaptureQueenUsingKnight(),
+
+  // queen takes...
+  CaptureRandomUsingQueen(),
   CaptureQueenUsingQueen(),
   CaptureRookUsingQueen(),
   CaptureBishopUsingQueen(),
   CaptureKnightUsingQueen(),
   CapturePawnUsingQueen(),
-  CaptureRandomUsingQueen(),
+
+  // king takes...
   CaptureBishopUsingKing(),
   CaptureKnightUsingKing(),
   CapturePawnUsingKing(),
   CaptureRookUsingKing(),
   CaptureQueenUsingKing(),
   CaptureRandomUsingKing(),
-  CaptureRandomUsingRook(),
+
+  // rook takes...
   CapturePawnUsingRook(),
   CaptureRookUsingRook(),
   CaptureQueenUsingRook(),
   CaptureKnightUsingRook(),
   CaptureBishopUsingRook(),
-  CaptureKnight(),
-  CapturePawn(),
-  CaptureRandomPiece(),
+  CaptureRandomUsingRook(),
+
+  // random takes...
+  CaptureRandomUsingRandom(),
+  CaptureRandomUsingRandomSafely(),
+  CaptureKnightUsingRandom(),
+  CapturePawnUsingRandom(),
+  CaptureQueenUsingRandom(),
+  CaptureRookUsingRandom(),
+  CaptureBishopUsingRandom(),
+
+  // checks
   CheckOpponentUsingRandom(),
   CheckOpponentUsingPawn(),
   CheckOpponentUsingKnight(),
@@ -61,7 +75,7 @@ final List<Gambit> allGambits = [
   CheckOpponentUsingRookSafely(),
   CheckOpponentUsingQueenSafely(),
 
-  // defense
+  // castling
   CastleKingSide(),
   CastleQueenSide(),
 

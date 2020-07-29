@@ -189,8 +189,8 @@ class UndesirableTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Column(children: [
-          GambitListTile(gambit: CapturePawn()),
-          GambitListTile(gambit: CaptureKnight())
+          GambitListTile(gambit: CapturePawnUsingRandom()),
+          GambitListTile(gambit: CaptureKnightUsingRandom())
         ]),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -250,8 +250,9 @@ class RearrangeOrderTab extends StatelessWidget {
                 ),
               ),
               children: [
-                GambitListTile(key: Key('2'), gambit: CapturePawn()),
-                GambitListTile(key: Key('1'), gambit: CaptureKnight())
+                GambitListTile(key: Key('2'), gambit: CapturePawnUsingRandom()),
+                GambitListTile(
+                    key: Key('1'), gambit: CaptureKnightUsingRandom())
               ]),
         ),
         // Text("Go on, give it a try"),
@@ -270,8 +271,8 @@ class DesirableOrderTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Column(children: [
-          GambitListTile(gambit: CaptureKnight()),
-          GambitListTile(gambit: CapturePawn())
+          GambitListTile(gambit: CaptureKnightUsingRandom()),
+          GambitListTile(gambit: CapturePawnUsingRandom())
         ]),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),

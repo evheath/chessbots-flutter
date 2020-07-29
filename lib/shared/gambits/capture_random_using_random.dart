@@ -7,12 +7,13 @@ import 'package:chess/chess.dart' as chess;
 
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
-class CaptureRandomPiece extends Gambit {
+class CaptureRandomUsingRandom extends Gambit {
   // singleton logic so that CaptureRandomPiece is only created once
-  static final CaptureRandomPiece _singleton = CaptureRandomPiece._internal();
-  factory CaptureRandomPiece() => _singleton;
+  static final CaptureRandomUsingRandom _singleton =
+      CaptureRandomUsingRandom._internal();
+  factory CaptureRandomUsingRandom() => _singleton;
 
-  CaptureRandomPiece._internal()
+  CaptureRandomUsingRandom._internal()
       : super(
             cost: 5,
             tags: [

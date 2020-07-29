@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
-class CaptureBishop extends Gambit {
+class CaptureBishopUsingRandom extends Gambit {
   // singleton logic so that CaptureBishop is only created once
-  static final CaptureBishop _singleton = CaptureBishop._internal();
-  factory CaptureBishop() => _singleton;
+  static final CaptureBishopUsingRandom _singleton =
+      CaptureBishopUsingRandom._internal();
+  factory CaptureBishopUsingRandom() => _singleton;
 
-  CaptureBishop._internal()
+  CaptureBishopUsingRandom._internal()
       : super(
           cost: 3,
           demoFEN:

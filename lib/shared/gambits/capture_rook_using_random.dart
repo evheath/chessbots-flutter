@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
-class CaptureRook extends Gambit {
+class CaptureRookUsingRandom extends Gambit {
   // singleton logic so that CaptureRook is only created once
-  static final CaptureRook _singleton = CaptureRook._internal();
-  factory CaptureRook() => _singleton;
+  static final CaptureRookUsingRandom _singleton =
+      CaptureRookUsingRandom._internal();
+  factory CaptureRookUsingRandom() => _singleton;
 
-  CaptureRook._internal()
+  CaptureRookUsingRandom._internal()
       : super(
             cost: 5,
             tags: [

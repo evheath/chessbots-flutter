@@ -4,7 +4,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 final michaelCPU = ChessBot(
   gambits: [
     PromotePawnToRook(),
-    CapturePawn(),
+    CapturePawnUsingRandom(),
     MovePawn(),
   ],
   name: "Merciless Michael",
