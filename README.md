@@ -40,6 +40,5 @@ flutter test
 ## Adding a gambit
 
 1. Create the gambit in /lib/shared/gambits/new_gambit.dart
-1. Export the gambit in /lib/shared/gambits.dart
-1. Add the gambit to the appropriate List in /lib/pages/select_gambit.page.dart
-1. Update gambitMap inside /lib/models/chess_bot.dart with new gambit
+1. Export the gambit in the /lib/shared/gambits.dart library
+1. Add an instance of the gambit's singleton to the allGambits List in /lib/shared/all_gambits.dart

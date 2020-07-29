@@ -93,3 +93,16 @@ final List<Gambit> allGambits = [
   DevelopRook(),
   DevelopPawn(),
 ];
+
+/// Given a gambit's title, this map returns an instance corresponding gambit's singleton
+///
+/// Can be used to stand up a bot that was serialized in the db
+Map<String, Gambit> gambitMap = Map.fromIterable(
+  allGambits,
+  key: (gambit) => gambit.title,
+  value: (gambit) => gambit,
+)..addAll({
+    CheckmateOpponent().title: CheckmateOpponent(),
+    MoveRandomPiece().title: MoveRandomPiece(),
+    EmptyGambit().title: EmptyGambit(),
+  });

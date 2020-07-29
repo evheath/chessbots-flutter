@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/shared/all_gambits.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
@@ -94,6 +95,9 @@ class ChessBot {
         }
       });
     }
+
+    print("building map");
+
     this._gambits =
         _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
 
@@ -248,84 +252,6 @@ class ChessBot {
     });
   }
 }
-
-/// Given a title, returns the matching gambit
-///
-/// Used for building gambits from titles stored in db
-Map<String, Gambit> gambitMap = {
-  PromoteWithCapture().title: PromoteWithCapture(),
-  MovePieceSafely().title: MovePieceSafely(),
-  CaptureUndefendedPiece().title: CaptureUndefendedPiece(),
-  CaptureRandomPiece().title: CaptureRandomPiece(),
-  CaptureBishop().title: CaptureBishop(),
-  CaptureRandomUsingPawn().title: CaptureRandomUsingPawn(),
-  CaptureRookUsingPawn().title: CaptureRookUsingPawn(),
-  CaptureBishopUsingPawn().title: CaptureBishopUsingPawn(),
-  CaptureKnightUsingPawn().title: CaptureKnightUsingPawn(),
-  CapturePawnUsingPawn().title: CapturePawnUsingPawn(),
-  CaptureQueenUsingPawn().title: CaptureQueenUsingPawn(),
-  CaptureRandomUsingBishop().title: CaptureRandomUsingBishop(),
-  CaptureBishopUsingBishop().title: CaptureBishopUsingBishop(),
-  CaptureBishopUsingBishopSafely().title: CaptureBishopUsingBishopSafely(),
-  CaptureKnightUsingBishop().title: CaptureKnightUsingBishop(),
-  CapturePawnUsingBishop().title: CapturePawnUsingBishop(),
-  CaptureRookUsingBishop().title: CaptureRookUsingBishop(),
-  CaptureQueenUsingBishop().title: CaptureQueenUsingBishop(),
-  CaptureRandomUsingKnight().title: CaptureRandomUsingKnight(),
-  CaptureBishopUsingKnight().title: CaptureBishopUsingKnight(),
-  CaptureKnightUsingKnight().title: CaptureKnightUsingKnight(),
-  CapturePawnUsingKnight().title: CapturePawnUsingKnight(),
-  CaptureRookUsingKnight().title: CaptureRookUsingKnight(),
-  CaptureQueenUsingKnight().title: CaptureQueenUsingKnight(),
-  CaptureQueenUsingQueen().title: CaptureQueenUsingQueen(),
-  CaptureRookUsingQueen().title: CaptureRookUsingQueen(),
-  CaptureBishopUsingQueen().title: CaptureBishopUsingQueen(),
-  CaptureKnightUsingQueen().title: CaptureKnightUsingQueen(),
-  CapturePawnUsingQueen().title: CapturePawnUsingQueen(),
-  CaptureRandomUsingQueen().title: CaptureRandomUsingQueen(),
-  CaptureBishopUsingKing().title: CaptureBishopUsingKing(),
-  CaptureKnightUsingKing().title: CaptureKnightUsingKing(),
-  CapturePawnUsingKing().title: CapturePawnUsingKing(),
-  CaptureRookUsingKing().title: CaptureRookUsingKing(),
-  CaptureQueenUsingKing().title: CaptureQueenUsingKing(),
-  CaptureRandomUsingKing().title: CaptureRandomUsingKing(),
-  CaptureRandomUsingRook().title: CaptureRandomUsingRook(),
-  CapturePawnUsingRook().title: CapturePawnUsingRook(),
-  CaptureRookUsingRook().title: CaptureRookUsingRook(),
-  CaptureQueenUsingRook().title: CaptureQueenUsingRook(),
-  CaptureKnightUsingRook().title: CaptureKnightUsingRook(),
-  CaptureBishopUsingRook().title: CaptureBishopUsingRook(),
-  DevelopKnight().title: DevelopKnight(),
-  DevelopBishop().title: DevelopBishop(),
-  DevelopQueen().title: DevelopQueen(),
-  DevelopRook().title: DevelopRook(),
-  DevelopPawn().title: DevelopPawn(),
-  CaptureKnight().title: CaptureKnight(),
-  CapturePawn().title: CapturePawn(),
-  CaptureQueen().title: CaptureQueen(),
-  CaptureRook().title: CaptureRook(),
-  CastleKingSide().title: CastleKingSide(),
-  CastleQueenSide().title: CastleQueenSide(),
-  CheckOpponentUsingRandom().title: CheckOpponentUsingRandom(),
-  MovePawn().title: MovePawn(),
-  MoveKnight().title: MoveKnight(),
-  MoveBishop().title: MoveBishop(),
-  MoveRook().title: MoveRook(),
-  MoveQueen().title: MoveQueen(),
-  MoveKing().title: MoveKing(),
-  MoveQueenSafely().title: MoveQueenSafely(),
-  MoveRookSafely().title: MoveRookSafely(),
-  MovePawnSafely().title: MovePawnSafely(),
-  MoveKnightSafely().title: MoveKnightSafely(),
-  MoveBishopSafely().title: MoveBishopSafely(),
-  PawnToE4().title: PawnToE4(),
-  PromotePawnToBishop().title: PromotePawnToBishop(),
-  PromotePawnToKnight().title: PromotePawnToKnight(),
-  PromotePawnToQueen().title: PromotePawnToQueen(),
-  PromotePawnToRandom().title: PromotePawnToRandom(),
-  PromotePawnToRook().title: PromotePawnToRook(),
-  EmptyGambit().title: EmptyGambit(),
-};
 
 /// Instaniate an observable ChessBot using a firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {
