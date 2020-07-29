@@ -25,7 +25,7 @@ class CheckOpponentUsingRandomSafely extends Gambit {
           title: "Safe Random Check",
           color: Colors.red,
           description:
-              "Attack your opponent's king with any piece so long as it cannot result in recapture",
+              "Attack your opponent's king with any piece--only if there is no threat of recapture",
           altText: "Keep your distance",
           icon: FontAwesomeIcons.chessKing,
           findMove: ((chess.Chess game) {

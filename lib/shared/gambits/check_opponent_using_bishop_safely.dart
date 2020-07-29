@@ -4,40 +4,40 @@ import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CheckOpponentUsingPawnSafely extends Gambit {
+class CheckOpponentUsingBishopSafely extends Gambit {
   // singleton logic so that CheckOpponent is only created once
-  static final CheckOpponentUsingPawnSafely _singleton =
-      CheckOpponentUsingPawnSafely._internal();
-  factory CheckOpponentUsingPawnSafely() => _singleton;
+  static final CheckOpponentUsingBishopSafely _singleton =
+      CheckOpponentUsingBishopSafely._internal();
+  factory CheckOpponentUsingBishopSafely() => _singleton;
 
-  CheckOpponentUsingPawnSafely._internal()
+  CheckOpponentUsingBishopSafely._internal()
       : super(
-          cost: 3,
+          cost: 4,
           tags: [
-            GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+            GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
             GambitTag(color: Colors.red, icon: FontAwesomeIcons.plus),
             GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessKing),
             GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
           ],
           demoFEN:
-              "rnbq1b1r/pppRpkp1/5n1p/4P1PP/8/B2B1R2/PP2NP2/3QK3 w - - 0 1",
-          title: "Safe Pawn Check",
+              "rnbq1b1r/ppp1pkp1/1n5p/4P1PP/8/B2BRN2/PP3P2/3QK2R w - - 0 1",
+          title: "Safe Bishop Check",
           color: Colors.red,
           description:
-              "Attack your opponent's king using a pawn--only if there is no threat of recapture",
-          altText: "Careful for booby traps",
+              "Attack your opponent's king using a bishop--only if there is no threat of recapture",
+          altText: "If you must pursue the wicked, do not follow their path",
           icon: FontAwesomeIcons.chessKing,
           findMove: ((chess.Chess game) {
-            List<chess.Move> pawnMoves = game
+            List<chess.Move> bishopMoves = game
                 .generate_moves()
-                .where((move) => move.piece == chess.PieceType.PAWN)
+                .where((move) => move.piece == chess.PieceType.BISHOP)
                 .toList()
                   ..shuffle();
 
-            chess.Move check = pawnMoves.firstWhere(
-              (pawnMove) =>
-                  game.move_to_san(pawnMove).contains("+") &&
-                  Gambit.safeMove(pawnMove, game),
+            chess.Move check = bishopMoves.firstWhere(
+              (bishopMove) =>
+                  game.move_to_san(bishopMove).contains("+") &&
+                  Gambit.safeMove(bishopMove, game),
               orElse: () => null,
             );
 
