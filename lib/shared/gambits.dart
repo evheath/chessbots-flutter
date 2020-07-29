@@ -93,7 +93,7 @@ export './gambits/check_opponent_using_random_safely.dart';
 export './gambits/check_opponent_using_pawn_safely.dart';
 export './gambits/check_opponent_using_knight_safely.dart';
 export './gambits/check_opponent_using_bishop_safely.dart';
-// export './gambits/check_opponent_using_rook_safely.dart';
+export './gambits/check_opponent_using_rook_safely.dart';
 // export './gambits/check_opponent_using_queen_safely.dart';
 
 //non configurable gambits
