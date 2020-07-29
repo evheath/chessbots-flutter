@@ -5,7 +5,7 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 final List<Gambit> allGambits = [
   // offense
   CaptureRandomUsingRandomSafely(),
-  CaptureQueen(),
+  CaptureQueenUsingRandom(),
   CaptureRook(),
   CaptureBishop(),
   CaptureBishopUsingPawn(),
@@ -86,7 +86,6 @@ final List<Gambit> allGambits = [
   MovePawnSafely(),
   MoveKnightSafely(),
   MoveBishopSafely(),
-  // PawnToE4(),
   DevelopKnight(),
   DevelopBishop(),
   DevelopQueen(),
