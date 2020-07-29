@@ -91,7 +91,7 @@ final List<Gambit> allGambits = [
   CaptureRandomUsingRandomSafely(),
   CaptureKnightUsingRandomSafely(),
   // CapturePawnUsingRandomSafely(),
-  // CaptureQueenUsingRandomSafely(),
+  CaptureQueenUsingRandomSafely(),
   // CaptureRookUsingRandomSafely(),
   // CaptureBishopUsingRandomSafely(),
 

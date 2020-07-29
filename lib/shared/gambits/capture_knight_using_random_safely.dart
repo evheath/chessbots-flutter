@@ -27,7 +27,7 @@ class CaptureKnightUsingRandomSafely extends Gambit {
             description:
                 "Take any enemy knight using any piece of your own--only if there is no threat of recapture",
             altText:
-                "Defend our border, lest it turn into someone else's border.",
+                "Guerrilla warfare is waged by few but requires the support of many",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game
