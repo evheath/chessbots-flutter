@@ -5,35 +5,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureRookUsingPawnSafely extends Gambit {
-  // singleton logic so that CaptureRookUsingPawnSafely is only created once
-  static final CaptureRookUsingPawnSafely _singleton =
-      CaptureRookUsingPawnSafely._internal();
-  factory CaptureRookUsingPawnSafely() => _singleton;
+class CaptureRandomUsingKnightSafely extends Gambit {
+  // singleton logic
+  static final CaptureRandomUsingKnightSafely _singleton =
+      CaptureRandomUsingKnightSafely._internal();
+  factory CaptureRandomUsingKnightSafely() => _singleton;
 
-  CaptureRookUsingPawnSafely._internal()
+  CaptureRandomUsingKnightSafely._internal()
       : super(
-            cost: 4,
+            cost: 7,
             tags: [
-              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessKnight),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
-              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.question),
               GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
             ],
             demoFEN:
-                '3n2k1/prppppPp/P4P2/3Q4/2r2Rn1/3P1P2/2P1PNP1/1NB1KB1R w K - 0 1',
-            title: "Pawn takes Rook, safely",
+                '1nb1k3/prppppPp/P4P2/3Q4/2q1rRn1/3P1P2/2P1PNP1/1NB1KB1R w K - 0 1',
+            title: "Knight takes Random, safely",
             color: Colors.red,
             description:
-                "Capture an enemy rook with a pawn--only if there is no threat of recapture",
-            altText: "Construction was more dangerous",
-            icon: FontAwesomeIcons.chessPawn,
+                "Capture any enemy piece with a knight--only if there is no threat of recapture",
+            altText: "This is why I joined the cavalry.",
+            icon: FontAwesomeIcons.chessKnight,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game
                   .generate_moves()
                   .where((move) =>
-                      move.captured == chess.PieceType.ROOK &&
-                      move.piece == chess.PieceType.PAWN)
+                      move.captured != null &&
+                      move.piece == chess.PieceType.KNIGHT)
                   .toList();
               captures.shuffle();
 

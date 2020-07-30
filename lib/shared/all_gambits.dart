@@ -38,7 +38,7 @@ final List<Gambit> allGambits = [
   CapturePawnUsingKnight(),
   CaptureRookUsingKnight(),
   CaptureQueenUsingKnight(),
-  // CaptureRandomUsingKnightSafely(),
+  CaptureRandomUsingKnightSafely(),
   // CaptureBishopUsingKnightSafely(),
   // CaptureKnightUsingKnightSafely(),
   // CapturePawnUsingKnightSafely(),
