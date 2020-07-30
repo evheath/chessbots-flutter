@@ -10,7 +10,7 @@ final List<Gambit> allGambits = [
   CapturePawnUsingPawn(),
   CaptureQueenUsingPawn(),
   CaptureRookUsingPawn(),
-  // CaptureRandomUsingPawnSafely(),
+  CaptureRandomUsingPawnSafely(),
   // CaptureBishopUsingPawnSafely(),
   // CaptureKnightUsingPawnSafely(),
   // CapturePawnUsingPawnSafely(),

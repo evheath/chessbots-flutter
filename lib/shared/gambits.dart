@@ -50,7 +50,7 @@ export './gambits/capture_random_using_pawn.dart';
 // export './gambits/capture_pawn_using_pawn_safely.dart';
 // export './gambits/capture_queen_using_pawn_safely.dart';
 // export './gambits/capture_rook_using_pawn_safely.dart';
-// export './gambits/capture_random_using_pawn_safely.dart';
+export './gambits/capture_random_using_pawn_safely.dart';
 
 export './gambits/capture_queen_using_queen.dart';
 export './gambits/capture_rook_using_queen.dart';
