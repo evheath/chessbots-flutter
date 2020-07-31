@@ -43,7 +43,7 @@ final List<Gambit> allGambits = [
   CaptureKnightUsingKnightSafely(),
   CapturePawnUsingKnightSafely(),
   CaptureRookUsingKnightSafely(),
-  // CaptureQueenUsingKnightSafely(),
+  CaptureQueenUsingKnightSafely(),
 
   // queen takes...
   CaptureRandomUsingQueen(),

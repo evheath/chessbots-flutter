@@ -5,37 +5,38 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureQueenUsingBishopSafely extends Gambit {
-  // singleton logic so that CaptureQueenUsingBishopSafely is only created once
-  static final CaptureQueenUsingBishopSafely _singleton =
-      CaptureQueenUsingBishopSafely._internal();
-  factory CaptureQueenUsingBishopSafely() => _singleton;
+class CaptureQueenUsingKnightSafely extends Gambit {
+  // singleton logic so that CaptureQueenUsingKnightSafely is only created once
+  static final CaptureQueenUsingKnightSafely _singleton =
+      CaptureQueenUsingKnightSafely._internal();
+  factory CaptureQueenUsingKnightSafely() => _singleton;
 
-  CaptureQueenUsingBishopSafely._internal()
+  CaptureQueenUsingKnightSafely._internal()
       : super(
             cost: 3,
             tags: [
-              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessKnight),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessQueen),
               GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
             ],
             demoFEN:
-                '1nb1kbn1/pppppp1p/2r3r1/8/4B3/3q1p2/PPPPPPPP/RNBQK1NR w KQ - 0 1',
-            title: "Bishop takes Queen, safely",
+                'r3k2r/ppppppp1/8/8/8/b1q1nb1n/PPpPPPPP/RNBQKBNR w KQq - 0 1',
+            title: "Knight takes Queen, safely",
             color: Colors.red,
             description:
-                "Capture an enemy queen with a bishop--only if there is no threat of recapture",
-            altText: "Your eulogy is overdue. your majesty",
-            icon: FontAwesomeIcons.chessBishop,
+                "Capture an enemy queen with a knight--only if there is no threat of recapture",
+            altText:
+                "Give no quarter, the queen is reported to be hiding among the commoners.",
+            icon: FontAwesomeIcons.chessKnight,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game
                   .generate_moves()
                   .where((move) =>
                       move.captured == chess.PieceType.QUEEN &&
-                      move.piece == chess.PieceType.BISHOP)
-                  .toList()
-                    ..shuffle();
+                      move.piece == chess.PieceType.KNIGHT)
+                  .toList();
+              captures.shuffle();
 
               chess.Move capture = captures.firstWhere(
                 (possibleMove) => Gambit.safeMove(possibleMove, game),
