@@ -35,7 +35,7 @@ export './gambits/capture_queen_using_knight.dart';
 export './gambits/capture_random_using_knight_safely.dart';
 export './gambits/capture_bishop_using_knight_safely.dart';
 export './gambits/capture_knight_using_knight_safely.dart';
-// export './gambits/capture_pawn_using_knight_safely.dart';
+export './gambits/capture_pawn_using_knight_safely.dart';
 // export './gambits/capture_rook_using_knight_safely.dart';
 // export './gambits/capture_queen_using_knight_safely.dart';
 
