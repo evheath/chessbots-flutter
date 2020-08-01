@@ -5,35 +5,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureKnightUsingBishopSafely extends Gambit {
-  // singleton logic so that CaptureKnightUsingBishopSafely is only created once
-  static final CaptureKnightUsingBishopSafely _singleton =
-      CaptureKnightUsingBishopSafely._internal();
-  factory CaptureKnightUsingBishopSafely() => _singleton;
+class CaptureKnightUsingRookSafely extends Gambit {
+  // singleton logic so that CaptureKnightUsingRookSafely is only created once
+  static final CaptureKnightUsingRookSafely _singleton =
+      CaptureKnightUsingRookSafely._internal();
+  factory CaptureKnightUsingRookSafely() => _singleton;
 
-  CaptureKnightUsingBishopSafely._internal()
+  CaptureKnightUsingRookSafely._internal()
       : super(
-            cost: 2,
+            cost: 3,
             tags: [
-              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessBishop),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessKnight),
               GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
             ],
-            demoFEN:
-                'r3k2r/pQpppppp/b2bq3/3n2n1/2B2BN1/8/PPPPPPPP/RN2K2R w KQkq - 0 1',
-            title: "Bishop takes Knight, safely",
+            demoFEN: '4k2q/p3r3/4p3/1p2R1n1/5p2/2N5/PPpBPPPP/2RnKBN1 w - - 0 1',
+            title: "Rook takes Knight, safely",
             color: Colors.red,
             description:
-                "Capture an enemy knight with a bishop--only if there is no threat of recapture",
-            altText: "It's incredible how much you can see from a steeple",
-            icon: FontAwesomeIcons.chessBishop,
+                "Capture an enemy knight with a rook--only if there is no threat of recapture",
+            altText:
+                "Do not fire the ballista until they charge directly at us.",
+            icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game
                   .generate_moves()
                   .where((move) =>
                       move.captured == chess.PieceType.KNIGHT &&
-                      move.piece == chess.PieceType.BISHOP)
+                      move.piece == chess.PieceType.ROOK)
                   .toList();
               captures.shuffle();
 

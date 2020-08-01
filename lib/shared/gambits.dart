@@ -79,10 +79,10 @@ export './gambits/capture_queen_using_rook.dart';
 export './gambits/capture_knight_using_rook.dart';
 export './gambits/capture_bishop_using_rook.dart';
 export './gambits/capture_pawn_using_rook_safely.dart';
+export './gambits/capture_knight_using_rook_safely.dart';
 // export './gambits/capture_random_using_rook_safely.dart';
 // export './gambits/capture_rook_using_rook_safely.dart';
 // export './gambits/capture_queen_using_rook_safely.dart';
-// export './gambits/capture_knight_using_rook_safely.dart';
 // export './gambits/capture_bishop_using_rook_safely.dart';
 
 export './gambits/castle_king_side.dart';
