@@ -78,7 +78,7 @@ final List<Gambit> allGambits = [
   CaptureKnightUsingRookSafely(),
   CaptureBishopUsingRookSafely(),
   CaptureRookUsingRookSafely(),
-  // CaptureQueenUsingRookSafely(),
+  CaptureQueenUsingRookSafely(),
   // CaptureRandomUsingRookSafely(),
 
   // random takes...
