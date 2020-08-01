@@ -5,34 +5,34 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:chess/chess.dart' as chess;
 
-class CaptureBishopUsingQueenSafely extends Gambit {
-  // singleton logic so that CaptureBishopUsingQueenSafely is only created once
-  static final CaptureBishopUsingQueenSafely _singleton =
-      CaptureBishopUsingQueenSafely._internal();
-  factory CaptureBishopUsingQueenSafely() => _singleton;
+class CaptureKnightUsingQueenSafely extends Gambit {
+  // singleton logic so that CaptureKnightUsingQueenSafely is only created once
+  static final CaptureKnightUsingQueenSafely _singleton =
+      CaptureKnightUsingQueenSafely._internal();
+  factory CaptureKnightUsingQueenSafely() => _singleton;
 
-  CaptureBishopUsingQueenSafely._internal()
+  CaptureKnightUsingQueenSafely._internal()
       : super(
             cost: 4,
             tags: [
               GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessQueen),
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
-              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessBishop),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.chessKnight),
               GambitTag(color: Colors.blue, icon: FontAwesomeIcons.lock),
             ],
             demoFEN:
-                '1r2k2q/p2p1p2/1p2p1p1/nb2Q3/8/8/PPpBPPPP/RN2KBNR w KQ - 0 1',
-            title: "Queen takes Bishop, safely",
+                '1r2k2q/p2p1p2/1p2p1p1/4Q1n1/8/8/PPpBPPPP/RN2KBNR w KQ - 0 1',
+            title: "Queen takes Knight, safely",
             color: Colors.red,
             description:
-                "Capture an enemy bishop with a queen--only if there is no threat of recapture",
-            altText: "What a magnificent cathedral...I now have.",
+                "Capture an enemy knight with a queen--only if there is no threat of recapture",
+            altText: "I hope my men-at-arms aren't this reckless.",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
               List<chess.Move> captures = game
                   .generate_moves()
                   .where((move) =>
-                      move.captured == chess.PieceType.BISHOP &&
+                      move.captured == chess.PieceType.KNIGHT &&
                       move.piece == chess.PieceType.QUEEN)
                   .toList();
               captures.shuffle();

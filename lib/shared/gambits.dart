@@ -62,7 +62,7 @@ export './gambits/capture_random_using_queen_safely.dart';
 export './gambits/capture_queen_using_queen_safely.dart';
 export './gambits/capture_rook_using_queen_safely.dart';
 export './gambits/capture_bishop_using_queen_safely.dart';
-// export './gambits/capture_knight_using_queen_safely.dart';
+export './gambits/capture_knight_using_queen_safely.dart';
 // export './gambits/capture_pawn_using_queen_safely.dart';
 
 export './gambits/capture_bishop_using_king.dart';
