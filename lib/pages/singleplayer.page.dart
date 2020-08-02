@@ -43,21 +43,7 @@ class SingleplayerPage extends StatelessWidget {
 
   List<Widget> _buildOpponentListTiles(
       BuildContext context, ChessBot _playerBot) {
-    final List<ChessBot> _opponentBots = [
-      oscarCPU,
-      paulCPU,
-      travisCPU,
-      garrettCPU,
-      ricardoCPU,
-      tonyCPU,
-      peterCPU,
-      franciscoCPU,
-      rickCPU,
-      carlosCPU,
-      teresaCPU,
-      delilahCPU,
-      michaelCPU,
-    ];
+    final List<ChessBot> _opponentBots = preBuiltBots;
     //sort by lowest to highest bounty
     _opponentBots.sort((a, b) => a.bounty.compareTo(b.bounty));
 
