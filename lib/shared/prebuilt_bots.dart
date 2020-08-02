@@ -5,6 +5,7 @@ import 'package:chessbotsmobile/shared/prebuilt_bots/delilah.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/dennis.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/francisco.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/garrett.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots/kirk.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/larry.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/michael.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/oscar.dart';
@@ -13,6 +14,7 @@ import 'package:chessbotsmobile/shared/prebuilt_bots/paul.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/peter.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/ricardo.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/rick.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots/steve.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/teresa.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/tony.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/travis.dart';
@@ -35,4 +37,6 @@ final List<ChessBot> preBuiltBots = [
   carlyCPU,
   larryCPU,
   pabloCPU,
+  kirkCPU,
+  steveCPU,
 ];
