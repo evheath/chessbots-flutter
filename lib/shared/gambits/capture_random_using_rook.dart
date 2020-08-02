@@ -27,17 +27,19 @@ class CaptureRandomUsingRook extends Gambit {
             altText: "Draw! Loose!",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithRook = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('R') &&
-                      move.toString().contains('x'))
+                      move.captured != null &&
+                      move.piece == chess.PieceType.ROOK)
                   .toList();
-              capturesWithRook.shuffle();
-              String move = capturesWithRook.firstWhere(
-                (capture) => true,
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

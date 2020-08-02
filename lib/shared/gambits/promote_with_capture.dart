@@ -19,8 +19,7 @@ class PromoteWithCapture extends Gambit {
               GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
               GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.question),
             ],
-            demoFEN:
-                "2bqkbnr/PPpppppp/1rn5/8/8/8/PP2PPPP/RNBQKBNR w KQkq - 0 1",
+            demoFEN: "2bqk2r/PP2ppbp/5n2/8/8/8/2PPPPPP/RNBQKBNR w KQk - 0 1",
             title: "Promote with capture",
             color: Colors.yellow,
             description:
@@ -28,16 +27,18 @@ class PromoteWithCapture extends Gambit {
             altText: "The memory of the fallen outweighs these medals.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              List<dynamic> captures = game
-                  .moves()
-                  .where((move) => move.toString().contains('x'))
+              List<chess.Move> promotions = game
+                  .generate_moves()
+                  .where(
+                      (move) => move.promotion != null && move.captured != null)
                   .toList();
-              captures.shuffle();
+              promotions.shuffle();
 
-              String move = captures.firstWhere(
-                (move) => move.toString().contains('='),
+              chess.Move promotion = promotions.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return promotion == null ? null : game.move_to_san(promotion);
             }));
 }

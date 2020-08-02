@@ -18,7 +18,7 @@ class PromotePawnToRook extends Gambit {
               GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.medal),
               GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.chessRook),
             ],
-            demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
+            demoFEN: "r1bqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: WhiteRook(),
             title: "Promote to rook",
             color: Colors.yellow,
@@ -27,12 +27,17 @@ class PromotePawnToRook extends Gambit {
             altText: "Better to lay the bricks than die for them.",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
-              List<dynamic> moves = game.moves();
-              moves.shuffle();
-              String move = moves.firstWhere(
-                (move) => move.toString().contains("=R"),
+              List<chess.Move> promotions = game
+                  .generate_moves()
+                  .where((move) => move.promotion == chess.PieceType.ROOK)
+                  .toList();
+              promotions.shuffle();
+
+              chess.Move promotion = promotions.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return promotion == null ? null : game.move_to_san(promotion);
             }));
 }

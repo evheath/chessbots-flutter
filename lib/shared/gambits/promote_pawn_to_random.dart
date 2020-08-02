@@ -18,7 +18,7 @@ class PromotePawnToRandom extends Gambit {
               GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.medal),
               GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.question),
             ],
-            demoFEN: "rnbqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
+            demoFEN: "r1bqk2r/pP2ppbp/5n2/8/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
             vector: BlackKing(),
             title: "Promote to random",
             color: Colors.yellow,
@@ -27,12 +27,17 @@ class PromotePawnToRandom extends Gambit {
             altText: "Feeling lucky?",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              List<dynamic> moves = game.moves();
-              moves.shuffle();
-              String move = moves.firstWhere(
-                (move) => move.toString().contains("="),
+              List<chess.Move> promotions = game
+                  .generate_moves()
+                  .where((move) => move.promotion != null)
+                  .toList();
+              promotions.shuffle();
+
+              chess.Move promotion = promotions.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return promotion == null ? null : game.move_to_san(promotion);
             }));
 }

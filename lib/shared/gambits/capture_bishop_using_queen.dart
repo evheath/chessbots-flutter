@@ -27,22 +27,19 @@ class CaptureBishopUsingQueen extends Gambit {
             altText: "There's no stopping a rumor, only changing it.",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithQueen = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('Q') &&
-                      move.toString().contains('x'))
+                      move.captured == chess.PieceType.BISHOP &&
+                      move.piece == chess.PieceType.QUEEN)
                   .toList();
-              capturesWithQueen.shuffle();
-              String move = capturesWithQueen.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.BISHOP;
-                },
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

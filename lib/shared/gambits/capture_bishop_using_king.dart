@@ -26,20 +26,19 @@ class CaptureBishopUsingKing extends Gambit {
             altText: "I'm afraid I'm only as good as MY God",
             icon: FontAwesomeIcons.chessKing,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithKing = game
-                  .moves()
-                  .where((move) => move.toString().contains('Kx'))
+              List<chess.Move> captures = game
+                  .generate_moves()
+                  .where((move) =>
+                      move.captured == chess.PieceType.BISHOP &&
+                      move.piece == chess.PieceType.KING)
                   .toList();
-              capturesWithKing.shuffle();
-              String move = capturesWithKing.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.BISHOP;
-                },
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

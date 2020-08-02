@@ -29,12 +29,17 @@ class CaptureRandomUsingRandom extends Gambit {
             altText: "Hell is empty and all the devils are here.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              List<dynamic> moves = game.moves();
-              moves.shuffle();
-              String move = moves.firstWhere(
-                (move) => move.toString().contains('x'),
+              List<chess.Move> captures = game
+                  .generate_moves()
+                  .where((move) => move.captured != null)
+                  .toList();
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

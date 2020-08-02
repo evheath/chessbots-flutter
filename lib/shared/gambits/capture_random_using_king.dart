@@ -26,15 +26,19 @@ class CaptureRandomUsingKing extends Gambit {
             altText: "Quite telling how your king doesn't face me himself.",
             icon: FontAwesomeIcons.chessKing,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithKing = game
-                  .moves()
-                  .where((move) => move.toString().contains('Kx'))
+              List<chess.Move> captures = game
+                  .generate_moves()
+                  .where((move) =>
+                      move.captured != null &&
+                      move.piece == chess.PieceType.KING)
                   .toList();
-              capturesWithKing.shuffle();
-              String move = capturesWithKing.firstWhere(
-                (capture) => true,
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

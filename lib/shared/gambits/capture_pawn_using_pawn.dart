@@ -27,23 +27,19 @@ class CapturePawnUsingPawn extends Gambit {
             altText: "I knew yous was a spy.",
             icon: FontAwesomeIcons.chessPawn,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithPawn = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString()[0] !=
-                          move.toString()[0].toUpperCase() && // its a pawn move
-                      move.toString().contains('x')) // it is a capture
+                      move.captured == chess.PieceType.PAWN &&
+                      move.piece == chess.PieceType.PAWN)
                   .toList();
-              capturesWithPawn.shuffle();
-              String move = capturesWithPawn.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.PAWN;
-                },
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

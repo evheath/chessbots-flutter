@@ -27,17 +27,18 @@ class CaptureRandomUsingQueen extends Gambit {
             altText: "My power doesn't seem so abstract now does it?",
             icon: FontAwesomeIcons.chessQueen,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithQueen = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('Q') &&
-                      move.toString().contains('x'))
-                  .toList();
-              capturesWithQueen.shuffle();
-              String move = capturesWithQueen.firstWhere(
+                      move.piece == chess.PieceType.QUEEN &&
+                      move.captured != null)
+                  .toList()
+                    ..shuffle();
+              chess.Move move = captures.firstWhere(
                 (capture) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return move == null ? null : game.move_to_san(move);
             }));
 }

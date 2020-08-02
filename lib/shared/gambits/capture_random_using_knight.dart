@@ -27,17 +27,19 @@ class CaptureRandomUsingKnight extends Gambit {
             altText: "Deus Vult.",
             icon: FontAwesomeIcons.chessKnight,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithKnight = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('N') &&
-                      move.toString().contains('x'))
+                      move.captured != null &&
+                      move.piece == chess.PieceType.KNIGHT)
                   .toList();
-              capturesWithKnight.shuffle();
-              String move = capturesWithKnight.firstWhere(
-                (capture) => true, // any capture with Knight will do
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

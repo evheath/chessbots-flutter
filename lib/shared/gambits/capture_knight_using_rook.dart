@@ -26,22 +26,19 @@ class CaptureKnightUsingRook extends Gambit {
             altText: "Ready the oil!",
             icon: FontAwesomeIcons.chessRook,
             findMove: ((chess.Chess game) {
-              List<dynamic> capturesWithRook = game
-                  .moves()
+              List<chess.Move> captures = game
+                  .generate_moves()
                   .where((move) =>
-                      move.toString().contains('R') &&
-                      move.toString().contains('x'))
+                      move.captured == chess.PieceType.KNIGHT &&
+                      move.piece == chess.PieceType.ROOK)
                   .toList();
-              capturesWithRook.shuffle();
-              String move = capturesWithRook.firstWhere(
-                (capture) {
-                  String landingSquare = Gambit.landingSquareOfMove(capture);
-                  chess.PieceType pieceBeingCaptured =
-                      game.get(landingSquare)?.type;
-                  return pieceBeingCaptured == chess.PieceType.KNIGHT;
-                },
+              captures.shuffle();
+
+              chess.Move capture = captures.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return capture == null ? null : game.move_to_san(capture);
             }));
 }

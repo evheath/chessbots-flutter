@@ -25,21 +25,18 @@ class CaptureBishopUsingRandom extends Gambit {
           altText: "I wonder what you will preach about in heaven.",
           icon: FontAwesomeIcons.question,
           findMove: ((chess.Chess game) {
-            List<dynamic> captures = game
-                .moves()
-                .where((move) => move.toString().contains('x'))
+            List<chess.Move> captures = game
+                .generate_moves()
+                .where((move) => move.captured == chess.PieceType.BISHOP)
                 .toList();
             captures.shuffle();
-            String move = captures.firstWhere(
-              (capture) {
-                String landingSquare = Gambit.landingSquareOfMove(capture);
-                chess.PieceType pieceBeingCaptured =
-                    game.get(landingSquare)?.type;
-                return pieceBeingCaptured == chess.PieceType.BISHOP;
-              },
+
+            chess.Move capture = captures.firstWhere(
+              (possibleMove) => true,
               orElse: () => null,
             );
-            return move;
+
+            return capture == null ? null : game.move_to_san(capture);
           }),
           tags: [
             GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
