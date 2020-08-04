@@ -13,7 +13,7 @@ class CheckOpponentUsingRandomSafely extends Gambit {
 
   CheckOpponentUsingRandomSafely._internal()
       : super(
-          cost: 5,
+          cost: 25,
           tags: [
             GambitTag(color: Colors.grey, icon: FontAwesomeIcons.question),
             GambitTag(color: Colors.red, icon: FontAwesomeIcons.plus),
