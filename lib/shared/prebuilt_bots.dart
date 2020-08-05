@@ -5,11 +5,13 @@ import 'package:chessbotsmobile/shared/prebuilt_bots/carly.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/delilah.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/dennis.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/derek.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots/emily.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/francisco.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/garrett.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/hal.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/harry.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/harvey.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots/hasan.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/indiana.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/jamie.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/jay.dart';
@@ -27,6 +29,7 @@ import 'package:chessbotsmobile/shared/prebuilt_bots/peter.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/randy.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/ricardo.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/rick.dart';
+import 'package:chessbotsmobile/shared/prebuilt_bots/sadie.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/steve.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/teresa.dart';
 import 'package:chessbotsmobile/shared/prebuilt_bots/terry.dart';
@@ -71,4 +74,7 @@ final List<ChessBot> preBuiltBots = [
   randyCPU,
   bradCPU,
   willyCPU,
+  sadieCPU,
+  hasanCPU,
+  emilyCPU,
 ];

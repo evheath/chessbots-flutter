@@ -1,10 +1,10 @@
 import 'package:chessbotsmobile/models/chess_bot.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 
-final peterCPU = ChessBot(
+final sadieCPU = ChessBot(
   gambits: [
     CaptureRandomUsingRandom(),
-    MovePawn(),
+    MoveKnightSafely(),
   ],
-  name: "Peter the pawn pusher",
+  name: "Sadistic Sadie",
 );
