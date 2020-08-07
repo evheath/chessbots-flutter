@@ -3,9 +3,9 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 
 final teresaCPU = ChessBot(
   gambits: [
-    CaptureUndefendedPiece(),
+    CaptureRandomUsingRandomSafely(),
     PromotePawnToRook(),
-    MoveRandomPawn(),
+    MovePawn(),
   ],
   name: "Motherless Teresa",
 );

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:chessbotsmobile/bloc/firestore.bloc.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
+import 'package:chessbotsmobile/shared/all_gambits.dart';
 import 'package:chessbotsmobile/shared/gambits.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
@@ -94,6 +95,7 @@ class ChessBot {
         }
       });
     }
+
     this._gambits =
         _gambitNames.map((name) => gambitMap[name]).toList() ?? [EmptyGambit()];
 
@@ -248,32 +250,6 @@ class ChessBot {
     });
   }
 }
-
-/// Given a title, returns the matching gambit
-///
-/// Used for building gambits from titles stored in db
-Map<String, Gambit> gambitMap = {
-  PromoteWithCapture().title: PromoteWithCapture(),
-  MovePieceSafely().title: MovePieceSafely(),
-  CaptureUndefendedPiece().title: CaptureUndefendedPiece(),
-  CaptureRandomPiece().title: CaptureRandomPiece(),
-  CaptureBishop().title: CaptureBishop(),
-  CaptureKnight().title: CaptureKnight(),
-  CapturePawn().title: CapturePawn(),
-  CaptureQueen().title: CaptureQueen(),
-  CaptureRook().title: CaptureRook(),
-  CastleKingSide().title: CastleKingSide(),
-  CastleQueenSide().title: CastleQueenSide(),
-  CheckOpponent().title: CheckOpponent(),
-  MoveRandomPawn().title: MoveRandomPawn(),
-  PawnToE4().title: PawnToE4(),
-  PromotePawnToBishop().title: PromotePawnToBishop(),
-  PromotePawnToKnight().title: PromotePawnToKnight(),
-  PromotePawnToQueen().title: PromotePawnToQueen(),
-  PromotePawnToRandom().title: PromotePawnToRandom(),
-  PromotePawnToRook().title: PromotePawnToRook(),
-  EmptyGambit().title: EmptyGambit(),
-};
 
 /// Instaniate an observable ChessBot using a firestore document reference
 Observable<ChessBot> marshalChessBot(DocumentReference botRef) {

@@ -171,7 +171,7 @@ class SwipingAnimation extends StatelessWidget {
             builder: (context, widget) {
               return Transform.translate(
                 offset: Offset(translation.value, 0),
-                child: GambitListTile(gambit: CheckOpponent()),
+                child: GambitListTile(gambit: CheckOpponentUsingRandom()),
               );
             }),
       ],
@@ -185,36 +185,38 @@ class UndesirableTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Column(children: [
-          GambitListTile(gambit: CapturePawn()),
-          GambitListTile(gambit: CaptureKnight())
-        ]),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text.rich(
-            TextSpan(
-              style: TextStyle(fontSize: 25),
-              text: "Your bot will make moves based on the ",
-              children: [
-                TextSpan(
-                    text: "order",
-                    style: TextStyle(decoration: TextDecoration.underline)),
-                TextSpan(text: " of your gambits"),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(children: [
+            GambitListTile(gambit: CapturePawnUsingRandom()),
+            GambitListTile(gambit: CaptureKnightUsingRandom())
+          ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text.rich(
+              TextSpan(
+                style: TextStyle(fontSize: 25),
+                text: "Your bot will make moves based on the ",
+                children: [
+                  TextSpan(
+                      text: "order",
+                      style: TextStyle(decoration: TextDecoration.underline)),
+                  TextSpan(text: " of your gambits"),
+                ],
+              ),
+              textAlign: TextAlign.center,
             ),
+          ),
+          UndesirableBoard(controller: _animationController),
+          Text(
+            "Notice how the knight isn't captured?",
+            style: TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           ),
-        ),
-        UndesirableBoard(controller: _animationController),
-        Text(
-          "Notice how the knight isn't captured?",
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -250,8 +252,9 @@ class RearrangeOrderTab extends StatelessWidget {
                 ),
               ),
               children: [
-                GambitListTile(key: Key('2'), gambit: CapturePawn()),
-                GambitListTile(key: Key('1'), gambit: CaptureKnight())
+                GambitListTile(key: Key('2'), gambit: CapturePawnUsingRandom()),
+                GambitListTile(
+                    key: Key('1'), gambit: CaptureKnightUsingRandom())
               ]),
         ),
         // Text("Go on, give it a try"),
@@ -270,8 +273,8 @@ class DesirableOrderTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Column(children: [
-          GambitListTile(gambit: CaptureKnight()),
-          GambitListTile(gambit: CapturePawn())
+          GambitListTile(gambit: CaptureKnightUsingRandom()),
+          GambitListTile(gambit: CapturePawnUsingRandom())
         ]),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),

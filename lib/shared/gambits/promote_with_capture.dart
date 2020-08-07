@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:chessbotsmobile/models/gambit.dart';
@@ -12,25 +13,32 @@ class PromoteWithCapture extends Gambit {
   PromoteWithCapture._internal()
       : super(
             cost: 5,
-            demoFEN:
-                "2bqkbnr/PPpppppp/1rn5/8/8/8/PP2PPPP/RNBQKBNR w KQkq - 0 1",
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessPawn),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.medal),
+              GambitTag(color: Colors.red, icon: FontAwesomeIcons.crosshairs),
+              GambitTag(color: Colors.yellow, icon: FontAwesomeIcons.question),
+            ],
+            demoFEN: "2bqk2r/PP2ppbp/5n2/8/8/8/2PPPPPP/RNBQKBNR w KQk - 0 1",
             title: "Promote with capture",
             color: Colors.yellow,
-            description: "Promote a pawn only if it can also capture a piece.",
-            altText:
-                "Important: if the pawn can't capture, this gambit won't activate",
+            description:
+                "Promote a pawn only if it can also capture a piece. Important: if the pawn can't capture, this gambit won't activate",
+            altText: "The memory of the fallen outweighs these medals.",
             icon: FontAwesomeIcons.question,
             findMove: ((chess.Chess game) {
-              List<dynamic> captures = game
-                  .moves()
-                  .where((move) => move.toString().contains('x'))
+              List<chess.Move> promotions = game
+                  .generate_moves()
+                  .where(
+                      (move) => move.promotion != null && move.captured != null)
                   .toList();
-              captures.shuffle();
+              promotions.shuffle();
 
-              String move = captures.firstWhere(
-                (move) => move.toString().contains('='),
+              chess.Move promotion = promotions.firstWhere(
+                (possibleMove) => true,
                 orElse: () => null,
               );
-              return move;
+
+              return promotion == null ? null : game.move_to_san(promotion);
             }));
 }

@@ -32,7 +32,7 @@ class Status extends StatelessWidget {
                 style: TextStyle(color: !white ? Colors.white : Colors.black),
               ),
               Text(
-                "Level ${bot.level}",
+                "Gambits: ${bot.level}",
                 style: TextStyle(color: !white ? Colors.white : Colors.black),
               ),
               Text(

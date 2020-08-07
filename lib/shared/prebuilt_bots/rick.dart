@@ -4,10 +4,10 @@ import 'package:chessbotsmobile/shared/gambits.dart';
 final rickCPU = ChessBot(
   gambits: [
     PromotePawnToQueen(),
-    CaptureQueen(),
-    CaptureUndefendedPiece(),
+    CaptureQueenUsingRandom(),
+    CaptureRandomUsingRandomSafely(),
     CastleKingSide(),
     CastleQueenSide(),
   ],
-  name: "Relatively restrained Rick",
+  name: "Restrained Rick",
 );

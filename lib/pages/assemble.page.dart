@@ -65,8 +65,11 @@ class AssemblePageState extends State<AssemblePage> {
           }),
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: Wrap(
-          children: [Text("Assemble gambits")],
+        title: SingleChildScrollView(
+          child: Text(
+            "Assemble gambits",
+          ),
+          scrollDirection: Axis.horizontal,
         ),
         actions: <Widget>[
           NerdPointActionDisplay(),

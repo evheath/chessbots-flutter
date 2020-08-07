@@ -1,3 +1,4 @@
+import 'package:chessbotsmobile/models/gambit_tag.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chessbotsmobile/models/gambit.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,20 @@ class CastleQueenSide extends Gambit {
 
   CastleQueenSide._internal()
       : super(
-            cost: 2,
+            cost: 1,
+            tags: [
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessKing),
+              GambitTag(color: Colors.grey, icon: FontAwesomeIcons.chessRook),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.chessQueen),
+              GambitTag(color: Colors.blue, icon: FontAwesomeIcons.chess),
+            ],
             demoFEN:
                 "r2qk2r/pbppbppp/1pn1pn2/8/2BPP3/2N1BN2/PPPQ1PPP/R3K2R w KQkq - 0 1",
             vector: WhiteRook(),
-            title: "Castle Queen Side",
+            title: "Castle, Queen-side",
             color: Colors.blue,
             description: "Move your king to safety and activate a rook!",
-            altText: "Proper defense will win the day",
+            altText: "A little defense goes a long way.",
             icon: FontAwesomeIcons.chess,
             findMove: ((chess.Chess game) {
               List<dynamic> moves = game.moves();
