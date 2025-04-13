@@ -1,6 +1,6 @@
 # Chessbots
 
-![screenshot](https://o8jsjsxk9g.ufs.sh/f/Y3NBzhpqodc3wBc0BNWEC53iFNTVDZo7pylu60YrG9Q8qhKm)
+<img src="https://o8jsjsxk9g.ufs.sh/f/Y3NBzhpqodc3wBc0BNWEC53iFNTVDZo7pylu60YrG9Q8qhKm" height="450"/>
 
 A mobile game where users create chessbots that battle each other. Upgrade your bot as you win more battles!
 
@@ -15,5 +15,5 @@ A mobile game where users create chessbots that battle each other. Upgrade your 
 
 ## Download
 
-[Mirror #1](https://apkcombo.com/chess-bots/com.chessbots.mobile/)
-[Mirror #2](https://apkpure.com/chess-bots/com.chessbots.mobile)j
+- [Mirror #1](https://apkcombo.com/chess-bots/com.chessbots.mobile/)
+- [Mirror #2](https://apkpure.com/chess-bots/com.chessbots.mobile)
